@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "card",
+  "type": "registry:ui",
+  "title": "Card",
+  "description": "Displays a container with header, content, and footer.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/card.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/card.tsx"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+---
+description: Never use the em dash character in project content
+alwaysApply: true
+---
+
+# No em dash
+
+Never use the Unicode em dash (`—`, U+2014) anywhere in this project: UI copy, docs, metadata, comments, README, JSON, or table placeholders.
+
+Use a normal hyphen instead:
+
+- Prose: ` - ` (space, hyphen, space)
+- Titles: `Cubix - Beautifully designed components`
+- Empty table cells: `-`
+
+```tsx
+// BAD
+"Accessible, customizable and open source — built on React."
+
+// GOOD
+"Accessible, customizable and open source - built on React."
+```

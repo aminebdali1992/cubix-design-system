@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "data-table",
+  "type": "registry:ui",
+  "title": "Data Table",
+  "description": "Powerful table and datagrids built using TanStack Table.",
+  "dependencies": ["@tanstack/react-table"],
+  "registryDependencies": [
+    "table",
+    "button",
+    "checkbox",
+    "dropdown-menu",
+    "input"
+  ],
+  "files": []
+}

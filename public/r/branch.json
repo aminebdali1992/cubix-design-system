@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "branch",
+  "type": "registry:ui",
+  "title": "Branch",
+  "description": "Navigate alternate reply branches when regenerating or editing a turn.",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["button", "button-group"],
+  "files": [
+    {
+      "path": "components/cubix/branch.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/branch.tsx"
+    }
+  ]
+}

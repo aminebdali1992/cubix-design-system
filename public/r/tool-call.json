@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "tool-call",
+  "type": "registry:ui",
+  "title": "Tool Call",
+  "description": "Visualize tool and function invocations with status, args, and results.",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["badge", "collapsible", "spinner"],
+  "files": [
+    {
+      "path": "components/cubix/tool-call.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/tool-call.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "checkbox",
+  "type": "registry:ui",
+  "title": "Checkbox",
+  "description": "A control that allows the user to toggle between checked and unchecked states.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/checkbox.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/checkbox.tsx"
+    }
+  ]
+}

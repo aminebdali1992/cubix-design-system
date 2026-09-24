@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "bubble",
+  "type": "registry:ui",
+  "title": "Bubble",
+  "description": "A chat bubble surface used inside Message for conversation content.",
+  "dependencies": ["@base-ui/react", "class-variance-authority"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/bubble.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/bubble.tsx"
+    }
+  ]
+}

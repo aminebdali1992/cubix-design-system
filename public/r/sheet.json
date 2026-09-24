@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "sheet",
+  "type": "registry:ui",
+  "title": "Sheet",
+  "description": "Extends the Dialog to display content that complements the main content of the screen.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": ["button"],
+  "files": [
+    {
+      "path": "components/cubix/sheet.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/sheet.tsx"
+    }
+  ]
+}

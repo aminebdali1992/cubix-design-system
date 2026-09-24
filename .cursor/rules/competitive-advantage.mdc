@@ -1,0 +1,30 @@
+---
+description: Competitive product bar - build Cubix advantages over copy-paste registry peers (especially shadcn-class systems)
+alwaysApply: true
+---
+
+# Competitive advantage
+
+Cubix competes with other copy-paste React registries (notably shadcn-class systems). Do not build a rename of the same stack. Every infrastructure and feature decision must strengthen a real reason for a senior team to choose Cubix.
+
+Public site copy, README, registry JSON, shipped comments, and UI strings still never name competing libraries - brand is Cubix only. This rule is for how we build, not for marketing copy.
+
+## Advantage pillars (invest here)
+
+1. **Three bases as a product contract** - Base UI, React Aria, and Radix stay first-class and visually/behaviorally aligned. Prefer work that makes `--base` reliable (CLI, docs switcher, registry variants, shared visual API). Never ship a fix or state on only one base.
+2. **Agent / AI UI depth** - Conversation, Prompt Input, Thinking, Tool Call, Streaming Text, Message Scroller, agent blocks, and related primitives are a core differentiator. Prefer production-ready agent surfaces over yet another generic form control when priorities conflict.
+3. **Typeset for docs and chat** - Rhythm presets (`size` / `leading` / `flow`), streaming-stable prose, and docs/chat presets. Strengthen owned CSS typesetting rather than one-off page styles.
+4. **RTL and locale foundation** - IRANSans XV, `[lang=fa]`, logical properties, and bidirectional layouts are part of the system - not an afterthought bolted onto English-only demos.
+5. **Skills + registry quality** - Agent Skills, `cubix.json` / `cubix info` context, accurate registry schemas, and CLI flows that make assistants generate correct Cubix code. Prefer tooling that reduces wrong imports, wrong bases, and hardcoded colors.
+6. **Production engineering bar** - Follow `engineering-standards.mdc`. Seniors leave shadcn-class tools for reliability and ownership clarity, not novelty.
+
+## When choosing what to build
+
+- Ask: does this make Cubix *clearly better* at agent UI, multi-base, Typeset, RTL, or Skills/registry - or is it parity for parity's sake?
+- Prefer shared infrastructure (tokens, bases, registry schema, scroller, typeset, CLI) over one-off demos.
+- Do not add empty placeholders, half-ported bases, or agent components that only cover the happy path.
+- If a change only matches a competitor feature without a Cubix-specific win, tighten quality, a11y, base alignment, or agent/RTL fit before shipping "the same thing."
+
+## What not to chase as the main story
+
+Copy-paste distribution, Tailwind tokens, and a basic CLI are table stakes. They must stay excellent, but they are not the reason a long-time shadcn user switches. Lead with the pillars above.

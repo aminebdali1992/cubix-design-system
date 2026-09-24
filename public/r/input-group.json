@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "input-group",
+  "type": "registry:ui",
+  "title": "Input Group",
+  "description": "Display additional information or actions inside an input.",
+  "dependencies": [],
+  "registryDependencies": ["button", "input", "textarea"],
+  "files": [
+    {
+      "path": "components/cubix/input-group.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/input-group.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "badge",
+  "type": "registry:ui",
+  "title": "Badge",
+  "description": "Displays a badge or a component that looks like a badge.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/badge.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/badge.tsx"
+    }
+  ]
+}

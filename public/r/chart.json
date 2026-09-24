@@ -1,0 +1,15 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "chart",
+  "type": "registry:ui",
+  "title": "Chart",
+  "description": "Beautiful charts built using Recharts.",
+  "dependencies": ["recharts"],
+  "files": [
+    {
+      "path": "components/cubix/chart.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/chart.tsx"
+    }
+  ]
+}

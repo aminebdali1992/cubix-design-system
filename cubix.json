@@ -1,0 +1,22 @@
+{
+  "$schema": "https://cubix.design/schema.json",
+  "style": "cubix",
+  "base": "base",
+  "rsc": true,
+  "tsx": true,
+  "tailwind": {
+    "config": "",
+    "css": "app/globals.css",
+    "baseColor": "neutral",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "iconLibrary": "lucide",
+  "aliases": {
+    "components": "@/components",
+    "utils": "@/lib/utils",
+    "ui": "@/components/cubix",
+    "lib": "@/lib",
+    "hooks": "@/hooks"
+  }
+}

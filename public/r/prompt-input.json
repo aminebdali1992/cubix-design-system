@@ -1,0 +1,25 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "prompt-input",
+  "type": "registry:ui",
+  "title": "Prompt Input",
+  "description": "AI prompt composer with actions, file attachments, and submit controls.",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": [
+    "attachment",
+    "command",
+    "dropdown-menu",
+    "hover-card",
+    "input-group",
+    "select",
+    "spinner",
+    "tooltip"
+  ],
+  "files": [
+    {
+      "path": "components/cubix/prompt-input.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/prompt-input.tsx"
+    }
+  ]
+}

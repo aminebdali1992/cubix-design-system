@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "field",
+  "type": "registry:ui",
+  "title": "Field",
+  "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
+  "dependencies": [],
+  "registryDependencies": ["label", "separator"],
+  "files": [
+    {
+      "path": "components/cubix/field.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/field.tsx"
+    }
+  ]
+}

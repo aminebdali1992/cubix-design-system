@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 320" width="320" height="320" role="img" aria-label="Workspace">
+  <defs>
+    <linearGradient id="ws-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#dbe7f3"/>
+      <stop offset="1" stop-color="#c5d4e4"/>
+    </linearGradient>
+    <linearGradient id="ws-wood" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#c9a27a"/>
+      <stop offset="1" stop-color="#a67c52"/>
+    </linearGradient>
+  </defs>
+  <rect width="320" height="320" fill="url(#ws-sky)"/>
+  <rect x="28" y="36" width="264" height="168" rx="10" fill="#f4f7fb"/>
+  <rect x="40" y="48" width="240" height="132" rx="6" fill="#9bb4c9"/>
+  <rect x="40" y="48" width="240" height="28" fill="#e8eef4"/>
+  <rect x="0" y="212" width="320" height="108" fill="url(#ws-wood)"/>
+  <rect x="72" y="168" width="176" height="88" rx="8" fill="#1f2933"/>
+  <rect x="84" y="178" width="152" height="60" rx="4" fill="#8fb4d4"/>
+  <rect x="148" y="256" width="24" height="18" fill="#2b3640"/>
+  <rect x="214" y="236" width="54" height="8" rx="4" fill="#e7ddd2"/>
+  <circle cx="248" cy="228" r="10" fill="#d7c4b0"/>
+</svg>

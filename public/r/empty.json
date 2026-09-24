@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "empty",
+  "type": "registry:ui",
+  "title": "Empty",
+  "description": "Use the Empty component to display an empty state.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/empty.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/empty.tsx"
+    }
+  ]
+}

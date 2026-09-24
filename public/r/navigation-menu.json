@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "navigation-menu",
+  "type": "registry:ui",
+  "title": "Navigation Menu",
+  "description": "A collection of links for navigating websites.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/navigation-menu.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/navigation-menu.tsx"
+    }
+  ]
+}

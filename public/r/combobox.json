@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "combobox",
+  "type": "registry:ui",
+  "title": "Combobox",
+  "description": "Autocomplete input and command palette with a list of suggestions.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": ["button", "input-group"],
+  "files": [
+    {
+      "path": "components/cubix/combobox.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/combobox.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "thinking",
+  "type": "registry:ui",
+  "title": "Thinking",
+  "description": "Collapsible block for model reasoning and chain-of-thought while a reply is prepared.",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["collapsible"],
+  "files": [
+    {
+      "path": "components/cubix/thinking.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/thinking.tsx"
+    }
+  ]
+}

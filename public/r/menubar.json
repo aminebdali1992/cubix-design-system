@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "menubar",
+  "type": "registry:ui",
+  "title": "Menubar",
+  "description": "A visually persistent menu common in desktop applications.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": ["dropdown-menu"],
+  "files": [
+    {
+      "path": "components/cubix/menubar.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/menubar.tsx"
+    }
+  ]
+}

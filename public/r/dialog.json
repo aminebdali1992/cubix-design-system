@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "dialog",
+  "type": "registry:ui",
+  "title": "Dialog",
+  "description": "A modal window that overlays the page.",
+  "dependencies": ["@base-ui/react", "lucide-react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/dialog.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/dialog.tsx"
+    }
+  ]
+}

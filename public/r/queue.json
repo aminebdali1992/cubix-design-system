@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "queue",
+  "type": "registry:ui",
+  "title": "Queue",
+  "description": "Queue and manage pending prompts while the model is still responding.",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["button", "collapsible"],
+  "files": [
+    {
+      "path": "components/cubix/queue.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/queue.tsx"
+    }
+  ]
+}

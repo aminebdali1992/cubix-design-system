@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "dropdown-menu",
+  "type": "registry:ui",
+  "title": "Dropdown Menu",
+  "description": "Displays a menu of actions or links to the user, triggered by a button.",
+  "dependencies": ["@radix-ui/react-slot"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/dropdown-menu.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/dropdown-menu.tsx"
+    }
+  ]
+}

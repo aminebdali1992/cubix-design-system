@@ -1,0 +1,34 @@
+---
+description: Production-grade engineering bar - Cubix is used by junior-to-senior devs in large projects
+alwaysApply: true
+---
+
+# Engineering standard
+
+Cubix ships to developers of every level building production apps at scale. Every change must meet this bar, not just "it works."
+
+## Before writing code
+
+Check: is this accessible, typed correctly, consistent across the three bases (Base UI / React Aria / Radix), and free of dead code? If a component/page has loading, empty, or error states, handle all of them - never just the happy path.
+
+## Code quality
+
+- No placeholder/demo/TODO code shipped to `components/cubix`, docs, or blocks. Finish the implementation or don't add it.
+- No dead code, no commented-out code, no unused imports/props/vars.
+- No magic numbers for spacing/sizing - use existing Tailwind scale or a named constant.
+- Full TypeScript: no `any`, no unchecked casts, no `// @ts-ignore` to silence real errors. Prefer narrow, explicit prop types over broad `object`/`unknown`.
+- Extract a piece of a component when a single file/function grows unreadable (roughly: widget/section > 100 lines, file > 300 lines) instead of nesting deeper.
+- Keep the three base variants (Base UI, React Aria, Radix) behaviorally and visually aligned; if you fix a bug or add a state in one, port it to the others in the same change.
+
+## Accessibility and states
+
+- Every interactive element: keyboard operable, visible `focus-visible` ring, correct ARIA role/label, `aria-invalid` and `disabled` handled.
+- Dark mode must work using existing tokens (`background`, `foreground`, `muted`, `accent`, `primary`, `destructive`, `border`, `input`, `ring`) - never a hardcoded hex/rgb color.
+- Responsive by default: verify narrow-viewport behavior for anything with a sidebar, drawer, or fixed width, not just desktop.
+
+## Before calling a task done
+
+- Re-read the diff for the issues above, not just for "does it compile."
+- If you touched a shared primitive (`lib/utils.ts`, a base component, global CSS), grep for other usages that could break.
+- If you removed or renamed something public (a component, an export, a registry entry), search the whole repo for stale references before finishing.
+- Prefer fixing the root cause over a workaround; if only a workaround is possible, say so explicitly instead of presenting it as a full fix.

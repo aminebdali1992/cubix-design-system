@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "toast",
+  "type": "registry:ui",
+  "title": "Toast",
+  "description": "A succinct message that appears temporarily to provide feedback.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": ["button"],
+  "files": [
+    {
+      "path": "components/cubix/toast.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/toast.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "spinner",
+  "type": "registry:ui",
+  "title": "Spinner",
+  "description": "An indicator that can be used to show a loading state.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/spinner.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/spinner.tsx"
+    }
+  ]
+}

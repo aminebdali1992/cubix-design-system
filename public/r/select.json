@@ -1,0 +1,16 @@
+﻿{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "select",
+  "type": "registry:ui",
+  "title": "Select",
+  "description": "Displays a native select control with Cubix styling.",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/select.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/select.tsx"
+    }
+  ]
+}

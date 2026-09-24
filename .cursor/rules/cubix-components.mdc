@@ -1,0 +1,31 @@
+---
+description: Cubix component architecture, docs structure, and public copy rules
+alwaysApply: true
+---
+
+# Cubix components
+
+Cubix is a copy-paste React/Next.js registry. Public site copy, README, registry JSON, comments in shipped source, and UI strings must never name competing libraries. Brand is Cubix only. Primitive backends may be named: Base UI, React Aria, Radix UI.
+
+## Component source (`components/cubix`)
+
+- Named exports, `data-slot` on every part, `cn()` for `className`
+- Tokens only: `background`, `foreground`, `muted`, `accent`, `primary`, `destructive`, `border`, `input`, `ring`
+- States: `disabled`, `aria-invalid`, `focus-visible` ring, dark mode
+- Variants via `cva` when the component has visual variants
+- `asChild` maps to the primitive compose API (`render` on Base UI, Slot on Radix)
+- `cn` lives in `lib/utils.ts` from `cubix init`. Do not add a Manual install step for it.
+- Manual install is: extra primitive packages, paste `components/cubix/<name>.tsx`, update import paths.
+- No new dependencies unless the primitive backend requires them
+- No em dash (`—`) in any project copy
+- File header comments describe Cubix, not other products
+
+## Docs page
+
+Breadcrumb, title, description, Base UI / React Aria / Radix UI switcher, Registry + API links, centered `ComponentPreview`, Installation (Command / Manual), Usage, Examples, API Reference.
+
+New component checklist: `components/cubix/<name>.tsx`, docs page, `*-table-data.ts`, `public/r/<name>.json`, index, sidebar, pager.
+
+## Bases
+
+Default base is `base` (Base UI). Docs URLs: `/docs/components/<base>/<slug>`. CLI: `npx cubix@latest add <name>` or `--base aria` / `--base radix`. Keep the visual API aligned across bases. Do not add empty placeholder components; roadmap items stay `ready: false` until source exists.

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "alert-dialog",
+  "type": "registry:ui",
+  "title": "Alert Dialog",
+  "description": "A modal dialog that interrupts the user with important content and expects a response.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": ["button"],
+  "files": [
+    {
+      "path": "components/cubix/alert-dialog.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/alert-dialog.tsx"
+    }
+  ]
+}

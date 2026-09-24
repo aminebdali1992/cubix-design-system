@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "input-otp",
+  "type": "registry:ui",
+  "title": "Input OTP",
+  "description": "Accessible one-time password component with copy-paste functionality.",
+  "dependencies": ["input-otp"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/input-otp.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/input-otp.tsx"
+    }
+  ]
+}

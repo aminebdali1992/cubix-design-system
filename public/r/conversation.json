@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "conversation",
+  "type": "registry:ui",
+  "title": "Conversation",
+  "description": "Top-level chat shell that sticks to the latest turn, with empty, scroll, streaming, and download controls.",
+  "dependencies": ["use-stick-to-bottom", "lucide-react"],
+  "registryDependencies": ["button"],
+  "files": [
+    {
+      "path": "components/cubix/conversation.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/conversation.tsx"
+    }
+  ]
+}

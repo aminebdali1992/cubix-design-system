@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "streaming-text",
+  "type": "registry:ui",
+  "title": "Streaming Text",
+  "description": "Progressive text surface for token-by-token model output during a stream.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/streaming-text.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/streaming-text.tsx"
+    }
+  ]
+}

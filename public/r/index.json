@@ -1,0 +1,483 @@
+{
+  "$schema": "https://cubix.design/schema/registry.json",
+  "name": "cubix",
+  "homepage": "https://cubix.design",
+  "items": [
+    {
+      "name": "button",
+      "type": "registry:ui",
+      "title": "Button",
+      "description": "Displays a button or a component that looks like a button.",
+      "files": [{ "path": "public/r/button.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "button-group",
+      "type": "registry:ui",
+      "title": "Button Group",
+      "description": "A container that groups related buttons together with consistent styling.",
+      "files": [{ "path": "public/r/button-group.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "calendar",
+      "type": "registry:ui",
+      "title": "Calendar",
+      "description": "A calendar component that allows users to select a date or a range of dates.",
+      "files": [{ "path": "public/r/calendar.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "carousel",
+      "type": "registry:ui",
+      "title": "Carousel",
+      "description": "A carousel with motion and swipe built using Embla.",
+      "files": [{ "path": "public/r/carousel.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "chart",
+      "type": "registry:ui",
+      "title": "Chart",
+      "description": "Beautiful charts built using Recharts.",
+      "files": [{ "path": "public/r/chart.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "code-block",
+      "type": "registry:ui",
+      "title": "Code Block",
+      "description": "Syntax-highlighted code surface for assistant replies with copy actions.",
+      "files": [{ "path": "public/r/code-block.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "An interactive component which expands and collapses a panel.",
+      "files": [{ "path": "public/r/collapsible.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "combobox",
+      "type": "registry:ui",
+      "title": "Combobox",
+      "description": "Autocomplete input and command palette with a list of suggestions.",
+      "files": [{ "path": "public/r/combobox.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "command",
+      "type": "registry:ui",
+      "title": "Command",
+      "description": "Command menu for search and quick actions.",
+      "files": [{ "path": "public/r/command.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "context-menu",
+      "type": "registry:ui",
+      "title": "Context Menu",
+      "description": "Displays a menu of actions triggered by a right click.",
+      "files": [{ "path": "public/r/context-menu.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "conversation",
+      "type": "registry:ui",
+      "title": "Conversation",
+      "description": "Top-level chat shell that sticks to the latest turn, with empty, scroll, streaming, and download controls.",
+      "files": [{ "path": "public/r/conversation.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "data-table",
+      "type": "registry:ui",
+      "title": "Data Table",
+      "description": "Powerful table and datagrids built using TanStack Table.",
+      "files": [{ "path": "public/r/data-table.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "title": "Date Picker",
+      "description": "A date picker component with range and presets.",
+      "files": [{ "path": "public/r/date-picker.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "table",
+      "type": "registry:ui",
+      "title": "Table",
+      "description": "A responsive table component.",
+      "files": [{ "path": "public/r/table.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "input-group",
+      "type": "registry:ui",
+      "title": "Input Group",
+      "description": "Display additional information or actions inside an input.",
+      "files": [{ "path": "public/r/input-group.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "input-otp",
+      "type": "registry:ui",
+      "title": "Input OTP",
+      "description": "Accessible one-time password component with copy-paste functionality.",
+      "files": [{ "path": "public/r/input-otp.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "A component to display keyboard shortcuts.",
+      "files": [{ "path": "public/r/kbd.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Displays a form input field or a component that looks like an input field.",
+      "files": [{ "path": "public/r/input.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "accordion",
+      "type": "registry:ui",
+      "title": "Accordion",
+      "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
+      "files": [{ "path": "public/r/accordion.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "alert",
+      "type": "registry:ui",
+      "title": "Alert",
+      "description": "Displays a callout for user attention.",
+      "files": [{ "path": "public/r/alert.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "alert-dialog",
+      "type": "registry:ui",
+      "title": "Alert Dialog",
+      "description": "A modal dialog that interrupts the user with important content and expects a response.",
+      "files": [{ "path": "public/r/alert-dialog.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "aspect-ratio",
+      "type": "registry:ui",
+      "title": "Aspect Ratio",
+      "description": "Displays content within a desired ratio.",
+      "files": [{ "path": "public/r/aspect-ratio.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "attachment",
+      "type": "registry:ui",
+      "title": "Attachment",
+      "description": "Displays a file or image attachment with media, metadata, upload state, and actions.",
+      "files": [{ "path": "public/r/attachment.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "avatar",
+      "type": "registry:ui",
+      "title": "Avatar",
+      "description": "An image element with a fallback for representing the user.",
+      "files": [{ "path": "public/r/avatar.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "badge",
+      "type": "registry:ui",
+      "title": "Badge",
+      "description": "Displays a badge or a component that looks like a badge.",
+      "files": [{ "path": "public/r/badge.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "branch",
+      "type": "registry:ui",
+      "title": "Branch",
+      "description": "Navigate alternate reply branches when regenerating or editing a turn.",
+      "files": [{ "path": "public/r/branch.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "breadcrumb",
+      "type": "registry:ui",
+      "title": "Breadcrumb",
+      "description": "Displays the path to the current resource using a hierarchy of links.",
+      "files": [{ "path": "public/r/breadcrumb.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "separator",
+      "type": "registry:ui",
+      "title": "Separator",
+      "description": "Visually or semantically separates content.",
+      "files": [{ "path": "public/r/separator.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Extends the Dialog to display content that complements the main content of the screen.",
+      "files": [{ "path": "public/r/sheet.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "sidebar",
+      "type": "registry:ui",
+      "title": "Sidebar",
+      "description": "A composable, themeable and customizable sidebar component.",
+      "files": [{ "path": "public/r/sidebar.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Use to show a placeholder while content is loading.",
+      "files": [{ "path": "public/r/skeleton.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range.",
+      "files": [{ "path": "public/r/slider.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "sonner",
+      "type": "registry:ui",
+      "title": "Sonner",
+      "description": "An opinionated toast component.",
+      "files": [{ "path": "public/r/sonner.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "sources",
+      "type": "registry:ui",
+      "title": "Sources",
+      "description": "Citation list for retrieved documents and grounded answer references.",
+      "files": [{ "path": "public/r/sources.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "An indicator that can be used to show a loading state.",
+      "files": [{ "path": "public/r/spinner.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "streaming-text",
+      "type": "registry:ui",
+      "title": "Streaming Text",
+      "description": "Progressive text surface for token-by-token model output during a stream.",
+      "files": [{ "path": "public/r/streaming-text.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "toast",
+      "type": "registry:ui",
+      "title": "Toast",
+      "description": "A succinct message that appears temporarily to provide feedback.",
+      "files": [{ "path": "public/r/toast.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A two-state button that can be either on or off.",
+      "files": [{ "path": "public/r/toggle.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "A set of two-state buttons that can be toggled on or off.",
+      "files": [{ "path": "public/r/toggle-group.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "card",
+      "type": "registry:ui",
+      "title": "Card",
+      "description": "Displays a container with header, content, and footer.",
+      "files": [{ "path": "public/r/card.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "checkbox",
+      "type": "registry:ui",
+      "title": "Checkbox",
+      "description": "A control that allows the user to toggle between checked and unchecked states.",
+      "files": [{ "path": "public/r/checkbox.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "dialog",
+      "type": "registry:ui",
+      "title": "Dialog",
+      "description": "A modal window that overlays the page.",
+      "files": [{ "path": "public/r/dialog.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "A provider component that sets the text direction for your application.",
+      "files": [{ "path": "public/r/direction.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A drawer component for React.",
+      "files": [{ "path": "public/r/drawer.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "dropdown-menu",
+      "type": "registry:ui",
+      "title": "Dropdown Menu",
+      "description": "Displays a menu of actions or links to the user, triggered by a button.",
+      "files": [{ "path": "public/r/dropdown-menu.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Use the Empty component to display an empty state.",
+      "files": [{ "path": "public/r/empty.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "field",
+      "type": "registry:ui",
+      "title": "Field",
+      "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
+      "files": [{ "path": "public/r/field.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "For sighted users to preview content available behind a link.",
+      "files": [{ "path": "public/r/hover-card.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Renders an accessible label associated with controls.",
+      "files": [{ "path": "public/r/label.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "menubar",
+      "type": "registry:ui",
+      "title": "Menubar",
+      "description": "A visually persistent menu common in desktop applications.",
+      "files": [{ "path": "public/r/menubar.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "marker",
+      "type": "registry:ui",
+      "title": "Marker",
+      "description": "Displays an inline status, system note, bordered row, or labeled separator in a conversation.",
+      "files": [{ "path": "public/r/marker.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "message",
+      "type": "registry:ui",
+      "title": "Message",
+      "description": "Displays a message in a conversation, with optional avatar, header, footer, and alignment.",
+      "files": [{ "path": "public/r/message.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "message-scroller",
+      "type": "registry:ui",
+      "title": "Message Scroller",
+      "description": "Chat transcript scroller for turn anchoring, streaming follow, history restore, and jump controls.",
+      "files": [{ "path": "public/r/message-scroller.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "model-selector",
+      "type": "registry:ui",
+      "title": "Model Selector",
+      "description": "Select models and providers from the chat header or composer toolbar.",
+      "files": [{ "path": "public/r/model-selector.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "bubble",
+      "type": "registry:ui",
+      "title": "Bubble",
+      "description": "A chat bubble surface used inside Message for conversation content.",
+      "files": [{ "path": "public/r/bubble.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "navigation-menu",
+      "type": "registry:ui",
+      "title": "Navigation Menu",
+      "description": "A collection of links for navigating websites.",
+      "files": [{ "path": "public/r/navigation-menu.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "popover",
+      "type": "registry:ui",
+      "title": "Popover",
+      "description": "Displays rich content in a portal, triggered by a button.",
+      "files": [{ "path": "public/r/popover.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "prompt-input",
+      "type": "registry:ui",
+      "title": "Prompt Input",
+      "description": "AI prompt composer with actions, file attachments, and submit controls.",
+      "files": [{ "path": "public/r/prompt-input.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "prompt-suggestion",
+      "type": "registry:ui",
+      "title": "Prompt Suggestion",
+      "description": "One-tap suggestion chips that seed the prompt composer with starter prompts.",
+      "files": [{ "path": "public/r/prompt-suggestion.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "queue",
+      "type": "registry:ui",
+      "title": "Queue",
+      "description": "Queue and manage pending prompts while the model is still responding.",
+      "files": [{ "path": "public/r/queue.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "radio-group",
+      "type": "registry:ui",
+      "title": "Radio Group",
+      "description": "A set of checkable buttons where only one can be checked at a time.",
+      "files": [{ "path": "public/r/radio-group.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "select",
+      "type": "registry:ui",
+      "title": "Select",
+      "description": "Displays a native select control with Cubix styling.",
+      "files": [{ "path": "public/r/select.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "switch",
+      "type": "registry:ui",
+      "title": "Switch",
+      "description": "A control that allows the user to toggle between checked and not checked.",
+      "files": [{ "path": "public/r/switch.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "tabs",
+      "type": "registry:ui",
+      "title": "Tabs",
+      "description": "A set of layered sections of content displayed one at a time.",
+      "files": [{ "path": "public/r/tabs.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "textarea",
+      "type": "registry:ui",
+      "title": "Textarea",
+      "description": "Displays a multiline text input field for longer form content.",
+      "files": [{ "path": "public/r/textarea.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "thinking",
+      "type": "registry:ui",
+      "title": "Thinking",
+      "description": "Collapsible block for model reasoning and chain-of-thought while a reply is prepared.",
+      "files": [{ "path": "public/r/thinking.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "tool-call",
+      "type": "registry:ui",
+      "title": "Tool Call",
+      "description": "Visualize tool and function invocations with status, args, and results.",
+      "files": [{ "path": "public/r/tool-call.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "tooltip",
+      "type": "registry:ui",
+      "title": "Tooltip",
+      "description": "A popup that displays information related to an element when it receives keyboard focus or hover.",
+      "files": [{ "path": "public/r/tooltip.json", "type": "registry:ui" }]
+    }
+  ]
+}

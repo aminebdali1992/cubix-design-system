@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "attachment",
+  "type": "registry:ui",
+  "title": "Attachment",
+  "description": "Displays a file or image attachment with media, metadata, upload state, and actions.",
+  "dependencies": ["class-variance-authority"],
+  "registryDependencies": ["button"],
+  "files": [
+    {
+      "path": "components/cubix/attachment.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/attachment.tsx"
+    }
+  ]
+}

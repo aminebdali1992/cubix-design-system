@@ -1,0 +1,15 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "collapsible",
+  "type": "registry:ui",
+  "title": "Collapsible",
+  "description": "An interactive component which expands and collapses a panel.",
+  "dependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/collapsible.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/collapsible.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "slider",
+  "type": "registry:ui",
+  "title": "Slider",
+  "description": "An input where the user selects a value from within a given range.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/slider.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/slider.tsx"
+    }
+  ]
+}

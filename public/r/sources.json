@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "sources",
+  "type": "registry:ui",
+  "title": "Sources",
+  "description": "Citation list for retrieved documents and grounded answer references.",
+  "dependencies": ["lucide-react"],
+  "registryDependencies": ["collapsible", "hover-card"],
+  "files": [
+    {
+      "path": "components/cubix/sources.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/sources.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "button",
+  "type": "registry:ui",
+  "title": "Button",
+  "description": "Displays a button or a component that looks like a button.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/button.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/button.tsx"
+    }
+  ]
+}

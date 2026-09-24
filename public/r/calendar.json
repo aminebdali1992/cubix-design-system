@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "calendar",
+  "type": "registry:ui",
+  "title": "Calendar",
+  "description": "A calendar component that allows users to select a date or a range of dates.",
+  "dependencies": ["react-day-picker", "date-fns"],
+  "registryDependencies": ["button"],
+  "files": [
+    {
+      "path": "components/cubix/calendar.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/calendar.tsx"
+    }
+  ]
+}

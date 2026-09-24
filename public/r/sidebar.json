@@ -1,0 +1,28 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "sidebar",
+  "type": "registry:ui",
+  "title": "Sidebar",
+  "description": "A composable, themeable and customizable sidebar component.",
+  "dependencies": ["@base-ui/react", "class-variance-authority", "lucide-react"],
+  "registryDependencies": [
+    "button",
+    "input",
+    "separator",
+    "sheet",
+    "skeleton",
+    "tooltip"
+  ],
+  "files": [
+    {
+      "path": "components/cubix/sidebar.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/sidebar.tsx"
+    },
+    {
+      "path": "hooks/use-mobile.ts",
+      "type": "registry:hook",
+      "target": "hooks/use-mobile.ts"
+    }
+  ]
+}

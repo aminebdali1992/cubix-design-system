@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "message",
+  "type": "registry:ui",
+  "title": "Message",
+  "description": "Displays a message in a conversation, with optional avatar, header, footer, and alignment.",
+  "dependencies": [],
+  "registryDependencies": ["bubble", "avatar", "attachment", "marker", "spinner"],
+  "files": [
+    {
+      "path": "components/cubix/message.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/message.tsx"
+    }
+  ]
+}

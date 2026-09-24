@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "kbd",
+  "type": "registry:ui",
+  "title": "Kbd",
+  "description": "A component to display keyboard shortcuts.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/kbd.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/kbd.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "code-block",
+  "type": "registry:ui",
+  "title": "Code Block",
+  "description": "Syntax-highlighted code surface for assistant replies with copy actions.",
+  "dependencies": ["lucide-react", "sugar-high"],
+  "registryDependencies": ["button", "select"],
+  "files": [
+    {
+      "path": "components/cubix/code-block.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/code-block.tsx"
+    }
+  ]
+}

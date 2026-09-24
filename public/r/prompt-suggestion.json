@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "prompt-suggestion",
+  "type": "registry:ui",
+  "title": "Prompt Suggestion",
+  "description": "One-tap suggestion chips that seed the prompt composer with starter prompts.",
+  "dependencies": [],
+  "registryDependencies": ["button"],
+  "files": [
+    {
+      "path": "components/cubix/prompt-suggestion.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/prompt-suggestion.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "hover-card",
+  "type": "registry:ui",
+  "title": "Hover Card",
+  "description": "For sighted users to preview content available behind a link.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/hover-card.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/hover-card.tsx"
+    }
+  ]
+}

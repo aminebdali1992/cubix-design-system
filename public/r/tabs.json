@@ -1,0 +1,16 @@
+﻿{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "tabs",
+  "type": "registry:ui",
+  "title": "Tabs",
+  "description": "A set of layered sections of content displayed one at a time.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/tabs.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/tabs.tsx"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "radio-group",
+  "type": "registry:ui",
+  "title": "Radio Group",
+  "description": "A set of checkable buttons where only one can be checked at a time.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/radio-group.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/radio-group.tsx"
+    }
+  ]
+}

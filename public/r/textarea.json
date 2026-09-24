@@ -1,0 +1,16 @@
+﻿{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "textarea",
+  "type": "registry:ui",
+  "title": "Textarea",
+  "description": "Displays a multiline text input field for longer form content.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/textarea.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/textarea.tsx"
+    }
+  ]
+}
