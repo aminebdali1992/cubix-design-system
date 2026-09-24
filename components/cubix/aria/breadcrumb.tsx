@@ -53,7 +53,11 @@ function BreadcrumbLink({
   children,
   ...props
 }: React.ComponentProps<"a"> & {
-  render?: ReactElement<{ className?: string; children?: ReactNode }>
+  render?: ReactElement<{
+    className?: string
+    children?: ReactNode
+    "data-slot"?: string
+  }>
 }) {
   const linkClassName = cn(breadcrumbLinkClassName, className)
 

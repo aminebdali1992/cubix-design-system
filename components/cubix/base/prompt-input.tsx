@@ -1194,7 +1194,7 @@ export type PromptInputButtonProps = React.ComponentProps<
 
 function getPromptInputButtonSize(children: React.ReactNode) {
   const items = React.Children.toArray(children).filter((child) => {
-    if (child === null || child === false || child === true) {
+    if (child == null || typeof child === "boolean") {
       return false
     }
     if (typeof child === "string") {

@@ -478,6 +478,7 @@ export function QueuePromptInputDemo() {
           "[&_[data-slot=input-group]]:bg-transparent!",
           "[&_[data-slot=input-group]]:shadow-none!"
         )}
+        onSubmit={() => undefined}
       >
         <PromptInputBody>
           <PromptInputTextarea placeholder="Queue another follow-up..." />

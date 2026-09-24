@@ -257,11 +257,15 @@ function Source({
   )
 }
 
-export type SourcePreviewProps = React.ComponentProps<typeof HoverCard> & {
+export type SourcePreviewProps = Omit<
+  React.ComponentProps<typeof HoverCard>,
+  "children"
+> & {
   href?: string
   title?: React.ReactNode
   description?: React.ReactNode
   hostname?: string
+  children?: React.ReactNode
 }
 
 function SourcePreview({

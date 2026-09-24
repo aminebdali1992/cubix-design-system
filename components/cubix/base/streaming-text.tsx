@@ -55,7 +55,9 @@ function StreamingTextCaret({
   const isStreaming = context?.isStreaming ?? false
   const resolvedVariant =
     variant ??
-    (context?.caret && context.caret !== false ? context.caret : "line")
+    (context?.caret == null || context.caret === false
+      ? "line"
+      : context.caret)
 
   if (!force && context && (!isStreaming || context.caret === false)) {
     return null
