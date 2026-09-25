@@ -11,12 +11,33 @@ export const components = [
     description:
       "Displays a form input field or a component that looks like an input field, with invalid and disabled states.",
     href: "/docs/components/input",
+    ready: false,
+  },
+  {
+    name: "Text Field",
+    description:
+      "A labeled plain-text field with icons, clear, description, and error. Email, phone, and password are separate components.",
+    href: "/docs/components/text-field",
     ready: true,
   },
   {
-    name: "Textarea",
+    name: "Email Field",
     description:
-      "Displays a multiline text input field for longer form content.",
+      "A labeled email field with icons, clear, description, and error. type is locked to email.",
+    href: "/docs/components/email-field",
+    ready: true,
+  },
+  {
+    name: "Phone Field",
+    description:
+      "A labeled mobile phone field with icons, clear, description, and error. type is locked to tel.",
+    href: "/docs/components/phone-field",
+    ready: true,
+  },
+  {
+    name: "Text Area",
+    description:
+      "A multiline text control for longer content - messages, notes, and bios.",
     href: "/docs/components/textarea",
     ready: true,
   },
@@ -24,11 +45,11 @@ export const components = [
     name: "Alert",
     description: "Displays a callout for user attention.",
     href: "/docs/components/alert",
-    ready: true,
+    ready: false,
   },
   {
     name: "Card",
-    description: "Displays a container with header, content, and footer.",
+    description: "A flexible container with header, content, and footer.",
     href: "/docs/components/card",
     ready: true,
   },
@@ -37,115 +58,115 @@ export const components = [
     description:
       "A control that allows the user to toggle between checked and unchecked states.",
     href: "/docs/components/checkbox",
-    ready: true,
+    ready: false,
   },
   {
     name: "Dialog",
     description: "A modal window that overlays the page.",
     href: "/docs/components/dialog",
-    ready: true,
+    ready: false,
   },
   {
     name: "Direction",
     description:
       "A provider component that sets the text direction for your application.",
     href: "/docs/components/direction",
-    ready: true,
+    ready: false,
   },
   {
     name: "Select",
     description:
       "Displays a list of options for the user to pick from, triggered by a button.",
     href: "/docs/components/select",
-    ready: true,
+    ready: false,
   },
   {
     name: "Tabs",
     description:
       "A set of layered sections of content, known as tab panels, displayed one at a time.",
     href: "/docs/components/tabs",
-    ready: true,
+    ready: false,
   },
   {
     name: "Tooltip",
     description:
       "A popup that displays information related to an element when it receives keyboard focus or hover.",
     href: "/docs/components/tooltip",
-    ready: true,
+    ready: false,
   },
   {
     name: "Switch",
     description:
       "A control that allows the user to toggle between checked and not checked.",
     href: "/docs/components/switch",
-    ready: true,
+    ready: false,
   },
   {
     name: "Radio Group",
     description:
       "A set of checkable buttons where only one can be checked at a time.",
     href: "/docs/components/radio-group",
-    ready: true,
+    ready: false,
   },
   {
     name: "Accordion",
     description:
       "A vertically stacked set of interactive headings that each reveal a section of content.",
     href: "/docs/components/accordion",
-    ready: true,
+    ready: false,
   },
   {
     name: "Popover",
     description:
       "Displays rich content in a portal, triggered by a button.",
     href: "/docs/components/popover",
-    ready: true,
+    ready: false,
   },
   {
     name: "Dropdown Menu",
     description:
       "Displays a menu of actions or links to the user, triggered by a button.",
     href: "/docs/components/dropdown-menu",
-    ready: true,
+    ready: false,
   },
   {
     name: "Alert Dialog",
     description:
       "A modal dialog that interrupts the user with important content and expects a response.",
     href: "/docs/components/alert-dialog",
-    ready: true,
+    ready: false,
   },
   {
     name: "Aspect Ratio",
     description: "Displays content within a desired ratio.",
     href: "/docs/components/aspect-ratio",
-    ready: true,
+    ready: false,
   },
   {
     name: "Attachment",
     description:
       "Displays a file or image attachment with media, metadata, upload state, and actions.",
     href: "/docs/components/attachment",
-    ready: true,
+    ready: false,
   },
   {
     name: "Avatar",
     description:
       "An image element with a fallback for representing the user.",
     href: "/docs/components/avatar",
-    ready: true,
+    ready: false,
   },
   {
     name: "Badge",
     description: "Displays a badge or a component that looks like a badge.",
     href: "/docs/components/badge",
-    ready: true,
+    ready: false,
   },
   {
     name: "Breadcrumb",
     description: "Displays the path to the current resource using a hierarchy of links.",
     href: "/docs/components/breadcrumb",
-    ready: true,
+    ready: false,
   },
   {
     name: "Button Group",
@@ -161,7 +182,7 @@ export const components = [
   },
   {
     name: "Carousel",
-    description: "A carousel with motion and swipe built using Embla.",
+    description: "A carousel with motion and swipe built on Embla.",
     href: "/docs/components/carousel",
     ready: true,
   },
@@ -169,205 +190,205 @@ export const components = [
     name: "Chart",
     description: "Beautiful charts built using Recharts.",
     href: "/docs/components/chart",
-    ready: true,
+    ready: false,
   },
   {
     name: "Collapsible",
     description: "An interactive component which expands and collapses a panel.",
     href: "/docs/components/collapsible",
-    ready: true,
+    ready: false,
   },
   {
     name: "Combobox",
     description: "Autocomplete input and command palette with a list of suggestions.",
     href: "/docs/components/combobox",
-    ready: true,
+    ready: false,
   },
   {
     name: "Command",
     description: "Command menu for search and quick actions.",
     href: "/docs/components/command",
-    ready: true,
+    ready: false,
   },
   {
     name: "Context Menu",
     description: "Displays a menu of actions triggered by a right click.",
     href: "/docs/components/context-menu",
-    ready: true,
+    ready: false,
   },
   {
     name: "Data Table",
     description: "Powerful table and datagrids built using TanStack Table.",
     href: "/docs/components/data-table",
-    ready: true,
+    ready: false,
   },
   {
     name: "Date Picker",
     description: "A date picker component with range and presets.",
     href: "/docs/components/date-picker",
-    ready: true,
+    ready: false,
   },
   {
     name: "Drawer",
     description: "A drawer component for React.",
     href: "/docs/components/drawer",
-    ready: true,
+    ready: false,
   },
   {
     name: "Empty",
     description: "Use the Empty component to display an empty state.",
     href: "/docs/components/empty",
-    ready: true,
+    ready: false,
   },
   {
     name: "Field",
     description:
       "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
     href: "/docs/components/field",
-    ready: true,
+    ready: false,
   },
   {
     name: "Hover Card",
     description: "For sighted users to preview content available behind a link.",
     href: "/docs/components/hover-card",
-    ready: true,
+    ready: false,
   },
   {
     name: "Input Group",
     description: "Display additional information or actions inside an input.",
     href: "/docs/components/input-group",
-    ready: true,
+    ready: false,
   },
   {
     name: "Input OTP",
     description:
       "Accessible one-time password component with copy-paste functionality.",
     href: "/docs/components/input-otp",
-    ready: true,
+    ready: false,
   },
   {
     name: "Kbd",
     description: "A component to display keyboard shortcuts.",
     href: "/docs/components/kbd",
-    ready: true,
+    ready: false,
   },
   {
     name: "Label",
     description: "Renders an accessible label associated with controls.",
     href: "/docs/components/label",
-    ready: true,
+    ready: false,
   },
   {
     name: "Menubar",
     description: "A visually persistent menu common in desktop applications.",
     href: "/docs/components/menubar",
-    ready: true,
+    ready: false,
   },
   {
     name: "Message",
     description:
       "Displays a message in a conversation, with optional avatar, header, footer, and alignment.",
     href: "/docs/components/message",
-    ready: true,
+    ready: false,
   },
   {
     name: "Navigation Menu",
     description: "A collection of links for navigating websites.",
     href: "/docs/components/navigation-menu",
-    ready: true,
+    ready: false,
   },
   {
     name: "Pagination",
     description: "Pagination with page navigation, next and previous links.",
     href: "/docs/components/pagination",
-    ready: true,
+    ready: false,
   },
   {
     name: "Progress",
     description: "Displays an indicator showing the completion progress of a task.",
     href: "/docs/components/progress",
-    ready: true,
+    ready: false,
   },
   {
     name: "Resizable",
     description: "Accessible resizable panel groups and layouts.",
     href: "/docs/components/resizable",
-    ready: true,
+    ready: false,
   },
   {
     name: "Scroll Area",
     description: "Augments native scroll functionality for custom, cross-browser styling.",
     href: "/docs/components/scroll-area",
-    ready: true,
+    ready: false,
   },
   {
     name: "Separator",
     description: "Visually or semantically separates content.",
     href: "/docs/components/separator",
-    ready: true,
+    ready: false,
   },
   {
     name: "Sheet",
     description:
       "Extends the Dialog to display content that complements the main content of the screen.",
     href: "/docs/components/sheet",
-    ready: true,
+    ready: false,
   },
   {
     name: "Sidebar",
     description: "A composable, themeable and customizable sidebar component.",
     href: "/docs/components/sidebar",
-    ready: true,
+    ready: false,
   },
   {
     name: "Skeleton",
     description: "Use to show a placeholder while content is loading.",
     href: "/docs/components/skeleton",
-    ready: true,
+    ready: false,
   },
   {
     name: "Slider",
     description:
       "An input where the user selects a value from within a given range.",
     href: "/docs/components/slider",
-    ready: true,
+    ready: false,
   },
   {
     name: "Sonner",
     description: "An opinionated toast component.",
     href: "/docs/components/sonner",
-    ready: true,
+    ready: false,
   },
   {
     name: "Spinner",
     description: "An indicator that can be used to show a loading state.",
     href: "/docs/components/spinner",
-    ready: true,
+    ready: false,
   },
   {
     name: "Table",
     description: "A responsive table component.",
     href: "/docs/components/table",
-    ready: true,
+    ready: false,
   },
   {
     name: "Toast",
     description:
       "A succinct message that appears temporarily to provide feedback.",
     href: "/docs/components/toast",
-    ready: true,
+    ready: false,
   },
   {
     name: "Toggle",
     description: "A two-state button that can be either on or off.",
     href: "/docs/components/toggle",
-    ready: true,
+    ready: false,
   },
   {
     name: "Toggle Group",
     description: "A set of two-state buttons that can be toggled on or off.",
     href: "/docs/components/toggle-group",
-    ready: true,
+    ready: false,
   },
 
   // AI & chat - roadmap
@@ -376,84 +397,84 @@ export const components = [
     description:
       "Top-level chat shell that sticks to the latest turn, with empty, scroll, streaming, and download controls.",
     href: "/docs/components/conversation",
-    ready: true,
+    ready: false,
   },
   {
     name: "Message Scroller",
     description:
       "Chat transcript scroller for turn anchoring, streaming follow, history restore, and jump controls.",
     href: "/docs/components/message-scroller",
-    ready: true,
+    ready: false,
   },
   {
     name: "Thinking",
     description:
       "Collapsible block for model reasoning and chain-of-thought while a reply is prepared.",
     href: "/docs/components/thinking",
-    ready: true,
+    ready: false,
   },
   {
     name: "Streaming Text",
     description:
       "Progressive text surface for token-by-token model output during a stream.",
     href: "/docs/components/streaming-text",
-    ready: true,
+    ready: false,
   },
   {
     name: "Prompt Input",
     description:
       "AI prompt composer with actions, file attachments, and submit controls.",
     href: "/docs/components/prompt-input",
-    ready: true,
+    ready: false,
   },
   {
     name: "Prompt Suggestion",
     description:
       "One-tap suggestion chips that seed the prompt composer with starter prompts.",
     href: "/docs/components/prompt-suggestion",
-    ready: true,
+    ready: false,
   },
   {
     name: "Model Selector",
     description:
       "Select models and providers from the chat header or composer toolbar.",
     href: "/docs/components/model-selector",
-    ready: true,
+    ready: false,
   },
   {
     name: "Tool Call",
     description:
       "Visualize tool and function invocations with status, args, and results.",
     href: "/docs/components/tool-call",
-    ready: true,
+    ready: false,
   },
   {
     name: "Sources",
     description:
       "Citation list for retrieved documents and grounded answer references.",
     href: "/docs/components/sources",
-    ready: true,
+    ready: false,
   },
   {
     name: "Code Block",
     description:
       "Syntax-highlighted code surface for assistant replies with copy actions.",
     href: "/docs/components/code-block",
-    ready: true,
+    ready: false,
   },
   {
     name: "Branch",
     description:
       "Navigate alternate reply branches when regenerating or editing a turn.",
     href: "/docs/components/branch",
-    ready: true,
+    ready: false,
   },
   {
     name: "Queue",
     description:
       "Queue and manage pending prompts while the model is still responding.",
     href: "/docs/components/queue",
-    ready: true,
+    ready: false,
   },
 
   // Mobile - roadmap

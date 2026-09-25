@@ -189,7 +189,7 @@ function ToolCallHeader({
     <CollapsibleTrigger
       data-slot="tool-call-header"
       className={cn(
-        "flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-caption outline-none transition-colors",
+        "flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-description outline-none transition-colors",
         "hover:bg-muted/50 focus-visible:bg-muted/50",
         "group-data-[status=output-error]/tool-call:hover:bg-destructive/5",
         className
@@ -270,7 +270,7 @@ function ToolCallSection({
       {...props}
     >
       {title ? (
-        <div className="text-label font-medium tracking-wide text-muted-foreground uppercase">
+        <div className="text-caption font-medium tracking-wide text-muted-foreground uppercase">
           {title}
         </div>
       ) : null}
@@ -370,7 +370,7 @@ function ToolCallOutput({
     (resolvedError != null ? (
       <div
         data-slot="tool-call-error"
-        className="rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-2.5 text-caption text-destructive"
+        className="rounded-lg border border-destructive/20 bg-destructive/5 px-3 py-2.5 text-description text-destructive"
       >
         {typeof resolvedError === "string" ? resolvedError : resolvedError}
       </div>
@@ -382,7 +382,7 @@ function ToolCallOutput({
       ) : typeof resolvedResult === "string" ? (
         <ToolCallCode>{resolvedResult}</ToolCallCode>
       ) : (
-        <div className="rounded-lg border bg-background px-3 py-2.5 text-caption shadow-xs">
+        <div className="rounded-lg border bg-background px-3 py-2.5 text-description shadow-xs">
           {resolvedResult as React.ReactNode}
         </div>
       )

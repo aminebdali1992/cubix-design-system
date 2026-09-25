@@ -25,7 +25,7 @@ function AlertDialog({ children, ...props }: DialogTriggerProps) {
 }
 
 type TriggerRenderProps = {
-  variant?: "default" | "secondary" | "destructive" | "outline" | "ghost" | "link"
+  variant?: "default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"
   size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
   className?: string
 }
@@ -183,7 +183,7 @@ function AlertDialogDescription({
     <p
       data-slot="alert-dialog-description"
       className={cn(
-        "text-caption text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
+        "text-description text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
         className
       )}
       {...props}

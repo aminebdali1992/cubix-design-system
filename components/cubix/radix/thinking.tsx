@@ -192,7 +192,7 @@ function ThinkingTrigger({
     <CollapsibleTrigger
       data-slot="thinking-trigger"
       className={cn(
-        "flex w-full items-center gap-2 text-caption text-muted-foreground transition-colors hover:text-foreground outline-none focus-visible:text-foreground",
+        "flex w-full items-center gap-2 text-description text-muted-foreground transition-colors hover:text-foreground outline-none focus-visible:text-foreground",
         className
       )}
       {...props}
@@ -223,7 +223,7 @@ function ThinkingContent({
     <CollapsibleContent
       data-slot="thinking-content"
       className={cn(
-        "mt-3 text-caption leading-relaxed text-muted-foreground outline-none",
+        "mt-3 text-description leading-relaxed text-muted-foreground outline-none",
         className
       )}
       {...props}

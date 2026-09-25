@@ -33,7 +33,7 @@ type AlertDialogContentProps = {
 
 type AlertDialogActionProps = {
   className?: string
-  variant?: "default" | "secondary" | "destructive" | "outline" | "ghost" | "link"
+  variant?: "default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"
   size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
   children?: ReactNode
 }

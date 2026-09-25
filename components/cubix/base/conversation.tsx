@@ -67,9 +67,9 @@ function ConversationEmptyState({
             </div>
           ) : null}
           <div className="space-y-1">
-            <h3 className="text-caption font-medium">{title}</h3>
+            <h3 className="text-description font-medium">{title}</h3>
             {description ? (
-              <p className="text-caption text-muted-foreground">{description}</p>
+              <p className="text-description text-muted-foreground">{description}</p>
             ) : null}
           </div>
         </>

@@ -29,8 +29,8 @@ export const swatches: ThemeSwatch[] = [
   {
     token: "primary",
     variable: "--primary",
-    light: "oklch(0% 0 0)",
-    dark: "oklch(0.922 0 0)",
+    light: "oklch(0.653 0.155 271.6)",
+    dark: "oklch(0.653 0.155 271.6)",
   },
   {
     token: "secondary",
@@ -53,8 +53,8 @@ export const swatches: ThemeSwatch[] = [
   {
     token: "destructive",
     variable: "--destructive",
-    light: "oklch(0.577 0.245 27.325)",
-    dark: "oklch(0.704 0.191 22.216)",
+    light: "oklch(0.653 0.191 24.1)",
+    dark: "oklch(0.653 0.191 24.1)",
   },
   {
     token: "border",
@@ -246,7 +246,7 @@ export const cubixJsonSnippet = `{
   }
 }`;
 
-export const conventionSnippet = `--primary: oklch(0% 0 0);
+export const conventionSnippet = `--primary: oklch(0.653 0.155 271.6);
 --primary-foreground: oklch(0.985 0 0);`;
 
 export const conventionUsageSnippet = `<div className="bg-primary text-primary-foreground">
@@ -307,7 +307,7 @@ export const defaultThemeCss = `@custom-variant dark (&:is(.dark *));
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0% 0 0);
 
-  --primary: oklch(0% 0 0);
+  --primary: oklch(0.653 0.155 271.6);
   --primary-foreground: oklch(0.985 0 0);
 
   --secondary: oklch(0.97 0 0);
@@ -319,8 +319,8 @@ export const defaultThemeCss = `@custom-variant dark (&:is(.dark *));
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
 
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.97 0.01 17);
+  --destructive: oklch(0.653 0.191 24.1);
+  --destructive-foreground: oklch(0.985 0 0);
 
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
@@ -337,7 +337,7 @@ export const defaultThemeCss = `@custom-variant dark (&:is(.dark *));
 
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0% 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary: oklch(0.653 0.155 271.6);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
@@ -355,8 +355,8 @@ export const defaultThemeCss = `@custom-variant dark (&:is(.dark *));
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
 
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
+  --primary: oklch(0.653 0.155 271.6);
+  --primary-foreground: oklch(0.985 0 0);
 
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -367,7 +367,7 @@ export const defaultThemeCss = `@custom-variant dark (&:is(.dark *));
   --accent: oklch(0.371 0 0);
   --accent-foreground: oklch(0.985 0 0);
 
-  --destructive: oklch(0.704 0.191 22.216);
+  --destructive: oklch(0.653 0.191 24.1);
   --destructive-foreground: oklch(0.985 0 0);
 
   --border: oklch(1 0 0 / 10%);
@@ -385,7 +385,7 @@ export const defaultThemeCss = `@custom-variant dark (&:is(.dark *));
 
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: oklch(0.653 0.155 271.6);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);

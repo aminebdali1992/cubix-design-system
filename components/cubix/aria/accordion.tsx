@@ -101,13 +101,13 @@ function AccordionTrigger({
   return (
     <Heading
       data-slot="accordion-header"
-      className="m-0 flex font-sans text-caption font-medium tracking-normal"
+      className="m-0 flex font-sans text-description font-medium tracking-normal"
     >
       <Button
         slot="trigger"
         data-slot="accordion-trigger"
         className={cn(
-          "group/accordion-trigger flex flex-1 items-center justify-between gap-3 rounded-lg border border-transparent py-3 text-start text-caption font-medium outline-none hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50",
+          "group/accordion-trigger flex flex-1 items-center justify-between gap-3 rounded-lg border border-transparent py-3 text-start text-description font-medium outline-none hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50",
           className
         )}
         {...props}
@@ -136,7 +136,7 @@ function AccordionContent({
   return (
     <DisclosurePanel
       data-slot="accordion-content"
-      className="h-(--disclosure-panel-height) overflow-hidden text-caption text-muted-foreground transition-[height] duration-200 ease-out"
+      className="h-(--disclosure-panel-height) overflow-hidden text-description text-muted-foreground transition-[height] duration-200 ease-out"
       {...props}
     >
       <div

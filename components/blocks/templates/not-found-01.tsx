@@ -93,7 +93,7 @@ function NotFound01View({ className }: { className?: string }) {
 
       <footer className="relative z-10 flex items-center justify-center px-6 pb-6">
         <p
-          className="cubix-enter font-mono text-label tracking-widest text-muted-foreground uppercase"
+          className="cubix-enter font-mono text-caption tracking-widest text-muted-foreground uppercase"
           style={{ animationDelay: "360ms" }}
         >
           Lost, but not gone

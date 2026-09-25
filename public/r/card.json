@@ -3,7 +3,7 @@
   "name": "card",
   "type": "registry:ui",
   "title": "Card",
-  "description": "Displays a container with header, content, and footer.",
+  "description": "A flexible container with header, content, and footer.",
   "dependencies": [],
   "registryDependencies": [],
   "files": [

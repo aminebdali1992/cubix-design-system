@@ -2,8 +2,8 @@
   "$schema": "https://cubix.design/schema/registry-item.json",
   "name": "textarea",
   "type": "registry:ui",
-  "title": "Textarea",
-  "description": "Displays a multiline text input field for longer form content.",
+  "title": "Text Area",
+  "description": "A multiline text control for longer content - messages, notes, and bios.",
   "dependencies": [],
   "registryDependencies": [],
   "files": [

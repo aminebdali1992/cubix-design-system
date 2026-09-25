@@ -86,7 +86,7 @@ function NotFound03View({ className }: { className?: string }) {
             </form>
 
             <div
-              className="cubix-enter mt-4 flex flex-wrap items-center justify-center gap-x-1 gap-y-2 text-caption"
+              className="cubix-enter mt-4 flex flex-wrap items-center justify-center gap-x-1 gap-y-2 text-description"
               style={{ animationDelay: "300ms" }}
             >
               <span className="text-muted-foreground">Try</span>
@@ -183,7 +183,7 @@ export default function NotFound() {
                 </InputGroupAddon>
               </InputGroup>
             </form>
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-1 text-caption">
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-1 text-description">
               <span className="text-muted-foreground">Try</span>
               {suggestions.map((item) => (
                 <Button key={item.href} variant="link" size="sm" render={<Link href={item.href} />} nativeButton={false}>

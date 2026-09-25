@@ -83,7 +83,7 @@ function QueueSectionTrigger({
     <CollapsibleTrigger
       data-slot="queue-section-trigger"
       className={cn(
-        "flex w-full items-center justify-between gap-2 rounded-lg px-2.5 py-2 text-left text-caption font-medium text-muted-foreground outline-none transition-colors",
+        "flex w-full items-center justify-between gap-2 rounded-lg px-2.5 py-2 text-left text-description font-medium text-muted-foreground outline-none transition-colors",
         "hover:bg-muted/70 hover:text-foreground focus-visible:bg-muted/70 focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40",
         className
       )}
@@ -181,7 +181,7 @@ function QueueItem({ className, ...props }: QueueItemProps) {
     <li
       data-slot="queue-item"
       className={cn(
-        "group/queue-item flex flex-col gap-1 rounded-lg px-2.5 py-2 text-caption transition-colors",
+        "group/queue-item flex flex-col gap-1 rounded-lg px-2.5 py-2 text-description transition-colors",
         "hover:bg-muted/70 focus-within:bg-muted/70",
         className
       )}
@@ -255,7 +255,7 @@ function QueueItemDescription({
       data-slot="queue-item-description"
       data-completed={completed ? "true" : undefined}
       className={cn(
-        "ms-4 text-label leading-relaxed",
+        "ms-4 text-caption leading-relaxed",
         completed
           ? "text-muted-foreground/45 line-through"
           : "text-muted-foreground",
@@ -377,7 +377,7 @@ function QueueItemFile({
     <span
       data-slot="queue-item-file"
       className={cn(
-        "inline-flex max-w-full items-center gap-1 rounded-md border bg-muted/60 px-1.5 py-1 text-label text-muted-foreground",
+        "inline-flex max-w-full items-center gap-1 rounded-md border bg-muted/60 px-1.5 py-1 text-caption text-muted-foreground",
         className
       )}
       {...props}
@@ -399,7 +399,7 @@ function QueueEmpty({
     <div
       data-slot="queue-empty"
       className={cn(
-        "px-2.5 py-4 text-center text-caption text-muted-foreground",
+        "px-2.5 py-4 text-center text-description text-muted-foreground",
         className
       )}
       {...props}

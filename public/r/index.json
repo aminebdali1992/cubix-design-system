@@ -21,14 +21,14 @@
       "name": "calendar",
       "type": "registry:ui",
       "title": "Calendar",
-      "description": "A calendar component that allows users to select a date or a range of dates.",
+      "description": "A date picker calendar for selecting a day, several days, or a range.",
       "files": [{ "path": "public/r/calendar.json", "type": "registry:ui" }]
     },
     {
       "name": "carousel",
       "type": "registry:ui",
       "title": "Carousel",
-      "description": "A carousel with motion and swipe built using Embla.",
+      "description": "A carousel with motion and swipe built on Embla.",
       "files": [{ "path": "public/r/carousel.json", "type": "registry:ui" }]
     },
     {
@@ -280,7 +280,7 @@
       "name": "card",
       "type": "registry:ui",
       "title": "Card",
-      "description": "Displays a container with header, content, and footer.",
+      "description": "A flexible container with header, content, and footer.",
       "files": [{ "path": "public/r/card.json", "type": "registry:ui" }]
     },
     {
@@ -452,10 +452,31 @@
       "files": [{ "path": "public/r/tabs.json", "type": "registry:ui" }]
     },
     {
+      "name": "text-field",
+      "type": "registry:ui",
+      "title": "Text Field",
+      "description": "A labeled text input with description and error message for accessible forms.",
+      "files": [{ "path": "public/r/text-field.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "email-field",
+      "type": "registry:ui",
+      "title": "Email Field",
+      "description": "A labeled email field with icons, clear, description, and error. type is locked to email.",
+      "files": [{ "path": "public/r/email-field.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "phone-field",
+      "type": "registry:ui",
+      "title": "Phone Field",
+      "description": "A labeled mobile phone field with icons, clear, description, and error. type is locked to tel.",
+      "files": [{ "path": "public/r/phone-field.json", "type": "registry:ui" }]
+    },
+    {
       "name": "textarea",
       "type": "registry:ui",
-      "title": "Textarea",
-      "description": "Displays a multiline text input field for longer form content.",
+      "title": "Text Area",
+      "description": "A multiline text control for longer content - messages, notes, and bios.",
       "files": [{ "path": "public/r/textarea.json", "type": "registry:ui" }]
     },
     {

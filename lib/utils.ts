@@ -10,6 +10,7 @@ const twMerge = extendTailwindMerge({
         "title",
         "lead",
         "body",
+        "description",
         "caption",
         "label",
       ],

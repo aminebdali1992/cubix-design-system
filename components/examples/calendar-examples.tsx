@@ -3,10 +3,11 @@
 import * as React from "react"
 import { addDays } from "date-fns"
 import { CalendarIcon } from "lucide-react"
+import { faIR } from "react-day-picker/locale"
 import { type DateRange } from "react-day-picker"
 
-import { Button } from "@/components/cubix/button"
-import { Calendar } from "@/components/cubix/calendar"
+import { Button } from "@/app/docs/components/button/docs-button"
+import { Calendar } from "@/app/docs/components/calendar/docs-calendar"
 import {
   Popover,
   PopoverContent,
@@ -31,7 +32,10 @@ export function CalendarBasicDemo() {
 export function CalendarRangeDemo() {
   const [dateRange, setDateRange] = React.useState<DateRange | undefined>({
     from: new Date(new Date().getFullYear(), new Date().getMonth(), 12),
-    to: addDays(new Date(new Date().getFullYear(), new Date().getMonth(), 12), 10),
+    to: addDays(
+      new Date(new Date().getFullYear(), new Date().getMonth(), 12),
+      10
+    ),
   })
 
   return (
@@ -116,5 +120,52 @@ export function CalendarPopoverDemo() {
         <Calendar mode="single" selected={date} onSelect={setDate} />
       </PopoverContent>
     </Popover>
+  )
+}
+
+export function CalendarTimezoneDemo() {
+  const [date, setDate] = React.useState<Date | undefined>(undefined)
+  const [timeZone, setTimeZone] = React.useState<string | undefined>(undefined)
+
+  React.useEffect(() => {
+    setTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
+  }, [])
+
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <Calendar
+        mode="single"
+        selected={date}
+        onSelect={setDate}
+        timeZone={timeZone}
+        className="rounded-lg border"
+      />
+      <p className="text-center text-description text-muted-foreground">
+        {timeZone
+          ? `Timezone: ${timeZone}`
+          : "Resolving timezone..."}
+        {date ? ` · Selected: ${date.toLocaleDateString()}` : null}
+      </p>
+    </div>
+  )
+}
+
+export function CalendarRtlDemo() {
+  const [date, setDate] = React.useState<Date | undefined>(
+    new Date(new Date().getFullYear(), new Date().getMonth(), 12)
+  )
+
+  return (
+    <div dir="rtl" lang="fa">
+      <Calendar
+        mode="single"
+        selected={date}
+        onSelect={setDate}
+        locale={faIR}
+        dir="rtl"
+        numerals="arabext"
+        className="rounded-lg border"
+      />
+    </div>
   )
 }

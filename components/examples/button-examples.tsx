@@ -1,10 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { ArrowRightIcon, LoaderIcon, MailIcon } from "lucide-react"
+import { ChevronLeftIcon, LoaderIcon } from "lucide-react"
 import Link from "next/link"
 
 import { Button } from "@/app/docs/components/button/docs-button"
+import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
 
 export function ButtonLoadingDemo() {
   const [loading, setLoading] = React.useState(false)
@@ -19,11 +20,11 @@ export function ButtonLoadingDemo() {
     <Button disabled={loading} onClick={simulateSave}>
       {loading ? (
         <>
-          <LoaderIcon data-icon="inline-start" className="animate-spin" />
-          Saving...
+          <LoaderIcon data-icon="inline-start" className="size-4 animate-spin" />
+          متن دکمه
         </>
       ) : (
-        "Save changes"
+        "متن دکمه"
       )}
     </Button>
   )
@@ -32,16 +33,16 @@ export function ButtonLoadingDemo() {
 export function ButtonWithIconDemo() {
   return (
     <Button>
-      <MailIcon data-icon="inline-start" />
-      Login with Email
+      <ButtonDemoIcon data-icon="inline-start" />
+      متن دکمه
     </Button>
   )
 }
 
 export function ButtonIconDemo() {
   return (
-    <Button variant="outline" size="icon" aria-label="Send email">
-      <ArrowRightIcon />
+    <Button variant="outline" size="icon" aria-label="آیکون">
+      <ButtonDemoIcon />
     </Button>
   )
 }
@@ -49,8 +50,8 @@ export function ButtonIconDemo() {
 export function ButtonAsChildDemo() {
   return (
     <Button nativeButton={false} render={<Link href="/docs" />}>
-      Go to Docs
-      <ArrowRightIcon data-icon="inline-end" />
+      متن دکمه
+      <ChevronLeftIcon data-icon="inline-end" />
     </Button>
   )
 }
@@ -58,16 +59,16 @@ export function ButtonAsChildDemo() {
 export function ButtonSpinnerDemo() {
   return (
     <Button disabled>
-      <LoaderIcon data-icon="inline-start" className="animate-spin" />
-      Please wait
+      <LoaderIcon data-icon="inline-start" className="size-4 animate-spin" />
+      متن دکمه
     </Button>
   )
 }
 
 export function ButtonCustomDemo() {
   return (
-    <Button variant="outline" className="rounded-full px-6 text-base">
-      Fully rounded
+    <Button variant="outline" className="px-6 text-base">
+      متن دکمه
     </Button>
   )
 }

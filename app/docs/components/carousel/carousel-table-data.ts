@@ -9,7 +9,7 @@ export const carouselPropRows = [
     prop: "opts",
     type: "EmblaOptions",
     description:
-      "Embla options such as loop, align, and direction. See the Embla Carousel docs.",
+      "Embla options such as loop, align, and direction. Under a dir=rtl ancestor, direction resolves to rtl automatically unless you set opts.direction.",
   },
   {
     prop: "plugins",
@@ -19,7 +19,8 @@ export const carouselPropRows = [
   {
     prop: "setApi",
     type: "(api: CarouselApi) => void",
-    description: "Receive the Embla API instance for events and programmatic scroll.",
+    description:
+      "Receive the Embla API instance for events and programmatic scroll.",
   },
   {
     prop: "className",
@@ -41,13 +42,13 @@ export const itemPropRows = [
 export const navPropRows = [
   {
     prop: "variant",
-    type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link"',
+    type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"outline"',
     description: "Visual style of the previous or next button.",
   },
   {
     prop: "size",
-    type: '"default" | "sm" | "lg" | "icon" | "icon-sm" | "icon-lg"',
+    type: '"default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"',
     default: '"icon-sm"',
     description: "Size of the previous or next button.",
   },

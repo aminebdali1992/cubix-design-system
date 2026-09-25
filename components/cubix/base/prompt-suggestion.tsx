@@ -45,7 +45,7 @@ function PromptSuggestionsEmpty({
     <div
       data-slot="prompt-suggestions-empty"
       className={cn(
-        "flex w-full items-center justify-center rounded-xl border border-dashed px-4 py-6 text-center text-caption text-muted-foreground",
+        "flex w-full items-center justify-center rounded-xl border border-dashed px-4 py-6 text-center text-description text-muted-foreground",
         className
       )}
       {...props}

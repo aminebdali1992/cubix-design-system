@@ -1,7 +1,7 @@
 export const propRows = [
   {
     prop: "variant",
-    type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link"',
+    type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"default"',
     description: "The visual style of the button.",
   },
@@ -37,12 +37,6 @@ export const propRows = [
     description: "Disables the button and prevents interaction.",
   },
   {
-    prop: "aria-invalid",
-    type: "boolean",
-    description:
-      "Marks the button as invalid and applies destructive border and ring styles.",
-  },
-  {
     prop: "type",
     type: '"button" | "submit" | "reset"',
     default: '"button"',
@@ -67,18 +61,28 @@ export const variantRows = [
     prop: "secondary",
     type: "-",
     description:
-      "A softer alternative to the default variant for secondary actions.",
+      "Soft primary tint for secondary actions that stay on-brand.",
+  },
+  {
+    prop: "gray",
+    type: "-",
+    description: "Neutral gray fill for low-emphasis actions.",
   },
   {
     prop: "destructive",
     type: "-",
-    description: "For destructive actions such as deleting data.",
+    description: "Solid danger fill for irreversible actions.",
+  },
+  {
+    prop: "destructive-secondary",
+    type: "-",
+    description: "Soft danger tint for secondary destructive actions.",
   },
   {
     prop: "outline",
     type: "-",
     description:
-      "Bordered button that pairs well with secondary or ghost buttons.",
+      "Bordered button that pairs well with gray or ghost buttons.",
   },
   {
     prop: "ghost",
@@ -95,42 +99,42 @@ export const variantRows = [
 export const sizeRows = [
   {
     prop: "xs",
-    type: "h-6",
+    type: "28px",
     description: "Extra-compact control for dense chrome.",
   },
   {
     prop: "sm",
-    type: "h-7",
+    type: "32px",
     description: "Compact button for dense UIs.",
   },
   {
     prop: "default",
-    type: "h-8",
+    type: "40px",
     description: "Standard height button.",
   },
   {
     prop: "lg",
-    type: "h-9",
+    type: "48px",
     description: "Large button for prominent actions.",
   },
   {
     prop: "icon-xs",
-    type: "size-6",
+    type: "28px",
     description: "Extra-small square button for icon-only actions.",
   },
   {
     prop: "icon-sm",
-    type: "size-7",
+    type: "32px",
     description: "Small square button for icon-only actions.",
   },
   {
     prop: "icon",
-    type: "size-8",
+    type: "40px",
     description: "Square button for icon-only actions.",
   },
   {
     prop: "icon-lg",
-    type: "size-9",
+    type: "48px",
     description: "Large square button for icon-only actions.",
   },
 ]

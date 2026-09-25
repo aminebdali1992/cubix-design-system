@@ -3,7 +3,7 @@
   "name": "calendar",
   "type": "registry:ui",
   "title": "Calendar",
-  "description": "A calendar component that allows users to select a date or a range of dates.",
+  "description": "A date picker calendar for selecting a day, several days, or a range.",
   "dependencies": ["react-day-picker", "date-fns"],
   "registryDependencies": ["button"],
   "files": [

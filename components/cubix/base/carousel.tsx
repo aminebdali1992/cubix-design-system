@@ -2,12 +2,12 @@
 
 import * as React from "react"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react"
 
-import { Button } from "@/components/cubix/button"
+import { Button } from "@/components/cubix/base/button"
+import { cn } from "@/lib/utils"
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -28,6 +28,7 @@ type CarouselContextProps = {
   scrollNext: () => void
   canScrollPrev: boolean
   canScrollNext: boolean
+  direction: "ltr" | "rtl"
 } & CarouselProps
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
@@ -42,6 +43,12 @@ function useCarousel() {
   return context
 }
 
+function readClosestDirection(node: HTMLElement | null): "ltr" | "rtl" {
+  if (!node) return "ltr"
+  const root = node.closest("[dir]")
+  return root?.getAttribute("dir") === "rtl" ? "rtl" : "ltr"
+}
+
 function Carousel({
   orientation = "horizontal",
   opts,
@@ -51,20 +58,28 @@ function Carousel({
   children,
   ...props
 }: React.ComponentProps<"div"> & CarouselProps) {
+  const rootRef = React.useRef<HTMLDivElement>(null)
+  const [direction, setDirection] = React.useState<"ltr" | "rtl">(
+    () => opts?.direction ?? "ltr"
+  )
+  const prevDirectionRef = React.useRef(direction)
+  const prevOrientationRef = React.useRef(orientation)
+
   const [carouselRef, api] = useEmblaCarousel(
     {
       ...opts,
       axis: orientation === "horizontal" ? "x" : "y",
+      direction,
     },
     plugins
   )
   const [canScrollPrev, setCanScrollPrev] = React.useState(false)
   const [canScrollNext, setCanScrollNext] = React.useState(false)
 
-  const onSelect = React.useCallback((api: CarouselApi) => {
-    if (!api) return
-    setCanScrollPrev(api.canScrollPrev())
-    setCanScrollNext(api.canScrollNext())
+  const onSelect = React.useCallback((emblaApi: CarouselApi) => {
+    if (!emblaApi) return
+    setCanScrollPrev(emblaApi.canScrollPrev())
+    setCanScrollNext(emblaApi.canScrollNext())
   }, [])
 
   const scrollPrev = React.useCallback(() => {
@@ -79,14 +94,30 @@ function Carousel({
     (event: React.KeyboardEvent<HTMLDivElement>) => {
       if (event.key === "ArrowLeft") {
         event.preventDefault()
-        scrollPrev()
+        if (direction === "rtl") {
+          scrollNext()
+        } else {
+          scrollPrev()
+        }
       } else if (event.key === "ArrowRight") {
         event.preventDefault()
-        scrollNext()
+        if (direction === "rtl") {
+          scrollPrev()
+        } else {
+          scrollNext()
+        }
       }
     },
-    [scrollPrev, scrollNext]
+    [direction, scrollPrev, scrollNext]
   )
+
+  React.useLayoutEffect(() => {
+    if (opts?.direction) {
+      setDirection(opts.direction)
+      return
+    }
+    setDirection(readClosestDirection(rootRef.current))
+  }, [opts?.direction])
 
   React.useEffect(() => {
     if (!api || !setApi) return
@@ -95,12 +126,28 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return
+    const directionChanged = prevDirectionRef.current !== direction
+    const orientationChanged = prevOrientationRef.current !== orientation
+    prevDirectionRef.current = direction
+    prevOrientationRef.current = orientation
+    if (!directionChanged && !orientationChanged) return
+    api.reInit({
+      ...opts,
+      axis: orientation === "horizontal" ? "x" : "y",
+      direction,
+    })
+    onSelect(api)
+  }, [api, direction, onSelect, orientation])
+
+  React.useEffect(() => {
+    if (!api) return
     onSelect(api)
     api.on("reInit", onSelect)
     api.on("select", onSelect)
 
     return () => {
-      api?.off("select", onSelect)
+      api.off("select", onSelect)
+      api.off("reInit", onSelect)
     }
   }, [api, onSelect])
 
@@ -108,7 +155,7 @@ function Carousel({
     <CarouselContext.Provider
       value={{
         carouselRef,
-        api: api,
+        api,
         opts,
         orientation:
           orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
@@ -116,14 +163,17 @@ function Carousel({
         scrollNext,
         canScrollPrev,
         canScrollNext,
+        direction,
       }}
     >
       <div
+        ref={rootRef}
         onKeyDownCapture={handleKeyDown}
         className={cn("relative", className)}
         role="region"
         aria-roledescription="carousel"
         data-slot="carousel"
+        tabIndex={0}
         {...props}
       >
         {children}
@@ -144,7 +194,7 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
       <div
         className={cn(
           "flex",
-          orientation === "horizontal" ? "-ml-4" : "-mt-4 flex-col",
+          orientation === "horizontal" ? "-ms-4" : "-mt-4 flex-col",
           className
         )}
         {...props}
@@ -163,7 +213,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<"div">) {
       data-slot="carousel-item"
       className={cn(
         "min-w-0 shrink-0 grow-0 basis-full",
-        orientation === "horizontal" ? "pl-4" : "pt-4",
+        orientation === "horizontal" ? "ps-4" : "pt-4",
         className
       )}
       {...props}
@@ -187,8 +237,8 @@ function CarouselPrevious({
       className={cn(
         "absolute touch-manipulation rounded-full",
         orientation === "horizontal"
-          ? "inset-y-0 -left-12 my-auto"
-          : "-top-12 left-1/2 -translate-x-1/2 rotate-90",
+          ? "inset-y-0 -start-12 my-auto"
+          : "-top-12 start-1/2 -translate-x-1/2 rotate-90",
         className
       )}
       disabled={!canScrollPrev}
@@ -217,8 +267,8 @@ function CarouselNext({
       className={cn(
         "absolute touch-manipulation rounded-full",
         orientation === "horizontal"
-          ? "inset-y-0 -right-12 my-auto"
-          : "-bottom-12 left-1/2 -translate-x-1/2 rotate-90",
+          ? "inset-y-0 -end-12 my-auto"
+          : "-bottom-12 start-1/2 -translate-x-1/2 rotate-90",
         className
       )}
       disabled={!canScrollNext}

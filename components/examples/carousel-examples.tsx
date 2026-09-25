@@ -2,7 +2,10 @@
 
 import * as React from "react"
 
-import { Card, CardContent } from "@/components/cubix/card"
+import {
+  Card,
+  CardContent,
+} from "@/app/docs/components/card/docs-card"
 import {
   Carousel,
   CarouselContent,
@@ -10,14 +13,14 @@ import {
   CarouselNext,
   CarouselPrevious,
   type CarouselApi,
-} from "@/components/cubix/carousel"
+} from "@/app/docs/components/carousel/docs-carousel"
 
-function Slide({ index }: { index: number }) {
+function Slide({ label }: { label: string }) {
   return (
     <div className="p-1">
       <Card className="py-0">
         <CardContent className="flex aspect-square items-center justify-center p-6">
-          <span className="text-4xl font-semibold">{index}</span>
+          <span className="text-4xl font-semibold">{label}</span>
         </CardContent>
       </Card>
     </div>
@@ -31,7 +34,7 @@ export function CarouselBasicDemo() {
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={index}>
-              <Slide index={index + 1} />
+              <Slide label={String(index + 1)} />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -49,7 +52,7 @@ export function CarouselSizesDemo() {
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-              <Slide index={index + 1} />
+              <Slide label={String(index + 1)} />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -64,10 +67,10 @@ export function CarouselSpacingDemo() {
   return (
     <div className="mx-auto w-full max-w-sm px-12">
       <Carousel>
-        <CarouselContent className="-ml-1">
+        <CarouselContent className="-ms-1">
           {Array.from({ length: 5 }).map((_, index) => (
-            <CarouselItem key={index} className="pl-1 md:basis-1/2">
-              <Slide index={index + 1} />
+            <CarouselItem key={index} className="ps-1 md:basis-1/2">
+              <Slide label={String(index + 1)} />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -85,7 +88,7 @@ export function CarouselOrientationDemo() {
         <CarouselContent className="-mt-1 h-[200px]">
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={index} className="pt-1 md:basis-1/2">
-              <div className="p-1 h-full">
+              <div className="h-full p-1">
                 <Card className="h-full py-0">
                   <CardContent className="flex h-full items-center justify-center p-6">
                     <span className="text-3xl font-semibold">{index + 1}</span>
@@ -110,12 +113,19 @@ export function CarouselApiDemo() {
   React.useEffect(() => {
     if (!api) return
 
-    setCount(api.scrollSnapList().length)
-    setCurrent(api.selectedScrollSnap() + 1)
-
-    api.on("select", () => {
+    const sync = () => {
+      setCount(api.scrollSnapList().length)
       setCurrent(api.selectedScrollSnap() + 1)
-    })
+    }
+
+    sync()
+    api.on("select", sync)
+    api.on("reInit", sync)
+
+    return () => {
+      api.off("select", sync)
+      api.off("reInit", sync)
+    }
   }, [api])
 
   return (
@@ -124,7 +134,7 @@ export function CarouselApiDemo() {
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={index}>
-              <Slide index={index + 1} />
+              <Slide label={String(index + 1)} />
             </CarouselItem>
           ))}
         </CarouselContent>
@@ -134,6 +144,26 @@ export function CarouselApiDemo() {
       <div className="mt-4 text-center text-sm text-muted-foreground">
         Slide {current} of {count}
       </div>
+    </div>
+  )
+}
+
+export function CarouselRtlDemo() {
+  const labels = ["۱", "۲", "۳", "۴", "۵"]
+
+  return (
+    <div dir="rtl" lang="fa" className="mx-auto w-full max-w-xs px-12">
+      <Carousel>
+        <CarouselContent>
+          {labels.map((label) => (
+            <CarouselItem key={label}>
+              <Slide label={label} />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
     </div>
   )
 }

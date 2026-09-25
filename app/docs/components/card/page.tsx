@@ -1,32 +1,28 @@
-import type { Metadata } from "next";
-import {
-  BellIcon,
-  CircleAlertIcon,
-  SparklesIcon,
-} from "lucide-react";
+import type { Metadata } from "next"
+import Link from "next/link"
+import { CircleAlertIcon } from "lucide-react"
 
+import { CodeBlock } from "@/components/docs/code-block"
+import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
+import { ComponentInstall } from "@/components/docs/component-install"
+import { ComponentPreview } from "@/components/docs/component-preview"
+import { PropsTable } from "@/components/docs/props-table"
 import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/cubix/card";
-import { Button } from "@/components/cubix/button";
-import { Input } from "@/components/cubix/input";
-import { CodeBlock } from "@/components/docs/code-block";
-import { ComponentDocsHeader } from "@/components/docs/component-docs-header";
-import { ComponentInstall } from "@/components/docs/component-install";
-import { ComponentPreview } from "@/components/docs/component-preview";
-import { PropsTable } from "@/components/docs/props-table";
-import { cardPropRows, subcomponentRows } from "./card-table-data";
+  CardActionDemo,
+  CardDemo,
+  CardFormDemo,
+  CardIconDemo,
+  CardImageDemo,
+  CardRtlDemo,
+  CardSizeDemo,
+  CardSpacingDemo,
+} from "@/components/examples/card-examples"
+import { cardPropRows, subcomponentRows } from "./card-table-data"
 
 export const metadata: Metadata = {
   title: "Card",
-  description: "Displays a container with header, content, and footer.",
-};
+  description: "A flexible container with header, content, and footer.",
+}
 
 const usageImport = `import {
   Card,
@@ -36,7 +32,7 @@ const usageImport = `import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/cubix/card"`;
+} from "@/components/cubix/card"`
 
 const usageSnippet = `<Card>
   <CardHeader>
@@ -45,7 +41,15 @@ const usageSnippet = `<Card>
   </CardHeader>
   <CardContent>...</CardContent>
   <CardFooter>...</CardFooter>
-</Card>`;
+</Card>`
+
+const compositionSnippet = `Card
+├── CardHeader
+│   ├── CardTitle
+│   ├── CardDescription
+│   └── CardAction
+├── CardContent
+└── CardFooter`
 
 const heroCode = `<Card className="w-full max-w-sm">
   <CardHeader>
@@ -57,61 +61,12 @@ const heroCode = `<Card className="w-full max-w-sm">
   <CardFooter>
     <Button>Deploy now</Button>
   </CardFooter>
-</Card>`;
+</Card>`
 
-export default function CardPage() {
-  return (
-    <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Card"
-        description="Displays a container with header, content, and footer."
-        slug="card"
-      />
-
-      {/* Hero preview */}
-      <ComponentPreview code={heroCode}>
-        <Card className="w-full max-w-sm">
-          <CardHeader>
-            <CardTitle>Deploy to production</CardTitle>
-            <CardDescription>
-              Your changes are ready to go live. Deploy them with one click.
-            </CardDescription>
-          </CardHeader>
-          <CardFooter>
-            <Button>Deploy now</Button>
-          </CardFooter>
-        </Card>
-      </ComponentPreview>
-
-      <ComponentInstall name="card" />
-
-      {/* Usage */}
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Usage
-        </h2>
-        <CodeBlock code={usageImport} title="Import" />
-        <CodeBlock code={usageSnippet} title="Example" />
-      </section>
-
-      {/* Examples */}
-      <section className="space-y-8">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Examples
-        </h2>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            With form
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Cards pair naturally with Inputs and Buttons to build forms:
-          </p>
-          <ComponentPreview
-            code={`<Card className="w-full max-w-sm">
+const formSnippet = `<Card className="w-full max-w-sm">
   <CardHeader>
     <CardTitle>Create project</CardTitle>
-    <CardDescription>Deploy your new project in one-click.</CardDescription>
+    <CardDescription>Deploy your new project in one click.</CardDescription>
   </CardHeader>
   <CardContent>
     <div className="grid gap-4">
@@ -123,40 +78,9 @@ export default function CardPage() {
     <Button className="w-full">Create project</Button>
     <Button variant="outline" className="w-full">Cancel</Button>
   </CardFooter>
-</Card>`}
-          >
-            <Card className="w-full max-w-sm">
-              <CardHeader>
-                <CardTitle>Create project</CardTitle>
-                <CardDescription>
-                  Deploy your new project in one-click.
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid gap-4">
-                  <Input placeholder="Name of your project" />
-                  <Input placeholder="Name of domain" />
-                </div>
-              </CardContent>
-              <CardFooter className="flex-col gap-2">
-                <Button className="w-full">Create project</Button>
-                <Button variant="outline" className="w-full">Cancel</Button>
-              </CardFooter>
-            </Card>
-          </ComponentPreview>
-        </div>
+</Card>`
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            With action
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Use <code className="font-mono text-sm">CardAction</code> to add an
-            action element (like a button) in the top-right corner of the
-            header:
-          </p>
-          <ComponentPreview
-            code={`<Card className="w-full max-w-sm">
+const actionSnippet = `<Card className="w-full max-w-sm">
   <CardHeader>
     <CardTitle>Notifications</CardTitle>
     <CardDescription>You have 3 unread messages.</CardDescription>
@@ -172,38 +96,9 @@ export default function CardPage() {
       </p>
     </div>
   </CardContent>
-</Card>`}
-          >
-            <Card className="w-full max-w-sm">
-              <CardHeader>
-                <CardTitle>Notifications</CardTitle>
-                <CardDescription>You have 3 unread messages.</CardDescription>
-                <CardAction>
-                  <Button variant="outline" size="sm">Mark all as read</Button>
-                </CardAction>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-start gap-3">
-                  <BellIcon className="mt-0.5 size-4 text-muted-foreground" />
-                  <p className="text-sm text-muted-foreground">
-                    Your deployment finished successfully.
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </ComponentPreview>
-        </div>
+</Card>`
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            With icon
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Compose the header with any element - an icon bubble draws
-            attention to the title:
-          </p>
-          <ComponentPreview
-            code={`<Card className="w-full max-w-sm">
+const iconSnippet = `<Card className="w-full max-w-sm">
   <CardHeader>
     <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
       <SparklesIcon className="size-5" />
@@ -214,27 +109,205 @@ export default function CardPage() {
   <CardFooter>
     <Button className="w-full">Upgrade</Button>
   </CardFooter>
-</Card>`}
-          >
-            <Card className="w-full max-w-sm">
-              <CardHeader>
-                <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                  <SparklesIcon className="size-5" />
-                </div>
-                <CardTitle>Pro plan</CardTitle>
-                <CardDescription>
-                  Unlock every component and priority support.
-                </CardDescription>
-              </CardHeader>
-              <CardFooter>
-                <Button className="w-full">Upgrade</Button>
-              </CardFooter>
-            </Card>
+</Card>`
+
+const sizeSnippet = `<Card className="w-full max-w-sm" size="sm">
+  <CardHeader>
+    <CardTitle>Scheduled reports</CardTitle>
+    <CardDescription>Weekly snapshots. No more manual exports.</CardDescription>
+  </CardHeader>
+  <CardContent>...</CardContent>
+  <CardFooter>...</CardFooter>
+</Card>`
+
+const imageSnippet = `<Card className="w-full max-w-sm pt-0">
+  <img src="/meetup.jpg" alt="" />
+  <CardHeader>
+    <CardTitle>Design systems meetup</CardTitle>
+    <CardDescription>...</CardDescription>
+  </CardHeader>
+  <CardFooter>
+    <Button variant="outline" className="w-full">View details</Button>
+  </CardFooter>
+</Card>`
+
+const spacingSnippet = `<Card className="w-full max-w-sm gap-0 [--card-spacing:--spacing(6)]">
+  <CardHeader className="border-b">...</CardHeader>
+  <CardContent className="space-y-3 py-(--card-spacing)">
+    ...
+  </CardContent>
+  <CardFooter className="justify-end gap-2">...</CardFooter>
+</Card>`
+
+const rtlSnippet = `<div dir="rtl" lang="fa" className="w-full max-w-xs">
+  <form>
+    <Card>
+      <CardHeader>
+        <CardTitle>ورود به حساب</CardTitle>
+        <CardDescription>
+          برای ادامه، ایمیل و رمز عبور خود را وارد کنید.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <div className="grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="email">ایمیل</Label>
+            <Input id="email" type="email" placeholder="name@example.com" />
+          </div>
+          <div className="grid gap-2">
+            <div className="flex items-center justify-between gap-2">
+              <Label htmlFor="password">رمز عبور</Label>
+              <Button type="button" variant="link" className="h-auto px-0">
+                فراموشی رمز؟
+              </Button>
+            </div>
+            <Input id="password" type="password" placeholder="••••••••" />
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter className="flex-col gap-3">
+        <Button type="submit" className="w-full">ورود</Button>
+        <p className="text-center text-description text-muted-foreground">
+          حساب ندارید؟{" "}
+          <Button type="button" variant="link" className="h-auto px-0">
+            ثبت‌نام
+          </Button>
+        </p>
+      </CardFooter>
+    </Card>
+  </form>
+</div>`
+
+export default function CardPage() {
+  return (
+    <article className="space-y-10">
+      <ComponentDocsHeader
+        title="Card"
+        description="A flexible container with header, content, and footer."
+        slug="card"
+      />
+
+      <ComponentPreview code={heroCode}>
+        <CardDemo />
+      </ComponentPreview>
+
+      <ComponentInstall name="card" />
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Usage</h2>
+        <CodeBlock code={usageImport} title="Import" />
+        <CodeBlock code={usageSnippet} title="Example" />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">
+          Composition
+        </h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Build a card from these parts.{" "}
+          <code className="font-mono text-sm">CardAction</code> is optional and
+          sits at the inline-end of the header.
+        </p>
+        <CodeBlock code={compositionSnippet} />
+      </section>
+
+      <section className="space-y-8">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">
+            With form
+          </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Cards pair with Inputs and Buttons for short forms.
+          </p>
+          <ComponentPreview code={formSnippet}>
+            <CardFormDemo />
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">
+            With action
+          </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Use <code className="font-mono text-sm">CardAction</code> for a
+            control at the inline-end of the header.
+          </p>
+          <ComponentPreview code={actionSnippet}>
+            <CardActionDemo />
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">With icon</h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Compose the header with any element - an icon bubble draws
+            attention to the title.
+          </p>
+          <ComponentPreview code={iconSnippet}>
+            <CardIconDemo />
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">Size</h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Set <code className="font-mono text-sm">size=&quot;sm&quot;</code>{" "}
+            for tighter spacing and a smaller title.
+          </p>
+          <ComponentPreview code={sizeSnippet}>
+            <CardSizeDemo />
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">Image</h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Place an image (or media block) as the first child. The card
+            rounds the top edge and drops top padding automatically.
+          </p>
+          <ComponentPreview code={imageSnippet}>
+            <CardImageDemo />
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">Spacing</h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Override{" "}
+            <code className="font-mono text-sm">--card-spacing</code> on the
+            root for a larger inset. Use{" "}
+            <code className="font-mono text-sm">gap-0</code> when header and
+            footer use borders so dividers sit flush.
+          </p>
+          <ComponentPreview code={spacingSnippet}>
+            <CardSpacingDemo />
           </ComponentPreview>
         </div>
       </section>
 
-      {/* API Reference */}
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          A login card under{" "}
+          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code> and{" "}
+          <code className="font-mono text-sm">lang=&quot;fa&quot;</code>. Fields,
+          links, and footer actions follow reading direction. To enable RTL
+          app-wide, see the{" "}
+          <Link
+            href="/docs/components/direction"
+            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80"
+          >
+            Direction
+          </Link>{" "}
+          guide.
+        </p>
+        <ComponentPreview code={rtlSnippet}>
+          <CardRtlDemo />
+        </ComponentPreview>
+      </section>
+
       <section id="api-reference" className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">
           API Reference
@@ -243,8 +316,8 @@ export default function CardPage() {
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
             <strong className="text-foreground">Note:</strong> Every part
-            renders a <code className="font-mono">data-slot</code> attribute
-            (<code className="font-mono">card</code>,{" "}
+            renders a <code className="font-mono">data-slot</code> attribute (
+            <code className="font-mono">card</code>,{" "}
             <code className="font-mono">card-header</code>, ...) for targeting
             in tests and parent selectors.
           </p>
@@ -252,21 +325,21 @@ export default function CardPage() {
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">Card</h3>
         <p className="leading-relaxed text-muted-foreground">
-          The Card component displays a container with header, content, and
-          footer.
+          The root container for header, content, and footer.
         </p>
         <PropsTable data={cardPropRows} />
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">CardHeader</h3>
         <p className="leading-relaxed text-muted-foreground">
-          Displays the card header. When a <code className="font-mono text-sm">CardAction</code>{" "}
-          is present it switches to a two-column grid automatically.
+          Title, description, and optional action. With{" "}
+          <code className="font-mono text-sm">CardAction</code> it becomes a
+          two-column grid.
         </p>
         <PropsTable data={subcomponentRows} />
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">CardTitle</h3>
         <p className="leading-relaxed text-muted-foreground">
-          Displays the title of the card.
+          The card title.
         </p>
         <PropsTable data={subcomponentRows} />
 
@@ -274,29 +347,28 @@ export default function CardPage() {
           CardDescription
         </h3>
         <p className="leading-relaxed text-muted-foreground">
-          Displays the description or content of the card header.
+          Supporting text under the title.
         </p>
         <PropsTable data={subcomponentRows} />
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">CardAction</h3>
         <p className="leading-relaxed text-muted-foreground">
-          Displays an action element (like a button) positioned in the
-          top-right corner of the header.
+          Action slot at the inline-end of the header (button, badge, menu).
         </p>
         <PropsTable data={subcomponentRows} />
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">CardContent</h3>
         <p className="leading-relaxed text-muted-foreground">
-          Displays the main content of the card.
+          Main body of the card.
         </p>
         <PropsTable data={subcomponentRows} />
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">CardFooter</h3>
         <p className="leading-relaxed text-muted-foreground">
-          Displays the footer of the card - ideal for actions.
+          Footer for primary and secondary actions.
         </p>
         <PropsTable data={subcomponentRows} />
       </section>
     </article>
-  );
+  )
 }

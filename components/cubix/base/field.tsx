@@ -31,7 +31,7 @@ function FieldLegend({
       data-slot="field-legend"
       data-variant={variant}
       className={cn(
-        "mb-1.5 font-medium data-[variant=label]:text-caption data-[variant=legend]:text-body",
+        "mb-1.5 font-normal data-[variant=label]:text-label data-[variant=legend]:text-body data-[variant=legend]:font-medium",
         className
       )}
       {...props}
@@ -121,7 +121,7 @@ function FieldTitle({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="field-label"
       className={cn(
-        "flex w-fit items-center gap-2 text-caption font-medium group-data-[disabled=true]/field:opacity-50",
+        "flex w-fit items-center gap-2 text-label font-normal group-data-[disabled=true]/field:opacity-50",
         className
       )}
       {...props}
@@ -156,7 +156,7 @@ function FieldSeparator({
       data-slot="field-separator"
       data-content={!!children}
       className={cn(
-        "relative -my-2 h-5 text-caption group-data-[variant=outline]/field-group:-mb-2",
+        "relative -my-2 h-5 text-description group-data-[variant=outline]/field-group:-mb-2",
         className
       )}
       {...props}

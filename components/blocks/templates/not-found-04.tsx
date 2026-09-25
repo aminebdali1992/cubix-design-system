@@ -91,7 +91,7 @@ function NotFound04View({
             </div>
 
             <p
-              className="cubix-enter mt-10 font-mono text-label tracking-widest text-muted-foreground"
+              className="cubix-enter mt-10 font-mono text-caption tracking-widest text-muted-foreground"
               style={{ animationDelay: "320ms" }}
             >
               status - missing_route

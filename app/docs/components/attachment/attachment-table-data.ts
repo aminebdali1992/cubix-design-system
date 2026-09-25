@@ -52,7 +52,7 @@ export const classNameOnlyRows = [
 export const attachmentActionPropRows = [
   {
     prop: "variant",
-    type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link"',
+    type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"ghost"',
     description: "Visual style of the action button.",
   },

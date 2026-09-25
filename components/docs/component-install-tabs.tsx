@@ -61,13 +61,13 @@ export function ComponentInstallTabs({
       >
         <TabsTrigger
           value="cli"
-          className="h-auto w-fit flex-none justify-start rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base font-normal text-muted-foreground shadow-none after:hidden hover:text-foreground data-active:border-primary data-active:bg-transparent data-active:text-foreground data-active:shadow-none data-active:after:hidden"
+          className="h-auto w-fit flex-none justify-start rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base font-normal text-muted-foreground shadow-none after:hidden hover:text-foreground data-active:border-foreground data-active:bg-transparent data-active:text-foreground data-active:shadow-none data-active:after:hidden"
         >
           Command
         </TabsTrigger>
         <TabsTrigger
           value="manual"
-          className="h-auto w-fit flex-none justify-start rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base font-normal text-muted-foreground shadow-none after:hidden hover:text-foreground data-active:border-primary data-active:bg-transparent data-active:text-foreground data-active:shadow-none data-active:after:hidden"
+          className="h-auto w-fit flex-none justify-start rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base font-normal text-muted-foreground shadow-none after:hidden hover:text-foreground data-active:border-foreground data-active:bg-transparent data-active:text-foreground data-active:shadow-none data-active:after:hidden"
         >
           Manual
         </TabsTrigger>

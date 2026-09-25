@@ -118,7 +118,7 @@ function CodeBlockTitle({
     <div
       data-slot="code-block-title"
       className={cn(
-        "flex min-w-0 flex-1 items-center gap-2 text-label text-muted-foreground",
+        "flex min-w-0 flex-1 items-center gap-2 text-caption text-muted-foreground",
         className
       )}
       {...props}
@@ -296,7 +296,7 @@ function CodeBlockLanguageSelectorTrigger({
       data-slot="code-block-language-selector-trigger"
       size="sm"
       className={cn(
-        "h-6 gap-1 border-transparent bg-transparent px-1.5 text-label text-muted-foreground shadow-none hover:bg-muted hover:text-foreground dark:bg-transparent dark:hover:bg-muted",
+        "h-6 gap-1 border-transparent bg-transparent px-1.5 text-caption text-muted-foreground shadow-none hover:bg-muted hover:text-foreground dark:bg-transparent dark:hover:bg-muted",
         className
       )}
       {...props}

@@ -105,7 +105,7 @@ function StreamingText({
         aria-busy={isStreaming || undefined}
         aria-live={isStreaming ? "polite" : undefined}
         className={cn(
-          "relative min-w-0 text-caption leading-relaxed wrap-break-word whitespace-pre-wrap",
+          "relative min-w-0 text-description leading-relaxed wrap-break-word whitespace-pre-wrap",
           className
         )}
         {...props}

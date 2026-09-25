@@ -76,7 +76,7 @@ function ProgressLabel({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
       data-slot="progress-label"
-      className={cn("text-caption font-medium", className)}
+      className={cn("text-description font-medium", className)}
       {...props}
     />
   )
@@ -95,7 +95,7 @@ function ProgressValue({
     <span
       data-slot="progress-value"
       className={cn(
-        "ml-auto text-caption text-muted-foreground tabular-nums",
+        "ml-auto text-description text-muted-foreground tabular-nums",
         className
       )}
       {...props}

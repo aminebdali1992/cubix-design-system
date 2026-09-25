@@ -1,10 +1,6 @@
 import type { Metadata } from "next"
-import Link from "next/link"
-import {
-  ArrowLeftIcon,
-  CircleAlertIcon,
-  MailIcon,
-} from "lucide-react"
+import type { ReactNode } from "react"
+import { CircleAlertIcon } from "lucide-react"
 
 import { Button } from "./docs-button"
 import { CodeBlock } from "@/components/docs/code-block"
@@ -12,6 +8,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
 import {
   ButtonAsChildDemo,
   ButtonCustomDemo,
@@ -29,20 +26,19 @@ export const metadata: Metadata = {
 
 const usageImport = `import { Button } from "@/components/cubix/button"`
 
-const usageSnippet = `<Button variant="outline">Button</Button>`
+const usageSnippet = `<Button variant="outline">متن دکمه</Button>`
 
-const rtlSnippet = `<div dir="rtl" lang="fa" className="flex flex-wrap justify-center gap-2">
-  <Button>ادامه</Button>
-  <Button variant="secondary">انصراف</Button>
-  <Button variant="outline">
-    <MailIcon data-icon="inline-start" />
-    ایمیل
-  </Button>
-  <Button>
-    ادامه
-    <ArrowLeftIcon data-icon="inline-end" />
-  </Button>
-</div>`
+function PreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div
+      dir="rtl"
+      lang="fa"
+      className="flex flex-wrap items-center justify-center gap-2"
+    >
+      {children}
+    </div>
+  )
+}
 
 export default function ButtonPage() {
   return (
@@ -53,8 +49,20 @@ export default function ButtonPage() {
         slug="button"
       />
 
-      <ComponentPreview code={`<Button>Button</Button>`}>
-        <Button>Button</Button>
+      <ComponentPreview
+        code={`<Button>
+  <Icon data-icon="inline-start" />
+  متن دکمه
+  <Icon data-icon="inline-end" />
+</Button>`}
+      >
+        <PreviewShell>
+          <Button>
+            <ButtonDemoIcon data-icon="inline-start" />
+            متن دکمه
+            <ButtonDemoIcon data-icon="inline-end" />
+          </Button>
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="button" />
@@ -70,65 +78,123 @@ export default function ButtonPage() {
 
         <div className="space-y-4">
           <h3 className="scroll-m-20 font-semibold tracking-tight">
+            Primary
+          </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Solid and soft brand styles for the main call to action.
+          </p>
+          <ComponentPreview
+            code={`<Button>متن دکمه</Button>
+<Button variant="secondary">متن دکمه</Button>`}
+          >
+            <PreviewShell>
+              <Button>متن دکمه</Button>
+              <Button variant="secondary">متن دکمه</Button>
+            </PreviewShell>
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">
+            Destructive
+          </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Solid and soft danger styles, parallel to primary and secondary.
+          </p>
+          <ComponentPreview
+            code={`<Button variant="destructive">متن دکمه</Button>
+<Button variant="destructive-secondary">متن دکمه</Button>`}
+          >
+            <PreviewShell>
+              <Button variant="destructive">متن دکمه</Button>
+              <Button variant="destructive-secondary">متن دکمه</Button>
+            </PreviewShell>
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">
             Variants
           </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Lower-emphasis styles for neutral, bordered, quiet, and link-like
+            actions.
+          </p>
           <ComponentPreview
-            code={`<Button>Default</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="destructive">Destructive</Button>
-<Button variant="outline">Outline</Button>
-<Button variant="ghost">Ghost</Button>
-<Button variant="link">Link</Button>`}
+            code={`<Button variant="gray">متن دکمه</Button>
+<Button variant="outline">متن دکمه</Button>
+<Button variant="ghost">متن دکمه</Button>
+<Button variant="link">متن دکمه</Button>`}
           >
-            <Button>Default</Button>
-            <Button variant="secondary">Secondary</Button>
-            <Button variant="destructive">Destructive</Button>
-            <Button variant="outline">Outline</Button>
-            <Button variant="ghost">Ghost</Button>
-            <Button variant="link">Link</Button>
+            <PreviewShell>
+              <Button variant="gray">متن دکمه</Button>
+              <Button variant="outline">متن دکمه</Button>
+              <Button variant="ghost">متن دکمه</Button>
+              <Button variant="link">متن دکمه</Button>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
         <div className="space-y-4">
           <h3 className="scroll-m-20 font-semibold tracking-tight">Sizes</h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Text sizes from compact chrome to large actions.
+          </p>
           <ComponentPreview
-            code={`<Button size="xs">Extra small</Button>
-<Button size="sm">Small</Button>
-<Button size="default">Default</Button>
-<Button size="lg">Large</Button>
-<Button variant="outline" size="icon-xs" aria-label="Extra small icon">
-  <MailIcon />
+            code={`<Button size="xs">متن دکمه</Button>
+<Button size="sm">متن دکمه</Button>
+<Button size="default">متن دکمه</Button>
+<Button size="lg">متن دکمه</Button>`}
+          >
+            <PreviewShell>
+              <Button size="xs">متن دکمه</Button>
+              <Button size="sm">متن دکمه</Button>
+              <Button size="default">متن دکمه</Button>
+              <Button size="lg">متن دکمه</Button>
+            </PreviewShell>
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">
+            Icon sizes
+          </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Square icon-only sizes. Icon-only buttons need an{" "}
+            <code className="font-mono text-sm">aria-label</code>.
+          </p>
+          <ComponentPreview
+            code={`<Button variant="outline" size="icon-xs" aria-label="آیکون خیلی کوچک">
+  <Icon />
 </Button>
-<Button variant="outline" size="icon-sm" aria-label="Small icon">
-  <MailIcon />
+<Button variant="outline" size="icon-sm" aria-label="آیکون کوچک">
+  <Icon />
 </Button>
-<Button variant="outline" size="icon" aria-label="Icon button">
-  <MailIcon />
+<Button variant="outline" size="icon" aria-label="دکمه آیکون">
+  <Icon />
 </Button>
-<Button variant="outline" size="icon-lg" aria-label="Large icon">
-  <MailIcon />
+<Button variant="outline" size="icon-lg" aria-label="آیکون بزرگ">
+  <Icon />
 </Button>`}
           >
-            <Button size="xs">Extra small</Button>
-            <Button size="sm">Small</Button>
-            <Button size="default">Default</Button>
-            <Button size="lg">Large</Button>
-            <Button
-              variant="outline"
-              size="icon-xs"
-              aria-label="Extra small icon"
-            >
-              <MailIcon />
-            </Button>
-            <Button variant="outline" size="icon-sm" aria-label="Small icon">
-              <MailIcon />
-            </Button>
-            <Button variant="outline" size="icon" aria-label="Icon button">
-              <MailIcon />
-            </Button>
-            <Button variant="outline" size="icon-lg" aria-label="Large icon">
-              <MailIcon />
-            </Button>
+            <PreviewShell>
+              <Button
+                variant="outline"
+                size="icon-xs"
+                aria-label="آیکون خیلی کوچک"
+              >
+                <ButtonDemoIcon />
+              </Button>
+              <Button variant="outline" size="icon-sm" aria-label="آیکون کوچک">
+                <ButtonDemoIcon />
+              </Button>
+              <Button variant="outline" size="icon" aria-label="دکمه آیکون">
+                <ButtonDemoIcon />
+              </Button>
+              <Button variant="outline" size="icon-lg" aria-label="آیکون بزرگ">
+                <ButtonDemoIcon />
+              </Button>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -149,11 +215,13 @@ export default function ButtonPage() {
           </p>
           <ComponentPreview
             code={`<Button>
-  <MailIcon data-icon="inline-start" />
-  Login with Email
+  <Icon data-icon="inline-start" />
+  متن دکمه
 </Button>`}
           >
-            <ButtonWithIconDemo />
+            <PreviewShell>
+              <ButtonWithIconDemo />
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -161,12 +229,19 @@ export default function ButtonPage() {
           <h3 className="scroll-m-20 font-semibold tracking-tight">
             Icon only
           </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Use a square size and always provide an{" "}
+            <code className="font-mono text-sm">aria-label</code> when there is
+            no visible text.
+          </p>
           <ComponentPreview
-            code={`<Button variant="outline" size="icon" aria-label="Send email">
-  <ArrowRightIcon />
+            code={`<Button variant="outline" size="icon" aria-label="آیکون">
+  <Icon />
 </Button>`}
           >
-            <ButtonIconDemo />
+            <PreviewShell>
+              <ButtonIconDemo />
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -175,27 +250,31 @@ export default function ButtonPage() {
             Loading
           </h3>
           <p className="leading-relaxed text-muted-foreground">
-            Disable the button and compose a spinner while an async action is
-            in flight. Click the button below to try it:
+            Disable the control and show a spinner while an async action runs.
+            Click the first button to try it.
           </p>
           <ComponentPreview
             code={`<Button disabled>
-  <LoaderIcon data-icon="inline-start" className="animate-spin" />
-  Saving...
+  <LoaderIcon data-icon="inline-start" className="size-4 animate-spin" />
+  متن دکمه
 </Button>`}
           >
-            <ButtonLoadingDemo />
+            <PreviewShell>
+              <ButtonLoadingDemo />
+            </PreviewShell>
           </ComponentPreview>
           <p className="leading-relaxed text-muted-foreground">
-            If you prefer full control, compose the spinner yourself:
+            Or compose the spinner yourself for full control:
           </p>
           <ComponentPreview
             code={`<Button disabled>
-  <LoaderIcon data-icon="inline-start" className="animate-spin" />
-  Please wait
+  <LoaderIcon data-icon="inline-start" className="size-4 animate-spin" />
+  متن دکمه
 </Button>`}
           >
-            <ButtonSpinnerDemo />
+            <PreviewShell>
+              <ButtonSpinnerDemo />
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -211,10 +290,27 @@ export default function ButtonPage() {
           </p>
           <ComponentPreview
             code={`<Button nativeButton={false} render={<Link href="/docs" />}>
-  Go to Docs
+  متن دکمه
+  <ChevronLeftIcon data-icon="inline-end" />
 </Button>`}
           >
-            <ButtonAsChildDemo />
+            <PreviewShell>
+              <ButtonAsChildDemo />
+            </PreviewShell>
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">
+            Disabled
+          </h3>
+          <ComponentPreview code={`<Button disabled>متن دکمه</Button>`}>
+            <PreviewShell>
+              <Button disabled>متن دکمه</Button>
+              <Button variant="outline" disabled>
+                متن دکمه
+              </Button>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -228,83 +324,15 @@ export default function ButtonPage() {
             the shipped <code className="font-mono text-sm">cn</code> helper:
           </p>
           <ComponentPreview
-            code={`<Button variant="outline" className="rounded-full px-6 text-base">
-  Fully rounded
+            code={`<Button variant="outline" className="px-6 text-base">
+  متن دکمه
 </Button>`}
           >
-            <ButtonCustomDemo />
+            <PreviewShell>
+              <ButtonCustomDemo />
+            </PreviewShell>
           </ComponentPreview>
         </div>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Invalid
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set <code className="font-mono text-sm">aria-invalid</code> to
-            switch to destructive border and ring styles - no extra prop
-            needed:
-          </p>
-          <ComponentPreview
-            code={`<Button aria-invalid>Invalid</Button>
-<Button variant="outline" aria-invalid>
-  Invalid
-</Button>`}
-          >
-            <Button aria-invalid>Invalid</Button>
-            <Button variant="outline" aria-invalid>
-              Invalid
-            </Button>
-          </ComponentPreview>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Disabled
-          </h3>
-          <ComponentPreview code={`<Button disabled>Disabled</Button>`}>
-            <Button disabled>Disabled</Button>
-            <Button variant="outline" disabled>
-              Disabled
-            </Button>
-          </ComponentPreview>
-        </div>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          To enable RTL support, see the{" "}
-          <Link
-            href="/docs/components/direction"
-            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80"
-          >
-            Direction
-          </Link>{" "}
-          guide. Icon padding uses{" "}
-          <code className="font-mono text-sm">inline-start</code> /{" "}
-          <code className="font-mono text-sm">inline-end</code> so it stays
-          correct under{" "}
-          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code>.
-        </p>
-        <ComponentPreview code={rtlSnippet} previewClassName="min-h-44">
-          <div
-            dir="rtl"
-            lang="fa"
-            className="flex flex-wrap justify-center gap-2"
-          >
-            <Button>ادامه</Button>
-            <Button variant="secondary">انصراف</Button>
-            <Button variant="outline">
-              <MailIcon data-icon="inline-start" />
-              ایمیل
-            </Button>
-            <Button>
-              ادامه
-              <ArrowLeftIcon data-icon="inline-end" />
-            </Button>
-          </div>
-        </ComponentPreview>
       </section>
 
       <section id="api-reference" className="space-y-4">

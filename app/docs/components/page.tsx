@@ -80,23 +80,9 @@ export default function ComponentsPage() {
           On the roadmap
         </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Next up: mobile primitives for touch-first apps - navigation bars,
-          sheets, gestures, and safe-area layout - following the same Cubix
-          patterns as{" "}
-          <Link
-            href="/docs/components/drawer"
-            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none]"
-          >
-            Drawer
-          </Link>{" "}
-          and{" "}
-          <Link
-            href="/docs/components/sheet"
-            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none]"
-          >
-            Sheet
-          </Link>
-          . They land registry-first so you can adopt them one by one:
+          Components still being finalized stay on the roadmap until they meet
+          the Cubix production bar across Base UI, React Aria, and Radix. They
+          unlock in the sidebar one by one as each is ready.
         </p>
         <div className="my-6 grid gap-4 sm:grid-cols-2">
           {planned.map((c) => (

@@ -32,7 +32,7 @@ export const buttonPropRows = [
   },
   {
     prop: "variant",
-    type: '"default" | "destructive" | "outline" | "secondary" | "ghost" | "link"',
+    type: '"default" | "destructive" | "destructive-secondary" | "outline" | "secondary" | "gray" | "ghost" | "link"',
     default: '"ghost"',
     description: "Visual style of the button.",
   },

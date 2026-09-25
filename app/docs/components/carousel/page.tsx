@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import Link from "next/link"
 import { CircleAlertIcon } from "lucide-react"
 
 import { CodeBlock } from "@/components/docs/code-block"
@@ -10,6 +11,7 @@ import {
   CarouselApiDemo,
   CarouselBasicDemo,
   CarouselOrientationDemo,
+  CarouselRtlDemo,
   CarouselSizesDemo,
   CarouselSpacingDemo,
 } from "@/components/examples/carousel-examples"
@@ -21,7 +23,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Carousel",
-  description: "A carousel with motion and swipe built using Embla.",
+  description: "A carousel with motion and swipe built on Embla.",
 }
 
 const usageImport = `import {
@@ -49,20 +51,24 @@ const compositionSnippet = `Carousel
 ├── CarouselPrevious
 └── CarouselNext`
 
-const sizesSnippet = `<Carousel>
+const sizesSnippet = `<Carousel opts={{ align: "start" }}>
   <CarouselContent>
     <CarouselItem className="md:basis-1/2 lg:basis-1/3">...</CarouselItem>
     <CarouselItem className="md:basis-1/2 lg:basis-1/3">...</CarouselItem>
     <CarouselItem className="md:basis-1/2 lg:basis-1/3">...</CarouselItem>
   </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
 </Carousel>`
 
 const spacingSnippet = `<Carousel>
-  <CarouselContent className="-ml-1">
-    <CarouselItem className="pl-1 md:basis-1/2">...</CarouselItem>
-    <CarouselItem className="pl-1 md:basis-1/2">...</CarouselItem>
-    <CarouselItem className="pl-1 md:basis-1/2">...</CarouselItem>
+  <CarouselContent className="-ms-1">
+    <CarouselItem className="ps-1 md:basis-1/2">...</CarouselItem>
+    <CarouselItem className="ps-1 md:basis-1/2">...</CarouselItem>
+    <CarouselItem className="ps-1 md:basis-1/2">...</CarouselItem>
   </CarouselContent>
+  <CarouselPrevious />
+  <CarouselNext />
 </Carousel>`
 
 const orientationSnippet = `<Carousel
@@ -97,16 +103,21 @@ const [current, setCurrent] = React.useState(0)
 const [count, setCount] = React.useState(0)
 
 React.useEffect(() => {
-  if (!api) {
-    return
+  if (!api) return
+
+  const sync = () => {
+    setCount(api.scrollSnapList().length)
+    setCurrent(api.selectedScrollSnap() + 1)
   }
 
-  setCount(api.scrollSnapList().length)
-  setCurrent(api.selectedScrollSnap() + 1)
+  sync()
+  api.on("select", sync)
+  api.on("reInit", sync)
 
-  api.on("select", () => {
-    setCurrent(api.selectedScrollSnap() + 1)
-  })
+  return () => {
+    api.off("select", sync)
+    api.off("reInit", sync)
+  }
 }, [api])
 
 return (
@@ -116,6 +127,8 @@ return (
       <CarouselItem>...</CarouselItem>
       <CarouselItem>...</CarouselItem>
     </CarouselContent>
+    <CarouselPrevious />
+    <CarouselNext />
   </Carousel>
 )`
 
@@ -133,12 +146,24 @@ const pluginsSnippet = `import Autoplay from "embla-carousel-autoplay"
   </CarouselContent>
 </Carousel>`
 
+const rtlSnippet = `<div dir="rtl" lang="fa" className="mx-auto w-full max-w-xs px-12">
+  <Carousel>
+    <CarouselContent>
+      <CarouselItem>...</CarouselItem>
+      <CarouselItem>...</CarouselItem>
+      <CarouselItem>...</CarouselItem>
+    </CarouselContent>
+    <CarouselPrevious />
+    <CarouselNext />
+  </Carousel>
+</div>`
+
 export default function CarouselDocsPage() {
   return (
     <article className="space-y-10">
       <ComponentDocsHeader
         title="Carousel"
-        description="A carousel with motion and swipe built using Embla."
+        description="A carousel with motion and swipe built on Embla."
         slug="carousel"
       />
 
@@ -151,7 +176,12 @@ export default function CarouselDocsPage() {
       <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">About</h2>
         <p className="leading-relaxed text-muted-foreground">
-          The carousel is built with the Embla Carousel library.
+          Built on Embla Carousel. Slide gaps and nav buttons use logical
+          properties so RTL stays correct. Under a{" "}
+          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code>{" "}
+          ancestor, Embla{" "}
+          <code className="font-mono text-sm">direction</code> resolves to{" "}
+          <code className="font-mono text-sm">rtl</code> automatically.
         </p>
       </section>
 
@@ -192,7 +222,9 @@ export default function CarouselDocsPage() {
           <p className="leading-relaxed text-muted-foreground">
             Space slides with a negative margin on{" "}
             <code className="font-mono text-sm">CarouselContent</code> and
-            matching padding on each item.
+            matching padding on each item. Prefer logical{" "}
+            <code className="font-mono text-sm">-ms-*</code> /{" "}
+            <code className="font-mono text-sm">ps-*</code> for RTL.
           </p>
           <ComponentPreview code={spacingSnippet}>
             <CarouselSpacingDemo />
@@ -243,6 +275,26 @@ export default function CarouselDocsPage() {
           </p>
           <CodeBlock code={pluginsSnippet} />
         </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Wrap the carousel in{" "}
+          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code>. Gaps,
+          chevrons, and Embla direction follow reading order. To enable RTL
+          app-wide, see the{" "}
+          <Link
+            href="/docs/components/direction"
+            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80"
+          >
+            Direction
+          </Link>{" "}
+          guide.
+        </p>
+        <ComponentPreview code={rtlSnippet}>
+          <CarouselRtlDemo />
+        </ComponentPreview>
       </section>
 
       <section id="api-reference" className="space-y-4">

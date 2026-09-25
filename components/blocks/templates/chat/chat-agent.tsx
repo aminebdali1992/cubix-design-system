@@ -139,7 +139,7 @@ export function AgentChatInterface({ className }: { className?: string }) {
     >
       <header className="flex h-11 shrink-0 items-center justify-between gap-3 border-b border-border/70 px-3 sm:px-4">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="truncate text-caption font-medium tracking-tight">
+          <span className="truncate text-description font-medium tracking-tight">
             Fix auth redirect loop
           </span>
           <Badge variant="outline" className="hidden font-mono sm:inline">
@@ -208,11 +208,11 @@ export function AgentChatInterface({ className }: { className?: string }) {
               <p>
                 The loop comes from middleware treating a brand-new session as
                 anonymous for one request. After sign-in,{" "}
-                <span className="rounded bg-muted px-1 py-0.5 font-mono text-label">
+                <span className="rounded bg-muted px-1 py-0.5 font-mono text-caption">
                   callbackUrl
                 </span>{" "}
                 still resolves to{" "}
-                <span className="rounded bg-muted px-1 py-0.5 font-mono text-label">
+                <span className="rounded bg-muted px-1 py-0.5 font-mono text-caption">
                   /login
                 </span>
                 , so the next navigation bounces.
@@ -446,7 +446,7 @@ export default function AgentChatPage() {
     <div className="flex h-svh min-h-0 flex-col overflow-hidden bg-background">
       <header className="flex h-11 shrink-0 items-center justify-between gap-3 border-b border-border/70 px-3 sm:px-4">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="truncate text-caption font-medium tracking-tight">
+          <span className="truncate text-description font-medium tracking-tight">
             Fix auth redirect loop
           </span>
           <Badge variant="outline" className="hidden font-mono sm:inline">
@@ -504,11 +504,11 @@ export default function AgentChatPage() {
               <p>
                 The loop comes from middleware treating a brand-new session as
                 anonymous for one request. After sign-in,{" "}
-                <span className="rounded bg-muted px-1 py-0.5 font-mono text-label">
+                <span className="rounded bg-muted px-1 py-0.5 font-mono text-caption">
                   callbackUrl
                 </span>{" "}
                 still resolves to{" "}
-                <span className="rounded bg-muted px-1 py-0.5 font-mono text-label">
+                <span className="rounded bg-muted px-1 py-0.5 font-mono text-caption">
                   /login
                 </span>
                 , so the next navigation bounces.

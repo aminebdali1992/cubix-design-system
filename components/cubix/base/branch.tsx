@@ -267,7 +267,7 @@ function BranchPage({ className, children, ...props }: BranchPageProps) {
       role="status"
       aria-atomic="true"
       className={cn(
-        "min-w-14 justify-center border-0 bg-transparent px-1.5 text-label font-medium tabular-nums text-muted-foreground shadow-none",
+        "min-w-14 justify-center border-0 bg-transparent px-1.5 text-caption font-medium tabular-nums text-muted-foreground shadow-none",
         className
       )}
       {...props}

@@ -137,7 +137,7 @@ function BlockPreviewToolbar({
               aria-selected={active}
               onClick={() => onModeChange(item.id)}
               className={cn(
-                "inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-label font-medium outline-none transition-colors",
+                "inline-flex h-7 items-center gap-1.5 rounded-full px-2.5 text-caption font-medium outline-none transition-colors",
                 "focus-visible:ring-2 focus-visible:ring-ring/40",
                 active
                   ? "bg-muted text-foreground shadow-xs"
@@ -424,7 +424,7 @@ function BlockPreviewCard({ block }: { block: BlockListItem }) {
         )}
       </div>
 
-      <p className="mt-1 text-label text-muted-foreground">{block.description}</p>
+      <p className="mt-1 text-caption text-muted-foreground">{block.description}</p>
     </article>
   )
 }

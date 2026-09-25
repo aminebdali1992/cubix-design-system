@@ -1555,7 +1555,7 @@ export function PromptInputTabLabel({
     <h3
       data-slot="prompt-input-tab-label"
       className={cn(
-        "mb-2 px-3 font-medium text-muted-foreground text-label",
+        "mb-2 px-3 font-medium text-muted-foreground text-caption",
         className
       )}
       {...props}
@@ -1588,7 +1588,7 @@ export function PromptInputTabItem({
     <div
       data-slot="prompt-input-tab-item"
       className={cn(
-        "flex items-center gap-2 px-3 py-2 text-label hover:bg-accent",
+        "flex items-center gap-2 px-3 py-2 text-caption hover:bg-accent",
         className
       )}
       {...props}

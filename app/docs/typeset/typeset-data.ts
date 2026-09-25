@@ -33,28 +33,35 @@ export const typeScale = [
     size: "0.75rem",
     px: "12px",
     lh: "calc(1 / 0.75)",
-    usage: "Fine print, badges, dense tables",
+    usage: "Numeric twin of text-caption",
+  },
+  {
+    token: "text-13",
+    size: "0.8125rem",
+    px: "13px",
+    lh: "calc(1.125 / 0.8125)",
+    usage: "Numeric twin of text-label",
   },
   {
     token: "text-sm",
     size: "0.875rem",
     px: "14px",
     lh: "calc(1.25 / 0.875)",
-    usage: "Controls, labels, secondary copy",
+    usage: "Numeric twin of text-description",
   },
   {
     token: "text-base",
     size: "1rem",
     px: "16px",
     lh: "calc(1.5 / 1)",
-    usage: "Default body text",
+    usage: "Numeric twin of text-body",
   },
   {
     token: "text-lg",
     size: "1.125rem",
     px: "18px",
     lh: "calc(1.75 / 1.125)",
-    usage: "Lead paragraphs",
+    usage: "Numeric twin of text-lead",
   },
   {
     token: "text-xl",
@@ -68,7 +75,7 @@ export const typeScale = [
     size: "1.5rem",
     px: "24px",
     lh: "calc(2 / 1.5)",
-    usage: "Subsection headings",
+    usage: "Numeric twin of text-title",
   },
   {
     token: "text-3xl",
@@ -161,22 +168,31 @@ export const typeRoles = [
     usage: "Readable body copy",
   },
   {
-    token: "text-caption",
+    token: "text-description",
     size: "0.875rem",
     px: "14px",
     lh: "1.429",
     tracking: "0.005em",
     weight: "400",
-    usage: "Controls, descriptions, menu items",
+    usage: "Controls, menu items, supporting UI copy",
   },
   {
     token: "text-label",
+    size: "0.8125rem",
+    px: "13px",
+    lh: "1.385",
+    tracking: "0.01em",
+    weight: "400",
+    usage: "Field titles and form labels",
+  },
+  {
+    token: "text-caption",
     size: "0.75rem",
     px: "12px",
     lh: "1.333",
     tracking: "0.02em",
-    weight: "500",
-    usage: "Badges, kbd, overlines, compact chrome",
+    weight: "400",
+    usage: "Hints under inputs, badges, kbd, compact chrome",
   },
 ] as const;
 
@@ -222,7 +238,7 @@ export const trackingRows = [
   {
     token: "tracking-label",
     value: "0.02em",
-    usage: "Compact labels and overlines",
+    usage: "text-caption and compact overlines",
   },
 ] as const;
 
@@ -288,7 +304,7 @@ export const presetsSnippet = `.typeset-docs {
 }
 
 .typeset-chat {
-  --typeset-size: var(--text-caption);
+  --typeset-size: var(--text-description);
   --typeset-leading: 1.6;
   --typeset-flow: 1em;
   --typeset-measure: none;
@@ -358,12 +374,7 @@ export const iranSans = localFont({
 });`;
 
 export const persianSnippet = `[lang="fa"] {
-  --text-fa-scale: 0.9375;
-  --font-sans: var(--font-iran-sans);
-  --font-heading: var(--font-iran-sans);
-  font-family: var(--font-iran-sans), ui-sans-serif, sans-serif;
-  --text-body: calc(1rem * var(--text-fa-scale));
-  --text-caption: calc(0.875rem * var(--text-fa-scale));
+  font-family: var(--font-arab), var(--font-sans), ui-sans-serif, sans-serif;
   --leading-body: 1.75;
   --leading-prose: 1.85;
 }

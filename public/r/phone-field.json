@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "phone-field",
+  "type": "registry:ui",
+  "title": "Phone Field",
+  "description": "A labeled mobile phone field with icons, clear, description, and error. type is locked to tel.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/phone-field.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/phone-field.tsx"
+    }
+  ]
+}

@@ -41,14 +41,27 @@ export const calendarPropRows = [
   },
   {
     prop: "buttonVariant",
-    type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link"',
+    type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"ghost"',
     description: "Visual style of the previous and next month buttons.",
   },
   {
     prop: "locale",
     type: "Locale",
-    description: "Locale from react-day-picker/locale for labels and RTL.",
+    description:
+      "Locale from react-day-picker/locale for weekday labels and formatting.",
+  },
+  {
+    prop: "dir",
+    type: '"ltr" | "rtl"',
+    description: "Reading direction for the grid, captions, and nav chevrons.",
+  },
+  {
+    prop: "numerals",
+    type: '"latn" | "arab" | "arabext" | string',
+    default: '"latn"',
+    description:
+      "Numbering system for day and year digits. Use arabext for Persian digits.",
   },
   {
     prop: "timeZone",

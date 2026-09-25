@@ -81,7 +81,7 @@ function NotFound02View({
                 404
               </Badge>
               <Separator className="w-8" />
-              <span className="text-label tracking-wide text-muted-foreground">
+              <span className="text-caption tracking-wide text-muted-foreground">
                 Not found
               </span>
             </div>
@@ -115,15 +115,15 @@ function NotFound02View({
                       render={<Link href={item.href} />}
                       className="h-auto w-full items-start justify-start gap-4 rounded-none py-3.5 whitespace-normal hover:bg-muted/30"
                     >
-                      <span className="mt-0.5 w-7 shrink-0 font-mono text-label text-muted-foreground">
+                      <span className="mt-0.5 w-7 shrink-0 font-mono text-caption text-muted-foreground">
                         {item.label}
                       </span>
                       <span className="min-w-0 flex-1 text-start">
-                        <span className="flex items-center gap-1.5 text-caption font-medium text-foreground">
+                        <span className="flex items-center gap-1.5 text-description font-medium text-foreground">
                           {item.title}
                           <ArrowUpRightIcon className="size-3.5 text-muted-foreground opacity-0 transition-all group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5 group-hover/button:opacity-100" />
                         </span>
-                        <span className="mt-0.5 block text-label font-normal text-muted-foreground">
+                        <span className="mt-0.5 block text-caption font-normal text-muted-foreground">
                           {item.description}
                         </span>
                       </span>
@@ -199,7 +199,7 @@ export default function NotFound() {
           <div className="flex items-center gap-3">
             <Badge variant="outline" className="font-mono tracking-widest">404</Badge>
             <Separator className="w-8" />
-            <span className="text-label tracking-wide text-muted-foreground">Not found</span>
+            <span className="text-caption tracking-wide text-muted-foreground">Not found</span>
           </div>
           <h1 className="mt-6 font-heading text-display">
             Page not found
@@ -211,13 +211,13 @@ export default function NotFound() {
             {destinations.map((item) => (
               <li key={item.href} className="border-b border-border last:border-b-0">
                 <Button variant="ghost" nativeButton={false} render={<Link href={item.href} />} className="h-auto w-full items-start justify-start gap-4 rounded-none py-3.5 whitespace-normal">
-                  <span className="mt-0.5 w-7 font-mono text-label text-muted-foreground">{item.label}</span>
+                  <span className="mt-0.5 w-7 font-mono text-caption text-muted-foreground">{item.label}</span>
                   <span className="min-w-0 flex-1 text-start">
-                    <span className="flex items-center gap-1.5 text-caption font-medium">
+                    <span className="flex items-center gap-1.5 text-description font-medium">
                       {item.title}
                       <ArrowUpRightIcon className="size-3.5 text-muted-foreground opacity-0 group-hover/button:opacity-100" />
                     </span>
-                    <span className="mt-0.5 block text-label font-normal text-muted-foreground">{item.description}</span>
+                    <span className="mt-0.5 block text-caption font-normal text-muted-foreground">{item.description}</span>
                   </span>
                 </Button>
               </li>

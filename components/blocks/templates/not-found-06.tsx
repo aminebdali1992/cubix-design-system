@@ -106,18 +106,18 @@ function NotFound06View({ className }: { className?: string }) {
             style={{ animationDelay: "340ms" }}
           >
             <div>
-              <dt className="font-mono text-label tracking-widest text-muted-foreground uppercase">
+              <dt className="font-mono text-caption tracking-widest text-muted-foreground uppercase">
                 Status
               </dt>
-              <dd className="mt-1.5 text-caption font-medium text-foreground">
+              <dd className="mt-1.5 text-description font-medium text-foreground">
                 404
               </dd>
             </div>
             <div>
-              <dt className="font-mono text-label tracking-widest text-muted-foreground uppercase">
+              <dt className="font-mono text-caption tracking-widest text-muted-foreground uppercase">
                 Action
               </dt>
-              <dd className="mt-1.5 text-caption font-medium text-foreground">
+              <dd className="mt-1.5 text-description font-medium text-foreground">
                 Return home
               </dd>
             </div>
@@ -169,12 +169,12 @@ export default function NotFound() {
           <Separator className="mt-14 max-w-md" />
           <dl className="mt-6 grid max-w-md grid-cols-2 gap-6">
             <div>
-              <dt className="font-mono text-label tracking-widest text-muted-foreground uppercase">Status</dt>
-              <dd className="mt-1.5 text-caption font-medium">404</dd>
+              <dt className="font-mono text-caption tracking-widest text-muted-foreground uppercase">Status</dt>
+              <dd className="mt-1.5 text-description font-medium">404</dd>
             </div>
             <div>
-              <dt className="font-mono text-label tracking-widest text-muted-foreground uppercase">Action</dt>
-              <dd className="mt-1.5 text-caption font-medium">Return home</dd>
+              <dt className="font-mono text-caption tracking-widest text-muted-foreground uppercase">Action</dt>
+              <dd className="mt-1.5 text-description font-medium">Return home</dd>
             </div>
           </dl>
         </div>

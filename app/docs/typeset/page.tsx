@@ -75,22 +75,22 @@ export default function TypesetPage() {
           Principles
         </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Rhythm stays on four controls. Heading steps, list indent, optical
+          Rhythm stays on five controls. Heading steps, list indent, optical
           tracking, and space under a title derive from them:
         </p>
         <div className="my-6 overflow-x-auto rounded-xl border">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-semibold">Control</th>
-                <th className="px-4 py-3 text-left font-semibold">Role</th>
-                <th className="px-4 py-3 text-left font-semibold">Notes</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Control</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Role</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Notes</th>
               </tr>
             </thead>
             <tbody>
               {rhythmControls.map((row) => (
                 <tr key={row.name} className="border-b last:border-0">
-                  <td className="px-4 py-3 font-mono text-xs font-medium text-foreground">
+                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs font-medium text-foreground">
                     {row.name}
                   </td>
                   <td className="px-4 py-3 text-xs text-muted-foreground">
@@ -110,8 +110,9 @@ export default function TypesetPage() {
             body stays at 16px with at least 1.5 line-height. Display type
             tracks tighter. Persian on{" "}
             <code className="font-mono text-sm">[lang=fa]</code> uses IRANSans XV
-            with a baseline-corrected font face, a 0.9375 size scale, 0 heading
-            tracking, and tuned prose leading.
+            with a baseline-corrected font face, 0 heading
+            tracking, and tuned prose leading. Type sizes match the
+            documented scale exactly - no locale size shrink.
           </li>
           <li>
             <strong className="text-foreground">Fits the container</strong> -
@@ -149,9 +150,9 @@ export default function TypesetPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-semibold">Token</th>
-                <th className="px-4 py-3 text-left font-semibold">Family</th>
-                <th className="px-4 py-3 text-left font-semibold">Usage</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Token</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Family</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Usage</th>
               </tr>
             </thead>
             <tbody>
@@ -181,28 +182,29 @@ export default function TypesetPage() {
           Product UI uses the Tailwind-aligned scale from{" "}
           <code className="font-mono text-sm">@theme</code> in{" "}
           <code className="font-mono text-sm">app/globals.css</code>. Type
-          tokens stay as live CSS variables so{" "}
-          <code className="font-mono text-sm">[lang=fa]</code> can scale them.
-          Prefer these utilities for buttons, labels, and marketing layouts.
-          Pixel sizes assume a <code className="font-mono text-sm">16px</code>{" "}
-          root:
+          tokens stay as live CSS variables so utilities always resolve the
+          documented size. Prefer roles (
+          <code className="font-mono text-sm">text-label</code>,{" "}
+          <code className="font-mono text-sm">text-caption</code>) for meaning;
+          use the numeric scale for chrome and one-offs. Pixel sizes assume a{" "}
+          <code className="font-mono text-sm">16px</code> root:
         </p>
         <div className="my-6 overflow-x-auto rounded-xl border">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-semibold">Token</th>
-                <th className="px-4 py-3 text-left font-semibold">Size</th>
-                <th className="px-4 py-3 text-left font-semibold">
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Token</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Size</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">
                   Line height
                 </th>
-                <th className="px-4 py-3 text-left font-semibold">Usage</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Usage</th>
               </tr>
             </thead>
             <tbody>
               {typeScale.map((s) => (
                 <tr key={s.token} className="border-b last:border-0">
-                  <td className="px-4 py-3 font-mono text-xs font-medium text-foreground">
+                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs font-medium text-foreground">
                     {s.token}
                   </td>
                   <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
@@ -231,16 +233,17 @@ export default function TypesetPage() {
           Prefer roles when the content has a job. Pair headings with{" "}
           <code className="font-mono text-sm">font-heading</code>. Display and
           headline are fluid from a 320px viewport to 1280px so marketing type
-          scales without extra breakpoints. Caption and label keep size and
-          tracking; set weight with{" "}
+          scales without extra breakpoints. Caption, label, and description
+          keep size and tracking; set weight with{" "}
           <code className="font-mono text-sm">font-medium</code> on controls.
         </p>
         <p className="leading-relaxed text-muted-foreground">
           Cubix primitives use these roles by default:{" "}
-          <code className="font-mono text-sm">text-label</code> on Badge and
-          Kbd;{" "}
-          <code className="font-mono text-sm">text-caption</code> on Button,
-          Field, Card copy, and dialog descriptions;{" "}
+          <code className="font-mono text-sm">text-label</code> on field titles;{" "}
+          <code className="font-mono text-sm">text-caption</code> on input hints,
+          Badge, and Kbd;{" "}
+          <code className="font-mono text-sm">text-description</code> on Button,
+          Card copy, and dialog descriptions;{" "}
           <code className="font-mono text-sm">text-body</code> on Card and
           Dialog titles. Numeric utilities remain for code, charts, and
           one-off layout.
@@ -249,22 +252,22 @@ export default function TypesetPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-semibold">Role</th>
-                <th className="px-4 py-3 text-left font-semibold">Size</th>
-                <th className="px-4 py-3 text-left font-semibold">
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Role</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Size</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">
                   Line height
                 </th>
-                <th className="px-4 py-3 text-left font-semibold">
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">
                   Tracking
                 </th>
-                <th className="px-4 py-3 text-left font-semibold">Weight</th>
-                <th className="px-4 py-3 text-left font-semibold">Usage</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Weight</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Usage</th>
               </tr>
             </thead>
             <tbody>
               {typeRoles.map((s) => (
                 <tr key={s.token} className="border-b last:border-0">
-                  <td className="px-4 py-3 font-mono text-xs font-medium text-foreground">
+                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs font-medium text-foreground">
                     {s.token}
                   </td>
                   <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
@@ -301,15 +304,15 @@ export default function TypesetPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-semibold">Token</th>
-                <th className="px-4 py-3 text-left font-semibold">Value</th>
-                <th className="px-4 py-3 text-left font-semibold">Usage</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Token</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Value</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Usage</th>
               </tr>
             </thead>
             <tbody>
               {measureRows.map((row) => (
                 <tr key={row.token} className="border-b last:border-0">
-                  <td className="px-4 py-3 font-mono text-xs font-medium text-foreground">
+                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs font-medium text-foreground">
                     {row.token}
                   </td>
                   <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
@@ -338,15 +341,15 @@ export default function TypesetPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-semibold">Token</th>
-                <th className="px-4 py-3 text-left font-semibold">Value</th>
-                <th className="px-4 py-3 text-left font-semibold">Usage</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Token</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Value</th>
+                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Usage</th>
               </tr>
             </thead>
             <tbody>
               {trackingRows.map((row) => (
                 <tr key={row.token} className="border-b last:border-0">
-                  <td className="px-4 py-3 font-mono text-xs font-medium text-foreground">
+                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs font-medium text-foreground">
                     {row.token}
                   </td>
                   <td className="px-4 py-3 font-mono text-xs text-muted-foreground">
@@ -370,11 +373,11 @@ export default function TypesetPage() {
           Locale metrics live in Typeset, not in each component. Set{" "}
           <code className="font-mono text-sm">lang=&quot;fa&quot;</code> on a
           root or subtree. Utilities such as{" "}
-          <code className="font-mono text-sm">text-caption</code> read{" "}
-          <code className="font-mono text-sm">var(--text-caption)</code>, so
-          IRANSans XV, <code className="font-mono text-sm">--text-fa-scale</code>,
-          tuned prose leading, and heading flow all follow. Title-to-description
-          stack stays the same as English.
+          <code className="font-mono text-sm">text-description</code> read{" "}
+          <code className="font-mono text-sm">var(--text-description)</code>, so
+          IRANSans XV, tuned prose leading, and heading flow all follow.
+          Type sizes stay on the documented scale (12 / 13 / 14 / 16px and up).
+          Title-to-description stack stays the same as English.
         </p>
         <p className="leading-relaxed text-muted-foreground">
           Vertical centering is solved once, in the font face. Geist places its
@@ -498,10 +501,13 @@ export default function TypesetPage() {
               ad-hoc margins on each tag.
             </p>
           </div>
-          <p className="text-caption text-muted-foreground">
-            Captions and metadata use text-caption.
+          <p className="text-description text-muted-foreground">
+            Supporting UI copy uses text-description.
           </p>
-          <p className="text-label uppercase">Status label</p>
+          <p className="text-label">Field label</p>
+          <p className="text-caption text-muted-foreground">
+            Hint under an input uses text-caption.
+          </p>
         </div>
         <p className="leading-relaxed text-muted-foreground">
           Next:{" "}

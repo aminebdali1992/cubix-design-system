@@ -251,7 +251,7 @@ export function DocsToc() {
                     "-ml-px block min-w-0 break-all border-l-2 py-1 pl-3 text-xs leading-5 transition-colors duration-150 no-underline",
                     item.level === 3 && "pl-6",
                     active
-                      ? "border-primary font-medium text-foreground"
+                      ? "border-foreground font-medium text-foreground"
                       : "border-transparent text-muted-foreground hover:text-foreground"
                   )}
                 >

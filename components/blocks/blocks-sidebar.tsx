@@ -41,11 +41,11 @@ function BlocksNav({
     <nav className="flex flex-col gap-8">
       {groups.map((group) => (
         <div key={group.title}>
-          <h3 className="mb-3 font-mono text-label font-medium uppercase tracking-wider text-muted-foreground">
+          <h3 className="mb-3 font-mono text-caption font-medium uppercase tracking-wider text-muted-foreground">
             {group.title}
           </h3>
           {group.links.length === 0 ? (
-            <p className="pl-3 text-label leading-5 text-muted-foreground/70">
+            <p className="pl-3 text-caption leading-5 text-muted-foreground/70">
               Coming soon
             </p>
           ) : (
@@ -64,7 +64,7 @@ function BlocksNav({
                     {active ? (
                       <motion.div
                         layoutId={`blocks-active-line-${group.title}`}
-                        className="absolute top-0 left-0 z-10 h-full w-px bg-primary"
+                        className="absolute top-0 left-0 z-10 h-full w-px bg-foreground"
                         transition={{
                           type: "spring",
                           stiffness: 350,
@@ -77,7 +77,7 @@ function BlocksNav({
                       onClick={onNavigate}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "block border-l-2 border-transparent py-1 pl-3 text-label leading-5 text-muted-foreground no-underline transition-colors hover:text-foreground",
+                        "block border-l-2 border-transparent py-1 pl-3 text-caption leading-5 text-muted-foreground no-underline transition-colors hover:text-foreground",
                         active && "font-medium text-foreground"
                       )}
                     >
@@ -225,7 +225,7 @@ export function BlocksMobileNav({ children }: { children: React.ReactNode }) {
             className="absolute inset-y-0 left-0 flex w-80 max-w-[90%] flex-col overflow-hidden bg-background shadow-xl"
           >
             <div className="flex shrink-0 items-center justify-between px-6 pt-6 pb-2">
-              <span className="text-caption font-semibold text-foreground">
+              <span className="text-description font-semibold text-foreground">
                 Blocks
               </span>
               <button

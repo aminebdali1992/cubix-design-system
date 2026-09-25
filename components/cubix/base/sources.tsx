@@ -112,7 +112,7 @@ function SourcesTrigger({
     <CollapsibleTrigger
       data-slot="sources-trigger"
       className={cn(
-        "group/sources-trigger inline-flex h-8 max-w-full items-center gap-1.5 rounded-lg px-2 text-caption text-muted-foreground outline-none transition-colors",
+        "group/sources-trigger inline-flex h-8 max-w-full items-center gap-1.5 rounded-lg px-2 text-description text-muted-foreground outline-none transition-colors",
         "hover:bg-muted/70 hover:text-foreground focus-visible:bg-muted/70 focus-visible:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40",
         className
       )}
@@ -175,7 +175,7 @@ function SourcesEmpty({
     <div
       data-slot="sources-empty"
       className={cn(
-        "px-3 py-4 text-center text-caption text-muted-foreground",
+        "px-3 py-4 text-center text-description text-muted-foreground",
         className
       )}
       {...props}
@@ -212,7 +212,7 @@ function Source({
       target="_blank"
       rel="noreferrer"
       className={cn(
-        "group/source flex items-start gap-2.5 rounded-lg px-2.5 py-2 text-caption outline-none transition-colors",
+        "group/source flex items-start gap-2.5 rounded-lg px-2.5 py-2 text-description outline-none transition-colors",
         "hover:bg-muted/80 focus-visible:bg-muted/80 focus-visible:ring-2 focus-visible:ring-ring/40",
         className
       )}
@@ -242,11 +242,11 @@ function Source({
               <ExternalLinkIcon className="mt-0.5 size-3 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover/source:opacity-100 group-focus-visible/source:opacity-100" />
             </span>
             {description ? (
-              <span className="mt-0.5 line-clamp-2 text-label leading-relaxed text-muted-foreground">
+              <span className="mt-0.5 line-clamp-2 text-caption leading-relaxed text-muted-foreground">
                 {description}
               </span>
             ) : host ? (
-              <span className="mt-0.5 block truncate text-label text-muted-foreground">
+              <span className="mt-0.5 block truncate text-caption text-muted-foreground">
                 {host}
               </span>
             ) : null}
@@ -286,7 +286,7 @@ function SourcePreview({
         render={
           <button
             type="button"
-            className="inline-flex translate-y-px items-center rounded-md bg-muted px-1.5 py-0.5 text-label font-medium text-foreground underline-offset-2 outline-none transition-colors hover:bg-muted/80 hover:underline focus-visible:ring-2 focus-visible:ring-ring/40"
+            className="inline-flex translate-y-px items-center rounded-md bg-muted px-1.5 py-0.5 text-caption font-medium text-foreground underline-offset-2 outline-none transition-colors hover:bg-muted/80 hover:underline focus-visible:ring-2 focus-visible:ring-ring/40"
           />
         }
       >
@@ -314,16 +314,16 @@ function SourcePreview({
             )}
           </span>
           <div className="min-w-0 flex-1 space-y-0.5">
-            <div className="truncate text-caption font-medium leading-5">
+            <div className="truncate text-description font-medium leading-5">
               {resolvedTitle}
             </div>
             {host ? (
-              <div className="truncate text-label text-muted-foreground">{host}</div>
+              <div className="truncate text-caption text-muted-foreground">{host}</div>
             ) : null}
           </div>
         </div>
         {description ? (
-          <p className="text-label leading-relaxed text-muted-foreground">
+          <p className="text-caption leading-relaxed text-muted-foreground">
             {description}
           </p>
         ) : null}
@@ -332,7 +332,7 @@ function SourcePreview({
             href={href}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-1 text-label font-medium text-foreground underline-offset-2 hover:underline"
+            className="inline-flex items-center gap-1 text-caption font-medium text-foreground underline-offset-2 hover:underline"
           >
             Open source
             <ExternalLinkIcon className="size-3" />
