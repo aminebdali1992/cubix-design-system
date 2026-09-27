@@ -5,6 +5,11 @@ import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { Menubar as MenubarPrimitive } from "@base-ui/react/menubar"
 import { CheckIcon } from "lucide-react"
 
+import { Checkbox } from "@/components/cubix/base/checkbox"
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@/components/cubix/base/radio-group"
 import { DirectionProvider } from "@/components/cubix/base/direction"
 import {
   DropdownMenu,
@@ -148,7 +153,7 @@ function MenubarContent({
       alignOffset={alignOffset}
       sideOffset={sideOffset}
       className={cn(
-        "w-max min-w-32 overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
+        "w-max min-w-32 overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
         className
       )}
       {...localeDomProps(contentLocale)}
@@ -169,7 +174,7 @@ function MenubarItem({
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        "group/menubar-item relative flex w-full cursor-default items-center gap-1.5 rounded-md px-1.5 py-1.25 text-label whitespace-nowrap tracking-normal focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:ps-7 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 data-[variant=destructive]:*:[svg]:text-destructive!",
+        "group/menubar-item relative flex w-full cursor-default items-center gap-1.5 rounded-sm px-2 py-1.75 text-label whitespace-nowrap tracking-normal focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:ps-8 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-disabled:opacity-50 [&>svg:not([class*='size-'])]:size-4.5 data-[variant=destructive]:*:[svg]:text-destructive!",
         className
       )}
       {...props}
@@ -177,65 +182,147 @@ function MenubarItem({
   )
 }
 
+type MenubarIndicator = "check" | "control"
+
+const MenubarIndicatorContext = React.createContext<
+  MenubarIndicator | undefined
+>(undefined)
+
+function MenubarCheckIndicator({ checked }: { checked: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className="pointer-events-none absolute end-2 flex size-4 items-center justify-center"
+    >
+      {checked ? (
+        <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" />
+      ) : null}
+    </span>
+  )
+}
+
 function MenubarCheckboxItem({
   className,
   children,
   checked,
+  defaultChecked,
+  onCheckedChange,
   inset,
+  indicator = "control",
   ...props
 }: MenuPrimitive.CheckboxItem.Props & {
   inset?: boolean
+  indicator?: MenubarIndicator
 }) {
+  const [uncontrolledChecked, setUncontrolledChecked] = React.useState(
+    defaultChecked ?? false
+  )
+  const isChecked = checked ?? uncontrolledChecked
+
   return (
     <MenuPrimitive.CheckboxItem
       data-slot="menubar-checkbox-item"
       data-inset={inset}
       className={cn(
-        "relative flex w-full cursor-default items-center gap-1.5 rounded-md py-1.25 pe-1.5 ps-7 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:ps-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative flex w-full cursor-default items-center gap-1.5 rounded-sm py-1.75 ps-2 pe-10 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
-      checked={checked}
+      checked={isChecked}
+      onCheckedChange={(value, eventDetails) => {
+        if (checked === undefined) setUncontrolledChecked(value)
+        onCheckedChange?.(value, eventDetails)
+      }}
       {...props}
     >
-      <span className="pointer-events-none absolute start-1.5 flex size-4 items-center justify-center [&_svg:not([class*='size-'])]:size-4">
-        <MenuPrimitive.CheckboxItemIndicator>
-          <CheckIcon absoluteStrokeWidth strokeWidth={1.6} />
-        </MenuPrimitive.CheckboxItemIndicator>
-      </span>
+      {indicator === "check" ? (
+        <MenubarCheckIndicator checked={isChecked} />
+      ) : (
+        <span aria-hidden className="pointer-events-none absolute end-2 flex items-center justify-center">
+          <Checkbox className="size-4 rounded-[5px]" checked={isChecked} tabIndex={-1} />
+        </span>
+      )}
       {children}
     </MenuPrimitive.CheckboxItem>
   )
 }
 
+const MenubarRadioValueContext = React.createContext<unknown>(undefined)
+
 function MenubarRadioGroup({
+  value,
+  defaultValue,
+  onValueChange,
+  indicator,
   ...props
-}: React.ComponentProps<typeof DropdownMenuRadioGroup>) {
-  return <DropdownMenuRadioGroup data-slot="menubar-radio-group" {...props} />
+}: React.ComponentProps<typeof DropdownMenuRadioGroup> & {
+  indicator?: MenubarIndicator
+}) {
+  const [uncontrolledValue, setUncontrolledValue] =
+    React.useState<unknown>(defaultValue)
+  const currentValue = value !== undefined ? value : uncontrolledValue
+
+  return (
+    <MenubarIndicatorContext.Provider value={indicator}>
+      <MenubarRadioValueContext.Provider value={currentValue}>
+        <DropdownMenuRadioGroup
+          data-slot="menubar-radio-group"
+          value={currentValue ?? null}
+          onValueChange={(next, eventDetails) => {
+            if (value === undefined) setUncontrolledValue(next)
+            onValueChange?.(next, eventDetails)
+          }}
+          {...props}
+        />
+      </MenubarRadioValueContext.Provider>
+    </MenubarIndicatorContext.Provider>
+  )
+}
+
+function MenubarRadioIndicator({ checked }: { checked: boolean }) {
+  return (
+    <span
+      inert
+      className="pointer-events-none absolute end-2 flex items-center justify-center"
+    >
+      <RadioGroup value={checked ? "on" : ""} className="flex">
+        <RadioGroupItem value="on" className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5" />
+      </RadioGroup>
+    </span>
+  )
 }
 
 function MenubarRadioItem({
   className,
   children,
   inset,
+  value,
+  indicator,
   ...props
 }: MenuPrimitive.RadioItem.Props & {
   inset?: boolean
+  indicator?: MenubarIndicator
 }) {
+  const groupValue = React.useContext(MenubarRadioValueContext)
+  const groupIndicator = React.useContext(MenubarIndicatorContext)
+  const resolvedIndicator = indicator ?? groupIndicator ?? "control"
+  const isChecked = groupValue !== undefined && groupValue === value
+
   return (
     <MenuPrimitive.RadioItem
       data-slot="menubar-radio-item"
+      value={value}
       data-inset={inset}
       className={cn(
-        "relative flex w-full cursor-default items-center gap-1.5 rounded-md py-1.25 pe-1.5 ps-7 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:ps-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative flex w-full cursor-default items-center gap-1.5 rounded-sm py-1.75 ps-2 pe-10 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
       {...props}
     >
-      <span className="pointer-events-none absolute start-1.5 flex size-4 items-center justify-center [&_svg:not([class*='size-'])]:size-4">
-        <MenuPrimitive.RadioItemIndicator>
-          <CheckIcon absoluteStrokeWidth strokeWidth={1.6} />
-        </MenuPrimitive.RadioItemIndicator>
-      </span>
+      {resolvedIndicator === "check" ? (
+        <MenubarCheckIndicator checked={isChecked} />
+      ) : (
+        <MenubarRadioIndicator checked={isChecked} />
+      )}
       {children}
     </MenuPrimitive.RadioItem>
   )
@@ -253,7 +340,7 @@ function MenubarLabel({
       data-slot="menubar-label"
       data-inset={inset}
       className={cn(
-        "px-1.5 py-1 text-label whitespace-nowrap font-medium tracking-normal data-inset:ps-7",
+        "px-2 py-1 text-label whitespace-nowrap font-medium tracking-normal data-inset:ps-8",
         className
       )}
       {...props}
@@ -268,7 +355,7 @@ function MenubarSeparator({
   return (
     <DropdownMenuSeparator
       data-slot="menubar-separator"
-      className={cn("-mx-1 my-1 h-px bg-border", className)}
+      className={cn("-mx-1 my-1 h-px bg-border/60", className)}
       {...props}
     />
   )
@@ -299,6 +386,7 @@ function MenubarSub({
 function MenubarSubTrigger({
   className,
   inset,
+  children,
   ...props
 }: React.ComponentProps<typeof DropdownMenuSubTrigger> & {
   inset?: boolean
@@ -308,11 +396,14 @@ function MenubarSubTrigger({
       data-slot="menubar-sub-trigger"
       data-inset={inset}
       className={cn(
-        "relative flex w-full cursor-default items-center gap-1.5 rounded-md px-1.5 py-1.25 text-label whitespace-nowrap tracking-normal focus:bg-accent focus:text-accent-foreground data-inset:ps-7 data-open:bg-accent data-open:text-accent-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:rtl:rotate-180",
+        "relative flex w-full cursor-default items-center gap-1.5 rounded-sm px-2 py-1.75 text-label whitespace-nowrap tracking-normal focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-open:bg-accent data-open:text-accent-foreground [&>svg:not([class*='size-'])]:size-4 [&>svg:not([class*='size-']):not(:last-child)]:size-4.5 [&>svg:last-child]:ms-auto rtl:[&>svg:last-child]:rotate-180",
         className
       )}
       {...props}
-    />
+    >
+      {children}
+      <span aria-hidden className="min-w-1 flex-1" />
+    </DropdownMenuSubTrigger>
   )
 }
 
@@ -333,7 +424,7 @@ function MenubarSubContent({
       data-slot="menubar-sub-content"
       side="inline-end"
       className={cn(
-        "w-max min-w-32 overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+        "w-max min-w-32 overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
         className
       )}
       {...localeDomProps(contentLocale)}

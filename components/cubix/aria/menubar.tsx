@@ -23,13 +23,18 @@ import {
   Toolbar,
 } from "react-aria-components"
 
+import { Checkbox } from "@/components/cubix/aria/checkbox"
+import {
+  RadioGroup,
+  RadioGroupItem,
+} from "@/components/cubix/aria/radio-group"
 import { cn } from "@/lib/utils"
 
 const itemStyles =
-  "group/menubar-item relative flex w-full cursor-default items-center gap-1.5 rounded-md px-1.5 py-1.25 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:ps-7 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4 data-[variant=destructive]:*:[svg]:text-destructive!"
+  "group/menubar-item relative flex w-full cursor-default items-center gap-1.5 rounded-sm px-2 py-1.75 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:ps-8 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5 data-[variant=destructive]:*:[svg]:text-destructive!"
 
 const contentStyles =
-  "z-50 w-max min-w-32 overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/10 outline-none"
+  "z-50 w-max min-w-32 overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] outline-none"
 
 type TextDirection = "ltr" | "rtl"
 
@@ -77,9 +82,25 @@ function localeDomProps(locale: MenubarLocale) {
   }
 }
 
+type MenubarIndicator = "check" | "control"
+
+function MenubarCheckIndicator({ checked }: { checked: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className="pointer-events-none absolute end-2 flex size-4 items-center justify-center"
+    >
+      {checked ? (
+        <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" />
+      ) : null}
+    </span>
+  )
+}
+
 type MenubarRadioContextValue = {
   value?: string
   onValueChange?: (value: string) => void
+  indicator?: MenubarIndicator
 }
 
 const MenubarRadioContext =
@@ -239,29 +260,67 @@ function MenubarCheckboxItem({
   className,
   children,
   checked,
+  defaultChecked,
   inset,
   onCheckedChange,
+  indicator = "control",
+  ref,
   ...props
 }: Omit<React.ComponentProps<typeof MenuItem>, "children"> & {
   inset?: boolean
+  indicator?: MenubarIndicator
   checked?: boolean
+  defaultChecked?: boolean
   onCheckedChange?: (checked: boolean) => void
   children?: React.ReactNode
 }) {
+  const [uncontrolledChecked, setUncontrolledChecked] = React.useState(
+    defaultChecked ?? false
+  )
+  const isChecked = checked ?? uncontrolledChecked
+
+  const itemRef = React.useRef<HTMLDivElement | null>(null)
+  const setItemRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      itemRef.current = node
+      if (typeof ref === "function") ref(node)
+      else if (ref) ref.current = node
+    },
+    [ref]
+  )
+
+  // React Aria only exposes checkbox semantics inside a selectable section,
+  // so announce this standalone item's checked state directly.
+  React.useLayoutEffect(() => {
+    const node = itemRef.current
+    if (!node) return
+    node.setAttribute("role", "menuitemcheckbox")
+    node.setAttribute("aria-checked", isChecked ? "true" : "false")
+  })
+
   return (
     <MenuItem
+      ref={setItemRef}
       data-slot="menubar-checkbox-item"
       data-inset={inset ? "" : undefined}
       className={cn(
-        "relative flex w-full cursor-default items-center gap-1.5 rounded-md py-1.25 pe-1.5 ps-7 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground data-inset:ps-7 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative flex w-full cursor-default items-center gap-1.5 rounded-sm py-1.75 ps-2 pe-10 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground data-inset:ps-8 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
-      onAction={() => onCheckedChange?.(!checked)}
+      onAction={() => {
+        const next = !isChecked
+        if (checked === undefined) setUncontrolledChecked(next)
+        onCheckedChange?.(next)
+      }}
       {...props}
     >
-      <span className="pointer-events-none absolute start-1.5 flex size-4 items-center justify-center [&_svg:not([class*='size-'])]:size-4">
-        {checked ? <CheckIcon absoluteStrokeWidth strokeWidth={1.6} /> : null}
-      </span>
+      {indicator === "check" ? (
+        <MenubarCheckIndicator checked={isChecked} />
+      ) : (
+        <span aria-hidden className="pointer-events-none absolute end-2 flex items-center justify-center">
+          <Checkbox className="size-4 rounded-[5px]" checked={isChecked} excludeFromTabOrder />
+        </span>
+      )}
       {children}
     </MenuItem>
   )
@@ -271,30 +330,61 @@ function MenubarRadioGroup({
   value,
   defaultValue,
   onValueChange,
+  indicator,
   children,
   ...props
 }: React.ComponentProps<typeof MenuSection> & {
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
+  indicator?: MenubarIndicator
 }) {
   const [uncontrolled, setUncontrolled] = React.useState(defaultValue)
   const current = value ?? uncontrolled
+
+  const handleValueChange = (next: string) => {
+    if (value === undefined) setUncontrolled(next)
+    onValueChange?.(next)
+  }
 
   return (
     <MenubarRadioContext.Provider
       value={{
         value: current,
-        onValueChange: (next) => {
-          if (value === undefined) setUncontrolled(next)
-          onValueChange?.(next)
-        },
+        indicator,
+        onValueChange: handleValueChange,
       }}
     >
-      <MenuSection data-slot="menubar-radio-group" {...props}>
+      <MenuSection
+        data-slot="menubar-radio-group"
+        selectionMode="single"
+        disallowEmptySelection
+        selectedKeys={current !== undefined ? [current] : []}
+        onSelectionChange={(keys) => {
+          if (keys === "all") return
+          const [next] = Array.from(keys)
+          if (next !== undefined && String(next) !== current) {
+            handleValueChange(String(next))
+          }
+        }}
+        {...props}
+      >
         {children}
       </MenuSection>
     </MenubarRadioContext.Provider>
+  )
+}
+
+function MenubarRadioIndicator({ checked }: { checked: boolean }) {
+  return (
+    <span
+      inert
+      className="pointer-events-none absolute end-2 flex items-center justify-center"
+    >
+      <RadioGroup value={checked ? "on" : ""} className="flex" aria-label="radio">
+        <RadioGroupItem value="on" className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5" aria-label="radio" />
+      </RadioGroup>
+    </span>
   )
 }
 
@@ -303,14 +393,17 @@ function MenubarRadioItem({
   children,
   inset,
   value,
+  indicator,
   ...props
 }: Omit<React.ComponentProps<typeof MenuItem>, "id" | "children"> & {
   inset?: boolean
+  indicator?: MenubarIndicator
   value: string
   children?: React.ReactNode
 }) {
   const ctx = React.useContext(MenubarRadioContext)
   const selected = ctx?.value === value
+  const resolvedIndicator = indicator ?? ctx?.indicator ?? "control"
 
   return (
     <MenuItem
@@ -318,15 +411,16 @@ function MenubarRadioItem({
       data-slot="menubar-radio-item"
       data-inset={inset ? "" : undefined}
       className={cn(
-        "relative flex w-full cursor-default items-center gap-1.5 rounded-md py-1.25 pe-1.5 ps-7 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground data-inset:ps-7 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative flex w-full cursor-default items-center gap-1.5 rounded-sm py-1.75 ps-2 pe-10 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground data-inset:ps-8 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
-      onAction={() => ctx?.onValueChange?.(value)}
       {...props}
     >
-      <span className="pointer-events-none absolute start-1.5 flex size-4 items-center justify-center [&_svg:not([class*='size-'])]:size-4">
-        {selected ? <CheckIcon absoluteStrokeWidth strokeWidth={1.6} /> : null}
-      </span>
+      {resolvedIndicator === "check" ? (
+        <MenubarCheckIndicator checked={selected} />
+      ) : (
+        <MenubarRadioIndicator checked={selected} />
+      )}
       {children}
     </MenuItem>
   )
@@ -344,7 +438,7 @@ function MenubarLabel({
       data-slot="menubar-label"
       data-inset={inset ? "" : undefined}
       className={cn(
-        "px-1.5 py-1 text-label whitespace-nowrap font-medium tracking-normal data-inset:ps-7",
+        "px-2 py-1 text-label whitespace-nowrap font-medium tracking-normal data-inset:ps-8",
         className
       )}
       {...props}
@@ -359,7 +453,7 @@ function MenubarSeparator({
   return (
     <Separator
       data-slot="menubar-separator"
-      className={cn("-mx-1 my-1 h-px bg-border", className)}
+      className={cn("-mx-1 my-1 h-px bg-border/60", className)}
       {...props}
     />
   )
@@ -407,13 +501,14 @@ function MenubarSubTrigger({
       data-slot="menubar-sub-trigger"
       data-inset={inset ? "" : undefined}
       className={cn(
-        "flex w-full cursor-default items-center gap-1.5 rounded-md px-1.5 py-1.25 text-label whitespace-nowrap tracking-normal outline-none select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground data-inset:ps-7 data-[open]:bg-accent data-[open]:text-accent-foreground [&_svg:not([class*='size-'])]:size-4",
+        "flex w-full cursor-default items-center gap-1.5 rounded-sm px-2 py-1.75 text-label whitespace-nowrap tracking-normal outline-none select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground data-inset:ps-8 data-[open]:bg-accent data-[open]:text-accent-foreground [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
       {...props}
     >
       {children}
-      <ChevronRightIcon className="ms-auto size-4 rtl:rotate-180" />
+      <span aria-hidden className="min-w-1 flex-1" />
+      <ChevronRightIcon className="size-4 rtl:rotate-180" />
     </MenuItem>
   )
 }
@@ -435,7 +530,7 @@ function MenubarSubContent({
     <Popover
       data-slot="menubar-sub-content"
       className={cn(
-        "z-50 w-max min-w-32 overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/10 outline-none",
+        "z-50 w-max min-w-32 overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/[0.06] outline-none",
         className
       )}
       {...localeDomProps(contentLocale)}

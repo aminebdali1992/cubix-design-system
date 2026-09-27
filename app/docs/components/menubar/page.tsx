@@ -9,7 +9,10 @@ import { PropsTable } from "@/components/docs/props-table"
 import {
   MenubarBasicDemo,
   MenubarCheckboxDemo,
+  MenubarCheckboxIconsDemo,
   MenubarDemo,
+  MenubarIconsDemo,
+  MenubarIndicatorDemo,
   MenubarRadioDemo,
   MenubarSidesDemo,
   MenubarSubmenuDemo,
@@ -21,6 +24,7 @@ import {
   itemPropRows,
   menubarPropRows,
   radioGroupPropRows,
+  radioItemPropRows,
   triggerPropRows,
 } from "./menubar-table-data"
 
@@ -38,7 +42,6 @@ const usageImport = `import {
   MenubarItem,
   MenubarMenu,
   MenubarSeparator,
-  MenubarShortcut,
   MenubarTrigger,
 } from "@/components/cubix/menubar"`
 
@@ -47,7 +50,7 @@ const usageSnippet = `<Menubar dir="rtl" lang="fa">
     <MenubarTrigger>پرونده</MenubarTrigger>
     <MenubarContent>
       <MenubarItem>
-        زبانه جدید <MenubarShortcut>⌘T</MenubarShortcut>
+        زبانه جدید
       </MenubarItem>
       <MenubarItem>پنجره جدید</MenubarItem>
       <MenubarSeparator />
@@ -77,10 +80,10 @@ const demoSnippet = `<Menubar dir="rtl" lang="fa">
     <MenubarTrigger>پرونده</MenubarTrigger>
     <MenubarContent>
       <MenubarItem>
-        زبانه جدید <MenubarShortcut>⌘T</MenubarShortcut>
+        زبانه جدید
       </MenubarItem>
       <MenubarItem>
-        پنجره جدید <MenubarShortcut>⌘N</MenubarShortcut>
+        پنجره جدید
       </MenubarItem>
       <MenubarItem disabled>پنجره ناشناس</MenubarItem>
       <MenubarSeparator />
@@ -94,7 +97,7 @@ const demoSnippet = `<Menubar dir="rtl" lang="fa">
       </MenubarSub>
       <MenubarSeparator />
       <MenubarItem>
-        چاپ... <MenubarShortcut>⌘P</MenubarShortcut>
+        چاپ...
       </MenubarItem>
     </MenubarContent>
   </MenubarMenu>
@@ -117,15 +120,15 @@ const basicSnippet = `<Menubar dir="rtl" lang="fa">
     <MenubarTrigger>پرونده</MenubarTrigger>
     <MenubarContent>
       <MenubarItem>
-        زبانه جدید <MenubarShortcut>⌘T</MenubarShortcut>
+        زبانه جدید
       </MenubarItem>
       <MenubarItem>
-        پنجره جدید <MenubarShortcut>⌘N</MenubarShortcut>
+        پنجره جدید
       </MenubarItem>
       <MenubarItem disabled>پنجره ناشناس</MenubarItem>
       <MenubarSeparator />
       <MenubarItem>
-        چاپ... <MenubarShortcut>⌘P</MenubarShortcut>
+        چاپ...
       </MenubarItem>
     </MenubarContent>
   </MenubarMenu>
@@ -133,10 +136,10 @@ const basicSnippet = `<Menubar dir="rtl" lang="fa">
     <MenubarTrigger>ویرایش</MenubarTrigger>
     <MenubarContent>
       <MenubarItem>
-        واگرد <MenubarShortcut>⌘Z</MenubarShortcut>
+        واگرد
       </MenubarItem>
       <MenubarItem>
-        بازگردانی <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+        بازگردانی
       </MenubarItem>
       <MenubarSeparator />
       <MenubarItem>برش</MenubarItem>
@@ -146,6 +149,34 @@ const basicSnippet = `<Menubar dir="rtl" lang="fa">
   </MenubarMenu>
 </Menubar>`
 
+const iconsSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
+
+<MenubarMenu>
+  <MenubarTrigger>پرونده</MenubarTrigger>
+  <MenubarContent>
+    <MenubarItem>
+      <ButtonDemoIcon />
+      زبانه جدید
+    </MenubarItem>
+    <MenubarItem>
+      <ButtonDemoIcon />
+      پنجره جدید
+    </MenubarItem>
+    <MenubarSeparator />
+    <MenubarSub>
+      <MenubarSubTrigger>
+        <ButtonDemoIcon />
+        اشتراک‌گذاری
+      </MenubarSubTrigger>
+      <MenubarSubContent>
+        <MenubarItem>
+          <ButtonDemoIcon />
+          لینک ایمیل
+        </MenubarItem>
+      </MenubarSubContent>
+    </MenubarSub>
+  </MenubarContent>
+</MenubarMenu>`
 const submenuSnippet = `<MenubarMenu>
   <MenubarTrigger>پرونده</MenubarTrigger>
   <MenubarContent>
@@ -163,14 +194,30 @@ const submenuSnippet = `<MenubarMenu>
 const checkboxSnippet = `<MenubarMenu>
   <MenubarTrigger>نمایش</MenubarTrigger>
   <MenubarContent>
-    <MenubarCheckboxItem>نوار نشانک‌ها همیشه نمایش داده شود</MenubarCheckboxItem>
-    <MenubarCheckboxItem checked>
-      آدرس کامل همیشه نمایش داده شود
+    <MenubarCheckboxItem>نوار ابزار</MenubarCheckboxItem>
+    <MenubarCheckboxItem defaultChecked>
+      نوار وضعیت
     </MenubarCheckboxItem>
     <MenubarSeparator />
-    <MenubarItem inset>
-      بارگذاری مجدد <MenubarShortcut>⌘R</MenubarShortcut>
+    <MenubarItem>
+      بارگذاری مجدد
     </MenubarItem>
+  </MenubarContent>
+</MenubarMenu>`
+
+const checkboxIconsSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
+
+<MenubarMenu>
+  <MenubarTrigger>نمایش</MenubarTrigger>
+  <MenubarContent>
+    <MenubarCheckboxItem>
+      <ButtonDemoIcon />
+      نوار ابزار
+    </MenubarCheckboxItem>
+    <MenubarCheckboxItem defaultChecked>
+      <ButtonDemoIcon />
+      نوار وضعیت
+    </MenubarCheckboxItem>
   </MenubarContent>
 </MenubarMenu>`
 
@@ -180,6 +227,27 @@ const radioSnippet = `const [user, setUser] = React.useState("sara")
   <MenubarTrigger>پروفایل‌ها</MenubarTrigger>
   <MenubarContent>
     <MenubarRadioGroup value={user} onValueChange={setUser}>
+      <MenubarRadioItem value="amin">امین</MenubarRadioItem>
+      <MenubarRadioItem value="sara">سارا</MenubarRadioItem>
+      <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
+    </MenubarRadioGroup>
+  </MenubarContent>
+</MenubarMenu>`
+
+const indicatorSnippet = `<MenubarMenu>
+  <MenubarTrigger>نمایش</MenubarTrigger>
+  <MenubarContent>
+    <MenubarCheckboxItem indicator="check">نوار ابزار</MenubarCheckboxItem>
+    <MenubarCheckboxItem indicator="check" defaultChecked>
+      نوار وضعیت
+    </MenubarCheckboxItem>
+  </MenubarContent>
+</MenubarMenu>
+
+<MenubarMenu>
+  <MenubarTrigger>پروفایل‌ها</MenubarTrigger>
+  <MenubarContent>
+    <MenubarRadioGroup indicator="check" value={user} onValueChange={setUser}>
       <MenubarRadioItem value="amin">امین</MenubarRadioItem>
       <MenubarRadioItem value="sara">سارا</MenubarRadioItem>
       <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
@@ -248,6 +316,20 @@ export default function MenubarDocsPage() {
       </section>
 
       <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Icons</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Place an icon before the label inside{" "}
+          <code className="font-mono text-sm">MenubarItem</code> or{" "}
+          <code className="font-mono text-sm">MenubarSubTrigger</code>. It sits
+          at the start of the item (the right side in RTL).
+        </p>
+        <ComponentPreview code={iconsSnippet} previewClassName="min-h-40">
+          <PreviewShell>
+            <MenubarIconsDemo />
+          </PreviewShell>
+        </ComponentPreview>
+      </section>
+      <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Submenu</h2>
         <p className="leading-relaxed text-muted-foreground">
           Nest menus with{" "}
@@ -274,10 +356,37 @@ export default function MenubarDocsPage() {
       </section>
 
       <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">
+          Checkboxes with icons
+        </h2>
+        <ComponentPreview code={checkboxIconsSnippet} previewClassName="min-h-40">
+          <PreviewShell>
+            <MenubarCheckboxIconsDemo />
+          </PreviewShell>
+        </ComponentPreview>
+      </section>
+
+      <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Radio</h2>
         <ComponentPreview code={radioSnippet} previewClassName="min-h-40">
           <PreviewShell>
             <MenubarRadioDemo />
+          </PreviewShell>
+        </ComponentPreview>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">
+          Tick indicator
+        </h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Set indicator=&quot;check&quot; to show a plain tick instead of the
+          Cubix Checkbox or Radio. The default is &quot;control&quot;. On a
+          radio group it applies to every item in the group.
+        </p>
+        <ComponentPreview code={indicatorSnippet} previewClassName="min-h-40">
+          <PreviewShell>
+            <MenubarIndicatorDemo />
           </PreviewShell>
         </ComponentPreview>
       </section>
@@ -339,6 +448,13 @@ export default function MenubarDocsPage() {
             MenubarRadioGroup
           </h3>
           <PropsTable data={radioGroupPropRows} />
+        </div>
+
+        <div className="space-y-3">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">
+            MenubarRadioItem
+          </h3>
+          <PropsTable data={radioItemPropRows} />
         </div>
       </section>
     </article>

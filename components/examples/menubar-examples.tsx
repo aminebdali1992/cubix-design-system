@@ -12,12 +12,12 @@ import {
   MenubarRadioGroup,
   MenubarRadioItem,
   MenubarSeparator,
-  MenubarShortcut,
   MenubarSub,
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
 } from "@/app/docs/components/menubar/docs-menubar"
+import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
 
 export function MenubarDemo() {
   return (
@@ -26,10 +26,10 @@ export function MenubarDemo() {
         <MenubarTrigger>پرونده</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            زبانه جدید <MenubarShortcut>⌘T</MenubarShortcut>
+            زبانه جدید
           </MenubarItem>
           <MenubarItem>
-            پنجره جدید <MenubarShortcut>⌘N</MenubarShortcut>
+            پنجره جدید
           </MenubarItem>
           <MenubarItem disabled>پنجره ناشناس</MenubarItem>
           <MenubarSeparator />
@@ -43,7 +43,7 @@ export function MenubarDemo() {
           </MenubarSub>
           <MenubarSeparator />
           <MenubarItem>
-            چاپ... <MenubarShortcut>⌘P</MenubarShortcut>
+            چاپ...
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -51,10 +51,10 @@ export function MenubarDemo() {
         <MenubarTrigger>ویرایش</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            واگرد <MenubarShortcut>⌘Z</MenubarShortcut>
+            واگرد
           </MenubarItem>
           <MenubarItem>
-            بازگردانی <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+            بازگردانی
           </MenubarItem>
           <MenubarSeparator />
           <MenubarSub>
@@ -76,21 +76,21 @@ export function MenubarDemo() {
       <MenubarMenu>
         <MenubarTrigger>نمایش</MenubarTrigger>
         <MenubarContent>
-          <MenubarCheckboxItem>نوار نشانک‌ها همیشه نمایش داده شود</MenubarCheckboxItem>
-          <MenubarCheckboxItem checked>
-            آدرس کامل همیشه نمایش داده شود
+          <MenubarCheckboxItem>نوار ابزار</MenubarCheckboxItem>
+          <MenubarCheckboxItem defaultChecked>
+            نوار وضعیت
           </MenubarCheckboxItem>
           <MenubarSeparator />
-          <MenubarItem inset>
-            بارگذاری مجدد <MenubarShortcut>⌘R</MenubarShortcut>
+          <MenubarItem>
+            بارگذاری مجدد
           </MenubarItem>
-          <MenubarItem disabled inset>
-            بارگذاری اجباری <MenubarShortcut>⇧⌘R</MenubarShortcut>
+          <MenubarItem disabled>
+            بارگذاری اجباری
           </MenubarItem>
           <MenubarSeparator />
-          <MenubarItem inset>تمام‌صفحه</MenubarItem>
+          <MenubarItem>تمام‌صفحه</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem inset>پنهان کردن نوار کناری</MenubarItem>
+          <MenubarItem>پنهان کردن نوار کناری</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
@@ -102,9 +102,9 @@ export function MenubarDemo() {
             <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
           </MenubarRadioGroup>
           <MenubarSeparator />
-          <MenubarItem inset>ویرایش...</MenubarItem>
+          <MenubarItem>ویرایش...</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem inset>افزودن پروفایل...</MenubarItem>
+          <MenubarItem>افزودن پروفایل...</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
@@ -118,15 +118,15 @@ export function MenubarBasicDemo() {
         <MenubarTrigger>پرونده</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            زبانه جدید <MenubarShortcut>⌘T</MenubarShortcut>
+            زبانه جدید
           </MenubarItem>
           <MenubarItem>
-            پنجره جدید <MenubarShortcut>⌘N</MenubarShortcut>
+            پنجره جدید
           </MenubarItem>
           <MenubarItem disabled>پنجره ناشناس</MenubarItem>
           <MenubarSeparator />
           <MenubarItem>
-            چاپ... <MenubarShortcut>⌘P</MenubarShortcut>
+            چاپ...
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -134,15 +134,78 @@ export function MenubarBasicDemo() {
         <MenubarTrigger>ویرایش</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            واگرد <MenubarShortcut>⌘Z</MenubarShortcut>
+            واگرد
           </MenubarItem>
           <MenubarItem>
-            بازگردانی <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+            بازگردانی
           </MenubarItem>
           <MenubarSeparator />
           <MenubarItem>برش</MenubarItem>
           <MenubarItem>کپی</MenubarItem>
           <MenubarItem>جای‌گذاری</MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>
+  )
+}
+
+export function MenubarIconsDemo() {
+  return (
+    <Menubar dir="rtl" lang="fa">
+      <MenubarMenu>
+        <MenubarTrigger>پرونده</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem>
+            <ButtonDemoIcon />
+            زبانه جدید
+          </MenubarItem>
+          <MenubarItem>
+            <ButtonDemoIcon />
+            پنجره جدید
+          </MenubarItem>
+          <MenubarItem disabled>
+            <ButtonDemoIcon />
+            پنجره ناشناس
+          </MenubarItem>
+          <MenubarSeparator />
+          <MenubarSub>
+            <MenubarSubTrigger>
+              <ButtonDemoIcon />
+              اشتراک‌گذاری
+            </MenubarSubTrigger>
+            <MenubarSubContent>
+              <MenubarItem>
+                <ButtonDemoIcon />
+                لینک ایمیل
+              </MenubarItem>
+              <MenubarItem>
+                <ButtonDemoIcon />
+                پیام‌ها
+              </MenubarItem>
+            </MenubarSubContent>
+          </MenubarSub>
+          <MenubarSeparator />
+          <MenubarItem>
+            <ButtonDemoIcon />
+            چاپ...
+          </MenubarItem>
+        </MenubarContent>
+      </MenubarMenu>
+      <MenubarMenu>
+        <MenubarTrigger>ویرایش</MenubarTrigger>
+        <MenubarContent>
+          <MenubarItem>
+            <ButtonDemoIcon />
+            برش
+          </MenubarItem>
+          <MenubarItem>
+            <ButtonDemoIcon />
+            کپی
+          </MenubarItem>
+          <MenubarItem>
+            <ButtonDemoIcon />
+            جای‌گذاری
+          </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
@@ -165,7 +228,7 @@ export function MenubarSubmenuDemo() {
           </MenubarSub>
           <MenubarSeparator />
           <MenubarItem>
-            چاپ... <MenubarShortcut>⌘P</MenubarShortcut>
+            چاپ...
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -173,10 +236,10 @@ export function MenubarSubmenuDemo() {
         <MenubarTrigger>ویرایش</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            واگرد <MenubarShortcut>⌘Z</MenubarShortcut>
+            واگرد
           </MenubarItem>
           <MenubarItem>
-            بازگردانی <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+            بازگردانی
           </MenubarItem>
           <MenubarSeparator />
           <MenubarSub>
@@ -203,25 +266,66 @@ export function MenubarCheckboxDemo() {
       <MenubarMenu>
         <MenubarTrigger>نمایش</MenubarTrigger>
         <MenubarContent>
-          <MenubarCheckboxItem>نوار نشانک‌ها همیشه نمایش داده شود</MenubarCheckboxItem>
-          <MenubarCheckboxItem checked>
-            آدرس کامل همیشه نمایش داده شود
+          <MenubarCheckboxItem>نوار ابزار</MenubarCheckboxItem>
+          <MenubarCheckboxItem defaultChecked>
+            نوار وضعیت
           </MenubarCheckboxItem>
           <MenubarSeparator />
-          <MenubarItem inset>
-            بارگذاری مجدد <MenubarShortcut>⌘R</MenubarShortcut>
+          <MenubarItem>
+            بارگذاری مجدد
           </MenubarItem>
-          <MenubarItem disabled inset>
-            بارگذاری اجباری <MenubarShortcut>⇧⌘R</MenubarShortcut>
+          <MenubarItem disabled>
+            بارگذاری اجباری
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>قالب</MenubarTrigger>
         <MenubarContent>
-          <MenubarCheckboxItem checked>خط‌خورده</MenubarCheckboxItem>
+          <MenubarCheckboxItem defaultChecked>خط‌خورده</MenubarCheckboxItem>
           <MenubarCheckboxItem>کد</MenubarCheckboxItem>
           <MenubarCheckboxItem>بالانویس</MenubarCheckboxItem>
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>
+  )
+}
+
+export function MenubarCheckboxIconsDemo() {
+  return (
+    <Menubar dir="rtl" lang="fa">
+      <MenubarMenu>
+        <MenubarTrigger>نمایش</MenubarTrigger>
+        <MenubarContent>
+          <MenubarCheckboxItem>
+            <ButtonDemoIcon />
+            نوار ابزار
+          </MenubarCheckboxItem>
+          <MenubarCheckboxItem defaultChecked>
+            <ButtonDemoIcon />
+            نوار وضعیت
+          </MenubarCheckboxItem>
+          <MenubarCheckboxItem disabled>
+            <ButtonDemoIcon />
+            نوار کناری
+          </MenubarCheckboxItem>
+        </MenubarContent>
+      </MenubarMenu>
+      <MenubarMenu>
+        <MenubarTrigger>قالب</MenubarTrigger>
+        <MenubarContent>
+          <MenubarCheckboxItem defaultChecked>
+            <ButtonDemoIcon />
+            خط‌خورده
+          </MenubarCheckboxItem>
+          <MenubarCheckboxItem>
+            <ButtonDemoIcon />
+            کد
+          </MenubarCheckboxItem>
+          <MenubarCheckboxItem>
+            <ButtonDemoIcon />
+            بالانویس
+          </MenubarCheckboxItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
@@ -243,8 +347,8 @@ export function MenubarRadioDemo() {
             <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
           </MenubarRadioGroup>
           <MenubarSeparator />
-          <MenubarItem inset>ویرایش...</MenubarItem>
-          <MenubarItem inset>افزودن پروفایل...</MenubarItem>
+          <MenubarItem>ویرایش...</MenubarItem>
+          <MenubarItem>افزودن پروفایل...</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
@@ -254,6 +358,38 @@ export function MenubarRadioDemo() {
             <MenubarRadioItem value="light">روشن</MenubarRadioItem>
             <MenubarRadioItem value="dark">تاریک</MenubarRadioItem>
             <MenubarRadioItem value="system">سیستم</MenubarRadioItem>
+          </MenubarRadioGroup>
+        </MenubarContent>
+      </MenubarMenu>
+    </Menubar>
+  )
+}
+
+export function MenubarIndicatorDemo() {
+  const [user, setUser] = React.useState("sara")
+
+  return (
+    <Menubar dir="rtl" lang="fa">
+      <MenubarMenu>
+        <MenubarTrigger>نمایش</MenubarTrigger>
+        <MenubarContent>
+          <MenubarCheckboxItem indicator="check">نوار ابزار</MenubarCheckboxItem>
+          <MenubarCheckboxItem indicator="check" defaultChecked>
+            نوار وضعیت
+          </MenubarCheckboxItem>
+        </MenubarContent>
+      </MenubarMenu>
+      <MenubarMenu>
+        <MenubarTrigger>پروفایل‌ها</MenubarTrigger>
+        <MenubarContent>
+          <MenubarRadioGroup
+            indicator="check"
+            value={user}
+            onValueChange={setUser}
+          >
+            <MenubarRadioItem value="amin">امین</MenubarRadioItem>
+            <MenubarRadioItem value="sara">سارا</MenubarRadioItem>
+            <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
           </MenubarRadioGroup>
         </MenubarContent>
       </MenubarMenu>

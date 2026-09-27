@@ -35,6 +35,8 @@ type MenubarItemProps = SlotProps & {
 
 type MenubarCheckboxItemProps = SlotProps & {
   checked?: boolean
+  defaultChecked?: boolean
+  indicator?: "check" | "control"
   inset?: boolean
   disabled?: boolean
   onCheckedChange?: (checked: boolean) => void
@@ -45,11 +47,13 @@ type MenubarRadioGroupProps = {
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
+  indicator?: "check" | "control"
   children?: ReactNode
 }
 
 type MenubarRadioItemProps = SlotProps & {
   value: string
+  indicator?: "check" | "control"
   inset?: boolean
   disabled?: boolean
 }
