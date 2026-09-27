@@ -48,7 +48,7 @@ const usageSnippet = `<PhoneField>
   <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
   <PhoneFieldControl>
     <Icon data-icon="inline-start" />
-    <PhoneFieldInput defaultValue="۰۹۱۲ ۳۴۵ ۶۷۸۹" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+    <PhoneFieldInput defaultValue="۰۹۱۲۳۴۵۶۷۸۹" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
     <PhoneFieldClear />
   </PhoneFieldControl>
   <PhoneFieldDescription>
@@ -87,7 +87,7 @@ export default function PhoneFieldPage() {
   <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
   <PhoneFieldControl>
     <Icon data-icon="inline-start" />
-    <PhoneFieldInput defaultValue="۰۹۱۲ ۳۴۵ ۶۷۸۹" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+    <PhoneFieldInput defaultValue="۰۹۱۲۳۴۵۶۷۸۹" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
     <PhoneFieldClear />
   </PhoneFieldControl>
   <PhoneFieldDescription>
@@ -143,7 +143,7 @@ export default function PhoneFieldPage() {
           <ComponentPreview
             code={`<PhoneField>
   <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldInput placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+  <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
   <PhoneFieldDescription>
     شماره باید با ۰۹ شروع شود و ۱۱ رقم باشد.
   </PhoneFieldDescription>
@@ -166,7 +166,7 @@ export default function PhoneFieldPage() {
           <ComponentPreview
             code={`<PhoneField invalid>
   <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldInput defaultValue="۰۹۱۲" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+  <PhoneFieldInput defaultValue="۰۹۱۲" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
   <PhoneFieldError>یک شماره همراه معتبر وارد کنید.</PhoneFieldError>
 </PhoneField>`}
           >
@@ -187,7 +187,7 @@ export default function PhoneFieldPage() {
           <ComponentPreview
             code={`<PhoneField disabled>
   <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldInput defaultValue="۰۹۱۲ ۳۴۵ ۶۷۸۹" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+  <PhoneFieldInput defaultValue="۰۹۱۲۳۴۵۶۷۸۹" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
   <PhoneFieldDescription>این فیلد فعلاً قابل ویرایش نیست.</PhoneFieldDescription>
 </PhoneField>`}
           >
@@ -211,7 +211,7 @@ export default function PhoneFieldPage() {
   <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
   <PhoneFieldControl>
     <Icon data-icon="inline-start" />
-    <PhoneFieldInput placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+    <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
     <PhoneFieldClear />
   </PhoneFieldControl>
   <PhoneFieldDescription>ارتفاع ۴۰ پیکسل</PhoneFieldDescription>
@@ -220,7 +220,7 @@ export default function PhoneFieldPage() {
   <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
   <PhoneFieldControl>
     <Icon data-icon="inline-start" />
-    <PhoneFieldInput placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+    <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
     <PhoneFieldClear />
   </PhoneFieldControl>
   <PhoneFieldDescription>ارتفاع ۴۸ پیکسل</PhoneFieldDescription>
@@ -246,7 +246,7 @@ export default function PhoneFieldPage() {
   <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
   <PhoneFieldControl>
     <Icon data-icon="inline-start" />
-    <PhoneFieldInput placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+    <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
   </PhoneFieldControl>
 </PhoneField>`}
           >
@@ -266,7 +266,7 @@ export default function PhoneFieldPage() {
             code={`<PhoneField>
   <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
   <PhoneFieldControl>
-    <PhoneFieldInput defaultValue="۰۹۱۲ ۳۴۵ ۶۷۸۹" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+    <PhoneFieldInput defaultValue="۰۹۱۲۳۴۵۶۷۸۹" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
     <PhoneFieldClear />
   </PhoneFieldControl>
 </PhoneField>`}
@@ -298,7 +298,7 @@ export default function PhoneFieldPage() {
     <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
     <PhoneFieldControl>
       <Icon data-icon="inline-start" />
-      <PhoneFieldInput name="phone" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" required />
+      <PhoneFieldInput name="phone" placeholder="۰۹۱۲۰۰۰۰۰۰۰" required />
       <PhoneFieldClear />
     </PhoneFieldControl>
     <PhoneFieldDescription>
@@ -333,7 +333,7 @@ export default function PhoneFieldPage() {
   <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
   <PhoneFieldInput
     className="border-border bg-muted focus-visible:bg-background dark:bg-muted dark:focus-visible:bg-background"
-    placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰"
+    placeholder="۰۹۱۲۰۰۰۰۰۰۰"
   />
   <PhoneFieldDescription>
     با className می‌توانید ظاهر را سفارشی کنید.

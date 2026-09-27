@@ -5,6 +5,7 @@ import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { Menubar as MenubarPrimitive } from "@base-ui/react/menubar"
 import { CheckIcon } from "lucide-react"
 
+import { DirectionProvider } from "@/components/cubix/base/direction"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,16 +23,74 @@ import {
 } from "@/components/cubix/base/dropdown-menu"
 import { cn } from "@/lib/utils"
 
-function Menubar({ className, ...props }: MenubarPrimitive.Props) {
+type TextDirection = "ltr" | "rtl"
+
+type MenubarLocale = {
+  dir?: TextDirection
+  lang?: string
+}
+
+const MenubarLocaleContext = React.createContext<MenubarLocale>({})
+
+function useMenubarLocale() {
+  return React.useContext(MenubarLocaleContext)
+}
+
+function toTextDirection(
+  value: string | null | undefined
+): TextDirection | undefined {
+  return value === "rtl" || value === "ltr" ? value : undefined
+}
+
+function resolveClosestDir(node: Element | null): TextDirection | undefined {
+  return toTextDirection(node?.closest("[dir]")?.getAttribute("dir"))
+}
+
+function resolveClosestLang(node: Element | null): string | undefined {
+  return node?.closest("[lang]")?.getAttribute("lang") ?? undefined
+}
+
+function localeDomProps(locale: MenubarLocale) {
+  return {
+    ...(locale.dir ? { dir: locale.dir } : {}),
+    ...(locale.lang ? { lang: locale.lang } : {}),
+  }
+}
+
+function Menubar({
+  className,
+  dir,
+  lang,
+  ...props
+}: MenubarPrimitive.Props) {
+  const ref = React.useRef<HTMLDivElement>(null)
+  const [locale, setLocale] = React.useState<MenubarLocale>({
+    dir: toTextDirection(dir),
+    lang,
+  })
+
+  React.useLayoutEffect(() => {
+    setLocale({
+      dir: toTextDirection(dir) ?? resolveClosestDir(ref.current),
+      lang: lang ?? resolveClosestLang(ref.current),
+    })
+  }, [dir, lang])
+
   return (
-    <MenubarPrimitive
-      data-slot="menubar"
-      className={cn(
-        "flex h-8 items-center gap-0.5 rounded-lg border p-[3px]",
-        className
-      )}
-      {...props}
-    />
+    <MenubarLocaleContext.Provider value={locale}>
+      <DirectionProvider direction={locale.dir ?? "ltr"}>
+        <MenubarPrimitive
+          ref={ref}
+          data-slot="menubar"
+          className={cn(
+            "flex h-8 w-fit items-center gap-0.5 rounded-lg border p-[3px]",
+            className
+          )}
+          {...localeDomProps(locale)}
+          {...props}
+        />
+      </DirectionProvider>
+    </MenubarLocaleContext.Provider>
   )
 }
 
@@ -59,7 +118,7 @@ function MenubarTrigger({
     <DropdownMenuTrigger
       data-slot="menubar-trigger"
       className={cn(
-        "flex items-center rounded-sm px-1.5 py-[2px] text-description font-medium outline-hidden select-none hover:bg-muted aria-expanded:bg-muted",
+        "flex items-center rounded-sm px-1.5 py-[2px] text-label whitespace-nowrap font-medium tracking-normal outline-hidden select-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-secondary focus-visible:ring-offset-1 focus-visible:ring-offset-background aria-expanded:bg-muted",
         className
       )}
       {...props}
@@ -72,8 +131,16 @@ function MenubarContent({
   align = "start",
   alignOffset = -4,
   sideOffset = 8,
+  dir,
+  lang,
   ...props
 }: React.ComponentProps<typeof DropdownMenuContent>) {
+  const locale = useMenubarLocale()
+  const contentLocale = {
+    dir: toTextDirection(dir) ?? locale.dir,
+    lang: lang ?? locale.lang,
+  }
+
   return (
     <DropdownMenuContent
       data-slot="menubar-content"
@@ -81,9 +148,10 @@ function MenubarContent({
       alignOffset={alignOffset}
       sideOffset={sideOffset}
       className={cn(
-        "min-w-36 rounded-lg bg-popover p-1 text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
+        "w-max min-w-32 overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
         className
       )}
+      {...localeDomProps(contentLocale)}
       {...props}
     />
   )
@@ -101,7 +169,7 @@ function MenubarItem({
       data-inset={inset}
       data-variant={variant}
       className={cn(
-        "group/menubar-item gap-1.5 rounded-md px-1.5 py-1 text-description focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:pl-7 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 data-[variant=destructive]:*:[svg]:text-destructive!",
+        "group/menubar-item relative flex w-full cursor-default items-center gap-1.5 rounded-md px-1.5 py-1.25 text-label whitespace-nowrap tracking-normal focus:bg-accent focus:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:ps-7 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-disabled:opacity-50 [&_svg:not([class*='size-'])]:size-4 data-[variant=destructive]:*:[svg]:text-destructive!",
         className
       )}
       {...props}
@@ -123,15 +191,15 @@ function MenubarCheckboxItem({
       data-slot="menubar-checkbox-item"
       data-inset={inset}
       className={cn(
-        "relative flex cursor-default items-center gap-1.5 rounded-md py-1 pr-1.5 pl-7 text-description outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:pl-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+        "relative flex w-full cursor-default items-center gap-1.5 rounded-md py-1.25 pe-1.5 ps-7 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:ps-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         className
       )}
       checked={checked}
       {...props}
     >
-      <span className="pointer-events-none absolute left-1.5 flex size-4 items-center justify-center [&_svg:not([class*='size-'])]:size-4">
+      <span className="pointer-events-none absolute start-1.5 flex size-4 items-center justify-center [&_svg:not([class*='size-'])]:size-4">
         <MenuPrimitive.CheckboxItemIndicator>
-          <CheckIcon />
+          <CheckIcon absoluteStrokeWidth strokeWidth={1.6} />
         </MenuPrimitive.CheckboxItemIndicator>
       </span>
       {children}
@@ -158,14 +226,14 @@ function MenubarRadioItem({
       data-slot="menubar-radio-item"
       data-inset={inset}
       className={cn(
-        "relative flex cursor-default items-center gap-1.5 rounded-md py-1 pr-1.5 pl-7 text-description outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:pl-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+        "relative flex w-full cursor-default items-center gap-1.5 rounded-md py-1.25 pe-1.5 ps-7 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground focus:**:text-accent-foreground data-inset:ps-7 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
         className
       )}
       {...props}
     >
-      <span className="pointer-events-none absolute left-1.5 flex size-4 items-center justify-center [&_svg:not([class*='size-'])]:size-4">
+      <span className="pointer-events-none absolute start-1.5 flex size-4 items-center justify-center [&_svg:not([class*='size-'])]:size-4">
         <MenuPrimitive.RadioItemIndicator>
-          <CheckIcon />
+          <CheckIcon absoluteStrokeWidth strokeWidth={1.6} />
         </MenuPrimitive.RadioItemIndicator>
       </span>
       {children}
@@ -185,7 +253,7 @@ function MenubarLabel({
       data-slot="menubar-label"
       data-inset={inset}
       className={cn(
-        "px-1.5 py-1 text-description font-medium data-inset:pl-7",
+        "px-1.5 py-1 text-label whitespace-nowrap font-medium tracking-normal data-inset:ps-7",
         className
       )}
       {...props}
@@ -214,7 +282,7 @@ function MenubarShortcut({
     <DropdownMenuShortcut
       data-slot="menubar-shortcut"
       className={cn(
-        "ml-auto text-caption tracking-widest text-muted-foreground group-focus/menubar-item:text-accent-foreground",
+        "ms-auto shrink-0 ps-4 font-mono text-caption tracking-normal whitespace-nowrap text-muted-foreground group-focus/menubar-item:text-accent-foreground",
         className
       )}
       {...props}
@@ -240,7 +308,7 @@ function MenubarSubTrigger({
       data-slot="menubar-sub-trigger"
       data-inset={inset}
       className={cn(
-        "gap-1.5 rounded-md px-1.5 py-1 text-description focus:bg-accent focus:text-accent-foreground data-inset:pl-7 data-open:bg-accent data-open:text-accent-foreground [&_svg:not([class*='size-'])]:size-4",
+        "relative flex w-full cursor-default items-center gap-1.5 rounded-md px-1.5 py-1.25 text-label whitespace-nowrap tracking-normal focus:bg-accent focus:text-accent-foreground data-inset:ps-7 data-open:bg-accent data-open:text-accent-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:rtl:rotate-180",
         className
       )}
       {...props}
@@ -250,15 +318,25 @@ function MenubarSubTrigger({
 
 function MenubarSubContent({
   className,
+  dir,
+  lang,
   ...props
 }: React.ComponentProps<typeof DropdownMenuSubContent>) {
+  const locale = useMenubarLocale()
+  const contentLocale = {
+    dir: toTextDirection(dir) ?? locale.dir,
+    lang: lang ?? locale.lang,
+  }
+
   return (
     <DropdownMenuSubContent
       data-slot="menubar-sub-content"
+      side="inline-end"
       className={cn(
-        "min-w-32 rounded-lg bg-popover p-1 text-popover-foreground shadow-lg ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+        "w-max min-w-32 overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/10 duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
         className
       )}
+      {...localeDomProps(contentLocale)}
       {...props}
     />
   )

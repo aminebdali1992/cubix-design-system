@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Menubar",
   "description": "A visually persistent menu common in desktop applications.",
-  "dependencies": ["@base-ui/react"],
+  "dependencies": ["@base-ui/react", "lucide-react"],
   "registryDependencies": ["dropdown-menu"],
   "files": [
     {

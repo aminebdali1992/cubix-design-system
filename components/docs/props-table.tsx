@@ -22,7 +22,7 @@ export function PropsTable({
         <tbody>
           {data.map((row) => (
             <tr key={row.prop} className="border-b last:border-0">
-              <td className="px-4 py-3 align-top font-mono text-xs font-medium text-primary">
+              <td className="px-4 py-3 align-top font-mono text-xs font-medium text-foreground">
                 {row.prop}
               </td>
               <td className="px-4 py-3 align-top font-mono text-xs text-muted-foreground">

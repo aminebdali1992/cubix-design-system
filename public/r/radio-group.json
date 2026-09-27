@@ -3,8 +3,8 @@
   "name": "radio-group",
   "type": "registry:ui",
   "title": "Radio Group",
-  "description": "A set of checkable buttons where only one can be checked at a time.",
-  "dependencies": [],
+  "description": "A set of checkable buttons where only one can be checked at a time. Compose each option with Label via id and htmlFor.",
+  "dependencies": ["@base-ui/react"],
   "registryDependencies": [],
   "files": [
     {

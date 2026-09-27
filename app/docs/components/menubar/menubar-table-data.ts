@@ -1,5 +1,17 @@
 export const menubarPropRows = [
   {
+    prop: "dir",
+    type: '"ltr" | "rtl"',
+    description:
+      "Text direction. Portaled menus inherit this so RTL layout and alignment stay correct.",
+  },
+  {
+    prop: "lang",
+    type: "string",
+    description:
+      'Document language on the menubar and portaled content (e.g. "fa"). Enables IRANSans metrics and zero letter-spacing for Arab script.',
+  },
+  {
     prop: "className",
     type: "string",
     description:
@@ -63,7 +75,7 @@ export const itemPropRows = [
   {
     prop: "inset",
     type: "boolean",
-    description: "Adds left padding to align with items that have indicators.",
+    description: "Adds start padding to align with items that have indicators.",
   },
   {
     prop: "variant",
@@ -93,7 +105,7 @@ export const checkboxItemPropRows = [
   {
     prop: "inset",
     type: "boolean",
-    description: "Adds left padding for alignment.",
+    description: "Adds start padding for alignment.",
   },
   {
     prop: "disabled",

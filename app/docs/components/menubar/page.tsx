@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
@@ -41,16 +42,16 @@ const usageImport = `import {
   MenubarTrigger,
 } from "@/components/cubix/menubar"`
 
-const usageSnippet = `<Menubar>
+const usageSnippet = `<Menubar dir="rtl" lang="fa">
   <MenubarMenu>
-    <MenubarTrigger>File</MenubarTrigger>
+    <MenubarTrigger>پرونده</MenubarTrigger>
     <MenubarContent>
       <MenubarItem>
-        New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+        زبانه جدید <MenubarShortcut>⌘T</MenubarShortcut>
       </MenubarItem>
-      <MenubarItem>New Window</MenubarItem>
+      <MenubarItem>پنجره جدید</MenubarItem>
       <MenubarSeparator />
-      <MenubarItem>Share</MenubarItem>
+      <MenubarItem>اشتراک‌گذاری</MenubarItem>
     </MenubarContent>
   </MenubarMenu>
 </Menubar>`
@@ -71,129 +72,137 @@ const compositionSnippet = `Menubar
     ├── MenubarTrigger
     └── MenubarContent`
 
-const demoSnippet = `<Menubar>
+const demoSnippet = `<Menubar dir="rtl" lang="fa">
   <MenubarMenu>
-    <MenubarTrigger>File</MenubarTrigger>
+    <MenubarTrigger>پرونده</MenubarTrigger>
     <MenubarContent>
       <MenubarItem>
-        New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+        زبانه جدید <MenubarShortcut>⌘T</MenubarShortcut>
       </MenubarItem>
       <MenubarItem>
-        New Window <MenubarShortcut>⌘N</MenubarShortcut>
+        پنجره جدید <MenubarShortcut>⌘N</MenubarShortcut>
       </MenubarItem>
-      <MenubarItem disabled>New Incognito Window</MenubarItem>
+      <MenubarItem disabled>پنجره ناشناس</MenubarItem>
       <MenubarSeparator />
       <MenubarSub>
-        <MenubarSubTrigger>Share</MenubarSubTrigger>
+        <MenubarSubTrigger>اشتراک‌گذاری</MenubarSubTrigger>
         <MenubarSubContent>
-          <MenubarItem>Email link</MenubarItem>
-          <MenubarItem>Messages</MenubarItem>
-          <MenubarItem>Notes</MenubarItem>
+          <MenubarItem>لینک ایمیل</MenubarItem>
+          <MenubarItem>پیام‌ها</MenubarItem>
+          <MenubarItem>یادداشت‌ها</MenubarItem>
         </MenubarSubContent>
       </MenubarSub>
       <MenubarSeparator />
       <MenubarItem>
-        Print... <MenubarShortcut>⌘P</MenubarShortcut>
+        چاپ... <MenubarShortcut>⌘P</MenubarShortcut>
       </MenubarItem>
     </MenubarContent>
   </MenubarMenu>
   <MenubarMenu>
-    <MenubarTrigger>Edit</MenubarTrigger>
+    <MenubarTrigger>ویرایش</MenubarTrigger>
     <MenubarContent>...</MenubarContent>
   </MenubarMenu>
   <MenubarMenu>
-    <MenubarTrigger>View</MenubarTrigger>
+    <MenubarTrigger>نمایش</MenubarTrigger>
     <MenubarContent>...</MenubarContent>
   </MenubarMenu>
   <MenubarMenu>
-    <MenubarTrigger>Profiles</MenubarTrigger>
+    <MenubarTrigger>پروفایل‌ها</MenubarTrigger>
     <MenubarContent>...</MenubarContent>
   </MenubarMenu>
 </Menubar>`
 
-const basicSnippet = `<Menubar>
+const basicSnippet = `<Menubar dir="rtl" lang="fa">
   <MenubarMenu>
-    <MenubarTrigger>File</MenubarTrigger>
+    <MenubarTrigger>پرونده</MenubarTrigger>
     <MenubarContent>
       <MenubarItem>
-        New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+        زبانه جدید <MenubarShortcut>⌘T</MenubarShortcut>
       </MenubarItem>
       <MenubarItem>
-        New Window <MenubarShortcut>⌘N</MenubarShortcut>
+        پنجره جدید <MenubarShortcut>⌘N</MenubarShortcut>
       </MenubarItem>
-      <MenubarItem disabled>New Incognito Window</MenubarItem>
+      <MenubarItem disabled>پنجره ناشناس</MenubarItem>
       <MenubarSeparator />
       <MenubarItem>
-        Print... <MenubarShortcut>⌘P</MenubarShortcut>
+        چاپ... <MenubarShortcut>⌘P</MenubarShortcut>
       </MenubarItem>
     </MenubarContent>
   </MenubarMenu>
   <MenubarMenu>
-    <MenubarTrigger>Edit</MenubarTrigger>
+    <MenubarTrigger>ویرایش</MenubarTrigger>
     <MenubarContent>
       <MenubarItem>
-        Undo <MenubarShortcut>⌘Z</MenubarShortcut>
+        واگرد <MenubarShortcut>⌘Z</MenubarShortcut>
       </MenubarItem>
       <MenubarItem>
-        Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+        بازگردانی <MenubarShortcut>⇧⌘Z</MenubarShortcut>
       </MenubarItem>
       <MenubarSeparator />
-      <MenubarItem>Cut</MenubarItem>
-      <MenubarItem>Copy</MenubarItem>
-      <MenubarItem>Paste</MenubarItem>
+      <MenubarItem>برش</MenubarItem>
+      <MenubarItem>کپی</MenubarItem>
+      <MenubarItem>جای‌گذاری</MenubarItem>
     </MenubarContent>
   </MenubarMenu>
 </Menubar>`
 
 const submenuSnippet = `<MenubarMenu>
-  <MenubarTrigger>File</MenubarTrigger>
+  <MenubarTrigger>پرونده</MenubarTrigger>
   <MenubarContent>
     <MenubarSub>
-      <MenubarSubTrigger>Share</MenubarSubTrigger>
+      <MenubarSubTrigger>اشتراک‌گذاری</MenubarSubTrigger>
       <MenubarSubContent>
-        <MenubarItem>Email link</MenubarItem>
-        <MenubarItem>Messages</MenubarItem>
-        <MenubarItem>Notes</MenubarItem>
+        <MenubarItem>لینک ایمیل</MenubarItem>
+        <MenubarItem>پیام‌ها</MenubarItem>
+        <MenubarItem>یادداشت‌ها</MenubarItem>
       </MenubarSubContent>
     </MenubarSub>
   </MenubarContent>
 </MenubarMenu>`
 
 const checkboxSnippet = `<MenubarMenu>
-  <MenubarTrigger>View</MenubarTrigger>
-  <MenubarContent className="w-64">
-    <MenubarCheckboxItem>Always Show Bookmarks Bar</MenubarCheckboxItem>
+  <MenubarTrigger>نمایش</MenubarTrigger>
+  <MenubarContent>
+    <MenubarCheckboxItem>نوار نشانک‌ها همیشه نمایش داده شود</MenubarCheckboxItem>
     <MenubarCheckboxItem checked>
-      Always Show Full URLs
+      آدرس کامل همیشه نمایش داده شود
     </MenubarCheckboxItem>
     <MenubarSeparator />
     <MenubarItem inset>
-      Reload <MenubarShortcut>⌘R</MenubarShortcut>
+      بارگذاری مجدد <MenubarShortcut>⌘R</MenubarShortcut>
     </MenubarItem>
   </MenubarContent>
 </MenubarMenu>`
 
-const radioSnippet = `const [user, setUser] = React.useState("benoit")
+const radioSnippet = `const [user, setUser] = React.useState("sara")
 
 <MenubarMenu>
-  <MenubarTrigger>Profiles</MenubarTrigger>
+  <MenubarTrigger>پروفایل‌ها</MenubarTrigger>
   <MenubarContent>
     <MenubarRadioGroup value={user} onValueChange={setUser}>
-      <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
-      <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
-      <MenubarRadioItem value="luis">Luis</MenubarRadioItem>
+      <MenubarRadioItem value="amin">امین</MenubarRadioItem>
+      <MenubarRadioItem value="sara">سارا</MenubarRadioItem>
+      <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
     </MenubarRadioGroup>
   </MenubarContent>
 </MenubarMenu>`
 
-const sidesSnippet = `<Menubar>
+const sidesSnippet = `<Menubar dir="rtl" lang="fa">
   <MenubarMenu>
-    <MenubarTrigger>top</MenubarTrigger>
+    <MenubarTrigger>بالا</MenubarTrigger>
     <MenubarContent side="top">
-      <MenubarItem>New Tab</MenubarItem>
+      <MenubarItem>زبانه جدید</MenubarItem>
     </MenubarContent>
   </MenubarMenu>
 </Menubar>`
+
+function PreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div dir="rtl" lang="fa" className="flex w-full justify-center">
+      {children}
+    </div>
+  )
+}
 
 export default function MenubarDocsPage() {
   return (
@@ -205,7 +214,9 @@ export default function MenubarDocsPage() {
       />
 
       <ComponentPreview code={demoSnippet} previewClassName="min-h-48">
-        <MenubarDemo />
+        <PreviewShell>
+          <MenubarDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="menubar" />
@@ -230,7 +241,9 @@ export default function MenubarDocsPage() {
       <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Basic</h2>
         <ComponentPreview code={basicSnippet} previewClassName="min-h-40">
-          <MenubarBasicDemo />
+          <PreviewShell>
+            <MenubarBasicDemo />
+          </PreviewShell>
         </ComponentPreview>
       </section>
 
@@ -243,7 +256,9 @@ export default function MenubarDocsPage() {
           <code className="font-mono text-sm">MenubarSubContent</code>.
         </p>
         <ComponentPreview code={submenuSnippet} previewClassName="min-h-40">
-          <MenubarSubmenuDemo />
+          <PreviewShell>
+            <MenubarSubmenuDemo />
+          </PreviewShell>
         </ComponentPreview>
       </section>
 
@@ -252,14 +267,18 @@ export default function MenubarDocsPage() {
           Checkboxes
         </h2>
         <ComponentPreview code={checkboxSnippet} previewClassName="min-h-40">
-          <MenubarCheckboxDemo />
+          <PreviewShell>
+            <MenubarCheckboxDemo />
+          </PreviewShell>
         </ComponentPreview>
       </section>
 
       <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Radio</h2>
         <ComponentPreview code={radioSnippet} previewClassName="min-h-40">
-          <MenubarRadioDemo />
+          <PreviewShell>
+            <MenubarRadioDemo />
+          </PreviewShell>
         </ComponentPreview>
       </section>
 
@@ -271,7 +290,9 @@ export default function MenubarDocsPage() {
           placement.
         </p>
         <ComponentPreview code={sidesSnippet} previewClassName="min-h-48">
-          <MenubarSidesDemo />
+          <PreviewShell>
+            <MenubarSidesDemo />
+          </PreviewShell>
         </ComponentPreview>
       </section>
 

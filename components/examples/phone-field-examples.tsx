@@ -19,8 +19,8 @@ export function PhoneFieldDemo() {
       <PhoneFieldControl>
         <PhoneFieldDemoIcon data-icon="inline-start" />
         <PhoneFieldInput
-          defaultValue="۰۹۱۲ ۳۴۵ ۶۷۸۹"
-          placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰"
+          defaultValue="۰۹۱۲۳۴۵۶۷۸۹"
+          placeholder="۰۹۱۲۰۰۰۰۰۰۰"
         />
         <PhoneFieldClear aria-label="پاک کردن" />
       </PhoneFieldControl>
@@ -35,7 +35,7 @@ export function PhoneFieldDescriptionDemo() {
   return (
     <PhoneField className="w-full max-w-sm">
       <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-      <PhoneFieldInput placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+      <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
       <PhoneFieldDescription>
         شماره باید با ۰۹ شروع شود و ۱۱ رقم باشد.
       </PhoneFieldDescription>
@@ -47,7 +47,7 @@ export function PhoneFieldInvalidDemo() {
   return (
     <PhoneField className="w-full max-w-sm" invalid>
       <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-      <PhoneFieldInput defaultValue="۰۹۱۲" placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+      <PhoneFieldInput defaultValue="۰۹۱۲" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
       <PhoneFieldError>یک شماره همراه معتبر وارد کنید.</PhoneFieldError>
     </PhoneField>
   )
@@ -58,8 +58,8 @@ export function PhoneFieldDisabledDemo() {
     <PhoneField className="w-full max-w-sm" disabled>
       <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
       <PhoneFieldInput
-        defaultValue="۰۹۱۲ ۳۴۵ ۶۷۸۹"
-        placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰"
+        defaultValue="۰۹۱۲۳۴۵۶۷۸۹"
+        placeholder="۰۹۱۲۰۰۰۰۰۰۰"
       />
       <PhoneFieldDescription>
         این فیلد فعلاً قابل ویرایش نیست.
@@ -75,7 +75,7 @@ export function PhoneFieldSizesDemo() {
         <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
         <PhoneFieldControl>
           <PhoneFieldDemoIcon data-icon="inline-start" />
-          <PhoneFieldInput placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+          <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
           <PhoneFieldClear aria-label="پاک کردن" />
         </PhoneFieldControl>
         <PhoneFieldDescription>ارتفاع ۴۰ پیکسل</PhoneFieldDescription>
@@ -84,7 +84,7 @@ export function PhoneFieldSizesDemo() {
         <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
         <PhoneFieldControl>
           <PhoneFieldDemoIcon data-icon="inline-start" />
-          <PhoneFieldInput placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+          <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
           <PhoneFieldClear aria-label="پاک کردن" />
         </PhoneFieldControl>
         <PhoneFieldDescription>ارتفاع ۴۸ پیکسل</PhoneFieldDescription>
@@ -99,7 +99,7 @@ export function PhoneFieldIconsDemo() {
       <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
       <PhoneFieldControl>
         <PhoneFieldDemoIcon data-icon="inline-start" />
-        <PhoneFieldInput placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰" />
+        <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
       </PhoneFieldControl>
     </PhoneField>
   )
@@ -111,8 +111,8 @@ export function PhoneFieldClearDemo() {
       <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
       <PhoneFieldControl>
         <PhoneFieldInput
-          defaultValue="۰۹۱۲ ۳۴۵ ۶۷۸۹"
-          placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰"
+          defaultValue="۰۹۱۲۳۴۵۶۷۸۹"
+          placeholder="۰۹۱۲۰۰۰۰۰۰۰"
         />
         <PhoneFieldClear aria-label="پاک کردن" />
       </PhoneFieldControl>
@@ -140,7 +140,7 @@ export function PhoneFieldFormDemo() {
           <PhoneFieldDemoIcon data-icon="inline-start" />
           <PhoneFieldInput
             name="phone"
-            placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰"
+            placeholder="۰۹۱۲۰۰۰۰۰۰۰"
             required
           />
           <PhoneFieldClear aria-label="پاک کردن" />
@@ -165,7 +165,7 @@ export function PhoneFieldCustomDemo() {
       <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
       <PhoneFieldInput
         className="border-border bg-muted focus-visible:bg-background dark:bg-muted dark:focus-visible:bg-background"
-        placeholder="۰۹۱۲ ۰۰۰ ۰۰۰۰"
+        placeholder="۰۹۱۲۰۰۰۰۰۰۰"
       />
       <PhoneFieldDescription>
         با className می‌توانید ظاهر را سفارشی کنید.

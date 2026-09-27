@@ -287,7 +287,7 @@
       "name": "checkbox",
       "type": "registry:ui",
       "title": "Checkbox",
-      "description": "A control that allows the user to toggle between checked and unchecked states.",
+      "description": "A control that toggles between checked, unchecked, and indeterminate. Compose with Label via id and htmlFor.",
       "files": [{ "path": "public/r/checkbox.json", "type": "registry:ui" }]
     },
     {
@@ -427,7 +427,7 @@
       "name": "radio-group",
       "type": "registry:ui",
       "title": "Radio Group",
-      "description": "A set of checkable buttons where only one can be checked at a time.",
+      "description": "A set of checkable buttons where only one can be checked at a time. Compose each option with Label via id and htmlFor.",
       "files": [{ "path": "public/r/radio-group.json", "type": "registry:ui" }]
     },
     {
@@ -471,6 +471,48 @@
       "title": "Phone Field",
       "description": "A labeled mobile phone field with icons, clear, description, and error. type is locked to tel.",
       "files": [{ "path": "public/r/phone-field.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "password-field",
+      "type": "registry:ui",
+      "title": "Password Field",
+      "description": "A labeled password field with icons, visibility toggle, description, and error. type switches between password and text when revealed.",
+      "files": [{ "path": "public/r/password-field.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "number-field",
+      "type": "registry:ui",
+      "title": "Number Field",
+      "description": "A labeled number field with icons, stepper arrows, description, and error. inputMode is locked to numeric; values always display as Persian digits.",
+      "files": [{ "path": "public/r/number-field.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "amount-field",
+      "type": "registry:ui",
+      "title": "Amount Field",
+      "description": "A labeled amount field with currency unit, description, and error. Values always display as Persian digits with thousand separators.",
+      "files": [{ "path": "public/r/amount-field.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "birthday-date",
+      "type": "registry:ui",
+      "title": "Birthday Date",
+      "description": "A labeled birthday field with separate day, month, and year inputs. Values always display as Persian digits.",
+      "files": [{ "path": "public/r/birthday-date.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "credit-card",
+      "type": "registry:ui",
+      "title": "Credit Card",
+      "description": "A labeled credit card number field with four separate 4-digit inputs. Values always display as Persian digits.",
+      "files": [{ "path": "public/r/credit-card.json", "type": "registry:ui" }]
+    },
+    {
+      "name": "verify-code",
+      "type": "registry:ui",
+      "title": "Verify Code",
+      "description": "A labeled one-time verify code field with separate digit boxes. Set length for box count and groups to insert - separators between digit groups. Values always display as Persian digits.",
+      "files": [{ "path": "public/r/verify-code.json", "type": "registry:ui" }]
     },
     {
       "name": "textarea",

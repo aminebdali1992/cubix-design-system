@@ -17,94 +17,94 @@ import {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-} from "@/components/cubix/menubar"
+} from "@/app/docs/components/menubar/docs-menubar"
 
 export function MenubarDemo() {
   return (
-    <Menubar>
+    <Menubar dir="rtl" lang="fa">
       <MenubarMenu>
-        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarTrigger>پرونده</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+            زبانه جدید <MenubarShortcut>⌘T</MenubarShortcut>
           </MenubarItem>
           <MenubarItem>
-            New Window <MenubarShortcut>⌘N</MenubarShortcut>
+            پنجره جدید <MenubarShortcut>⌘N</MenubarShortcut>
           </MenubarItem>
-          <MenubarItem disabled>New Incognito Window</MenubarItem>
+          <MenubarItem disabled>پنجره ناشناس</MenubarItem>
           <MenubarSeparator />
           <MenubarSub>
-            <MenubarSubTrigger>Share</MenubarSubTrigger>
+            <MenubarSubTrigger>اشتراک‌گذاری</MenubarSubTrigger>
             <MenubarSubContent>
-              <MenubarItem>Email link</MenubarItem>
-              <MenubarItem>Messages</MenubarItem>
-              <MenubarItem>Notes</MenubarItem>
+              <MenubarItem>لینک ایمیل</MenubarItem>
+              <MenubarItem>پیام‌ها</MenubarItem>
+              <MenubarItem>یادداشت‌ها</MenubarItem>
             </MenubarSubContent>
           </MenubarSub>
           <MenubarSeparator />
           <MenubarItem>
-            Print... <MenubarShortcut>⌘P</MenubarShortcut>
+            چاپ... <MenubarShortcut>⌘P</MenubarShortcut>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Edit</MenubarTrigger>
+        <MenubarTrigger>ویرایش</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            Undo <MenubarShortcut>⌘Z</MenubarShortcut>
+            واگرد <MenubarShortcut>⌘Z</MenubarShortcut>
           </MenubarItem>
           <MenubarItem>
-            Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+            بازگردانی <MenubarShortcut>⇧⌘Z</MenubarShortcut>
           </MenubarItem>
           <MenubarSeparator />
           <MenubarSub>
-            <MenubarSubTrigger>Find</MenubarSubTrigger>
+            <MenubarSubTrigger>یافتن</MenubarSubTrigger>
             <MenubarSubContent>
-              <MenubarItem>Search the web</MenubarItem>
+              <MenubarItem>جستجو در وب</MenubarItem>
               <MenubarSeparator />
-              <MenubarItem>Find...</MenubarItem>
-              <MenubarItem>Find Next</MenubarItem>
-              <MenubarItem>Find Previous</MenubarItem>
+              <MenubarItem>یافتن...</MenubarItem>
+              <MenubarItem>یافتن بعدی</MenubarItem>
+              <MenubarItem>یافتن قبلی</MenubarItem>
             </MenubarSubContent>
           </MenubarSub>
           <MenubarSeparator />
-          <MenubarItem>Cut</MenubarItem>
-          <MenubarItem>Copy</MenubarItem>
-          <MenubarItem>Paste</MenubarItem>
+          <MenubarItem>برش</MenubarItem>
+          <MenubarItem>کپی</MenubarItem>
+          <MenubarItem>جای‌گذاری</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>View</MenubarTrigger>
+        <MenubarTrigger>نمایش</MenubarTrigger>
         <MenubarContent>
-          <MenubarCheckboxItem>Always Show Bookmarks Bar</MenubarCheckboxItem>
+          <MenubarCheckboxItem>نوار نشانک‌ها همیشه نمایش داده شود</MenubarCheckboxItem>
           <MenubarCheckboxItem checked>
-            Always Show Full URLs
+            آدرس کامل همیشه نمایش داده شود
           </MenubarCheckboxItem>
           <MenubarSeparator />
           <MenubarItem inset>
-            Reload <MenubarShortcut>⌘R</MenubarShortcut>
+            بارگذاری مجدد <MenubarShortcut>⌘R</MenubarShortcut>
           </MenubarItem>
           <MenubarItem disabled inset>
-            Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut>
+            بارگذاری اجباری <MenubarShortcut>⇧⌘R</MenubarShortcut>
           </MenubarItem>
           <MenubarSeparator />
-          <MenubarItem inset>Toggle Fullscreen</MenubarItem>
+          <MenubarItem inset>تمام‌صفحه</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem inset>Hide Sidebar</MenubarItem>
+          <MenubarItem inset>پنهان کردن نوار کناری</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Profiles</MenubarTrigger>
+        <MenubarTrigger>پروفایل‌ها</MenubarTrigger>
         <MenubarContent>
-          <MenubarRadioGroup defaultValue="benoit">
-            <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
-            <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
-            <MenubarRadioItem value="Luis">Luis</MenubarRadioItem>
+          <MenubarRadioGroup defaultValue="sara">
+            <MenubarRadioItem value="amin">امین</MenubarRadioItem>
+            <MenubarRadioItem value="sara">سارا</MenubarRadioItem>
+            <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
           </MenubarRadioGroup>
           <MenubarSeparator />
-          <MenubarItem inset>Edit...</MenubarItem>
+          <MenubarItem inset>ویرایش...</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem inset>Add Profile...</MenubarItem>
+          <MenubarItem inset>افزودن پروفایل...</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
@@ -113,36 +113,36 @@ export function MenubarDemo() {
 
 export function MenubarBasicDemo() {
   return (
-    <Menubar>
+    <Menubar dir="rtl" lang="fa">
       <MenubarMenu>
-        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarTrigger>پرونده</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+            زبانه جدید <MenubarShortcut>⌘T</MenubarShortcut>
           </MenubarItem>
           <MenubarItem>
-            New Window <MenubarShortcut>⌘N</MenubarShortcut>
+            پنجره جدید <MenubarShortcut>⌘N</MenubarShortcut>
           </MenubarItem>
-          <MenubarItem disabled>New Incognito Window</MenubarItem>
+          <MenubarItem disabled>پنجره ناشناس</MenubarItem>
           <MenubarSeparator />
           <MenubarItem>
-            Print... <MenubarShortcut>⌘P</MenubarShortcut>
+            چاپ... <MenubarShortcut>⌘P</MenubarShortcut>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Edit</MenubarTrigger>
+        <MenubarTrigger>ویرایش</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            Undo <MenubarShortcut>⌘Z</MenubarShortcut>
+            واگرد <MenubarShortcut>⌘Z</MenubarShortcut>
           </MenubarItem>
           <MenubarItem>
-            Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+            بازگردانی <MenubarShortcut>⇧⌘Z</MenubarShortcut>
           </MenubarItem>
           <MenubarSeparator />
-          <MenubarItem>Cut</MenubarItem>
-          <MenubarItem>Copy</MenubarItem>
-          <MenubarItem>Paste</MenubarItem>
+          <MenubarItem>برش</MenubarItem>
+          <MenubarItem>کپی</MenubarItem>
+          <MenubarItem>جای‌گذاری</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
@@ -151,46 +151,46 @@ export function MenubarBasicDemo() {
 
 export function MenubarSubmenuDemo() {
   return (
-    <Menubar>
+    <Menubar dir="rtl" lang="fa">
       <MenubarMenu>
-        <MenubarTrigger>File</MenubarTrigger>
+        <MenubarTrigger>پرونده</MenubarTrigger>
         <MenubarContent>
           <MenubarSub>
-            <MenubarSubTrigger>Share</MenubarSubTrigger>
+            <MenubarSubTrigger>اشتراک‌گذاری</MenubarSubTrigger>
             <MenubarSubContent>
-              <MenubarItem>Email link</MenubarItem>
-              <MenubarItem>Messages</MenubarItem>
-              <MenubarItem>Notes</MenubarItem>
+              <MenubarItem>لینک ایمیل</MenubarItem>
+              <MenubarItem>پیام‌ها</MenubarItem>
+              <MenubarItem>یادداشت‌ها</MenubarItem>
             </MenubarSubContent>
           </MenubarSub>
           <MenubarSeparator />
           <MenubarItem>
-            Print... <MenubarShortcut>⌘P</MenubarShortcut>
+            چاپ... <MenubarShortcut>⌘P</MenubarShortcut>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Edit</MenubarTrigger>
+        <MenubarTrigger>ویرایش</MenubarTrigger>
         <MenubarContent>
           <MenubarItem>
-            Undo <MenubarShortcut>⌘Z</MenubarShortcut>
+            واگرد <MenubarShortcut>⌘Z</MenubarShortcut>
           </MenubarItem>
           <MenubarItem>
-            Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+            بازگردانی <MenubarShortcut>⇧⌘Z</MenubarShortcut>
           </MenubarItem>
           <MenubarSeparator />
           <MenubarSub>
-            <MenubarSubTrigger>Find</MenubarSubTrigger>
+            <MenubarSubTrigger>یافتن</MenubarSubTrigger>
             <MenubarSubContent>
-              <MenubarItem>Find...</MenubarItem>
-              <MenubarItem>Find Next</MenubarItem>
-              <MenubarItem>Find Previous</MenubarItem>
+              <MenubarItem>یافتن...</MenubarItem>
+              <MenubarItem>یافتن بعدی</MenubarItem>
+              <MenubarItem>یافتن قبلی</MenubarItem>
             </MenubarSubContent>
           </MenubarSub>
           <MenubarSeparator />
-          <MenubarItem>Cut</MenubarItem>
-          <MenubarItem>Copy</MenubarItem>
-          <MenubarItem>Paste</MenubarItem>
+          <MenubarItem>برش</MenubarItem>
+          <MenubarItem>کپی</MenubarItem>
+          <MenubarItem>جای‌گذاری</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
@@ -199,29 +199,29 @@ export function MenubarSubmenuDemo() {
 
 export function MenubarCheckboxDemo() {
   return (
-    <Menubar>
+    <Menubar dir="rtl" lang="fa">
       <MenubarMenu>
-        <MenubarTrigger>View</MenubarTrigger>
-        <MenubarContent className="w-64">
-          <MenubarCheckboxItem>Always Show Bookmarks Bar</MenubarCheckboxItem>
+        <MenubarTrigger>نمایش</MenubarTrigger>
+        <MenubarContent>
+          <MenubarCheckboxItem>نوار نشانک‌ها همیشه نمایش داده شود</MenubarCheckboxItem>
           <MenubarCheckboxItem checked>
-            Always Show Full URLs
+            آدرس کامل همیشه نمایش داده شود
           </MenubarCheckboxItem>
           <MenubarSeparator />
           <MenubarItem inset>
-            Reload <MenubarShortcut>⌘R</MenubarShortcut>
+            بارگذاری مجدد <MenubarShortcut>⌘R</MenubarShortcut>
           </MenubarItem>
           <MenubarItem disabled inset>
-            Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut>
+            بارگذاری اجباری <MenubarShortcut>⇧⌘R</MenubarShortcut>
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Format</MenubarTrigger>
+        <MenubarTrigger>قالب</MenubarTrigger>
         <MenubarContent>
-          <MenubarCheckboxItem checked>Strikethrough</MenubarCheckboxItem>
-          <MenubarCheckboxItem>Code</MenubarCheckboxItem>
-          <MenubarCheckboxItem>Superscript</MenubarCheckboxItem>
+          <MenubarCheckboxItem checked>خط‌خورده</MenubarCheckboxItem>
+          <MenubarCheckboxItem>کد</MenubarCheckboxItem>
+          <MenubarCheckboxItem>بالانویس</MenubarCheckboxItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
@@ -229,31 +229,31 @@ export function MenubarCheckboxDemo() {
 }
 
 export function MenubarRadioDemo() {
-  const [user, setUser] = React.useState("benoit")
+  const [user, setUser] = React.useState("sara")
   const [theme, setTheme] = React.useState("system")
 
   return (
-    <Menubar>
+    <Menubar dir="rtl" lang="fa">
       <MenubarMenu>
-        <MenubarTrigger>Profiles</MenubarTrigger>
+        <MenubarTrigger>پروفایل‌ها</MenubarTrigger>
         <MenubarContent>
           <MenubarRadioGroup value={user} onValueChange={setUser}>
-            <MenubarRadioItem value="andy">Andy</MenubarRadioItem>
-            <MenubarRadioItem value="benoit">Benoit</MenubarRadioItem>
-            <MenubarRadioItem value="luis">Luis</MenubarRadioItem>
+            <MenubarRadioItem value="amin">امین</MenubarRadioItem>
+            <MenubarRadioItem value="sara">سارا</MenubarRadioItem>
+            <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
           </MenubarRadioGroup>
           <MenubarSeparator />
-          <MenubarItem inset>Edit...</MenubarItem>
-          <MenubarItem inset>Add Profile...</MenubarItem>
+          <MenubarItem inset>ویرایش...</MenubarItem>
+          <MenubarItem inset>افزودن پروفایل...</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>
-        <MenubarTrigger>Theme</MenubarTrigger>
+        <MenubarTrigger>پوسته</MenubarTrigger>
         <MenubarContent>
           <MenubarRadioGroup value={theme} onValueChange={setTheme}>
-            <MenubarRadioItem value="light">Light</MenubarRadioItem>
-            <MenubarRadioItem value="dark">Dark</MenubarRadioItem>
-            <MenubarRadioItem value="system">System</MenubarRadioItem>
+            <MenubarRadioItem value="light">روشن</MenubarRadioItem>
+            <MenubarRadioItem value="dark">تاریک</MenubarRadioItem>
+            <MenubarRadioItem value="system">سیستم</MenubarRadioItem>
           </MenubarRadioGroup>
         </MenubarContent>
       </MenubarMenu>
@@ -262,19 +262,24 @@ export function MenubarRadioDemo() {
 }
 
 export function MenubarSidesDemo() {
-  const sides = ["top", "bottom", "left", "right"] as const
+  const sides = [
+    { side: "top" as const, label: "بالا" },
+    { side: "bottom" as const, label: "پایین" },
+    { side: "left" as const, label: "چپ" },
+    { side: "right" as const, label: "راست" },
+  ]
 
   return (
     <div className="flex flex-wrap justify-center gap-2">
-      {sides.map((side) => (
-        <Menubar key={side}>
+      {sides.map(({ side, label }) => (
+        <Menubar key={side} dir="rtl" lang="fa">
           <MenubarMenu>
-            <MenubarTrigger className="capitalize">{side}</MenubarTrigger>
+            <MenubarTrigger>{label}</MenubarTrigger>
             <MenubarContent side={side}>
               <MenubarGroup>
-                <MenubarItem>New Tab</MenubarItem>
-                <MenubarItem>New Window</MenubarItem>
-                <MenubarItem>New Incognito Window</MenubarItem>
+                <MenubarItem>زبانه جدید</MenubarItem>
+                <MenubarItem>پنجره جدید</MenubarItem>
+                <MenubarItem>پنجره ناشناس</MenubarItem>
               </MenubarGroup>
             </MenubarContent>
           </MenubarMenu>

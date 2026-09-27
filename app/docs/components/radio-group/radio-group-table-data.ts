@@ -3,7 +3,7 @@ export const radioGroupPropRows = [
     prop: "value",
     type: "string",
     description:
-      "Controlled selected value. Use with `onValueChange`.",
+      "Controlled selected value. Pair with onValueChange when the parent owns the value.",
   },
   {
     prop: "defaultValue",
@@ -31,27 +31,27 @@ export const radioGroupPropRows = [
     prop: "required",
     type: "boolean",
     default: "false",
-    description: "Marks the group as required for native form validation.",
+    description: "Marks the group as required for form validation.",
   },
   {
     prop: "className",
     type: "string",
     description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+      "Additional Tailwind classes merged with the group styles (last one wins).",
   },
-  {
-    prop: "...props",
-    type: "React.ComponentProps<'div'>",
-    description:
-      "All native div attributes (id, aria-label, aria-labelledby, ...) are forwarded to the radiogroup.",
-  },
-];
+]
 
 export const radioPropRows = [
   {
     prop: "value",
     type: "string",
     description: "Value submitted when this radio is selected. Required.",
+  },
+  {
+    prop: "id",
+    type: "string",
+    description:
+      "Associates the control with a Label through htmlFor for accessible naming.",
   },
   {
     prop: "disabled",
@@ -63,31 +63,36 @@ export const radioPropRows = [
     prop: "aria-invalid",
     type: "boolean",
     default: "false",
-    description: "When true, indicates the radio is in an invalid state.",
+    description:
+      "Marks the control as invalid for assistive tech. Pair with error text for visual feedback.",
   },
   {
     prop: "className",
     type: "string",
     description:
-      "Additional Tailwind classes merged onto the radio wrapper (last one wins).",
+      "Additional Tailwind classes merged onto the radio control (last one wins).",
   },
-  {
-    prop: "...props",
-    type: "React.ComponentProps<'input'>",
-    description:
-      "All native radio attributes (id, form, tabindex, aria-*, ...) are forwarded to the rendered input.",
-  },
-];
+]
 
-export const variantRows = [
+export const radioGroupStateRows = [
   {
-    prop: "default",
+    prop: "checked",
     type: "-",
-    description: "Checked state with primary background and a filled indicator.",
+    description: "Primary fill with a filled indicator dot.",
   },
   {
     prop: "disabled",
     type: "-",
-    description: "Disabled radios cannot be interacted with.",
+    description:
+      "Unchecked stays full opacity; checked uses reduced opacity.",
   },
-];
+  {
+    prop: "aria-invalid",
+    type: "-",
+    description: "Expose with aria-invalid; show error copy below the control.",
+  },
+]
+
+// Back-compat aliases
+export const propRows = radioGroupPropRows
+export const variantRows = radioGroupStateRows

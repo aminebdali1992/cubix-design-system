@@ -16,7 +16,7 @@ export const components = [
   {
     name: "Text Field",
     description:
-      "A labeled plain-text field with icons, clear, description, and error. Email, phone, and password are separate components.",
+      "A labeled plain-text field with icons, clear, description, and error. Email, phone, number, price, and password are separate components.",
     href: "/docs/components/text-field",
     ready: true,
   },
@@ -32,6 +32,48 @@ export const components = [
     description:
       "A labeled mobile phone field with icons, clear, description, and error. type is locked to tel.",
     href: "/docs/components/phone-field",
+    ready: true,
+  },
+  {
+    name: "Password Field",
+    description:
+      "A labeled password field with icons, visibility toggle, description, and error. type switches between password and text when revealed.",
+    href: "/docs/components/password-field",
+    ready: true,
+  },
+  {
+    name: "Number Field",
+    description:
+      "A labeled number field with icons, stepper arrows, description, and error. Values always display as Persian digits.",
+    href: "/docs/components/number-field",
+    ready: true,
+  },
+  {
+    name: "Amount Field",
+    description:
+      "A labeled amount field with currency unit, description, and error. Values always display as Persian digits with thousand separators.",
+    href: "/docs/components/amount-field",
+    ready: true,
+  },
+  {
+    name: "Birthday Date",
+    description:
+      "A labeled birthday field with separate day, month, and year inputs. Values always display as Persian digits.",
+    href: "/docs/components/birthday-date",
+    ready: true,
+  },
+  {
+    name: "Credit Card",
+    description:
+      "A labeled credit card number field with four separate 4-digit inputs. Values always display as Persian digits.",
+    href: "/docs/components/credit-card",
+    ready: true,
+  },
+  {
+    name: "Verify Code",
+    description:
+      "A labeled one-time verify code field with separate digit boxes. Set length for box count and groups to insert - separators between digit groups.",
+    href: "/docs/components/verify-code",
     ready: true,
   },
   {
@@ -56,9 +98,9 @@ export const components = [
   {
     name: "Checkbox",
     description:
-      "A control that allows the user to toggle between checked and unchecked states.",
+      "A control that toggles between checked, unchecked, and indeterminate. Compose with Label via id and htmlFor.",
     href: "/docs/components/checkbox",
-    ready: false,
+    ready: true,
   },
   {
     name: "Dialog",
@@ -104,9 +146,9 @@ export const components = [
   {
     name: "Radio Group",
     description:
-      "A set of checkable buttons where only one can be checked at a time.",
+      "A set of checkable buttons where only one can be checked at a time. Compose each option with Label via id and htmlFor.",
     href: "/docs/components/radio-group",
-    ready: false,
+    ready: true,
   },
   {
     name: "Accordion",
@@ -260,13 +302,6 @@ export const components = [
     ready: false,
   },
   {
-    name: "Input OTP",
-    description:
-      "Accessible one-time password component with copy-paste functionality.",
-    href: "/docs/components/input-otp",
-    ready: false,
-  },
-  {
     name: "Kbd",
     description: "A component to display keyboard shortcuts.",
     href: "/docs/components/kbd",
@@ -282,7 +317,7 @@ export const components = [
     name: "Menubar",
     description: "A visually persistent menu common in desktop applications.",
     href: "/docs/components/menubar",
-    ready: false,
+    ready: true,
   },
   {
     name: "Message",

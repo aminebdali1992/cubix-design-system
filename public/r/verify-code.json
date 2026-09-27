@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "verify-code",
+  "type": "registry:ui",
+  "title": "Verify Code",
+  "description": "A labeled one-time verify code field with separate digit boxes. Set length for box count and groups to insert - separators between digit groups. Values always display as Persian digits.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/verify-code.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/verify-code.tsx"
+    }
+  ]
+}

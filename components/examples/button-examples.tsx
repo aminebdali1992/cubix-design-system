@@ -67,7 +67,10 @@ export function ButtonSpinnerDemo() {
 
 export function ButtonCustomDemo() {
   return (
-    <Button variant="outline" className="px-6 text-base">
+    <Button
+      variant="outline"
+      className="rounded-[6px] border-[#EBEBEB] bg-[#FAFAFA] ring-1 ring-[#F0F0EF] ring-offset-2 ring-offset-background transition-colors duration-300 ease-out hover:bg-[color-mix(in_srgb,#FAFAFA,black_2%)]"
+    >
       متن دکمه
     </Button>
   )

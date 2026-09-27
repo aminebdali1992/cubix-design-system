@@ -324,7 +324,10 @@ export default function ButtonPage() {
             the shipped <code className="font-mono text-sm">cn</code> helper:
           </p>
           <ComponentPreview
-            code={`<Button variant="outline" className="px-6 text-base">
+            code={`<Button
+  variant="outline"
+  className="rounded-[6px] border-[#EBEBEB] bg-[#FAFAFA] ring-1 ring-[#F0F0EF] ring-offset-2 ring-offset-background transition-colors duration-300 ease-out hover:bg-[color-mix(in_srgb,#FAFAFA,black_2%)]"
+>
   متن دکمه
 </Button>`}
           >

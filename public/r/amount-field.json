@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "amount-field",
+  "type": "registry:ui",
+  "title": "Amount Field",
+  "description": "A labeled amount field with currency unit, description, and error. Values always display as Persian digits with thousand separators.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/amount-field.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/amount-field.tsx"
+    }
+  ]
+}

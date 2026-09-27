@@ -1,104 +1,115 @@
-import type { Metadata } from "next";
-import { CircleCheckIcon } from "lucide-react";
+import type { Metadata } from "next"
+import type { ReactNode } from "react"
+import { CircleAlertIcon } from "lucide-react"
 
-import { Checkbox } from "@/components/cubix/checkbox";
-import { CodeBlock } from "@/components/docs/code-block";
-import { ComponentDocsHeader } from "@/components/docs/component-docs-header";
-import { ComponentInstall } from "@/components/docs/component-install";
-import { ComponentPreview } from "@/components/docs/component-preview";
-import { PropsTable } from "@/components/docs/props-table";
-import { propRows as checkboxPropRows, variantRows } from "./checkbox-table-data";
+import { CodeBlock } from "@/components/docs/code-block"
+import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
+import { ComponentInstall } from "@/components/docs/component-install"
+import { ComponentPreview } from "@/components/docs/component-preview"
+import { PropsTable } from "@/components/docs/props-table"
+import {
+  CheckboxDemo,
+  CheckboxDescriptionDemo,
+  CheckboxDisabledDemo,
+  CheckboxInvalidDemo,
+  CheckboxPendingDemo,
+  CheckboxStatesDemo,
+} from "@/components/examples/checkbox-examples"
+import { checkboxPropRows, checkboxStateRows } from "./checkbox-table-data"
+
+const description =
+  "A control that toggles between checked, unchecked, and indeterminate. Compose with Label via id and htmlFor."
 
 export const metadata: Metadata = {
   title: "Checkbox",
-  description:
-    "A control that allows the user to toggle between checked and unchecked states.",
-};
+  description,
+}
 
-const usageImport = `import { Checkbox } from "@/components/cubix/checkbox"`;
+const usageImport = `import { Checkbox } from "@/components/cubix/checkbox"
+import { Label } from "@/components/cubix/label"`
 
-const usageSnippet = `<form>
-  <fieldset>
-    <legend>Choose your interests</legend>
-    <div className="grid gap-2">
-      <Checkbox id="ui" value="ui">UI</Checkbox>
-      <Checkbox id="ux" value="ux">UX</Checkbox>
-      <Checkbox id="uxresearch" value="uxresearch">UX Research</Checkbox>
+const usageSnippet = `<div className="flex items-center gap-2">
+  <Checkbox id="terms" />
+  <Label htmlFor="terms">پذیرش قوانین و شرایط</Label>
+</div>`
+
+const compositionSnippet = `Checkbox
+Label (htmlFor → Checkbox id)`
+
+function PreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div dir="rtl" lang="fa" className="flex w-full justify-center">
+      {children}
     </div>
-  </fieldset>
-</form>`;
+  )
+}
 
 export default function CheckboxPage() {
   return (
     <article className="space-y-10">
       <ComponentDocsHeader
         title="Checkbox"
-        description="A control that allows the user to toggle between checked and unchecked states."
+        description={description}
         slug="checkbox"
       />
 
-      {/* Hero preview */}
-      <ComponentPreview
-        code={`<form>
-  <fieldset>
-    <legend>Choose your interests</legend>
-    <div className="grid gap-2">
-      <Checkbox id="ui" value="ui">UI</Checkbox>
-      <Checkbox id="ux" value="ux">UX</Checkbox>
-      <Checkbox id="uxresearch" value="uxresearch">UX Research</Checkbox>
-    </div>
-  </fieldset>
-</form>`}
-      >
-        <form>
-          <fieldset>
-            <legend>Choose your interests</legend>
-            <div className="grid gap-2">
-              <Checkbox id="ui" value="ui">UI</Checkbox>
-              <Checkbox id="ux" value="ux">UX</Checkbox>
-              <Checkbox id="uxresearch" value="uxresearch">UX Research</Checkbox>
-            </div>
-          </fieldset>
-        </form>
+      <ComponentPreview code={usageSnippet}>
+        <PreviewShell>
+          <CheckboxDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="checkbox" />
 
-      {/* Usage */}
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Usage
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Usage</h2>
         <CodeBlock code={usageImport} title="Import" />
         <CodeBlock code={usageSnippet} title="Example" />
       </section>
 
-      {/* Examples */}
-      <section className="space-y-6">
+      <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Examples
+          Composition
         </h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Checkbox is the control only. Pair it with{" "}
+          <code className="font-mono text-sm">Label</code> using matching{" "}
+          <code className="font-mono text-sm">id</code> and{" "}
+          <code className="font-mono text-sm">htmlFor</code>. Use{" "}
+          <code className="font-mono text-sm">indeterminate</code> for partial
+          selection, and <code className="font-mono text-sm">aria-invalid</code>{" "}
+          for error states.
+        </p>
+        <CodeBlock code={compositionSnippet} title="Structure" />
+      </section>
+
+      <section className="space-y-6">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
         <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            States
-          </h3>
+          <h3 className="scroll-m-20 font-semibold tracking-tight">States</h3>
           <p className="leading-relaxed text-muted-foreground">
-            Use checked, indeterminate, and disabled states to communicate the
-            current condition clearly.
+            Checked, indeterminate, and disabled cover the common conditions.
           </p>
           <ComponentPreview
-            code={`<fieldset className="grid gap-3">
-  <Checkbox defaultChecked>Accepted</Checkbox>
-  <Checkbox indeterminate>Partial selection</Checkbox>
-  <Checkbox disabled>Unavailable</Checkbox>
-</fieldset>`}
+            code={`<div className="grid gap-3">
+  <div className="flex items-center gap-2">
+    <Checkbox id="checked" defaultChecked />
+    <Label htmlFor="checked">تایید شده</Label>
+  </div>
+  <div className="flex items-center gap-2">
+    <Checkbox id="indeterminate" indeterminate />
+    <Label htmlFor="indeterminate">انتخاب ناقص</Label>
+  </div>
+  <div className="flex items-center gap-2">
+    <Checkbox id="disabled" disabled />
+    <Label htmlFor="disabled">غیرفعال</Label>
+  </div>
+</div>`}
           >
-            <fieldset className="grid gap-3">
-              <Checkbox defaultChecked>Accepted</Checkbox>
-              <Checkbox indeterminate>Partial selection</Checkbox>
-              <Checkbox disabled>Unavailable</Checkbox>
-            </fieldset>
+            <PreviewShell>
+              <CheckboxStatesDemo />
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -107,64 +118,139 @@ export default function CheckboxPage() {
             With description
           </h3>
           <p className="leading-relaxed text-muted-foreground">
-            Compose the Checkbox with a label and description to build settings
-            rows and consent controls.
+            Compose Checkbox with a title and helper line for consent and
+            settings rows.
           </p>
           <ComponentPreview
-            code={`<label className="flex items-start gap-3 rounded-lg border p-4">
-  <Checkbox defaultChecked className="mt-0.5" />
-  <span className="grid gap-1.5 leading-none">
-    <span className="font-medium">Accept terms and conditions</span>
-    <span className="text-sm text-muted-foreground">
-      You agree to our Terms of Service and Privacy Policy.
+            code={`<div className="flex items-start gap-3 rounded-lg border p-4">
+  <Checkbox id="terms" defaultChecked className="mt-0.5" />
+  <Label htmlFor="terms" className="grid gap-1.5 leading-none">
+    <span>پذیرش قوانین و شرایط</span>
+    <span className="text-caption text-muted-foreground">
+      با ادامه، شرایط استفاده و سیاست حریم خصوصی را می‌پذیرید.
     </span>
-  </span>
-</label>`}
+  </Label>
+</div>`}
           >
-            <label className="flex w-full max-w-sm items-start gap-3 rounded-lg border p-4">
-              <Checkbox defaultChecked className="mt-0.5" />
-              <span className="grid gap-1.5 leading-none">
-                <span className="font-medium">
-                  Accept terms and conditions
-                </span>
-                <span className="text-sm text-muted-foreground">
-                  You agree to our Terms of Service and Privacy Policy.
-                </span>
-              </span>
-            </label>
+            <PreviewShell>
+              <CheckboxDescriptionDemo />
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
         <div className="space-y-4">
           <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Sizes
+            Invalid
           </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Set <code className="font-mono text-sm">aria-invalid</code> for
+            assistive tech when the choice is required and missing. Show the
+            error in helper text - the checkbox itself stays visually unchanged.
+          </p>
           <ComponentPreview
-            code={`<div className="grid gap-3">
-  <label className="flex items-center gap-2 text-sm">
-    <Checkbox /> Default
-  </label>
+            code={`<div className="grid gap-2">
+  <div className="flex items-center gap-2">
+    <Checkbox id="terms" aria-invalid />
+    <Label htmlFor="terms">پذیرش قوانین و شرایط</Label>
+  </div>
+  <p className="ps-[26px] text-caption text-destructive">
+    برای ادامه باید قوانین را بپذیرید.
+  </p>
 </div>`}
           >
-            <div className="grid gap-3">
-              <label className="flex items-center gap-2 text-sm">
-                <Checkbox /> Default
-              </label>
-            </div>
+            <PreviewShell>
+              <CheckboxInvalidDemo />
+            </PreviewShell>
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">
+            Disabled
+          </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Disabled checkboxes cannot be toggled. Pair with Label for a clear
+            unavailable state.
+          </p>
+          <ComponentPreview
+            code={`<div className="grid gap-3">
+  <div className="flex items-center gap-2">
+    <Checkbox id="email" disabled />
+    <Label htmlFor="email">اعلان‌های ایمیلی</Label>
+  </div>
+  <div className="flex items-center gap-2">
+    <Checkbox id="push" disabled defaultChecked />
+    <Label htmlFor="push">اعلان‌های فشاری</Label>
+  </div>
+</div>`}
+          >
+            <PreviewShell>
+              <CheckboxDisabledDemo />
+            </PreviewShell>
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">
+            Pending
+          </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Set <code className="font-mono text-sm">pending</code> while a save
+            is in flight. The square is replaced by a circular spinner and
+            interaction is blocked until the request finishes.
+          </p>
+          <ComponentPreview
+            code={`const [checked, setChecked] = React.useState(false)
+const [pending, setPending] = React.useState(false)
+
+function handleCheckedChange(next: boolean) {
+  setChecked(next)
+  setPending(true)
+  // await save...
+  setPending(false)
+}
+
+<div className="flex items-center gap-2">
+  <Checkbox
+    id="notify"
+    checked={checked}
+    pending={pending}
+    onCheckedChange={handleCheckedChange}
+  />
+  <Label htmlFor="notify">ذخیره تنظیمات اعلان</Label>
+</div>`}
+          >
+            <PreviewShell>
+              <CheckboxPendingDemo />
+            </PreviewShell>
           </ComponentPreview>
         </div>
       </section>
 
-      {/* API Reference */}
       <section id="api-reference" className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">
           API Reference
         </h2>
-        <h3 className="scroll-m-20 font-semibold tracking-tight">Props</h3>
+        <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
+          <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
+          <p className="leading-relaxed text-muted-foreground">
+            <strong className="text-foreground">Note:</strong> Parts render{" "}
+            <code className="font-mono">data-slot</code> attributes (
+            <code className="font-mono">checkbox</code>,{" "}
+            <code className="font-mono">checkbox-indicator</code>) for targeting
+            in tests and parent selectors. Use the same{" "}
+            <code className="font-mono">indeterminate</code> and{" "}
+            <code className="font-mono">pending</code> props on Base UI,
+            React Aria, and Radix.
+          </p>
+        </div>
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Checkbox</h3>
         <PropsTable data={checkboxPropRows} />
-        <h3 className="scroll-m-20 font-semibold tracking-tight">Variants</h3>
-        <PropsTable data={variantRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">States</h3>
+        <PropsTable data={checkboxStateRows} />
       </section>
     </article>
-  );
+  )
 }

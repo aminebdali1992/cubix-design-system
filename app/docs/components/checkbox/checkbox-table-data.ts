@@ -1,92 +1,110 @@
-export const propRows = [
+export const checkboxPropRows = [
   {
     prop: "checked",
     type: "boolean",
-    default: "false",
     description:
-      "Controlled checked state of the checkbox. Use with `onCheckedChange`.",
+      "Controlled checked state. Pair with onCheckedChange when the parent owns the value.",
   },
   {
     prop: "defaultChecked",
     type: "boolean",
     default: "false",
-    description: "Default checked state for uncontrolled usage.",
+    description: "Initial checked state for uncontrolled usage.",
   },
   {
     prop: "onCheckedChange",
     type: "(checked: boolean) => void",
     description:
-      "Called with the next checked value whenever the checkbox is toggled.",
-  },
-  {
-    prop: "required",
-    type: "boolean",
-    description:
-      "Adds the required attribute when validating as part of a group of checkboxes.",
-  },
-  {
-    prop: "name",
-    type: "string",
-    default: "-",
-    description:
-      "The name attribute passed when submitting a form as part of a group.",
-  },
-  {
-    prop: "value",
-    type: "string",
-    default: "on",
-    description:
-      "The value attribute passed when submitting a form as part of a group.",
+      "Called with the next boolean value whenever the checkbox is toggled.",
   },
   {
     prop: "indeterminate",
     type: "boolean",
     default: "false",
     description:
-      "When true, shows the indeterminate state.",
+      "Shows the mixed state (minus icon). Use for partial selection in grouped options.",
   },
   {
     prop: "disabled",
     type: "boolean",
     default: "false",
-    description: "Disables the checkbox.",
+    description: "Disables the control and blocks interaction.",
+  },
+  {
+    prop: "pending",
+    type: "boolean",
+    default: "false",
+    description:
+      "Shows a circular spinner in place of the box while a save is in flight. Blocks interaction and sets aria-busy.",
+  },
+  {
+    prop: "required",
+    type: "boolean",
+    default: "false",
+    description: "Marks the control as required for form validation.",
+  },
+  {
+    prop: "name",
+    type: "string",
+    description: "Name submitted with the form when the checkbox is checked.",
+  },
+  {
+    prop: "value",
+    type: "string",
+    default: '"on"',
+    description: "Value submitted with the form when the checkbox is checked.",
+  },
+  {
+    prop: "id",
+    type: "string",
+    description:
+      "Associates the control with a Label through htmlFor for accessible naming.",
   },
   {
     prop: "aria-invalid",
     type: "boolean",
     default: "false",
     description:
-      "When true, indicates the checkbox is in an invalid state.",
+      "Marks the control as invalid for assistive tech. Pair with error text for visual feedback.",
   },
   {
     prop: "className",
     type: "string",
     description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+      "Additional Tailwind classes merged with the control styles (last one wins).",
   },
-  {
-    prop: "...props",
-    type: "React.ComponentProps<'input'>",
-    description:
-      "All native input attributes (id, form, tabindex, aria-*, ...) are forwarded to the rendered element.",
-  },
-];
+]
 
-export const variantRows = [
+export const checkboxStateRows = [
   {
-    prop: "default",
+    prop: "checked",
     type: "-",
-    description: "Checked state with primary background and foreground.",
+    description: "Primary fill with a check icon.",
   },
   {
     prop: "indeterminate",
     type: "-",
-    description:
-      "Visual indeterminate state. Use when the checkbox represents a partial selection (e.g. grouped options).",
+    description: "Primary fill with a minus icon for partial selection.",
   },
   {
     prop: "disabled",
     type: "-",
-    description: "Disabled checkboxes cannot be interacted with.",
+    description:
+      "Unchecked stays full opacity; checked or indeterminate use reduced opacity.",
   },
-];
+  {
+    prop: "pending",
+    type: "-",
+    description:
+      "Borderless control with a spinning loader; interaction is blocked.",
+  },
+  {
+    prop: "aria-invalid",
+    type: "-",
+    description: "Expose with aria-invalid; show error copy below the control.",
+  },
+]
+
+// Back-compat aliases for any older imports
+export const propRows = checkboxPropRows
+export const variantRows = checkboxStateRows

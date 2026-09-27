@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "credit-card",
+  "type": "registry:ui",
+  "title": "Credit Card",
+  "description": "A labeled credit card number field with four separate 4-digit inputs. Values always display as Persian digits. After six digits, CreditCardDescription shows the issuer bank name when the BIN is known.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/credit-card.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/credit-card.tsx"
+    }
+  ]
+}

@@ -3,8 +3,8 @@
   "name": "checkbox",
   "type": "registry:ui",
   "title": "Checkbox",
-  "description": "A control that allows the user to toggle between checked and unchecked states.",
-  "dependencies": [],
+  "description": "A control that toggles between checked, unchecked, and indeterminate. Compose with Label via id and htmlFor.",
+  "dependencies": ["@base-ui/react", "lucide-react"],
   "registryDependencies": [],
   "files": [
     {

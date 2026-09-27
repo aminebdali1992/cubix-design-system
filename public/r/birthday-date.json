@@ -1,0 +1,16 @@
+{
+  "$schema": "https://cubix.design/schema/registry-item.json",
+  "name": "birthday-date",
+  "type": "registry:ui",
+  "title": "Birthday Date",
+  "description": "A labeled birthday field with separate day, month, and year inputs. Values always display as Persian digits.",
+  "dependencies": ["@base-ui/react"],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/birthday-date.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/birthday-date.tsx"
+    }
+  ]
+}
