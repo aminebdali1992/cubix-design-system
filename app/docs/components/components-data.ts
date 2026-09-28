@@ -244,7 +244,7 @@ export const components = [
     name: "Combobox",
     description: "Autocomplete input and command palette with a list of suggestions.",
     href: "/docs/components/combobox",
-    ready: false,
+    ready: true,
   },
   {
     name: "Command",

@@ -252,7 +252,7 @@ function DropdownMenuLabel({
 }) {
   const inGroup = React.useContext(DropdownMenuGroupPresenceContext)
   const labelClassName = cn(
-    "px-2 py-1 text-label whitespace-nowrap font-medium tracking-normal data-inset:ps-8",
+    "px-2 py-1 text-caption text-muted-foreground whitespace-nowrap font-medium tracking-normal data-inset:ps-8",
     typeof className === "string" ? className : undefined
   )
 
@@ -275,7 +275,7 @@ function DropdownMenuLabel({
         typeof className === "function"
           ? (state) =>
               cn(
-                "px-2 py-1 text-label whitespace-nowrap font-medium tracking-normal data-inset:ps-8",
+                "px-2 py-1 text-caption text-muted-foreground whitespace-nowrap font-medium tracking-normal data-inset:ps-8",
                 className(state)
               )
           : labelClassName

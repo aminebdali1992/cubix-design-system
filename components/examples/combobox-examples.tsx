@@ -1,9 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { GlobeIcon } from "lucide-react"
+import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
 
-import { Button } from "@/components/cubix/button"
 import {
   Combobox,
   ComboboxChip,
@@ -21,35 +20,48 @@ import {
   ComboboxTrigger,
   ComboboxValue,
   useComboboxAnchor,
-} from "@/components/cubix/combobox"
+} from "@/app/docs/components/combobox/docs-combobox"
+import { Button } from "@/components/cubix/button"
 import { InputGroupAddon } from "@/components/cubix/input-group"
 
-const frameworks = [
-  "Next.js",
-  "SvelteKit",
-  "Nuxt.js",
-  "Remix",
-  "Astro",
-] as const
+const cities = ["تهران", "مشهد", "اصفهان", "شیراز", "تبریز"]
+
+function CityContent() {
+  return (
+    <ComboboxContent>
+      <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
+      <ComboboxList>
+        {(item: string) => (
+          <ComboboxItem key={item} value={item}>
+            {item}
+          </ComboboxItem>
+        )}
+      </ComboboxList>
+    </ComboboxContent>
+  )
+}
 
 export function ComboboxDemo() {
   return (
-    <Combobox items={frameworks}>
-      <ComboboxInput
-        placeholder="Select a framework"
-        className="w-full max-w-xs"
-      />
-      <ComboboxContent>
-        <ComboboxEmpty>No items found.</ComboboxEmpty>
-        <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item} value={item}>
-              {item}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
+    <Combobox dir="rtl" lang="fa" items={cities}>
+      <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
+      <CityContent />
     </Combobox>
+  )
+}
+
+export function ComboboxSizesDemo() {
+  return (
+    <div className="flex flex-col gap-4">
+      <Combobox dir="rtl" lang="fa" items={cities}>
+        <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
+        <CityContent />
+      </Combobox>
+      <Combobox dir="rtl" lang="fa" items={cities}>
+        <ComboboxInput placeholder="انتخاب شهر" size="lg" className="w-56" />
+        <CityContent />
+      </Combobox>
+    </div>
   )
 }
 
@@ -58,16 +70,18 @@ export function ComboboxMultipleDemo() {
 
   return (
     <Combobox
+      dir="rtl"
+      lang="fa"
       multiple
       autoHighlight
-      items={frameworks}
-      defaultValue={[frameworks[0]]}
+      items={cities}
+      defaultValue={[cities[0]]}
     >
-      <ComboboxChips ref={anchor} className="w-full max-w-xs">
+      <ComboboxChips ref={anchor} className="w-64">
         <ComboboxValue>
-          {(values) => (
+          {(values: string[]) => (
             <React.Fragment>
-              {values.map((value: string) => (
+              {values.map((value) => (
                 <ComboboxChip key={value}>{value}</ComboboxChip>
               ))}
               <ComboboxChipsInput />
@@ -76,9 +90,9 @@ export function ComboboxMultipleDemo() {
         </ComboboxValue>
       </ComboboxChips>
       <ComboboxContent anchor={anchor}>
-        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
         <ComboboxList>
-          {(item) => (
+          {(item: string) => (
             <ComboboxItem key={item} value={item}>
               {item}
             </ComboboxItem>
@@ -91,17 +105,53 @@ export function ComboboxMultipleDemo() {
 
 export function ComboboxClearDemo() {
   return (
-    <Combobox items={frameworks} defaultValue={frameworks[0]}>
-      <ComboboxInput
-        placeholder="Select a framework"
-        showClear
-        className="w-full max-w-xs"
-      />
+    <Combobox dir="rtl" lang="fa" items={cities} defaultValue={cities[0]}>
+      <ComboboxInput placeholder="انتخاب شهر" showClear className="w-56" />
+      <CityContent />
+    </Combobox>
+  )
+}
+
+const foods = [
+  { value: "میوه‌ها", items: ["سیب", "انار", "پرتقال"] },
+  { value: "سبزیجات", items: ["هویج", "خیار", "کدو"] },
+]
+
+export function ComboboxGroupsDemo() {
+  return (
+    <Combobox dir="rtl" lang="fa" items={foods}>
+      <ComboboxInput placeholder="انتخاب خوراکی" className="w-56" />
       <ComboboxContent>
-        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxEmpty>موردی یافت نشد.</ComboboxEmpty>
         <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item} value={item}>
+          {(group: (typeof foods)[number], index: number) => (
+            <ComboboxGroup key={group.value} items={group.items}>
+              <ComboboxLabel>{group.value}</ComboboxLabel>
+              <ComboboxCollection>
+                {(item: string) => (
+                  <ComboboxItem key={item} value={item}>
+                    {item}
+                  </ComboboxItem>
+                )}
+              </ComboboxCollection>
+              {index < foods.length - 1 && <ComboboxSeparator />}
+            </ComboboxGroup>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+
+export function ComboboxDisabledItemsDemo() {
+  return (
+    <Combobox dir="rtl" lang="fa" items={cities}>
+      <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
+      <ComboboxContent>
+        <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
+        <ComboboxList>
+          {(item: string) => (
+            <ComboboxItem key={item} value={item} disabled={item === "تبریز"}>
               {item}
             </ComboboxItem>
           )}
@@ -111,118 +161,38 @@ export function ComboboxClearDemo() {
   )
 }
 
-const timezones = [
-  {
-    value: "Americas",
-    items: [
-      "(GMT-5) New York",
-      "(GMT-8) Los Angeles",
-      "(GMT-6) Chicago",
-      "(GMT-5) Toronto",
-      "(GMT-8) Vancouver",
-      "(GMT-3) Sao Paulo",
-    ],
-  },
-  {
-    value: "Europe",
-    items: [
-      "(GMT+0) London",
-      "(GMT+1) Paris",
-      "(GMT+1) Berlin",
-      "(GMT+1) Rome",
-      "(GMT+1) Madrid",
-      "(GMT+1) Amsterdam",
-    ],
-  },
-  {
-    value: "Asia/Pacific",
-    items: [
-      "(GMT+9) Tokyo",
-      "(GMT+8) Shanghai",
-      "(GMT+8) Singapore",
-      "(GMT+4) Dubai",
-      "(GMT+11) Sydney",
-      "(GMT+9) Seoul",
-    ],
-  },
-] as const
-
-export function ComboboxGroupsDemo() {
-  return (
-    <Combobox items={timezones}>
-      <ComboboxInput
-        placeholder="Select a timezone"
-        className="w-full max-w-xs"
-      />
-      <ComboboxContent>
-        <ComboboxEmpty>No timezones found.</ComboboxEmpty>
-        <ComboboxList>
-          {(group, index) => (
-            <ComboboxGroup key={group.value} items={group.items}>
-              <ComboboxLabel>{group.value}</ComboboxLabel>
-              <ComboboxCollection>
-                {(item) => (
-                  <ComboboxItem key={item} value={item}>
-                    {item}
-                  </ComboboxItem>
-                )}
-              </ComboboxCollection>
-              {index < timezones.length - 1 && <ComboboxSeparator />}
-            </ComboboxGroup>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
-    </Combobox>
-  )
+type City = {
+  id: string
+  name: string
+  province: string
 }
 
-const countries = [
-  {
-    code: "ar",
-    value: "argentina",
-    label: "Argentina",
-    continent: "South America",
-  },
-  { code: "au", value: "australia", label: "Australia", continent: "Oceania" },
-  { code: "br", value: "brazil", label: "Brazil", continent: "South America" },
-  { code: "ca", value: "canada", label: "Canada", continent: "North America" },
-  { code: "cn", value: "china", label: "China", continent: "Asia" },
-  { code: "fr", value: "france", label: "France", continent: "Europe" },
-  { code: "de", value: "germany", label: "Germany", continent: "Europe" },
-  { code: "jp", value: "japan", label: "Japan", continent: "Asia" },
-  {
-    code: "gb",
-    value: "united-kingdom",
-    label: "United Kingdom",
-    continent: "Europe",
-  },
-  {
-    code: "us",
-    value: "united-states",
-    label: "United States",
-    continent: "North America",
-  },
+const cityDetails: City[] = [
+  { id: "tehran", name: "تهران", province: "استان تهران" },
+  { id: "mashhad", name: "مشهد", province: "استان خراسان رضوی" },
+  { id: "isfahan", name: "اصفهان", province: "استان اصفهان" },
+  { id: "shiraz", name: "شیراز", province: "استان فارس" },
+  { id: "tabriz", name: "تبریز", province: "استان آذربایجان شرقی" },
 ]
 
 export function ComboboxCustomDemo() {
   return (
     <Combobox
-      items={countries}
-      itemToStringValue={(country: (typeof countries)[number]) => country.label}
+      dir="rtl"
+      lang="fa"
+      items={cityDetails}
+      itemToStringLabel={(city: City) => city.name}
     >
-      <ComboboxInput
-        placeholder="Search countries..."
-        className="w-full max-w-xs"
-      />
+      <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
       <ComboboxContent>
-        <ComboboxEmpty>No countries found.</ComboboxEmpty>
+        <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
         <ComboboxList>
-          {(country) => (
-            <ComboboxItem key={country.code} value={country}>
+          {(city: City) => (
+            <ComboboxItem key={city.id} value={city}>
               <div className="flex min-w-0 flex-col">
-                <span className="truncate font-medium">{country.label}</span>
-                <span className="text-xs text-muted-foreground">
-                  {country.continent} ({country.code})
+                <span className="truncate">{city.name}</span>
+                <span className="text-caption text-muted-foreground">
+                  {city.province}
                 </span>
               </div>
             </ComboboxItem>
@@ -235,94 +205,55 @@ export function ComboboxCustomDemo() {
 
 export function ComboboxInvalidDemo() {
   return (
-    <Combobox items={frameworks}>
+    <Combobox dir="rtl" lang="fa" items={cities}>
       <ComboboxInput
-        placeholder="Select a framework"
+        placeholder="انتخاب شهر"
         aria-invalid="true"
-        className="w-full max-w-xs"
+        className="w-56"
       />
-      <ComboboxContent>
-        <ComboboxEmpty>No items found.</ComboboxEmpty>
-        <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item} value={item}>
-              {item}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
+      <CityContent />
     </Combobox>
   )
 }
 
 export function ComboboxDisabledDemo() {
   return (
-    <Combobox items={frameworks}>
-      <ComboboxInput
-        placeholder="Select a framework"
-        disabled
-        className="w-full max-w-xs"
-      />
-      <ComboboxContent>
-        <ComboboxEmpty>No items found.</ComboboxEmpty>
-        <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item} value={item}>
-              {item}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
+    <Combobox dir="rtl" lang="fa" items={cities} disabled>
+      <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
+      <CityContent />
     </Combobox>
   )
 }
 
 export function ComboboxAutoHighlightDemo() {
   return (
-    <Combobox items={frameworks} autoHighlight>
-      <ComboboxInput
-        placeholder="Select a framework"
-        className="w-full max-w-xs"
-      />
-      <ComboboxContent>
-        <ComboboxEmpty>No items found.</ComboboxEmpty>
-        <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item} value={item}>
-              {item}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
+    <Combobox dir="rtl" lang="fa" items={cities} autoHighlight>
+      <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
+      <CityContent />
     </Combobox>
   )
 }
 
-const popupCountries = [
-  { code: "", value: "", continent: "", label: "Select country" },
-  ...countries,
-]
-
 export function ComboboxPopupDemo() {
   return (
-    <Combobox items={popupCountries} defaultValue={popupCountries[0]}>
+    <Combobox dir="rtl" lang="fa" items={cities}>
       <ComboboxTrigger
         render={
           <Button
             variant="outline"
-            className="w-64 justify-between font-normal"
+            className="w-56 justify-between px-3 font-normal"
           />
         }
       >
-        <ComboboxValue />
+        <ComboboxValue placeholder="انتخاب شهر" />
       </ComboboxTrigger>
       <ComboboxContent>
-        <ComboboxInput showTrigger={false} placeholder="Search" />
-        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxInput placeholder="جستجو" />
+        <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
         <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item.code || "empty"} value={item}>
-              {item.label}
+          {(item: string) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
             </ComboboxItem>
           )}
         </ComboboxList>
@@ -333,29 +264,31 @@ export function ComboboxPopupDemo() {
 
 export function ComboboxInputGroupDemo() {
   return (
-    <Combobox items={timezones}>
-      <ComboboxInput
-        placeholder="Select a timezone"
-        className="w-full max-w-xs"
-      >
+    <Combobox dir="rtl" lang="fa" items={cities}>
+      <ComboboxInput placeholder="انتخاب شهر" className="w-56">
         <InputGroupAddon>
-          <GlobeIcon />
+          <ButtonDemoIcon />
         </InputGroupAddon>
       </ComboboxInput>
-      <ComboboxContent alignOffset={-28} className="w-60">
-        <ComboboxEmpty>No timezones found.</ComboboxEmpty>
+      <CityContent />
+    </Combobox>
+  )
+}
+
+export function ComboboxCustomStylingDemo() {
+  return (
+    <Combobox dir="rtl" lang="fa" items={cities}>
+      <ComboboxInput
+        placeholder="انتخاب شهر"
+        className="w-56 border-border bg-muted has-[[data-slot=input-group-control]:focus-visible]:bg-background dark:bg-muted dark:has-[[data-slot=input-group-control]:focus-visible]:bg-background"
+      />
+      <ComboboxContent className="rounded-xl">
+        <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
         <ComboboxList>
-          {(group) => (
-            <ComboboxGroup key={group.value} items={group.items}>
-              <ComboboxLabel>{group.value}</ComboboxLabel>
-              <ComboboxCollection>
-                {(item) => (
-                  <ComboboxItem key={item} value={item}>
-                    {item}
-                  </ComboboxItem>
-                )}
-              </ComboboxCollection>
-            </ComboboxGroup>
+          {(item: string) => (
+            <ComboboxItem key={item} value={item} className="rounded-md">
+              {item}
+            </ComboboxItem>
           )}
         </ComboboxList>
       </ComboboxContent>

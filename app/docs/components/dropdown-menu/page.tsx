@@ -49,7 +49,7 @@ import {
 } from "@/components/cubix/dropdown-menu"`
 
 const usageSnippet = `<DropdownMenu dir="rtl" lang="fa">
-  <DropdownMenuTrigger render={<Button variant="outline" />}>
+  <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>
     باز کردن
   </DropdownMenuTrigger>
   <DropdownMenuContent>
@@ -63,6 +63,9 @@ const usageSnippet = `<DropdownMenu dir="rtl" lang="fa">
 const compositionSnippet = `DropdownMenu
 ├── DropdownMenuTrigger
 └── DropdownMenuContent
+    ├── DropdownMenuGroup
+    │   ├── DropdownMenuLabel
+    │   └── DropdownMenuItem
     ├── DropdownMenuItem
     ├── DropdownMenuSeparator
     ├── DropdownMenuCheckboxItem
@@ -74,46 +77,45 @@ const compositionSnippet = `DropdownMenu
             └── DropdownMenuItem`
 
 const demoSnippet = `<DropdownMenu dir="rtl" lang="fa">
-  <DropdownMenuTrigger render={<Button variant="outline" />}>
+  <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>
     باز کردن
   </DropdownMenuTrigger>
   <DropdownMenuContent>
-    <DropdownMenuItem>زبانه جدید</DropdownMenuItem>
-    <DropdownMenuItem>پنجره جدید</DropdownMenuItem>
-    <DropdownMenuItem disabled>پنجره ناشناس</DropdownMenuItem>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>پنجره‌ها</DropdownMenuLabel>
+      <DropdownMenuItem>زبانه جدید</DropdownMenuItem>
+      <DropdownMenuItem>پنجره جدید</DropdownMenuItem>
+    </DropdownMenuGroup>
     <DropdownMenuSeparator />
     <DropdownMenuSub>
       <DropdownMenuSubTrigger>اشتراک‌گذاری</DropdownMenuSubTrigger>
       <DropdownMenuSubContent>
         <DropdownMenuItem>لینک ایمیل</DropdownMenuItem>
         <DropdownMenuItem>پیام‌ها</DropdownMenuItem>
-        <DropdownMenuItem>یادداشت‌ها</DropdownMenuItem>
       </DropdownMenuSubContent>
     </DropdownMenuSub>
     <DropdownMenuSeparator />
-    <DropdownMenuCheckboxItem>نوار ابزار</DropdownMenuCheckboxItem>
-    <DropdownMenuCheckboxItem defaultChecked>
-      نوار وضعیت
-    </DropdownMenuCheckboxItem>
-    <DropdownMenuSeparator />
-    <DropdownMenuRadioGroup defaultValue="sara">
-      <DropdownMenuRadioItem value="amin">امین</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="sara">سارا</DropdownMenuRadioItem>
-      <DropdownMenuRadioItem value="reza">رضا</DropdownMenuRadioItem>
-    </DropdownMenuRadioGroup>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>چاپ</DropdownMenuItem>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>نمایش</DropdownMenuLabel>
+      <DropdownMenuCheckboxItem>نوار ابزار</DropdownMenuCheckboxItem>
+      <DropdownMenuCheckboxItem defaultChecked>
+        نوار وضعیت
+      </DropdownMenuCheckboxItem>
+    </DropdownMenuGroup>
   </DropdownMenuContent>
 </DropdownMenu>`
 
 const basicSnippet = `<DropdownMenu dir="rtl" lang="fa">
-  <DropdownMenuTrigger render={<Button variant="outline" />}>
+  <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>
     باز کردن
   </DropdownMenuTrigger>
   <DropdownMenuContent>
-    <DropdownMenuItem>زبانه جدید</DropdownMenuItem>
-    <DropdownMenuItem>پنجره جدید</DropdownMenuItem>
-    <DropdownMenuItem disabled>پنجره ناشناس</DropdownMenuItem>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>پنجره‌ها</DropdownMenuLabel>
+      <DropdownMenuItem>زبانه جدید</DropdownMenuItem>
+      <DropdownMenuItem>پنجره جدید</DropdownMenuItem>
+      <DropdownMenuItem disabled>پنجره ناشناس</DropdownMenuItem>
+    </DropdownMenuGroup>
     <DropdownMenuSeparator />
     <DropdownMenuItem>چاپ</DropdownMenuItem>
   </DropdownMenuContent>
@@ -177,10 +179,13 @@ const submenuSnippet = `<DropdownMenuContent>
 </DropdownMenuContent>`
 
 const checkboxesSnippet = `<DropdownMenuContent>
-  <DropdownMenuCheckboxItem>نوار ابزار</DropdownMenuCheckboxItem>
-  <DropdownMenuCheckboxItem defaultChecked>
-    نوار وضعیت
-  </DropdownMenuCheckboxItem>
+  <DropdownMenuGroup>
+    <DropdownMenuLabel>نمایش</DropdownMenuLabel>
+    <DropdownMenuCheckboxItem>نوار ابزار</DropdownMenuCheckboxItem>
+    <DropdownMenuCheckboxItem defaultChecked>
+      نوار وضعیت
+    </DropdownMenuCheckboxItem>
+  </DropdownMenuGroup>
   <DropdownMenuSeparator />
   <DropdownMenuItem>بارگذاری مجدد</DropdownMenuItem>
   <DropdownMenuItem disabled>بارگذاری اجباری</DropdownMenuItem>
@@ -189,24 +194,28 @@ const checkboxesSnippet = `<DropdownMenuContent>
 const checkboxesIconsSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
 
 <DropdownMenuContent>
-  <DropdownMenuCheckboxItem>
-    <ButtonDemoIcon />
-    نوار ابزار
-  </DropdownMenuCheckboxItem>
-  <DropdownMenuCheckboxItem defaultChecked>
-    <ButtonDemoIcon />
-    نوار وضعیت
-  </DropdownMenuCheckboxItem>
-  <DropdownMenuCheckboxItem disabled>
-    <ButtonDemoIcon />
-    نوار کناری
-  </DropdownMenuCheckboxItem>
+  <DropdownMenuGroup>
+    <DropdownMenuLabel>نمایش</DropdownMenuLabel>
+    <DropdownMenuCheckboxItem>
+      <ButtonDemoIcon />
+      نوار ابزار
+    </DropdownMenuCheckboxItem>
+    <DropdownMenuCheckboxItem defaultChecked>
+      <ButtonDemoIcon />
+      نوار وضعیت
+    </DropdownMenuCheckboxItem>
+    <DropdownMenuCheckboxItem disabled>
+      <ButtonDemoIcon />
+      نوار کناری
+    </DropdownMenuCheckboxItem>
+  </DropdownMenuGroup>
 </DropdownMenuContent>`
 
 const radioSnippet = `const [user, setUser] = React.useState("sara")
 
 <DropdownMenuContent>
   <DropdownMenuRadioGroup value={user} onValueChange={setUser}>
+    <DropdownMenuLabel>کاربر</DropdownMenuLabel>
     <DropdownMenuRadioItem value="amin">امین</DropdownMenuRadioItem>
     <DropdownMenuRadioItem value="sara">سارا</DropdownMenuRadioItem>
     <DropdownMenuRadioItem value="reza">رضا</DropdownMenuRadioItem>
@@ -219,18 +228,22 @@ const radioSnippet = `const [user, setUser] = React.useState("sara")
 const indicatorSnippet = `const [user, setUser] = React.useState("sara")
 
 <DropdownMenuContent>
-  <DropdownMenuCheckboxItem indicator="check">
-    نوار ابزار
-  </DropdownMenuCheckboxItem>
-  <DropdownMenuCheckboxItem indicator="check" defaultChecked>
-    نوار وضعیت
-  </DropdownMenuCheckboxItem>
+  <DropdownMenuGroup>
+    <DropdownMenuLabel>نمایش</DropdownMenuLabel>
+    <DropdownMenuCheckboxItem indicator="check">
+      نوار ابزار
+    </DropdownMenuCheckboxItem>
+    <DropdownMenuCheckboxItem indicator="check" defaultChecked>
+      نوار وضعیت
+    </DropdownMenuCheckboxItem>
+  </DropdownMenuGroup>
   <DropdownMenuSeparator />
   <DropdownMenuRadioGroup
     indicator="check"
     value={user}
     onValueChange={setUser}
   >
+    <DropdownMenuLabel>کاربر</DropdownMenuLabel>
     <DropdownMenuRadioItem value="amin">امین</DropdownMenuRadioItem>
     <DropdownMenuRadioItem value="sara">سارا</DropdownMenuRadioItem>
     <DropdownMenuRadioItem value="reza">رضا</DropdownMenuRadioItem>

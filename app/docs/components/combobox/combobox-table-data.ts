@@ -29,18 +29,37 @@ export const comboboxPropRows = [
     prop: "autoHighlight",
     type: "boolean",
     default: "false",
-    description: "Automatically highlight the first matching item while filtering.",
+    description: "Highlight the first matching item while filtering.",
+  },
+  {
+    prop: "itemToStringLabel",
+    type: "(item: T) => string",
+    description:
+      "Text for an object item, shown in the input and used for filtering. Objects shaped { value, label } use label automatically.",
   },
   {
     prop: "itemToStringValue",
     type: "(item: T) => string",
-    description: "Map an object item to the string used for filtering and display.",
+    description:
+      "String submitted with a form for an object item. Objects shaped { value, label } use value automatically.",
   },
   {
     prop: "disabled",
     type: "boolean",
     default: "false",
     description: "Disable the combobox.",
+  },
+  {
+    prop: "dir",
+    type: '"ltr" | "rtl"',
+    description:
+      "Text direction of the popup. Defaults to the closest dir on the page.",
+  },
+  {
+    prop: "lang",
+    type: "string",
+    description:
+      "Language of the popup. Defaults to the closest lang on the page.",
   },
 ]
 
@@ -49,13 +68,21 @@ export const inputPropRows = [
     prop: "showTrigger",
     type: "boolean",
     default: "true",
-    description: "Show the dropdown trigger inside the input group.",
+    description:
+      "Show the chevron button at the end of the input. Defaults to false inside ComboboxContent.",
   },
   {
     prop: "showClear",
     type: "boolean",
     default: "false",
     description: "Show a button that clears the selected value.",
+  },
+  {
+    prop: "size",
+    type: '"default" | "lg"',
+    default: '"default"',
+    description:
+      "Height and inline padding, matching Text Field: default 40px, lg 48px. ComboboxChips takes the same prop for its minimum height. Use className for other heights.",
   },
   {
     prop: "placeholder",
@@ -65,13 +92,19 @@ export const inputPropRows = [
   {
     prop: "disabled",
     type: "boolean",
-    description: "Disable the input.",
+    default: "false",
+    description: "Disable the input and its buttons.",
+  },
+  {
+    prop: "aria-invalid",
+    type: "boolean | \"true\" | \"false\"",
+    description: "Show the invalid state.",
   },
   {
     prop: "className",
     type: "string",
     description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+      "Additional Tailwind classes merged with the input group styles (last one wins).",
   },
 ]
 
@@ -91,12 +124,33 @@ export const contentPropRows = [
   {
     prop: "sideOffset",
     type: "number",
-    default: "6",
+    default: "4",
     description: "Distance in pixels from the anchor.",
+  },
+  {
+    prop: "alignOffset",
+    type: "number",
+    default: "0",
+    description: "Offset in pixels along the alignment axis.",
   },
   {
     prop: "anchor",
     type: "RefObject<HTMLElement>",
-    description: "Custom anchor, used with chips for multi-select.",
+    description:
+      "Custom anchor, used with chips for multi-select. Defaults to the input group, or the trigger when the input is inside the popup.",
+  },
+]
+
+export const itemPropRows = [
+  {
+    prop: "value",
+    type: "T",
+    description: "The item value. Required.",
+  },
+  {
+    prop: "disabled",
+    type: "boolean",
+    default: "false",
+    description: "Keep the item visible but not selectable.",
   },
 ]

@@ -6,7 +6,9 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownMenuSeparator,
@@ -20,7 +22,7 @@ import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
 
 function Trigger() {
   return (
-    <DropdownMenuTrigger render={<Button variant="outline" />}>
+    <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>
       باز کردن
     </DropdownMenuTrigger>
   )
@@ -31,31 +33,27 @@ export function DropdownMenuDemo() {
     <DropdownMenu dir="rtl" lang="fa">
       <Trigger />
       <DropdownMenuContent>
-        <DropdownMenuItem>زبانه جدید</DropdownMenuItem>
-        <DropdownMenuItem>پنجره جدید</DropdownMenuItem>
-        <DropdownMenuItem disabled>پنجره ناشناس</DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>پنجره‌ها</DropdownMenuLabel>
+          <DropdownMenuItem>زبانه جدید</DropdownMenuItem>
+          <DropdownMenuItem>پنجره جدید</DropdownMenuItem>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuSub>
           <DropdownMenuSubTrigger>اشتراک‌گذاری</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             <DropdownMenuItem>لینک ایمیل</DropdownMenuItem>
             <DropdownMenuItem>پیام‌ها</DropdownMenuItem>
-            <DropdownMenuItem>یادداشت‌ها</DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuSub>
         <DropdownMenuSeparator />
-        <DropdownMenuCheckboxItem>نوار ابزار</DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem defaultChecked>
-          نوار وضعیت
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuRadioGroup defaultValue="sara">
-          <DropdownMenuRadioItem value="amin">امین</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="sara">سارا</DropdownMenuRadioItem>
-          <DropdownMenuRadioItem value="reza">رضا</DropdownMenuRadioItem>
-        </DropdownMenuRadioGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>چاپ</DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>نمایش</DropdownMenuLabel>
+          <DropdownMenuCheckboxItem>نوار ابزار</DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem defaultChecked>
+            نوار وضعیت
+          </DropdownMenuCheckboxItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   )
@@ -66,9 +64,12 @@ export function DropdownMenuBasicDemo() {
     <DropdownMenu dir="rtl" lang="fa">
       <Trigger />
       <DropdownMenuContent>
-        <DropdownMenuItem>زبانه جدید</DropdownMenuItem>
-        <DropdownMenuItem>پنجره جدید</DropdownMenuItem>
-        <DropdownMenuItem disabled>پنجره ناشناس</DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>پنجره‌ها</DropdownMenuLabel>
+          <DropdownMenuItem>زبانه جدید</DropdownMenuItem>
+          <DropdownMenuItem>پنجره جدید</DropdownMenuItem>
+          <DropdownMenuItem disabled>پنجره ناشناس</DropdownMenuItem>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>چاپ</DropdownMenuItem>
       </DropdownMenuContent>
@@ -150,10 +151,13 @@ export function DropdownMenuCheckboxesDemo() {
     <DropdownMenu dir="rtl" lang="fa">
       <Trigger />
       <DropdownMenuContent>
-        <DropdownMenuCheckboxItem>نوار ابزار</DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem defaultChecked>
-          نوار وضعیت
-        </DropdownMenuCheckboxItem>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>نمایش</DropdownMenuLabel>
+          <DropdownMenuCheckboxItem>نوار ابزار</DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem defaultChecked>
+            نوار وضعیت
+          </DropdownMenuCheckboxItem>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>بارگذاری مجدد</DropdownMenuItem>
         <DropdownMenuItem disabled>بارگذاری اجباری</DropdownMenuItem>
@@ -167,18 +171,21 @@ export function DropdownMenuCheckboxesIconsDemo() {
     <DropdownMenu dir="rtl" lang="fa">
       <Trigger />
       <DropdownMenuContent>
-        <DropdownMenuCheckboxItem>
-          <ButtonDemoIcon />
-          نوار ابزار
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem defaultChecked>
-          <ButtonDemoIcon />
-          نوار وضعیت
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem disabled>
-          <ButtonDemoIcon />
-          نوار کناری
-        </DropdownMenuCheckboxItem>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>نمایش</DropdownMenuLabel>
+          <DropdownMenuCheckboxItem>
+            <ButtonDemoIcon />
+            نوار ابزار
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem defaultChecked>
+            <ButtonDemoIcon />
+            نوار وضعیت
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem disabled>
+            <ButtonDemoIcon />
+            نوار کناری
+          </DropdownMenuCheckboxItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   )
@@ -192,6 +199,7 @@ export function DropdownMenuRadioGroupDemo() {
       <Trigger />
       <DropdownMenuContent>
         <DropdownMenuRadioGroup value={user} onValueChange={setUser}>
+          <DropdownMenuLabel>کاربر</DropdownMenuLabel>
           <DropdownMenuRadioItem value="amin">امین</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="sara">سارا</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="reza">رضا</DropdownMenuRadioItem>
@@ -211,18 +219,22 @@ export function DropdownMenuIndicatorDemo() {
     <DropdownMenu dir="rtl" lang="fa">
       <Trigger />
       <DropdownMenuContent>
-        <DropdownMenuCheckboxItem indicator="check">
-          نوار ابزار
-        </DropdownMenuCheckboxItem>
-        <DropdownMenuCheckboxItem indicator="check" defaultChecked>
-          نوار وضعیت
-        </DropdownMenuCheckboxItem>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>نمایش</DropdownMenuLabel>
+          <DropdownMenuCheckboxItem indicator="check">
+            نوار ابزار
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem indicator="check" defaultChecked>
+            نوار وضعیت
+          </DropdownMenuCheckboxItem>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuRadioGroup
           indicator="check"
           value={user}
           onValueChange={setUser}
         >
+          <DropdownMenuLabel>کاربر</DropdownMenuLabel>
           <DropdownMenuRadioItem value="amin">امین</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="sara">سارا</DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="reza">رضا</DropdownMenuRadioItem>
