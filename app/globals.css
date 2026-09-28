@@ -961,3 +961,43 @@ html.cubix-scrollbar::-webkit-scrollbar-button:single-button,
     animation: none;
   }
 }
+
+/* Button-only Arab-script face. U+0020 is in unicode-range so this face becomes the primary font of Persian buttons and its ascent/descent set the baseline (without it Geist sets the baseline and the overrides do nothing). 103% / 47% sets the Persian label position for every size except lg. */
+@font-face {
+  font-family: "IRANSans Cubix Button D";
+  src: url("./fonts/IRANSansXV.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF,
+    U+FE70-FEFF, U+0020;
+  ascent-override: 103%;
+  descent-override: 47%;
+  line-gap-override: 0%;
+}
+
+@layer base {
+  .group\/button:lang(fa) {
+    font-family: "IRANSans Cubix Button D", var(--font-sans), ui-sans-serif, sans-serif;
+  }
+}
+
+/* lg button (48px, 14px text): label sits 2px lower than the default button face. */
+@font-face {
+  font-family: "IRANSans Cubix Button LG";
+  src: url("./fonts/IRANSansXV.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF,
+    U+FE70-FEFF, U+0020;
+  ascent-override: 109%;
+  descent-override: 41%;
+  line-gap-override: 0%;
+}
+
+@layer base {
+  .group\/button.h-12:lang(fa) {
+    font-family: "IRANSans Cubix Button LG", var(--font-sans), ui-sans-serif, sans-serif;
+  }
+}
