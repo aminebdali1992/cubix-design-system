@@ -34,7 +34,7 @@ const itemStyles =
   "group/menubar-item relative flex w-full cursor-default items-center gap-1.5 rounded-sm px-2 py-1.75 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground not-data-[variant=destructive]:focus:**:text-accent-foreground data-inset:ps-8 data-[variant=destructive]:text-destructive data-[variant=destructive]:focus:bg-destructive/10 data-[variant=destructive]:focus:text-destructive dark:data-[variant=destructive]:focus:bg-destructive/20 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5 data-[variant=destructive]:*:[svg]:text-destructive!"
 
 const contentStyles =
-  "z-50 w-max min-w-32 overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] outline-none"
+  "z-50 w-max min-w-[150px] overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] outline-none"
 
 type TextDirection = "ltr" | "rtl"
 
@@ -318,7 +318,7 @@ function MenubarCheckboxItem({
         <MenubarCheckIndicator checked={isChecked} />
       ) : (
         <span aria-hidden className="pointer-events-none absolute end-2 flex items-center justify-center">
-          <Checkbox className="size-4 rounded-[5px]" checked={isChecked} excludeFromTabOrder />
+          <Checkbox className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5" checked={isChecked} excludeFromTabOrder />
         </span>
       )}
       {children}
@@ -530,7 +530,7 @@ function MenubarSubContent({
     <Popover
       data-slot="menubar-sub-content"
       className={cn(
-        "z-50 w-max min-w-32 overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/[0.06] outline-none",
+        "z-50 w-max min-w-[150px] overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/[0.06] outline-none",
         className
       )}
       {...localeDomProps(contentLocale)}

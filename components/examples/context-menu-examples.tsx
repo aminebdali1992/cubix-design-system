@@ -1,106 +1,67 @@
 "use client"
 
 import * as React from "react"
-import {
-  ClipboardPasteIcon,
-  CopyIcon,
-  PencilIcon,
-  ScissorsIcon,
-  ShareIcon,
-  TrashIcon,
-} from "lucide-react"
 
 import {
   ContextMenu,
   ContextMenuCheckboxItem,
   ContextMenuContent,
-  ContextMenuGroup,
   ContextMenuItem,
-  ContextMenuLabel,
   ContextMenuRadioGroup,
   ContextMenuRadioItem,
   ContextMenuSeparator,
-  ContextMenuShortcut,
   ContextMenuSub,
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
-} from "@/components/cubix/context-menu"
+} from "@/app/docs/components/context-menu/docs-context-menu"
+import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
 
 const triggerClassName =
-  "flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm"
+  "flex h-36 w-full max-w-xs items-center justify-center rounded-lg border border-dashed px-4 text-center text-caption text-muted-foreground"
 
-function TriggerCopy({
-  fine = "Right click here",
-  coarse = "Long press here",
-}: {
-  fine?: string
-  coarse?: string
-}) {
+function TriggerHint() {
   return (
     <>
-      <span className="pointer-coarse:hidden">{fine}</span>
-      <span className="hidden pointer-coarse:inline">{coarse}</span>
+      <span className="pointer-coarse:hidden">
+        برای باز کردن منو کلیک راست کنید
+      </span>
+      <span className="hidden pointer-coarse:inline">
+        برای باز کردن منو لمس کنید و نگه دارید
+      </span>
     </>
   )
 }
 
 export function ContextMenuDemo() {
   return (
-    <ContextMenu>
+    <ContextMenu dir="rtl" lang="fa">
       <ContextMenuTrigger className={triggerClassName}>
-        <TriggerCopy />
+        <TriggerHint />
       </ContextMenuTrigger>
-      <ContextMenuContent className="w-48">
-        <ContextMenuGroup>
-          <ContextMenuItem>
-            Back
-            <ContextMenuShortcut>⌘[</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem disabled>
-            Forward
-            <ContextMenuShortcut>⌘]</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            Reload
-            <ContextMenuShortcut>⌘R</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuSub>
-            <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
-            <ContextMenuSubContent className="w-44">
-              <ContextMenuGroup>
-                <ContextMenuItem>Save Page...</ContextMenuItem>
-                <ContextMenuItem>Create Shortcut...</ContextMenuItem>
-                <ContextMenuItem>Name Window...</ContextMenuItem>
-              </ContextMenuGroup>
-              <ContextMenuSeparator />
-              <ContextMenuGroup>
-                <ContextMenuItem>Developer Tools</ContextMenuItem>
-              </ContextMenuGroup>
-              <ContextMenuSeparator />
-              <ContextMenuGroup>
-                <ContextMenuItem variant="destructive">Delete</ContextMenuItem>
-              </ContextMenuGroup>
-            </ContextMenuSubContent>
-          </ContextMenuSub>
-        </ContextMenuGroup>
+      <ContextMenuContent>
+        <ContextMenuItem>بازگشت</ContextMenuItem>
+        <ContextMenuItem disabled>جلو</ContextMenuItem>
+        <ContextMenuItem>بارگذاری مجدد</ContextMenuItem>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>ابزارهای بیشتر</ContextMenuSubTrigger>
+          <ContextMenuSubContent>
+            <ContextMenuItem>ذخیره صفحه به‌عنوان</ContextMenuItem>
+            <ContextMenuItem>ایجاد میان‌بر</ContextMenuItem>
+            <ContextMenuItem>نام‌گذاری پنجره</ContextMenuItem>
+            <ContextMenuSeparator />
+            <ContextMenuItem>ابزارهای توسعه‌دهنده</ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
         <ContextMenuSeparator />
-        <ContextMenuGroup>
-          <ContextMenuCheckboxItem checked>
-            Show Bookmarks
-          </ContextMenuCheckboxItem>
-          <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
-        </ContextMenuGroup>
+        <ContextMenuCheckboxItem defaultChecked>نوار ابزار</ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem>نوار وضعیت</ContextMenuCheckboxItem>
         <ContextMenuSeparator />
-        <ContextMenuGroup>
-          <ContextMenuRadioGroup value="pedro">
-            <ContextMenuLabel>People</ContextMenuLabel>
-            <ContextMenuRadioItem value="pedro">
-              Pedro Duarte
-            </ContextMenuRadioItem>
-            <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
-          </ContextMenuRadioGroup>
-        </ContextMenuGroup>
+        <ContextMenuRadioGroup defaultValue="sara">
+          <ContextMenuRadioItem value="amin">امین</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="sara">سارا</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="reza">رضا</ContextMenuRadioItem>
+        </ContextMenuRadioGroup>
       </ContextMenuContent>
     </ContextMenu>
   )
@@ -108,154 +69,17 @@ export function ContextMenuDemo() {
 
 export function ContextMenuBasicDemo() {
   return (
-    <ContextMenu>
+    <ContextMenu dir="rtl" lang="fa">
       <ContextMenuTrigger className={triggerClassName}>
-        <TriggerCopy />
+        <TriggerHint />
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuGroup>
-          <ContextMenuItem>Back</ContextMenuItem>
-          <ContextMenuItem disabled>Forward</ContextMenuItem>
-          <ContextMenuItem>Reload</ContextMenuItem>
-        </ContextMenuGroup>
-      </ContextMenuContent>
-    </ContextMenu>
-  )
-}
-
-export function ContextMenuSubmenuDemo() {
-  return (
-    <ContextMenu>
-      <ContextMenuTrigger className={triggerClassName}>
-        <TriggerCopy />
-      </ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuGroup>
-          <ContextMenuItem>
-            Copy
-            <ContextMenuShortcut>⌘C</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            Cut
-            <ContextMenuShortcut>⌘X</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuGroup>
-        <ContextMenuSub>
-          <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
-          <ContextMenuSubContent>
-            <ContextMenuGroup>
-              <ContextMenuItem>Save Page...</ContextMenuItem>
-              <ContextMenuItem>Create Shortcut...</ContextMenuItem>
-              <ContextMenuItem>Name Window...</ContextMenuItem>
-            </ContextMenuGroup>
-            <ContextMenuSeparator />
-            <ContextMenuGroup>
-              <ContextMenuItem>Developer Tools</ContextMenuItem>
-            </ContextMenuGroup>
-            <ContextMenuSeparator />
-            <ContextMenuGroup>
-              <ContextMenuItem variant="destructive">Delete</ContextMenuItem>
-            </ContextMenuGroup>
-          </ContextMenuSubContent>
-        </ContextMenuSub>
-      </ContextMenuContent>
-    </ContextMenu>
-  )
-}
-
-export function ContextMenuShortcutsDemo() {
-  return (
-    <ContextMenu>
-      <ContextMenuTrigger className={triggerClassName}>
-        <TriggerCopy />
-      </ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuGroup>
-          <ContextMenuItem>
-            Back
-            <ContextMenuShortcut>⌘[</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem disabled>
-            Forward
-            <ContextMenuShortcut>⌘]</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            Reload
-            <ContextMenuShortcut>⌘R</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuGroup>
+        <ContextMenuItem>بازگشت</ContextMenuItem>
+        <ContextMenuItem disabled>جلو</ContextMenuItem>
+        <ContextMenuItem>بارگذاری مجدد</ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuGroup>
-          <ContextMenuItem>
-            Save
-            <ContextMenuShortcut>⌘S</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            Save As...
-            <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuGroup>
-      </ContextMenuContent>
-    </ContextMenu>
-  )
-}
-
-export function ContextMenuGroupsDemo() {
-  return (
-    <ContextMenu>
-      <ContextMenuTrigger className={triggerClassName}>
-        <TriggerCopy />
-      </ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuGroup>
-          <ContextMenuLabel>File</ContextMenuLabel>
-          <ContextMenuItem>
-            New File
-            <ContextMenuShortcut>⌘N</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            Open File
-            <ContextMenuShortcut>⌘O</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            Save
-            <ContextMenuShortcut>⌘S</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuGroup>
-        <ContextMenuSeparator />
-        <ContextMenuGroup>
-          <ContextMenuLabel>Edit</ContextMenuLabel>
-          <ContextMenuItem>
-            Undo
-            <ContextMenuShortcut>⌘Z</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            Redo
-            <ContextMenuShortcut>⇧⌘Z</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuGroup>
-        <ContextMenuSeparator />
-        <ContextMenuGroup>
-          <ContextMenuItem>
-            Cut
-            <ContextMenuShortcut>⌘X</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            Copy
-            <ContextMenuShortcut>⌘C</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem>
-            Paste
-            <ContextMenuShortcut>⌘V</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuGroup>
-        <ContextMenuSeparator />
-        <ContextMenuGroup>
-          <ContextMenuItem variant="destructive">
-            Delete
-            <ContextMenuShortcut>⌫</ContextMenuShortcut>
-          </ContextMenuItem>
-        </ContextMenuGroup>
+        <ContextMenuItem>ذخیره صفحه به‌عنوان</ContextMenuItem>
+        <ContextMenuItem>چاپ</ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   )
@@ -263,86 +87,171 @@ export function ContextMenuGroupsDemo() {
 
 export function ContextMenuIconsDemo() {
   return (
-    <ContextMenu>
+    <ContextMenu dir="rtl" lang="fa">
       <ContextMenuTrigger className={triggerClassName}>
-        <TriggerCopy />
+        <TriggerHint />
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuGroup>
-          <ContextMenuItem>
-            <CopyIcon />
-            Copy
-          </ContextMenuItem>
-          <ContextMenuItem>
-            <ScissorsIcon />
-            Cut
-          </ContextMenuItem>
-          <ContextMenuItem>
-            <ClipboardPasteIcon />
-            Paste
-          </ContextMenuItem>
-        </ContextMenuGroup>
+        <ContextMenuItem>
+          <ButtonDemoIcon />
+          بازگشت
+        </ContextMenuItem>
+        <ContextMenuItem disabled>
+          <ButtonDemoIcon />
+          جلو
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <ButtonDemoIcon />
+          بارگذاری مجدد
+        </ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuGroup>
-          <ContextMenuItem variant="destructive">
-            <TrashIcon />
-            Delete
-          </ContextMenuItem>
-        </ContextMenuGroup>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>
+            <ButtonDemoIcon />
+            اشتراک‌گذاری
+          </ContextMenuSubTrigger>
+          <ContextMenuSubContent>
+            <ContextMenuItem>
+              <ButtonDemoIcon />
+              لینک ایمیل
+            </ContextMenuItem>
+            <ContextMenuItem>
+              <ButtonDemoIcon />
+              پیام‌ها
+            </ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSeparator />
+        <ContextMenuItem>
+          <ButtonDemoIcon />
+          ذخیره صفحه به‌عنوان
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   )
 }
 
-export function ContextMenuCheckboxesDemo() {
+export function ContextMenuSubmenuDemo() {
   return (
-    <ContextMenu>
+    <ContextMenu dir="rtl" lang="fa">
       <ContextMenuTrigger className={triggerClassName}>
-        <TriggerCopy />
+        <TriggerHint />
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuGroup>
-          <ContextMenuCheckboxItem defaultChecked>
-            Show Bookmarks Bar
-          </ContextMenuCheckboxItem>
-          <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
-          <ContextMenuCheckboxItem defaultChecked>
-            Show Developer Tools
-          </ContextMenuCheckboxItem>
-        </ContextMenuGroup>
+        <ContextMenuItem>بازگشت</ContextMenuItem>
+        <ContextMenuItem>بارگذاری مجدد</ContextMenuItem>
+        <ContextMenuSeparator />
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>ابزارهای بیشتر</ContextMenuSubTrigger>
+          <ContextMenuSubContent>
+            <ContextMenuItem>ذخیره صفحه به‌عنوان</ContextMenuItem>
+            <ContextMenuItem>ایجاد میان‌بر</ContextMenuItem>
+            <ContextMenuItem>نام‌گذاری پنجره</ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>اشتراک‌گذاری</ContextMenuSubTrigger>
+          <ContextMenuSubContent>
+            <ContextMenuItem>لینک ایمیل</ContextMenuItem>
+            <ContextMenuItem>پیام‌ها</ContextMenuItem>
+            <ContextMenuItem>یادداشت‌ها</ContextMenuItem>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+
+export function ContextMenuCheckboxDemo() {
+  return (
+    <ContextMenu dir="rtl" lang="fa">
+      <ContextMenuTrigger className={triggerClassName}>
+        <TriggerHint />
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuCheckboxItem>نوار ابزار</ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem defaultChecked>
+          نوار وضعیت
+        </ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem disabled>نوار کناری</ContextMenuCheckboxItem>
+        <ContextMenuSeparator />
+        <ContextMenuItem>بارگذاری مجدد</ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+
+export function ContextMenuCheckboxIconsDemo() {
+  return (
+    <ContextMenu dir="rtl" lang="fa">
+      <ContextMenuTrigger className={triggerClassName}>
+        <TriggerHint />
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuCheckboxItem>
+          <ButtonDemoIcon />
+          نوار ابزار
+        </ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem defaultChecked>
+          <ButtonDemoIcon />
+          نوار وضعیت
+        </ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem disabled>
+          <ButtonDemoIcon />
+          نوار کناری
+        </ContextMenuCheckboxItem>
       </ContextMenuContent>
     </ContextMenu>
   )
 }
 
 export function ContextMenuRadioDemo() {
-  const [user, setUser] = React.useState("pedro")
-  const [theme, setTheme] = React.useState("light")
+  const [user, setUser] = React.useState("sara")
 
   return (
-    <ContextMenu>
+    <ContextMenu dir="rtl" lang="fa">
       <ContextMenuTrigger className={triggerClassName}>
-        <TriggerCopy />
+        <TriggerHint />
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuGroup>
-          <ContextMenuLabel>People</ContextMenuLabel>
-          <ContextMenuRadioGroup value={user} onValueChange={setUser}>
-            <ContextMenuRadioItem value="pedro">
-              Pedro Duarte
-            </ContextMenuRadioItem>
-            <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
-          </ContextMenuRadioGroup>
-        </ContextMenuGroup>
+        <ContextMenuRadioGroup value={user} onValueChange={setUser}>
+          <ContextMenuRadioItem value="amin">امین</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="sara">سارا</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="reza">رضا</ContextMenuRadioItem>
+        </ContextMenuRadioGroup>
         <ContextMenuSeparator />
-        <ContextMenuGroup>
-          <ContextMenuLabel>Theme</ContextMenuLabel>
-          <ContextMenuRadioGroup value={theme} onValueChange={setTheme}>
-            <ContextMenuRadioItem value="light">Light</ContextMenuRadioItem>
-            <ContextMenuRadioItem value="dark">Dark</ContextMenuRadioItem>
-            <ContextMenuRadioItem value="system">System</ContextMenuRadioItem>
-          </ContextMenuRadioGroup>
-        </ContextMenuGroup>
+        <ContextMenuItem>ویرایش</ContextMenuItem>
+        <ContextMenuItem>افزودن پروفایل</ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+
+export function ContextMenuIndicatorDemo() {
+  const [user, setUser] = React.useState("sara")
+
+  return (
+    <ContextMenu dir="rtl" lang="fa">
+      <ContextMenuTrigger className={triggerClassName}>
+        <TriggerHint />
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuCheckboxItem indicator="check">
+          نوار ابزار
+        </ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem indicator="check" defaultChecked>
+          نوار وضعیت
+        </ContextMenuCheckboxItem>
+        <ContextMenuSeparator />
+        <ContextMenuRadioGroup
+          indicator="check"
+          value={user}
+          onValueChange={setUser}
+        >
+          <ContextMenuRadioItem value="amin">امین</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="sara">سارا</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="reza">رضا</ContextMenuRadioItem>
+        </ContextMenuRadioGroup>
       </ContextMenuContent>
     </ContextMenu>
   )
@@ -350,58 +259,29 @@ export function ContextMenuRadioDemo() {
 
 export function ContextMenuDestructiveDemo() {
   return (
-    <ContextMenu>
+    <ContextMenu dir="rtl" lang="fa">
       <ContextMenuTrigger className={triggerClassName}>
-        <TriggerCopy />
+        <TriggerHint />
       </ContextMenuTrigger>
       <ContextMenuContent>
-        <ContextMenuGroup>
-          <ContextMenuItem>
-            <PencilIcon />
-            Edit
-          </ContextMenuItem>
-          <ContextMenuItem>
-            <ShareIcon />
-            Share
-          </ContextMenuItem>
-        </ContextMenuGroup>
+        <ContextMenuItem>
+          <ButtonDemoIcon />
+          ویرایش
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <ButtonDemoIcon />
+          تکثیر
+        </ContextMenuItem>
+        <ContextMenuItem>
+          <ButtonDemoIcon />
+          اشتراک‌گذاری
+        </ContextMenuItem>
         <ContextMenuSeparator />
-        <ContextMenuGroup>
-          <ContextMenuItem variant="destructive">
-            <TrashIcon />
-            Delete
-          </ContextMenuItem>
-        </ContextMenuGroup>
+        <ContextMenuItem variant="destructive">
+          <ButtonDemoIcon />
+          حذف
+        </ContextMenuItem>
       </ContextMenuContent>
     </ContextMenu>
   )
 }
-
-export function ContextMenuSidesDemo() {
-  return (
-    <div className="grid w-full max-w-sm grid-cols-2 gap-4">
-      {(
-        [
-          ["top", "Right click (top)", "Long press (top)"],
-          ["right", "Right click (right)", "Long press (right)"],
-          ["bottom", "Right click (bottom)", "Long press (bottom)"],
-          ["left", "Right click (left)", "Long press (left)"],
-        ] as const
-      ).map(([side, fine, coarse]) => (
-        <ContextMenu key={side}>
-          <ContextMenuTrigger className={triggerClassName}>
-            <TriggerCopy fine={fine} coarse={coarse} />
-          </ContextMenuTrigger>
-          <ContextMenuContent side={side}>
-            <ContextMenuGroup>
-              <ContextMenuItem>Back</ContextMenuItem>
-              <ContextMenuItem>Forward</ContextMenuItem>
-              <ContextMenuItem>Reload</ContextMenuItem>
-            </ContextMenuGroup>
-          </ContextMenuContent>
-        </ContextMenu>
-      ))}
-    </div>
-  )
-}
-

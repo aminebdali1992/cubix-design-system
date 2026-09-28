@@ -97,7 +97,7 @@ const demoSnippet = `<Menubar dir="rtl" lang="fa">
       </MenubarSub>
       <MenubarSeparator />
       <MenubarItem>
-        چاپ...
+        چاپ
       </MenubarItem>
     </MenubarContent>
   </MenubarMenu>
@@ -128,7 +128,7 @@ const basicSnippet = `<Menubar dir="rtl" lang="fa">
       <MenubarItem disabled>پنجره ناشناس</MenubarItem>
       <MenubarSeparator />
       <MenubarItem>
-        چاپ...
+        چاپ
       </MenubarItem>
     </MenubarContent>
   </MenubarMenu>

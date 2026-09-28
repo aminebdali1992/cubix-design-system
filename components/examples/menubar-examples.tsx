@@ -43,7 +43,7 @@ export function MenubarDemo() {
           </MenubarSub>
           <MenubarSeparator />
           <MenubarItem>
-            چاپ...
+            چاپ
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -62,7 +62,7 @@ export function MenubarDemo() {
             <MenubarSubContent>
               <MenubarItem>جستجو در وب</MenubarItem>
               <MenubarSeparator />
-              <MenubarItem>یافتن...</MenubarItem>
+              <MenubarItem>یافتن</MenubarItem>
               <MenubarItem>یافتن بعدی</MenubarItem>
               <MenubarItem>یافتن قبلی</MenubarItem>
             </MenubarSubContent>
@@ -102,9 +102,9 @@ export function MenubarDemo() {
             <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
           </MenubarRadioGroup>
           <MenubarSeparator />
-          <MenubarItem>ویرایش...</MenubarItem>
+          <MenubarItem>ویرایش</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem>افزودن پروفایل...</MenubarItem>
+          <MenubarItem>افزودن پروفایل</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
@@ -126,7 +126,7 @@ export function MenubarBasicDemo() {
           <MenubarItem disabled>پنجره ناشناس</MenubarItem>
           <MenubarSeparator />
           <MenubarItem>
-            چاپ...
+            چاپ
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -187,7 +187,7 @@ export function MenubarIconsDemo() {
           <MenubarSeparator />
           <MenubarItem>
             <ButtonDemoIcon />
-            چاپ...
+            چاپ
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -228,7 +228,7 @@ export function MenubarSubmenuDemo() {
           </MenubarSub>
           <MenubarSeparator />
           <MenubarItem>
-            چاپ...
+            چاپ
           </MenubarItem>
         </MenubarContent>
       </MenubarMenu>
@@ -245,7 +245,7 @@ export function MenubarSubmenuDemo() {
           <MenubarSub>
             <MenubarSubTrigger>یافتن</MenubarSubTrigger>
             <MenubarSubContent>
-              <MenubarItem>یافتن...</MenubarItem>
+              <MenubarItem>یافتن</MenubarItem>
               <MenubarItem>یافتن بعدی</MenubarItem>
               <MenubarItem>یافتن قبلی</MenubarItem>
             </MenubarSubContent>
@@ -347,8 +347,8 @@ export function MenubarRadioDemo() {
             <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
           </MenubarRadioGroup>
           <MenubarSeparator />
-          <MenubarItem>ویرایش...</MenubarItem>
-          <MenubarItem>افزودن پروفایل...</MenubarItem>
+          <MenubarItem>ویرایش</MenubarItem>
+          <MenubarItem>افزودن پروفایل</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
       <MenubarMenu>

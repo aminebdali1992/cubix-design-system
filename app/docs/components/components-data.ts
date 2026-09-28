@@ -169,7 +169,7 @@ export const components = [
     description:
       "Displays a menu of actions or links to the user, triggered by a button.",
     href: "/docs/components/dropdown-menu",
-    ready: false,
+    ready: true,
   },
   {
     name: "Alert Dialog",
@@ -254,9 +254,9 @@ export const components = [
   },
   {
     name: "Context Menu",
-    description: "Displays a menu of actions triggered by a right click.",
+    description: "Displays a menu of actions at the pointer, opened with a right click or long press.",
     href: "/docs/components/context-menu",
-    ready: false,
+    ready: true,
   },
   {
     name: "Data Table",
