@@ -103,6 +103,13 @@ export const components = [
     ready: true,
   },
   {
+    name: "Chips",
+    description:
+      "A row of selectable pills for filtering, tagging, or picking one or more options.",
+    href: "/docs/components/chips",
+    ready: true,
+  },
+  {
     name: "Dialog",
     description: "A modal window that overlays the page.",
     href: "/docs/components/dialog",
