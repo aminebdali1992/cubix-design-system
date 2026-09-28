@@ -8,6 +8,12 @@ import * as BaseAccordion from "@/components/cubix/base/accordion"
 import * as RadixAccordion from "@/components/cubix/radix/accordion"
 import { DEFAULT_BASE, parseComponentPath } from "@/lib/bases"
 
+/*
+  The demos use the props every base shares, so each part renders the
+  Base UI, Radix or React Aria source picked in the docs switcher without a
+  cast.
+*/
+
 type AccordionProps = {
   className?: string
   multiple?: boolean
@@ -15,6 +21,8 @@ type AccordionProps = {
   defaultValue?: string[]
   onValueChange?: (value: string[]) => void
   disabled?: boolean
+  dir?: "ltr" | "rtl"
+  lang?: string
   children?: ReactNode
 }
 
@@ -28,6 +36,10 @@ type AccordionItemProps = {
 type AccordionSlotProps = {
   className?: string
   children?: ReactNode
+}
+
+type AccordionTriggerProps = AccordionSlotProps & {
+  icon?: ReactNode
 }
 
 function useAccordionBase() {
@@ -63,7 +75,7 @@ function AccordionItem(props: AccordionItemProps) {
   return <BaseAccordion.AccordionItem {...props} />
 }
 
-function AccordionTrigger(props: AccordionSlotProps) {
+function AccordionTrigger(props: AccordionTriggerProps) {
   const base = useAccordionBase()
 
   if (base === "aria") {

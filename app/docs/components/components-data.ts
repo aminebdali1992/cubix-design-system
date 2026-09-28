@@ -155,7 +155,7 @@ export const components = [
     description:
       "A vertically stacked set of interactive headings that each reveal a section of content.",
     href: "/docs/components/accordion",
-    ready: false,
+    ready: true,
   },
   {
     name: "Popover",

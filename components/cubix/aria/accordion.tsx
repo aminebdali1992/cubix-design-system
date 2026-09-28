@@ -1,5 +1,15 @@
 "use client"
 
+/*
+  Cubix Accordion - stacked sections that each reveal a panel.
+
+  Built on a disclosure group: single mode keeps one section open and lets
+  the open trigger close it again; multiple mode keeps any number open.
+  ArrowUp and ArrowDown move focus between the enabled triggers of the same
+  accordion (wrapping at the ends), Home and End jump to the first and last
+  one. Layout uses logical properties, so the chevron sits at the inline end
+  and follows dir="rtl" without a flip.
+*/
 import type { ReactNode } from "react"
 import { ChevronDownIcon } from "lucide-react"
 import {
@@ -15,6 +25,54 @@ import {
 } from "react-aria-components"
 
 import { cn } from "@/lib/utils"
+
+const ACCORDION_SELECTOR = '[data-slot="accordion"]'
+const TRIGGER_SELECTOR = '[data-slot="accordion-trigger"]'
+const DISABLED_TRIGGER_SELECTOR =
+  ':disabled, [aria-disabled="true"], [data-disabled]'
+
+/*
+  Moves focus from a trigger to a sibling trigger of the same accordion, so a
+  nested accordion keeps its own sequence. Returns true when the key moved
+  focus.
+*/
+function focusSiblingTrigger(trigger: EventTarget, key: string) {
+  if (!(trigger instanceof HTMLElement)) return false
+  const root = trigger.closest(ACCORDION_SELECTOR)
+  if (!root) return false
+
+  const triggers = Array.from(
+    root.querySelectorAll<HTMLElement>(TRIGGER_SELECTOR)
+  ).filter(
+    (item) =>
+      item.closest(ACCORDION_SELECTOR) === root &&
+      !item.matches(DISABLED_TRIGGER_SELECTOR)
+  )
+  const index = triggers.indexOf(trigger)
+  if (index === -1) return false
+
+  const last = triggers.length - 1
+  let nextIndex: number
+  switch (key) {
+    case "ArrowDown":
+      nextIndex = index === last ? 0 : index + 1
+      break
+    case "ArrowUp":
+      nextIndex = index === 0 ? last : index - 1
+      break
+    case "Home":
+      nextIndex = 0
+      break
+    case "End":
+      nextIndex = last
+      break
+    default:
+      return false
+  }
+
+  triggers[nextIndex]?.focus()
+  return true
+}
 
 type AccordionProps = Omit<
   DisclosureGroupProps,
@@ -88,55 +146,93 @@ function AccordionItem({
   )
 }
 
-type AccordionTriggerProps = Omit<ButtonProps, "children" | "className" | "slot"> & {
+type AccordionTriggerProps = Omit<
+  ButtonProps,
+  "children" | "className" | "slot"
+> & {
   className?: string
   children?: ReactNode
+  icon?: ReactNode
 }
 
 function AccordionTrigger({
   className,
   children,
+  icon,
+  onKeyDown,
   ...props
 }: AccordionTriggerProps) {
   return (
     <Heading
       data-slot="accordion-header"
-      className="m-0 flex font-sans text-description font-medium tracking-normal"
+      className="m-0 flex font-sans text-description font-normal tracking-normal"
     >
       <Button
         slot="trigger"
         data-slot="accordion-trigger"
         className={cn(
-          "group/accordion-trigger flex flex-1 items-center justify-between gap-3 rounded-lg border border-transparent py-3 text-start text-description font-medium outline-none hover:text-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50",
+          "group/accordion-trigger flex flex-1 items-center justify-between gap-3 rounded-lg border border-transparent py-3 text-start font-[family-name:var(--font-arab),var(--font-sans),ui-sans-serif,sans-serif] text-label font-normal text-foreground outline-none transition-[color,box-shadow] focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 data-disabled:pointer-events-none data-disabled:opacity-50",
           className
         )}
+        onKeyDown={(event) => {
+          onKeyDown?.(event)
+          if (event.isDefaultPrevented()) return
+          if (focusSiblingTrigger(event.target, event.key)) {
+            event.preventDefault()
+          }
+        }}
         {...props}
       >
-        {children}
+        {icon ? (
+          <span
+            data-slot="accordion-trigger-title"
+            className="flex min-w-0 items-center gap-2"
+          >
+            <span
+              data-slot="accordion-trigger-icon-start"
+              aria-hidden="true"
+              className="inline-flex shrink-0 items-center [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-6"
+            >
+              {icon}
+            </span>
+            {children}
+          </span>
+        ) : (
+          children
+        )}
         <ChevronDownIcon
           data-slot="accordion-trigger-icon"
           aria-hidden="true"
-          className="pointer-events-none size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-aria-expanded/accordion-trigger:rotate-180"
+          className="pointer-events-none size-4 shrink-0 text-muted-foreground transition-transform duration-200 ease-out group-aria-expanded/accordion-trigger:rotate-180 motion-reduce:transition-none"
         />
       </Button>
     </Heading>
   )
 }
 
-type AccordionContentProps = Omit<DisclosurePanelProps, "className" | "children"> & {
+type AccordionContentProps = Omit<
+  DisclosurePanelProps,
+  "className" | "children"
+> & {
   className?: string
   children?: ReactNode
 }
 
+/*
+  The panel is a labelled region, matching the other bases. Pass
+  role="group" when an accordion has many sections.
+*/
 function AccordionContent({
   className,
   children,
+  role = "region",
   ...props
 }: AccordionContentProps) {
   return (
     <DisclosurePanel
       data-slot="accordion-content"
-      className="h-(--disclosure-panel-height) overflow-hidden text-description text-muted-foreground transition-[height] duration-200 ease-out"
+      role={role}
+      className="h-(--disclosure-panel-height) overflow-hidden text-label text-muted-foreground transition-[height] duration-200 ease-out motion-reduce:transition-none"
       {...props}
     >
       <div
@@ -151,4 +247,13 @@ function AccordionContent({
   )
 }
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+export {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+  type AccordionProps,
+  type AccordionItemProps,
+  type AccordionTriggerProps,
+  type AccordionContentProps,
+}
