@@ -148,7 +148,7 @@ export const components = [
     description:
       "A control that allows the user to toggle between checked and not checked.",
     href: "/docs/components/switch",
-    ready: false,
+    ready: true,
   },
   {
     name: "Radio Group",

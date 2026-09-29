@@ -1,1 +1,1 @@
-export { default, metadata } from "../../switch/page";
+export { default, metadata } from "../../switch/page"

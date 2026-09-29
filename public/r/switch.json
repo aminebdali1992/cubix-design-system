@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Switch",
   "description": "A control that allows the user to toggle between checked and not checked.",
-  "dependencies": [],
+  "dependencies": ["@base-ui/react"],
   "registryDependencies": [],
   "files": [
     {

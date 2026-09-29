@@ -22,7 +22,7 @@ export const propRows = [
     prop: "size",
     type: '"default" | "sm"',
     default: '"default"',
-    description: "The size of the switch.",
+    description: "The size of the switch. `sm` is 28x16px, `default` is 36x20px.",
   },
   {
     prop: "disabled",
@@ -45,7 +45,7 @@ export const propRows = [
     prop: "aria-invalid",
     type: "boolean",
     default: "false",
-    description: "When true, indicates the switch is in an invalid state.",
+    description: "When true, marks the switch invalid for assistive technology. The switch itself looks unchanged; show the error in helper text.",
   },
   {
     prop: "className",
@@ -61,15 +61,26 @@ export const propRows = [
   },
 ];
 
-export const variantRows = [
+export const stateRows = [
   {
-    prop: "default",
+    prop: "on",
     type: "-",
-    description: "On state uses the primary background; off uses the input track.",
+    description:
+      "The track uses the primary color and the thumb sits at the inline end.",
+  },
+  {
+    prop: "off",
+    type: "-",
+    description: "The track uses the input color and the thumb sits at the inline start.",
   },
   {
     prop: "disabled",
     type: "-",
-    description: "Disabled switches cannot be interacted with.",
+    description: "Disabled switches cannot be interacted with and are dimmed.",
+  },
+  {
+    prop: "invalid",
+    type: "-",
+    description: "Exposed to assistive technology only. Show the error message in helper text.",
   },
 ];
