@@ -418,7 +418,7 @@ export const components = [
     description:
       "A succinct message that appears temporarily to provide feedback.",
     href: "/docs/components/toast",
-    ready: false,
+    ready: true,
   },
   {
     name: "Toggle",

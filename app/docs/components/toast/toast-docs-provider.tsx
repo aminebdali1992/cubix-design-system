@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import { Toaster } from "@/components/cubix/toast"
+import { Toaster } from "./docs-toast"
 
 export function ToastDocsProvider({
   children,

@@ -27,6 +27,12 @@ export const toastManagerPropRows = [
     description: "Props forwarded to ToastAction (for example children and onClick).",
   },
   {
+    prop: "data",
+    type: "{ icon?, actions?, className? }",
+    description:
+      "Per-toast customization: a custom icon, extra buttons below the description, and extra classes for the toast root.",
+  },
+  {
     prop: "priority",
     type: '"low" | "high"',
     description: "Controls stacking priority for important messages.",
@@ -34,6 +40,12 @@ export const toastManagerPropRows = [
 ]
 
 export const toasterPropRows = [
+  {
+    prop: "dir",
+    type: '"ltr" | "rtl"',
+    default: '"rtl"',
+    description: "Direction of the toast stack. Also flips the swipe-to-dismiss side.",
+  },
   {
     prop: "toastManager",
     type: "ToastManager",

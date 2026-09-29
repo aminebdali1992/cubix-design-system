@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Toast",
   "description": "A succinct message that appears temporarily to provide feedback.",
-  "dependencies": ["@base-ui/react"],
+  "dependencies": ["@base-ui/react", "radix-ui", "react-aria-components", "lucide-react"],
   "registryDependencies": ["button"],
   "files": [
     {

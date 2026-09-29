@@ -1,15 +1,16 @@
 "use client"
 
 import { Button } from "@/components/cubix/button"
-import { toast } from "@/components/cubix/toast"
+import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
+import { toast } from "@/app/docs/components/toast/docs-toast"
 
 export function ToastDemo() {
   function showToast() {
     const id = toast.add({
-      title: "Event created",
-      description: "Sunday, December 3 at 9:00 AM",
+      title: "رویداد ساخته شد",
+      description: "یکشنبه، ۱۲ آذر ساعت ۹:۰۰ صبح",
       actionProps: {
-        children: "Undo",
+        children: "بازگردانی",
         onClick() {
           toast.close(id)
         },
@@ -18,8 +19,8 @@ export function ToastDemo() {
   }
 
   return (
-    <Button variant="outline" onClick={showToast}>
-      Show Toast
+    <Button variant="outline" size="sm" onClick={showToast}>
+      نمایش اعلان
     </Button>
   )
 }
@@ -29,54 +30,56 @@ export function ToastTypesDemo() {
     <div className="flex flex-wrap justify-center gap-2">
       <Button
         variant="outline"
-        onClick={() => toast.add({ description: "Event has been created." })}
+        size="sm"
+        onClick={() => toast.add({ description: "رویداد ساخته شد." })}
       >
-        Default
+        پیش‌فرض
       </Button>
       <Button
         variant="outline"
+        size="sm"
         onClick={() =>
-          toast.add({
-            type: "success",
-            description: "Event has been created.",
-          })
+          toast.add({ type: "success", description: "رویداد ساخته شد." })
         }
       >
-        Success
+        موفقیت
       </Button>
       <Button
         variant="outline"
+        size="sm"
         onClick={() =>
           toast.add({
             type: "info",
-            description: "Arrive 10 minutes before the event.",
+            description: "ده دقیقه زودتر از شروع رویداد برسید.",
           })
         }
       >
-        Info
+        اطلاعات
       </Button>
       <Button
         variant="outline"
+        size="sm"
         onClick={() =>
           toast.add({
             type: "warning",
-            description: "The event cannot start before 8:00 AM.",
+            description: "رویداد نمی‌تواند قبل از ساعت ۸ صبح شروع شود.",
           })
         }
       >
-        Warning
+        هشدار
       </Button>
       <Button
         variant="outline"
+        size="sm"
         onClick={() =>
           toast.add({
             type: "error",
-            description: "The event could not be created.",
+            description: "ساخت رویداد ناموفق بود.",
             priority: "high",
           })
         }
       >
-        Error
+        خطا
       </Button>
     </div>
   )
@@ -86,19 +89,46 @@ export function ToastPromiseDemo() {
   function showToast() {
     toast.promise(
       new Promise<{ name: string }>((resolve) => {
-        window.setTimeout(() => resolve({ name: "Event" }), 2000)
+        window.setTimeout(() => resolve({ name: "رویداد" }), 2000)
       }),
       {
-        loading: "Creating event...",
-        success: (data) => `${data.name} created.`,
-        error: "Could not create event.",
+        loading: "در حال ساخت رویداد...",
+        success: (data) => `${data.name} ساخته شد.`,
+        error: "ساخت رویداد ناموفق بود.",
       }
     )
   }
 
   return (
-    <Button variant="outline" onClick={showToast}>
-      Create Event
+    <Button variant="outline" size="sm" onClick={showToast}>
+      ساخت رویداد
+    </Button>
+  )
+}
+export function ToastCustomDemo() {
+  function showToast() {
+    const id = toast.add({
+      title: "دعوت به رویداد",
+      description: "سارا شما را به «جلسه‌ی طراحی» دعوت کرد",
+      data: {
+        icon: <ButtonDemoIcon className="size-5" />,
+        actions: (
+          <>
+            <Button size="xs" onClick={() => toast.close(id)}>
+              پذیرش
+            </Button>
+            <Button variant="outline" size="xs" onClick={() => toast.close(id)}>
+              رد کردن
+            </Button>
+          </>
+        ),
+      },
+    })
+  }
+
+  return (
+    <Button variant="outline" size="sm" onClick={showToast}>
+      نمایش اعلان سفارشی
     </Button>
   )
 }

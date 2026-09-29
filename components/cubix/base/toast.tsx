@@ -5,7 +5,7 @@ import { Toast as ToastPrimitive } from "@base-ui/react/toast"
 import {
   CircleCheckIcon,
   InfoIcon,
-  Loader2Icon,
+  LoaderIcon,
   OctagonXIcon,
   TriangleAlertIcon,
   XIcon,
@@ -14,7 +14,16 @@ import {
 import { Button } from "@/components/cubix/button"
 import { cn } from "@/lib/utils"
 
-const toast = ToastPrimitive.createToastManager()
+type ToastData = {
+  /** Replaces the status icon. */
+  icon?: React.ReactNode
+  /** Extra content, such as buttons, rendered below the description. */
+  actions?: React.ReactNode
+  /** Extra classes for the toast root. */
+  className?: string
+}
+
+const toast = ToastPrimitive.createToastManager<ToastData>()
 
 function ToastProvider({ ...props }: ToastPrimitive.Provider.Props) {
   return <ToastPrimitive.Provider {...props} />
@@ -29,7 +38,7 @@ function ToastViewport({ className, ...props }: ToastPrimitive.Viewport.Props) {
     <ToastPrimitive.Viewport
       data-slot="toast-viewport"
       className={cn(
-        "pointer-events-none fixed inset-x-4 bottom-4 z-50 mx-auto w-auto max-w-sm outline-none sm:right-4 sm:left-auto sm:mx-0 sm:w-full",
+        "pointer-events-none fixed start-4 end-4 bottom-4 z-50 mx-auto w-auto max-w-sm outline-none sm:start-auto sm:end-4 sm:mx-0 sm:w-full",
         className
       )}
       {...props}
@@ -42,10 +51,10 @@ function Toast({ className, ...props }: ToastPrimitive.Root.Props) {
     <ToastPrimitive.Root
       data-slot="toast"
       className={cn(
-        "group/toast pointer-events-auto absolute right-0 bottom-0 z-[calc(1000-var(--toast-index))] w-full origin-bottom rounded-2xl border bg-popover text-popover-foreground shadow-lg outline-none select-none will-change-transform focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
+        "group/toast pointer-events-auto absolute end-0 bottom-0 z-[calc(1000-var(--toast-index))] w-full origin-bottom rounded-2xl border bg-popover text-popover-foreground shadow-lg outline-none select-none will-change-transform focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50",
         "[--gap:0.75rem] [--height:var(--toast-frontmost-height,var(--toast-height))] [--offset-y:calc(var(--toast-offset-y)*-1+calc(var(--toast-index)*var(--gap)*-1)+var(--toast-swipe-movement-y))] [--peek:0.75rem] [--scale:calc(max(0,1-(var(--toast-index)*0.1)))] [--shrink:calc(1-var(--scale))]",
         "h-(--height) [transform:translateX(var(--toast-swipe-movement-x))_translateY(calc(var(--toast-swipe-movement-y)-(var(--toast-index)*var(--peek))-(var(--shrink)*var(--height))))_scale(var(--scale))] [transition:transform_500ms_cubic-bezier(0.22,1,0.36,1),opacity_500ms,height_150ms]",
-        "after:absolute after:top-full after:left-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-['']",
+        "after:absolute after:top-full after:start-0 after:h-[calc(var(--gap)+1px)] after:w-full after:content-['']",
         "data-expanded:h-(--toast-height) data-expanded:[transform:translateX(var(--toast-swipe-movement-x))_translateY(var(--offset-y))]",
         "data-limited:opacity-0 data-starting-style:[transform:translateY(150%)]",
         "[&[data-ending-style]:not([data-limited]):not([data-swipe-direction])]:[transform:translateY(150%)]",
@@ -81,7 +90,7 @@ function ToastTitle({ className, ...props }: ToastPrimitive.Title.Props) {
   return (
     <ToastPrimitive.Title
       data-slot="toast-title"
-      className={cn("text-description font-medium", className)}
+      className={cn("text-label", className)}
       {...props}
     />
   )
@@ -94,7 +103,7 @@ function ToastDescription({
   return (
     <ToastPrimitive.Description
       data-slot="toast-description"
-      className={cn("text-description text-muted-foreground", className)}
+      className={cn("text-label text-muted-foreground first:text-foreground", className)}
       {...props}
     />
   )
@@ -124,7 +133,7 @@ function ToastClose({
   return (
     <ToastPrimitive.Close
       data-slot="toast-close"
-      aria-label="Close toast"
+      aria-label="بستن"
       render={render}
       className={cn(
         "relative shrink-0 text-muted-foreground after:absolute after:-inset-2 after:content-[''] hover:text-foreground",
@@ -137,7 +146,13 @@ function ToastClose({
   )
 }
 
-function ToastIcon({ type }: { type: string | undefined }) {
+function ToastIcon({
+  type,
+  icon: custom,
+}: {
+  type: string | undefined
+  icon?: React.ReactNode
+}) {
   let icon: React.ReactNode = null
 
   if (type === "success") {
@@ -157,8 +172,10 @@ function ToastIcon({ type }: { type: string | undefined }) {
   }
 
   if (type === "loading") {
-    icon = <Loader2Icon className="animate-spin" aria-hidden="true" />
+    icon = <LoaderIcon className="animate-spin" aria-hidden="true" />
   }
+
+  if (custom) icon = custom
 
   if (!icon) {
     return null
@@ -174,16 +191,33 @@ function ToastIcon({ type }: { type: string | undefined }) {
   )
 }
 
-function ToastList() {
+function ToastList({ dir = "rtl" }: { dir?: "ltr" | "rtl" }) {
   const { toasts } = ToastPrimitive.useToastManager()
 
   return toasts.map((toastItem) => (
-    <Toast key={toastItem.id} toast={toastItem}>
-      <ToastContent>
-        <ToastIcon type={toastItem.type} />
+    <Toast
+      key={toastItem.id}
+      className={(toastItem.data as ToastData | undefined)?.className}
+      toast={toastItem}
+      swipeDirection={["down", dir === "rtl" ? "left" : "right"]}
+    >
+      <ToastContent
+        className={
+          (toastItem.data as ToastData | undefined)?.actions ? "items-start" : undefined
+        }
+      >
+        <ToastIcon
+          type={toastItem.type}
+          icon={(toastItem.data as ToastData | undefined)?.icon}
+        />
         <div className="flex min-w-0 flex-1 flex-col gap-1">
           <ToastTitle />
           <ToastDescription />
+          {(toastItem.data as ToastData | undefined)?.actions ? (
+            <div data-slot="toast-actions" className="mt-2 flex flex-wrap gap-2">
+              {(toastItem.data as ToastData).actions}
+            </div>
+          ) : null}
         </div>
         <ToastAction />
         <ToastClose />
@@ -195,14 +229,15 @@ function ToastList() {
 function Toaster({
   children,
   toastManager = toast,
+  dir = "rtl",
   ...props
-}: ToastPrimitive.Provider.Props) {
+}: ToastPrimitive.Provider.Props & { dir?: "ltr" | "rtl" }) {
   return (
     <ToastProvider toastManager={toastManager} {...props}>
       {children}
       <ToastPortal>
-        <ToastViewport>
-          <ToastList />
+        <ToastViewport dir={dir} lang={dir === "rtl" ? "fa" : undefined}>
+          <ToastList dir={dir} />
         </ToastViewport>
       </ToastPortal>
     </ToastProvider>
@@ -211,6 +246,8 @@ function Toaster({
 
 const createToastManager = ToastPrimitive.createToastManager
 const useToastManager = ToastPrimitive.useToastManager
+
+export type { ToastData }
 
 export {
   Toaster,
