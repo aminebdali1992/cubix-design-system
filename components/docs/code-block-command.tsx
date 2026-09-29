@@ -80,6 +80,7 @@ export function CodeBlockCommand({
       )}
     >
       <Tabs
+        dir="ltr"
         value={packageManager}
         onValueChange={selectPackageManager}
         className="flex-col gap-0"

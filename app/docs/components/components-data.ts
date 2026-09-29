@@ -134,7 +134,7 @@ export const components = [
     description:
       "A set of layered sections of content, known as tab panels, displayed one at a time.",
     href: "/docs/components/tabs",
-    ready: false,
+    ready: true,
   },
   {
     name: "Tooltip",

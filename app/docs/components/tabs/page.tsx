@@ -1,230 +1,258 @@
-import type { Metadata } from "next";
-import { BellIcon, ChevronRightIcon, CircleAlertIcon, UserIcon } from "lucide-react";
+import type { Metadata } from "next"
+import type { ReactNode } from "react"
+import { CircleAlertIcon } from "lucide-react"
 
+import { CodeBlock } from "@/components/docs/code-block"
+import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
+import { ComponentInstall } from "@/components/docs/component-install"
+import { ComponentPreview } from "@/components/docs/component-preview"
+import { PropsTable } from "@/components/docs/props-table"
 import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/cubix/tabs";
-import { CodeBlock } from "@/components/docs/code-block";
-import { ComponentDocsHeader } from "@/components/docs/component-docs-header";
-import { ComponentInstall } from "@/components/docs/component-install";
-import { ComponentPreview } from "@/components/docs/component-preview";
-import { PropsTable } from "@/components/docs/props-table";
+  TabsControlledDemo,
+  TabsCustomDemo,
+  TabsDemo,
+  TabsDisabledDemo,
+  TabsIconsDemo,
+  TabsRemovableDemo,
+  TabsVerticalDemo,
+} from "@/components/examples/tabs-examples"
 import {
   tabsContentPropRows,
   tabsListPropRows,
   tabsPropRows,
   tabsTriggerPropRows,
-} from "./tabs-table-data";
+} from "./tabs-table-data"
+
+const description =
+  "A set of layered sections of content, known as tab panels, displayed one at a time."
 
 export const metadata: Metadata = {
   title: "Tabs",
-  description:
-    "A set of layered sections of content, known as tab panels, displayed one at a time.",
-};
+  description,
+}
 
 const usageImport = `import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@/components/cubix/tabs"`;
+} from "@/components/cubix/tabs"`
 
 const usageSnippet = `<Tabs defaultValue="account" className="w-full max-w-md">
   <TabsList>
-    <TabsTrigger value="account">Account</TabsTrigger>
-    <TabsTrigger value="password">Password</TabsTrigger>
+    <TabsTrigger value="account">
+      <Icon data-icon="inline-start" />
+      حساب کاربری
+    </TabsTrigger>
+    <TabsTrigger value="password">
+      <Icon data-icon="inline-start" />
+      گذرواژه
+    </TabsTrigger>
   </TabsList>
-  <TabsContent value="account">Make changes to your account here.</TabsContent>
-  <TabsContent value="password">Change your password here.</TabsContent>
-</Tabs>`;
+  <TabsContent value="account">تغییرات حساب کاربری خود را اینجا انجام دهید.</TabsContent>
+  <TabsContent value="password">گذرواژه‌ی خود را اینجا تغییر دهید.</TabsContent>
+</Tabs>`
 
-function Panel({ children }: { children: React.ReactNode }) {
+const compositionSnippet = `Tabs
+├── TabsList
+│   └── TabsTrigger (value)
+└── TabsContent (value)`
+
+function PreviewShell({ children }: { children: ReactNode }) {
   return (
-    <div className="rounded-lg border bg-card p-4 text-sm text-card-foreground">
+    <div dir="rtl" lang="fa" className="flex w-full justify-center">
       {children}
     </div>
-  );
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
+function ExampleSection({
+  title,
+  description,
+  code,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
 }
 
 export default function TabsPage() {
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Tabs"
-        description="A set of layered sections of content, known as tab panels, displayed one at a time."
-        slug="tabs"
-      />
+      <ComponentDocsHeader title="Tabs" description={description} slug="tabs" />
 
       <ComponentPreview code={usageSnippet}>
-        <Tabs defaultValue="account" className="w-full max-w-md">
-          <TabsList>
-            <TabsTrigger value="account">Account</TabsTrigger>
-            <TabsTrigger value="password">Password</TabsTrigger>
-          </TabsList>
-          <TabsContent value="account">
-            <Panel>Make changes to your account here.</Panel>
-          </TabsContent>
-          <TabsContent value="password">
-            <Panel>Change your password here.</Panel>
-          </TabsContent>
-        </Tabs>
+        <PreviewShell>
+          <TabsDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="tabs" />
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Usage
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Usage</h2>
         <CodeBlock code={usageImport} title="Import" />
         <CodeBlock code={usageSnippet} title="Example" />
       </section>
 
-      <section className="space-y-8">
+      <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Examples
+          Composition
         </h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Every <Code>TabsTrigger</Code> is paired with a{" "}
+          <Code>TabsContent</Code> that has the same <Code>value</Code>. Tabs
+          start right-to-left and follow the closest <Code>dir</Code> on the
+          page; pass <Code>dir</Code> to override it. Arrow keys move focus in
+          the reading direction, so they are mirrored in RTL.
+        </p>
+        <CodeBlock code={compositionSnippet} title="Structure" />
+      </section>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Line variant
-          </h3>
-          <ComponentPreview
-            code={`<Tabs defaultValue="overview" className="w-full max-w-md">
-  <TabsList variant="line">
-    <TabsTrigger value="overview">Overview</TabsTrigger>
-    <TabsTrigger value="analytics">Analytics</TabsTrigger>
-    <TabsTrigger value="reports">Reports</TabsTrigger>
-  </TabsList>
-  <TabsContent value="overview">Overview content.</TabsContent>
-  <TabsContent value="analytics">Analytics content.</TabsContent>
-  <TabsContent value="reports">Reports content.</TabsContent>
-</Tabs>`}
-          >
-            <Tabs defaultValue="overview" className="w-full max-w-md">
-              <TabsList variant="line">
-                <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="analytics">Analytics</TabsTrigger>
-                <TabsTrigger value="reports">Reports</TabsTrigger>
-              </TabsList>
-              <TabsContent value="overview">
-                <Panel>Overview content.</Panel>
-              </TabsContent>
-              <TabsContent value="analytics">
-                <Panel>Analytics content.</Panel>
-              </TabsContent>
-              <TabsContent value="reports">
-                <Panel>Reports content.</Panel>
-              </TabsContent>
-            </Tabs>
-          </ComponentPreview>
-        </div>
+      <section className="space-y-8">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            With icons
-          </h3>
-          <ComponentPreview
-            code={`<Tabs defaultValue="profile" className="w-full max-w-md">
+        <ExampleSection
+          title="With icons"
+          description={
+            <>
+              Put an icon inside the trigger and mark it with{" "}
+              <Code>data-icon=&quot;inline-start&quot;</Code> so spacing follows
+              the reading direction.
+            </>
+          }
+          code={`<Tabs defaultValue="profile" className="w-full max-w-md">
   <TabsList>
-    <TabsTrigger value="profile"><UserIcon /> Profile</TabsTrigger>
-    <TabsTrigger value="notifications"><BellIcon /> Notifications</TabsTrigger>
+    <TabsTrigger value="profile">
+      <ButtonDemoIcon data-icon="inline-start" />
+      نمایه
+    </TabsTrigger>
+    <TabsTrigger value="notifications">
+      <ButtonDemoIcon data-icon="inline-start" />
+      اعلان‌ها
+    </TabsTrigger>
   </TabsList>
-  <TabsContent value="profile">Profile preferences.</TabsContent>
-  <TabsContent value="notifications">Notification settings.</TabsContent>
+  <TabsContent value="profile">تنظیمات نمایه.</TabsContent>
+  <TabsContent value="notifications">تنظیمات اعلان‌ها.</TabsContent>
 </Tabs>`}
-          >
-            <Tabs defaultValue="profile" className="w-full max-w-md">
-              <TabsList>
-                <TabsTrigger value="profile">
-                  <UserIcon /> Profile
-                </TabsTrigger>
-                <TabsTrigger value="notifications">
-                  <BellIcon /> Notifications
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="profile">
-                <Panel>Profile preferences.</Panel>
-              </TabsContent>
-              <TabsContent value="notifications">
-                <Panel>Notification settings.</Panel>
-              </TabsContent>
-            </Tabs>
-          </ComponentPreview>
-        </div>
+        >
+          <TabsIconsDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Vertical
-          </h3>
-          <ComponentPreview
-            code={`<Tabs defaultValue="general" orientation="vertical" className="w-full max-w-lg">
+        <ExampleSection
+          title="Removable"
+          description={
+            <>
+              Pass <Code>onRemove</Code> to a trigger to add a × button at its
+              end. The focused tab can also be removed with Delete or Backspace.
+            </>
+          }
+          code={`<TabsTrigger value="inbox" onRemove={() => remove("inbox")}>
+  ورودی
+</TabsTrigger>`}
+        >
+          <PreviewShell>
+            <TabsRemovableDemo />
+          </PreviewShell>
+        </ExampleSection>
+        <ExampleSection
+          title="Vertical"
+          description={
+            <>
+              Use <Code>orientation=&quot;vertical&quot;</Code> to stack the
+              triggers. The list is placed at the inline start.
+            </>
+          }
+          code={`<Tabs defaultValue="general" orientation="vertical" className="w-full max-w-lg">
   <TabsList>
-    <TabsTrigger value="general">General</TabsTrigger>
-    <TabsTrigger value="security">Security</TabsTrigger>
-    <TabsTrigger value="billing">Billing</TabsTrigger>
+    <TabsTrigger value="general">عمومی</TabsTrigger>
+    <TabsTrigger value="security">امنیت</TabsTrigger>
+    <TabsTrigger value="billing">صورتحساب</TabsTrigger>
   </TabsList>
-  <TabsContent value="general">General settings.</TabsContent>
-  <TabsContent value="security">Security settings.</TabsContent>
-  <TabsContent value="billing">Billing settings.</TabsContent>
+  <TabsContent value="general">تنظیمات عمومی.</TabsContent>
+  <TabsContent value="security">تنظیمات امنیت.</TabsContent>
+  <TabsContent value="billing">تنظیمات صورتحساب.</TabsContent>
 </Tabs>`}
-          >
-            <Tabs
-              defaultValue="general"
-              orientation="vertical"
-              className="w-full max-w-lg"
-            >
-              <TabsList>
-                <TabsTrigger value="general">General</TabsTrigger>
-                <TabsTrigger value="security">Security</TabsTrigger>
-                <TabsTrigger value="billing">Billing</TabsTrigger>
-              </TabsList>
-              <TabsContent value="general">
-                <Panel>General settings.</Panel>
-              </TabsContent>
-              <TabsContent value="security">
-                <Panel>Security settings.</Panel>
-              </TabsContent>
-              <TabsContent value="billing">
-                <Panel>Billing settings.</Panel>
-              </TabsContent>
-            </Tabs>
-          </ComponentPreview>
-        </div>
+        >
+          <TabsVerticalDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Disabled tab
-          </h3>
-          <ComponentPreview
-            code={`<Tabs defaultValue="active" className="w-full max-w-md">
+        <ExampleSection
+          title="Disabled tab"
+          description="A disabled trigger cannot be selected or focused with the arrow keys."
+          code={`<Tabs defaultValue="active" className="w-full max-w-md">
   <TabsList>
-    <TabsTrigger value="active">Active</TabsTrigger>
-    <TabsTrigger value="disabled" disabled>Disabled</TabsTrigger>
+    <TabsTrigger value="active">فعال</TabsTrigger>
+    <TabsTrigger value="disabled" disabled>غیرفعال</TabsTrigger>
   </TabsList>
-  <TabsContent value="active">The active tab panel.</TabsContent>
-  <TabsContent value="disabled">This panel cannot be selected.</TabsContent>
+  <TabsContent value="active">پنل تب فعال.</TabsContent>
+  <TabsContent value="disabled">این پنل قابل انتخاب نیست.</TabsContent>
 </Tabs>`}
-          >
-            <Tabs defaultValue="active" className="w-full max-w-md">
-              <TabsList>
-                <TabsTrigger value="active">Active</TabsTrigger>
-                <TabsTrigger value="disabled" disabled>
-                  Disabled
-                </TabsTrigger>
-              </TabsList>
-              <TabsContent value="active">
-                <Panel>The active tab panel.</Panel>
-              </TabsContent>
-              <TabsContent value="disabled">
-                <Panel>This panel cannot be selected.</Panel>
-              </TabsContent>
-            </Tabs>
-          </ComponentPreview>
-        </div>
+        >
+          <TabsDisabledDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Controlled"
+          description={
+            <>
+              Pass <Code>value</Code> and <Code>onValueChange</Code> to own the
+              active tab from outside.
+            </>
+          }
+          code={`const [value, setValue] = React.useState("one")
+
+<Tabs value={value} onValueChange={setValue}>
+  <TabsList>
+    <TabsTrigger value="one">مرحله‌ی ۱</TabsTrigger>
+    <TabsTrigger value="two">مرحله‌ی ۲</TabsTrigger>
+  </TabsList>
+  <TabsContent value="one">محتوای مرحله‌ی ۱.</TabsContent>
+  <TabsContent value="two">محتوای مرحله‌ی ۲.</TabsContent>
+</Tabs>`}
+        >
+          <TabsControlledDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Custom styling"
+          description={
+            <>
+              Each part accepts a <Code>className</Code> merged with the shipped{" "}
+              <Code>cn</Code> helper. The active trigger is marked with{" "}
+              <Code>data-active</Code> on Base UI,{" "}
+              <Code>data-[state=active]</Code> on Radix and{" "}
+              <Code>data-selected</Code> on React Aria, so target the attribute
+              your version renders.
+            </>
+          }
+          code={`<TabsList className="h-auto w-full justify-start gap-0 rounded-none bg-transparent bg-[linear-gradient(to_right,color-mix(in_oklab,var(--border),var(--foreground)_10%)_50%,transparent_50%)] bg-[length:6px_1px] bg-repeat-x bg-bottom p-0">
+  <TabsTrigger
+    value="a"
+    className="h-auto w-fit flex-none justify-start rounded-none border-0 border-b border-transparent bg-transparent px-3 pb-3 text-muted-foreground shadow-none after:hidden hover:text-foreground data-active:border-foreground! data-active:text-foreground!"
+  >
+    نمای کلی
+  </TabsTrigger>
+</TabsList>`}
+        >
+          <TabsCustomDemo />
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
@@ -234,12 +262,13 @@ export default function TabsPage() {
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Tabs follows the
-            Tabs uses composable primitive names and renders slots for targeting:{" "}
+            <strong className="text-foreground">Note:</strong> Parts render{" "}
+            <code className="font-mono">data-slot</code> attributes (
             <code className="font-mono">tabs</code>,{" "}
             <code className="font-mono">tabs-list</code>,{" "}
-            <code className="font-mono">tabs-trigger</code>, and{" "}
-            <code className="font-mono">tabs-content</code>.
+            <code className="font-mono">tabs-trigger</code>,{" "}
+            <code className="font-mono">tabs-content</code>) for targeting.
+            Base UI, Radix and React Aria share the same props.
           </p>
         </div>
 
@@ -256,5 +285,5 @@ export default function TabsPage() {
         <PropsTable data={tabsContentPropRows} />
       </section>
     </article>
-  );
+  )
 }

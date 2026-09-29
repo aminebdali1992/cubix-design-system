@@ -54,7 +54,7 @@ export function ComponentInstallTabs({
   const variant = variants[base] ?? variants[DEFAULT_BASE];
 
   return (
-    <Tabs defaultValue="cli" className="relative mt-6 w-full flex-col gap-0">
+    <Tabs dir="ltr" defaultValue="cli" className="relative mt-6 w-full flex-col gap-0">
       <TabsList
         variant="line"
         className="h-auto w-full justify-start gap-6 rounded-none bg-transparent p-0 px-0"
