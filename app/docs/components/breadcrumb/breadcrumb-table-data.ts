@@ -2,7 +2,7 @@ export const breadcrumbPropRows = [
   {
     prop: "aria-label",
     type: "string",
-    default: '"Breadcrumb"',
+    default: '"مسیر"',
     description: "Accessible name for the navigation landmark.",
   },
   {

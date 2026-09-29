@@ -215,7 +215,7 @@ export const components = [
     name: "Breadcrumb",
     description: "Displays the path to the current resource using a hierarchy of links.",
     href: "/docs/components/breadcrumb",
-    ready: false,
+    ready: true,
   },
   {
     name: "Button Group",

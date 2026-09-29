@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Breadcrumb",
   "description": "Displays the path to the current resource using a hierarchy of links.",
-  "dependencies": ["@base-ui/react"],
+  "dependencies": ["@base-ui/react", "radix-ui"],
   "registryDependencies": [],
   "files": [
     {

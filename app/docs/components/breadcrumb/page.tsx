@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 import Link from "next/link"
-import { CircleAlertIcon, DotIcon } from "lucide-react"
+import { CircleAlertIcon } from "lucide-react"
 
 import {
   Breadcrumb,
@@ -11,6 +12,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "./docs-breadcrumb"
+import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
 import { Button } from "@/components/cubix/button"
 import {
   DropdownMenu,
@@ -51,15 +53,15 @@ const usageImport = `import {
 const usageSnippet = `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="/">Home</BreadcrumbLink>
+      <BreadcrumbLink href="/">خانه</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbLink href="/docs/components">Components</BreadcrumbLink>
+      <BreadcrumbLink href="/docs/components">کامپوننت‌ها</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      <BreadcrumbPage>مسیر</BreadcrumbPage>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`
@@ -75,22 +77,41 @@ const compositionSnippet = `Breadcrumb
     └── BreadcrumbItem
         └── BreadcrumbPage`
 
+const iconSnippet = `<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink href="#">
+        <ButtonDemoIcon />
+        خانه
+      </BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>مسیر</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>`
+
 const separatorSnippet = `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Home</BreadcrumbLink>
+      <BreadcrumbLink href="#">خانه</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator>
-      <DotIcon />
+      /
     </BreadcrumbSeparator>
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Components</BreadcrumbLink>
+      <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator>
-      <DotIcon />
+      /
     </BreadcrumbSeparator>
     <BreadcrumbItem>
-      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      <BreadcrumbPage>مسیر</BreadcrumbPage>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`
@@ -98,30 +119,30 @@ const separatorSnippet = `<Breadcrumb>
 const dropdownSnippet = `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Home</BreadcrumbLink>
+      <BreadcrumbLink href="#">خانه</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
       <DropdownMenu>
         <DropdownMenuTrigger
-          render={<Button size="icon-sm" variant="ghost" aria-label="More" />}
+          render={<Button size="icon-sm" variant="ghost" aria-label="بیشتر" />}
         >
           <BreadcrumbEllipsis />
         </DropdownMenuTrigger>
         <DropdownMenuContent align="start">
-          <DropdownMenuItem>Documentation</DropdownMenuItem>
-          <DropdownMenuItem>Themes</DropdownMenuItem>
-          <DropdownMenuItem>GitHub</DropdownMenuItem>
+          <DropdownMenuItem>مستندات</DropdownMenuItem>
+          <DropdownMenuItem>تم‌ها</DropdownMenuItem>
+          <DropdownMenuItem>گیت‌هاب</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Components</BreadcrumbLink>
+      <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      <BreadcrumbPage>مسیر</BreadcrumbPage>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`
@@ -129,7 +150,7 @@ const dropdownSnippet = `<Breadcrumb>
 const collapsedSnippet = `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Home</BreadcrumbLink>
+      <BreadcrumbLink href="#">خانه</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
@@ -137,11 +158,11 @@ const collapsedSnippet = `<Breadcrumb>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbLink href="#">Components</BreadcrumbLink>
+      <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      <BreadcrumbPage>مسیر</BreadcrumbPage>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`
@@ -149,38 +170,32 @@ const collapsedSnippet = `<Breadcrumb>
 const linkSnippet = `<Breadcrumb>
   <BreadcrumbList>
     <BreadcrumbItem>
-      <BreadcrumbLink render={<Link href="/" />}>Home</BreadcrumbLink>
+      <BreadcrumbLink render={<Link href="/" />}>خانه</BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
       <BreadcrumbLink render={<Link href="/docs/components" />}>
-        Components
+        کامپوننت‌ها
       </BreadcrumbLink>
     </BreadcrumbItem>
     <BreadcrumbSeparator />
     <BreadcrumbItem>
-      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+      <BreadcrumbPage>مسیر</BreadcrumbPage>
     </BreadcrumbItem>
   </BreadcrumbList>
 </Breadcrumb>`
 
-const rtlSnippet = `<div dir="rtl" lang="fa">
-  <Breadcrumb>
-    <BreadcrumbList>
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#">خانه</BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
-      </BreadcrumbItem>
-      <BreadcrumbSeparator />
-      <BreadcrumbItem>
-        <BreadcrumbPage>مسیر</BreadcrumbPage>
-      </BreadcrumbItem>
-    </BreadcrumbList>
-  </Breadcrumb>
-</div>`
+function PreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div
+      dir="rtl"
+      lang="fa"
+      className="flex min-h-32 w-full items-center justify-center"
+    >
+      {children}
+    </div>
+  )
+}
 
 export default function BreadcrumbDocsPage() {
   return (
@@ -192,23 +207,25 @@ export default function BreadcrumbDocsPage() {
       />
 
       <ComponentPreview code={usageSnippet}>
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/">Home</BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbLink href="/docs/components">
-                Components
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem>
-              <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-            </BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
+        <PreviewShell>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/">خانه</BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/docs/components">
+                  کامپوننت‌ها
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem>
+                <BreadcrumbPage>مسیر</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="breadcrumb" />
@@ -239,29 +256,64 @@ export default function BreadcrumbDocsPage() {
             A basic breadcrumb with a home link and a components link.
           </p>
           <ComponentPreview code={usageSnippet}>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/docs/components">
-                    Components
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+            <PreviewShell>
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="/">خانه</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="/docs/components">
+                      کامپوننت‌ها
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>مسیر</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
         <div className="space-y-4">
           <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Custom separator
+            With icon
+          </h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Place an icon inside{" "}
+            <code className="font-mono text-sm">BreadcrumbLink</code> before the
+            text. It is sized to 20px and spaced from the label automatically.
+          </p>
+          <ComponentPreview code={iconSnippet}>
+            <PreviewShell>
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">
+                      <ButtonDemoIcon />
+                      خانه
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>مسیر</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </PreviewShell>
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">
+            Separator
           </h3>
           <p className="leading-relaxed text-muted-foreground">
             Pass a custom child to{" "}
@@ -269,25 +321,27 @@ export default function BreadcrumbDocsPage() {
             replace the default chevron.
           </p>
           <ComponentPreview code={separatorSnippet}>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="#">Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <DotIcon />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="#">Components</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator>
-                  <DotIcon />
-                </BreadcrumbSeparator>
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+            <PreviewShell>
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">خانه</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator>
+                    /
+                  </BreadcrumbSeparator>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator>
+                    /
+                  </BreadcrumbSeparator>
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>مسیر</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -300,42 +354,44 @@ export default function BreadcrumbDocsPage() {
             path is too long.
           </p>
           <ComponentPreview code={dropdownSnippet}>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="#">Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <DropdownMenu>
-                    <DropdownMenuTrigger
-                      render={
-                        <Button
-                          size="icon-sm"
-                          variant="ghost"
-                          aria-label="More"
-                        />
-                      }
-                    >
-                      <BreadcrumbEllipsis />
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="start">
-                      <DropdownMenuItem>Documentation</DropdownMenuItem>
-                      <DropdownMenuItem>Themes</DropdownMenuItem>
-                      <DropdownMenuItem>GitHub</DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="#">Components</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+            <PreviewShell>
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">خانه</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger
+                        render={
+                          <Button
+                            size="icon-sm"
+                            variant="ghost"
+                            aria-label="بیشتر"
+                          />
+                        }
+                      >
+                        <BreadcrumbEllipsis />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start">
+                        <DropdownMenuItem>مستندات</DropdownMenuItem>
+                        <DropdownMenuItem>تم‌ها</DropdownMenuItem>
+                        <DropdownMenuItem>گیت‌هاب</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>مسیر</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -347,25 +403,27 @@ export default function BreadcrumbDocsPage() {
             show a collapsed state when the breadcrumb is too long.
           </p>
           <ComponentPreview code={collapsedSnippet}>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="#">Home</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbEllipsis />
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="#">Components</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+            <PreviewShell>
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">خانه</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbEllipsis />
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>مسیر</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -381,61 +439,29 @@ export default function BreadcrumbDocsPage() {
             custom link from your routing library.
           </p>
           <ComponentPreview code={linkSnippet}>
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink render={<Link href="/" />}>
-                    Home
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbLink render={<Link href="/docs/components" />}>
-                    Components
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
+            <PreviewShell>
+              <Breadcrumb>
+                <BreadcrumbList>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink render={<Link href="/" />}>
+                      خانه
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbLink render={<Link href="/docs/components" />}>
+                      کامپوننت‌ها
+                    </BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                  <BreadcrumbItem>
+                    <BreadcrumbPage>مسیر</BreadcrumbPage>
+                  </BreadcrumbItem>
+                </BreadcrumbList>
+              </Breadcrumb>
+            </PreviewShell>
           </ComponentPreview>
         </div>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          To enable RTL support, see the{" "}
-          <Link
-            href="/docs/components/direction"
-            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80"
-          >
-            Direction
-          </Link>{" "}
-          guide. The default chevron flips with{" "}
-          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code>.
-        </p>
-        <ComponentPreview code={rtlSnippet} previewClassName="min-h-44">
-          <div dir="rtl" lang="fa">
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="#">خانه</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>مسیر</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </ComponentPreview>
       </section>
 
       <section id="api-reference" className="space-y-4">

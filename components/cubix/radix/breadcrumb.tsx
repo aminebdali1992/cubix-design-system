@@ -8,7 +8,7 @@ import { Slot } from "radix-ui"
 function Breadcrumb({ className, ...props }: React.ComponentProps<"nav">) {
   return (
     <nav
-      aria-label="Breadcrumb"
+      aria-label="مسیر"
       data-slot="breadcrumb"
       className={cn(className)}
       {...props}
@@ -21,7 +21,7 @@ function BreadcrumbList({ className, ...props }: React.ComponentProps<"ol">) {
     <ol
       data-slot="breadcrumb-list"
       className={cn(
-        "flex flex-nowrap items-center gap-1.5 text-[14px] leading-none whitespace-nowrap text-muted-foreground",
+        "flex flex-nowrap items-center gap-1.5 text-label leading-none whitespace-nowrap text-muted-foreground",
         className
       )}
       {...props}
@@ -52,7 +52,7 @@ function BreadcrumbLink({
     <Comp
       data-slot="breadcrumb-link"
       className={cn(
-        "inline-flex items-center leading-none rounded-sm transition-colors outline-none hover:text-foreground focus-visible:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50",
+        "inline-flex items-center gap-1.5 leading-none rounded-sm transition-colors outline-none hover:text-foreground focus-visible:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 [&>svg]:size-5 [&>svg]:shrink-0",
         className
       )}
       {...props}
@@ -66,7 +66,7 @@ function BreadcrumbPage({ className, ...props }: React.ComponentProps<"span">) {
       data-slot="breadcrumb-page"
       aria-current="page"
       className={cn(
-        "inline-flex items-center leading-none font-normal text-foreground",
+        "inline-flex items-center gap-1.5 leading-none font-normal text-foreground [&>svg]:size-5 [&>svg]:shrink-0",
         className
       )}
       {...props}
@@ -110,7 +110,7 @@ function BreadcrumbEllipsis({
       {...props}
     >
       <MoreHorizontalIcon aria-hidden="true" />
-      <span className="sr-only">More</span>
+      <span className="sr-only">بیشتر</span>
     </span>
   )
 }
