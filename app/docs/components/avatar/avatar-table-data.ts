@@ -1,9 +1,16 @@
 export const avatarPropRows = [
   {
     prop: "size",
-    type: '"default" | "sm" | "lg"',
+    type: '"sm" | "default" | "lg" | "xl" | "2xl"',
     default: '"default"',
-    description: "The size of the avatar.",
+    description: "The size of the avatar: 24, 32, 40, 48 or 64 px.",
+  },
+  {
+    prop: "ring",
+    type: "boolean",
+    default: "false",
+    description:
+      "Draws a 1px gray ring around the avatar with a 2px gap from the circle.",
   },
   {
     prop: "className",

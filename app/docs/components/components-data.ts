@@ -141,7 +141,7 @@ export const components = [
     description:
       "A popup that displays information related to an element when it receives keyboard focus or hover.",
     href: "/docs/components/tooltip",
-    ready: false,
+    ready: true,
   },
   {
     name: "Switch",
@@ -203,7 +203,7 @@ export const components = [
     description:
       "An image element with a fallback for representing the user.",
     href: "/docs/components/avatar",
-    ready: false,
+    ready: true,
   },
   {
     name: "Badge",

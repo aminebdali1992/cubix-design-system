@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import Link from "next/link"
+import type { ReactNode } from "react"
 import { CircleAlertIcon, PlusIcon } from "lucide-react"
 
 import { CodeBlock } from "@/components/docs/code-block"
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
 
 const cnSrc = "/docs/avatar/cn.png"
 const lrSrc = "/docs/avatar/lr.png"
-const erSrc = "/docs/avatar/er.png"
+const erSrc = "/docs/avatar/girl.jpg"
 
 const usageImport = `import {
   Avatar,
@@ -41,8 +41,8 @@ const usageImport = `import {
 } from "@/components/cubix/avatar"`
 
 const usageSnippet = `<Avatar>
-  <AvatarImage src="/docs/avatar/cn.png" alt="CN" />
-  <AvatarFallback>CN</AvatarFallback>
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
 </Avatar>`
 
 const compositionSnippet = `Avatar
@@ -55,66 +55,223 @@ const groupCompositionSnippet = `AvatarGroup
 ├── Avatar
 └── AvatarGroupCount`
 
-const badgeSnippet = `<Avatar>
-  <AvatarImage src="/docs/avatar/er.png" alt="ER" />
-  <AvatarFallback>ER</AvatarFallback>
-  <AvatarBadge aria-label="Online" className="bg-green-600 dark:bg-green-800" />
+const badgeSnippet = `<Avatar size="sm">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+  <AvatarBadge
+    aria-label="آنلاین"
+    className="bg-green-600 dark:bg-green-800"
+  />
+</Avatar>
+<Avatar>
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+  <AvatarBadge
+    aria-label="آنلاین"
+    className="bg-green-600 dark:bg-green-800"
+  />
+</Avatar>
+<Avatar size="lg">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+  <AvatarBadge
+    aria-label="آنلاین"
+    className="bg-green-600 dark:bg-green-800"
+  />
+</Avatar>
+<Avatar size="xl">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+  <AvatarBadge
+    aria-label="آنلاین"
+    className="bg-green-600 dark:bg-green-800"
+  />
+</Avatar>
+<Avatar size="2xl">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+  <AvatarBadge
+    aria-label="آنلاین"
+    className="bg-green-600 dark:bg-green-800"
+  />
 </Avatar>`
 
 const badgeIconSnippet = `<Avatar>
-  <AvatarImage src="/docs/avatar/cn.png" alt="CN" />
-  <AvatarFallback>CN</AvatarFallback>
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
   <AvatarBadge
-    aria-label="Add teammate"
+    aria-label="افزودن هم‌تیمی"
+    render={<button type="button" />}
+  >
+    <PlusIcon />
+  </AvatarBadge>
+</Avatar>
+<Avatar size="lg">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+  <AvatarBadge
+    aria-label="افزودن هم‌تیمی"
+    render={<button type="button" />}
+  >
+    <PlusIcon />
+  </AvatarBadge>
+</Avatar>
+<Avatar size="xl">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+  <AvatarBadge
+    aria-label="افزودن هم‌تیمی"
+    render={<button type="button" />}
+  >
+    <PlusIcon />
+  </AvatarBadge>
+</Avatar>
+<Avatar size="2xl">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+  <AvatarBadge
+    aria-label="افزودن هم‌تیمی"
     render={<button type="button" />}
   >
     <PlusIcon />
   </AvatarBadge>
 </Avatar>`
 
-const groupSnippet = `<AvatarGroup aria-label="Team">
+const groupSnippet = `<AvatarGroup aria-label="تیم">
+  <Avatar size="sm">
+    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+    <AvatarFallback>ن</AvatarFallback>
+  </Avatar>
+  <Avatar size="sm">
+    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
+    <AvatarFallback>ع</AvatarFallback>
+  </Avatar>
+  <Avatar size="sm">
+    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
+    <AvatarFallback>م</AvatarFallback>
+  </Avatar>
+</AvatarGroup>
+<AvatarGroup aria-label="تیم">
   <Avatar>
-    <AvatarImage src="/docs/avatar/cn.png" alt="CN" />
-    <AvatarFallback>CN</AvatarFallback>
+    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+    <AvatarFallback>ن</AvatarFallback>
   </Avatar>
   <Avatar>
-    <AvatarImage src="/docs/avatar/lr.png" alt="LR" />
-    <AvatarFallback>LR</AvatarFallback>
+    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
+    <AvatarFallback>ع</AvatarFallback>
   </Avatar>
   <Avatar>
-    <AvatarImage src="/docs/avatar/er.png" alt="ER" />
-    <AvatarFallback>ER</AvatarFallback>
+    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
+    <AvatarFallback>م</AvatarFallback>
+  </Avatar>
+</AvatarGroup>
+<AvatarGroup aria-label="تیم">
+  <Avatar size="lg">
+    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+    <AvatarFallback>ن</AvatarFallback>
+  </Avatar>
+  <Avatar size="lg">
+    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
+    <AvatarFallback>ع</AvatarFallback>
+  </Avatar>
+  <Avatar size="lg">
+    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
+    <AvatarFallback>م</AvatarFallback>
   </Avatar>
 </AvatarGroup>`
 
-const groupCountSnippet = `<AvatarGroup aria-label="Team">
+const groupCountSnippet = `<AvatarGroup aria-label="تیم">
+  <Avatar size="sm">
+    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+    <AvatarFallback>ن</AvatarFallback>
+  </Avatar>
+  <Avatar size="sm">
+    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
+    <AvatarFallback>ع</AvatarFallback>
+  </Avatar>
+  <Avatar size="sm">
+    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
+    <AvatarFallback>م</AvatarFallback>
+  </Avatar>
+  <AvatarGroupCount>+۳</AvatarGroupCount>
+</AvatarGroup>
+<AvatarGroup aria-label="تیم">
   <Avatar>
-    <AvatarImage src="/docs/avatar/cn.png" alt="CN" />
-    <AvatarFallback>CN</AvatarFallback>
+    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+    <AvatarFallback>ن</AvatarFallback>
   </Avatar>
   <Avatar>
-    <AvatarImage src="/docs/avatar/lr.png" alt="LR" />
-    <AvatarFallback>LR</AvatarFallback>
+    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
+    <AvatarFallback>ع</AvatarFallback>
   </Avatar>
   <Avatar>
-    <AvatarImage src="/docs/avatar/er.png" alt="ER" />
-    <AvatarFallback>ER</AvatarFallback>
+    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
+    <AvatarFallback>م</AvatarFallback>
   </Avatar>
-  <AvatarGroupCount>+3</AvatarGroupCount>
+  <AvatarGroupCount>+۳</AvatarGroupCount>
+</AvatarGroup>
+<AvatarGroup aria-label="تیم">
+  <Avatar size="lg">
+    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+    <AvatarFallback>ن</AvatarFallback>
+  </Avatar>
+  <Avatar size="lg">
+    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
+    <AvatarFallback>ع</AvatarFallback>
+  </Avatar>
+  <Avatar size="lg">
+    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
+    <AvatarFallback>م</AvatarFallback>
+  </Avatar>
+  <AvatarGroupCount>+۳</AvatarGroupCount>
 </AvatarGroup>`
 
-const groupIconSnippet = `<AvatarGroup aria-label="Team">
+const groupIconSnippet = `<AvatarGroup aria-label="تیم">
+  <Avatar size="sm">
+    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+    <AvatarFallback>ن</AvatarFallback>
+  </Avatar>
+  <Avatar size="sm">
+    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
+    <AvatarFallback>ع</AvatarFallback>
+  </Avatar>
+  <Avatar size="sm">
+    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
+    <AvatarFallback>م</AvatarFallback>
+  </Avatar>
+  <AvatarGroupCount>
+    <PlusIcon />
+  </AvatarGroupCount>
+</AvatarGroup>
+<AvatarGroup aria-label="تیم">
   <Avatar>
-    <AvatarImage src="/docs/avatar/cn.png" alt="CN" />
-    <AvatarFallback>CN</AvatarFallback>
+    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+    <AvatarFallback>ن</AvatarFallback>
   </Avatar>
   <Avatar>
-    <AvatarImage src="/docs/avatar/lr.png" alt="LR" />
-    <AvatarFallback>LR</AvatarFallback>
+    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
+    <AvatarFallback>ع</AvatarFallback>
   </Avatar>
   <Avatar>
-    <AvatarImage src="/docs/avatar/er.png" alt="ER" />
-    <AvatarFallback>ER</AvatarFallback>
+    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
+    <AvatarFallback>م</AvatarFallback>
+  </Avatar>
+  <AvatarGroupCount>
+    <PlusIcon />
+  </AvatarGroupCount>
+</AvatarGroup>
+<AvatarGroup aria-label="تیم">
+  <Avatar size="lg">
+    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+    <AvatarFallback>ن</AvatarFallback>
+  </Avatar>
+  <Avatar size="lg">
+    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
+    <AvatarFallback>ع</AvatarFallback>
+  </Avatar>
+  <Avatar size="lg">
+    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
+    <AvatarFallback>م</AvatarFallback>
   </Avatar>
   <AvatarGroupCount>
     <PlusIcon />
@@ -122,44 +279,58 @@ const groupIconSnippet = `<AvatarGroup aria-label="Team">
 </AvatarGroup>`
 
 const sizesSnippet = `<Avatar size="sm">
-  <AvatarImage src="/docs/avatar/cn.png" alt="CN" />
-  <AvatarFallback>CN</AvatarFallback>
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
 </Avatar>
 <Avatar>
-  <AvatarImage src="/docs/avatar/cn.png" alt="CN" />
-  <AvatarFallback>CN</AvatarFallback>
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
 </Avatar>
 <Avatar size="lg">
-  <AvatarImage src="/docs/avatar/cn.png" alt="CN" />
-  <AvatarFallback>CN</AvatarFallback>
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+</Avatar>
+<Avatar size="xl">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+</Avatar>
+<Avatar size="2xl">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
 </Avatar>`
 
-const rtlSnippet = `<div
-  dir="rtl"
-  className="flex flex-row flex-wrap items-center gap-6 md:gap-12"
->
-  <Avatar>
-    <AvatarFallback>CN</AvatarFallback>
-  </Avatar>
-  <Avatar>
-    <AvatarFallback>ER</AvatarFallback>
-    <AvatarBadge
-      aria-label="Online"
-      className="bg-green-600 dark:bg-green-800"
-    />
-  </Avatar>
-  <AvatarGroup aria-label="Team">
-    <Avatar>
-      <AvatarFallback>CN</AvatarFallback>
-    </Avatar>
-    <Avatar>
-      <AvatarFallback>LR</AvatarFallback>
-    </Avatar>
-    <Avatar>
-      <AvatarFallback>ER</AvatarFallback>
-    </Avatar>
-  </AvatarGroup>
-</div>`
+const ringSnippet = `<Avatar ring size="sm">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+</Avatar>
+<Avatar ring>
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+</Avatar>
+<Avatar ring size="lg">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+</Avatar>
+<Avatar ring size="xl">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+</Avatar>
+<Avatar ring size="2xl">
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
+</Avatar>`
+
+function PreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div
+      dir="rtl"
+      lang="fa"
+      className="flex min-h-32 w-full flex-wrap items-center justify-center gap-4"
+    >
+      {children}
+    </div>
+  )
+}
 
 export default function AvatarPage() {
   return (
@@ -171,11 +342,13 @@ export default function AvatarPage() {
       />
 
       <ComponentPreview code={usageSnippet}>
+            <PreviewShell>
         <Avatar>
-          <AvatarImage src={cnSrc} alt="CN" />
-          <AvatarFallback>CN</AvatarFallback>
+          <AvatarImage src={cnSrc} alt="نیلوفر" />
+          <AvatarFallback>ن</AvatarFallback>
         </Avatar>
-      </ComponentPreview>
+      </PreviewShell>
+</ComponentPreview>
 
       <ComponentInstall name="avatar" />
 
@@ -211,14 +384,48 @@ export default function AvatarPage() {
             badge an aria-label so the status is announced.
           </p>
           <ComponentPreview code={badgeSnippet}>
-            <Avatar>
-              <AvatarImage src={erSrc} alt="ER" />
-              <AvatarFallback>ER</AvatarFallback>
-              <AvatarBadge
-                aria-label="Online"
-                className="bg-green-600 dark:bg-green-800"
-              />
-            </Avatar>
+            <PreviewShell>
+              <Avatar size="sm">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+                <AvatarBadge
+                  aria-label="آنلاین"
+                  className="bg-green-600 dark:bg-green-800"
+                />
+              </Avatar>
+              <Avatar>
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+                <AvatarBadge
+                  aria-label="آنلاین"
+                  className="bg-green-600 dark:bg-green-800"
+                />
+              </Avatar>
+              <Avatar size="lg">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+                <AvatarBadge
+                  aria-label="آنلاین"
+                  className="bg-green-600 dark:bg-green-800"
+                />
+              </Avatar>
+              <Avatar size="xl">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+                <AvatarBadge
+                  aria-label="آنلاین"
+                  className="bg-green-600 dark:bg-green-800"
+                />
+              </Avatar>
+              <Avatar size="2xl">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+                <AvatarBadge
+                  aria-label="آنلاین"
+                  className="bg-green-600 dark:bg-green-800"
+                />
+              </Avatar>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -235,16 +442,48 @@ export default function AvatarPage() {
             and give it an aria-label.
           </p>
           <ComponentPreview code={badgeIconSnippet}>
-            <Avatar>
-              <AvatarImage src={cnSrc} alt="CN" />
-              <AvatarFallback>CN</AvatarFallback>
-              <AvatarBadge
-                aria-label="Add teammate"
-                render={<button type="button" />}
-              >
-                <PlusIcon />
-              </AvatarBadge>
-            </Avatar>
+            <PreviewShell>
+              <Avatar>
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+                <AvatarBadge
+                  aria-label="افزودن هم‌تیمی"
+                  render={<button type="button" />}
+                >
+                  <PlusIcon />
+                </AvatarBadge>
+              </Avatar>
+              <Avatar size="lg">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+                <AvatarBadge
+                  aria-label="افزودن هم‌تیمی"
+                  render={<button type="button" />}
+                >
+                  <PlusIcon />
+                </AvatarBadge>
+              </Avatar>
+              <Avatar size="xl">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+                <AvatarBadge
+                  aria-label="افزودن هم‌تیمی"
+                  render={<button type="button" />}
+                >
+                  <PlusIcon />
+                </AvatarBadge>
+              </Avatar>
+              <Avatar size="2xl">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+                <AvatarBadge
+                  aria-label="افزودن هم‌تیمی"
+                  render={<button type="button" />}
+                >
+                  <PlusIcon />
+                </AvatarBadge>
+              </Avatar>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -258,20 +497,50 @@ export default function AvatarPage() {
             group so the set of people is announced.
           </p>
           <ComponentPreview code={groupSnippet}>
-            <AvatarGroup aria-label="Team">
-              <Avatar>
-                <AvatarImage src={cnSrc} alt="CN" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <Avatar>
-                <AvatarImage src={lrSrc} alt="LR" />
-                <AvatarFallback>LR</AvatarFallback>
-              </Avatar>
-              <Avatar>
-                <AvatarImage src={erSrc} alt="ER" />
-                <AvatarFallback>ER</AvatarFallback>
-              </Avatar>
-            </AvatarGroup>
+            <PreviewShell>
+              <AvatarGroup aria-label="تیم">
+                <Avatar size="sm">
+                  <AvatarImage src={cnSrc} alt="نیلوفر" />
+                  <AvatarFallback>ن</AvatarFallback>
+                </Avatar>
+                <Avatar size="sm">
+                  <AvatarImage src={lrSrc} alt="علی" />
+                  <AvatarFallback>ع</AvatarFallback>
+                </Avatar>
+                <Avatar size="sm">
+                  <AvatarImage src={erSrc} alt="مریم" />
+                  <AvatarFallback>م</AvatarFallback>
+                </Avatar>
+              </AvatarGroup>
+              <AvatarGroup aria-label="تیم">
+                <Avatar>
+                  <AvatarImage src={cnSrc} alt="نیلوفر" />
+                  <AvatarFallback>ن</AvatarFallback>
+                </Avatar>
+                <Avatar>
+                  <AvatarImage src={lrSrc} alt="علی" />
+                  <AvatarFallback>ع</AvatarFallback>
+                </Avatar>
+                <Avatar>
+                  <AvatarImage src={erSrc} alt="مریم" />
+                  <AvatarFallback>م</AvatarFallback>
+                </Avatar>
+              </AvatarGroup>
+              <AvatarGroup aria-label="تیم">
+                <Avatar size="lg">
+                  <AvatarImage src={cnSrc} alt="نیلوفر" />
+                  <AvatarFallback>ن</AvatarFallback>
+                </Avatar>
+                <Avatar size="lg">
+                  <AvatarImage src={lrSrc} alt="علی" />
+                  <AvatarFallback>ع</AvatarFallback>
+                </Avatar>
+                <Avatar size="lg">
+                  <AvatarImage src={erSrc} alt="مریم" />
+                  <AvatarFallback>م</AvatarFallback>
+                </Avatar>
+              </AvatarGroup>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -284,21 +553,53 @@ export default function AvatarPage() {
             show remaining people.
           </p>
           <ComponentPreview code={groupCountSnippet}>
-            <AvatarGroup aria-label="Team">
-              <Avatar>
-                <AvatarImage src={cnSrc} alt="CN" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <Avatar>
-                <AvatarImage src={lrSrc} alt="LR" />
-                <AvatarFallback>LR</AvatarFallback>
-              </Avatar>
-              <Avatar>
-                <AvatarImage src={erSrc} alt="ER" />
-                <AvatarFallback>ER</AvatarFallback>
-              </Avatar>
-              <AvatarGroupCount>+3</AvatarGroupCount>
-            </AvatarGroup>
+            <PreviewShell>
+              <AvatarGroup aria-label="تیم">
+                <Avatar size="sm">
+                  <AvatarImage src={cnSrc} alt="نیلوفر" />
+                  <AvatarFallback>ن</AvatarFallback>
+                </Avatar>
+                <Avatar size="sm">
+                  <AvatarImage src={lrSrc} alt="علی" />
+                  <AvatarFallback>ع</AvatarFallback>
+                </Avatar>
+                <Avatar size="sm">
+                  <AvatarImage src={erSrc} alt="مریم" />
+                  <AvatarFallback>م</AvatarFallback>
+                </Avatar>
+                <AvatarGroupCount>+۳</AvatarGroupCount>
+              </AvatarGroup>
+              <AvatarGroup aria-label="تیم">
+                <Avatar>
+                  <AvatarImage src={cnSrc} alt="نیلوفر" />
+                  <AvatarFallback>ن</AvatarFallback>
+                </Avatar>
+                <Avatar>
+                  <AvatarImage src={lrSrc} alt="علی" />
+                  <AvatarFallback>ع</AvatarFallback>
+                </Avatar>
+                <Avatar>
+                  <AvatarImage src={erSrc} alt="مریم" />
+                  <AvatarFallback>م</AvatarFallback>
+                </Avatar>
+                <AvatarGroupCount>+۳</AvatarGroupCount>
+              </AvatarGroup>
+              <AvatarGroup aria-label="تیم">
+                <Avatar size="lg">
+                  <AvatarImage src={cnSrc} alt="نیلوفر" />
+                  <AvatarFallback>ن</AvatarFallback>
+                </Avatar>
+                <Avatar size="lg">
+                  <AvatarImage src={lrSrc} alt="علی" />
+                  <AvatarFallback>ع</AvatarFallback>
+                </Avatar>
+                <Avatar size="lg">
+                  <AvatarImage src={erSrc} alt="مریم" />
+                  <AvatarFallback>م</AvatarFallback>
+                </Avatar>
+                <AvatarGroupCount>+۳</AvatarGroupCount>
+              </AvatarGroup>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -311,23 +612,59 @@ export default function AvatarPage() {
             <code className="font-mono text-sm">AvatarGroupCount</code> child.
           </p>
           <ComponentPreview code={groupIconSnippet}>
-            <AvatarGroup aria-label="Team">
-              <Avatar>
-                <AvatarImage src={cnSrc} alt="CN" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <Avatar>
-                <AvatarImage src={lrSrc} alt="LR" />
-                <AvatarFallback>LR</AvatarFallback>
-              </Avatar>
-              <Avatar>
-                <AvatarImage src={erSrc} alt="ER" />
-                <AvatarFallback>ER</AvatarFallback>
-              </Avatar>
-              <AvatarGroupCount>
-                <PlusIcon />
-              </AvatarGroupCount>
-            </AvatarGroup>
+            <PreviewShell>
+              <AvatarGroup aria-label="تیم">
+                <Avatar size="sm">
+                  <AvatarImage src={cnSrc} alt="نیلوفر" />
+                  <AvatarFallback>ن</AvatarFallback>
+                </Avatar>
+                <Avatar size="sm">
+                  <AvatarImage src={lrSrc} alt="علی" />
+                  <AvatarFallback>ع</AvatarFallback>
+                </Avatar>
+                <Avatar size="sm">
+                  <AvatarImage src={erSrc} alt="مریم" />
+                  <AvatarFallback>م</AvatarFallback>
+                </Avatar>
+                <AvatarGroupCount>
+                  <PlusIcon />
+                </AvatarGroupCount>
+              </AvatarGroup>
+              <AvatarGroup aria-label="تیم">
+                <Avatar>
+                  <AvatarImage src={cnSrc} alt="نیلوفر" />
+                  <AvatarFallback>ن</AvatarFallback>
+                </Avatar>
+                <Avatar>
+                  <AvatarImage src={lrSrc} alt="علی" />
+                  <AvatarFallback>ع</AvatarFallback>
+                </Avatar>
+                <Avatar>
+                  <AvatarImage src={erSrc} alt="مریم" />
+                  <AvatarFallback>م</AvatarFallback>
+                </Avatar>
+                <AvatarGroupCount>
+                  <PlusIcon />
+                </AvatarGroupCount>
+              </AvatarGroup>
+              <AvatarGroup aria-label="تیم">
+                <Avatar size="lg">
+                  <AvatarImage src={cnSrc} alt="نیلوفر" />
+                  <AvatarFallback>ن</AvatarFallback>
+                </Avatar>
+                <Avatar size="lg">
+                  <AvatarImage src={lrSrc} alt="علی" />
+                  <AvatarFallback>ع</AvatarFallback>
+                </Avatar>
+                <Avatar size="lg">
+                  <AvatarImage src={erSrc} alt="مریم" />
+                  <AvatarFallback>م</AvatarFallback>
+                </Avatar>
+                <AvatarGroupCount>
+                  <PlusIcon />
+                </AvatarGroupCount>
+              </AvatarGroup>
+            </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -335,21 +672,64 @@ export default function AvatarPage() {
           <h3 className="scroll-m-20 font-semibold tracking-tight">Sizes</h3>
           <p className="leading-relaxed text-muted-foreground">
             Use the <code className="font-mono text-sm">size</code> prop on the
-            root avatar.
+            root avatar: <code className="font-mono text-sm">sm</code> (24px), default (32px), <code className="font-mono text-sm">lg</code> (40px), <code className="font-mono text-sm">xl</code> (48px) and <code className="font-mono text-sm">2xl</code> (64px).
           </p>
           <ComponentPreview code={sizesSnippet}>
-            <Avatar size="sm">
-              <AvatarImage src={cnSrc} alt="CN" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarImage src={cnSrc} alt="CN" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <Avatar size="lg">
-              <AvatarImage src={cnSrc} alt="CN" />
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
+            <PreviewShell>
+              <Avatar size="sm">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+              </Avatar>
+              <Avatar>
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+              </Avatar>
+              <Avatar size="lg">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+              </Avatar>
+              <Avatar size="xl">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+              </Avatar>
+              <Avatar size="2xl">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+              </Avatar>
+            </PreviewShell>
+          </ComponentPreview>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="scroll-m-20 font-semibold tracking-tight">Ring</h3>
+          <p className="leading-relaxed text-muted-foreground">
+            Add the <code className="font-mono text-sm">ring</code> prop to draw
+            a 1px gray ring around the avatar, with a 2px gap between the ring
+            and the circle.
+          </p>
+          <ComponentPreview code={ringSnippet}>
+            <PreviewShell>
+              <Avatar ring size="sm">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+              </Avatar>
+              <Avatar ring>
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+              </Avatar>
+              <Avatar ring size="lg">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+              </Avatar>
+              <Avatar ring size="xl">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+              </Avatar>
+              <Avatar ring size="2xl">
+                <AvatarImage src={cnSrc} alt="نیلوفر" />
+                <AvatarFallback>ن</AvatarFallback>
+              </Avatar>
+            </PreviewShell>
           </ComponentPreview>
         </div>
       </section>
@@ -376,8 +756,8 @@ export default function AvatarPage() {
           </p>
           <CodeBlock
             code={`<Avatar>
-  <AvatarImage src="/docs/avatar/cn.png" alt="CN" />
-  <AvatarFallback>CN</AvatarFallback>
+  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+  <AvatarFallback>ن</AvatarFallback>
 </Avatar>`}
           />
         </div>
@@ -396,9 +776,9 @@ export default function AvatarPage() {
             focus work.
           </p>
           <CodeBlock
-            code={`<AvatarBadge aria-label="Online" />
+            code={`<AvatarBadge aria-label="آنلاین" />
 <AvatarBadge
-  aria-label="Add teammate"
+  aria-label="افزودن هم‌تیمی"
   render={<button type="button" />}
 >
   <PlusIcon />
@@ -416,56 +796,14 @@ export default function AvatarPage() {
             Give it an aria-label that describes the set of people.
           </p>
           <CodeBlock
-            code={`<AvatarGroup aria-label="Team">
+            code={`<AvatarGroup aria-label="تیم">
   <Avatar>
-    <AvatarImage src="/docs/avatar/cn.png" alt="CN" />
-    <AvatarFallback>CN</AvatarFallback>
+    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
+    <AvatarFallback>ن</AvatarFallback>
   </Avatar>
 </AvatarGroup>`}
           />
         </div>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          To enable RTL support, see the{" "}
-          <Link
-            href="/docs/components/direction"
-            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80"
-          >
-            Direction
-          </Link>{" "}
-          guide.
-        </p>
-        <ComponentPreview code={rtlSnippet} previewClassName="h-72">
-          <div
-            dir="rtl"
-            className="flex flex-row flex-wrap items-center gap-6 md:gap-12"
-          >
-            <Avatar>
-              <AvatarFallback>CN</AvatarFallback>
-            </Avatar>
-            <Avatar>
-              <AvatarFallback>ER</AvatarFallback>
-              <AvatarBadge
-                aria-label="Online"
-                className="bg-green-600 dark:bg-green-800"
-              />
-            </Avatar>
-            <AvatarGroup aria-label="Team">
-              <Avatar>
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <Avatar>
-                <AvatarFallback>LR</AvatarFallback>
-              </Avatar>
-              <Avatar>
-                <AvatarFallback>ER</AvatarFallback>
-              </Avatar>
-            </AvatarGroup>
-          </div>
-        </ComponentPreview>
       </section>
 
       <section id="api-reference" className="space-y-4">

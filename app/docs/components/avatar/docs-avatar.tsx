@@ -15,7 +15,8 @@ import { DEFAULT_BASE, parseComponentPath } from "@/lib/bases"
 
 type AvatarProps = {
   className?: string
-  size?: "default" | "sm" | "lg"
+  size?: "default" | "sm" | "lg" | "xl" | "2xl"
+  ring?: boolean
   children?: ReactNode
 }
 
