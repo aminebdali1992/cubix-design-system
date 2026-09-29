@@ -209,7 +209,7 @@ export const components = [
     name: "Badge",
     description: "Displays a badge or a component that looks like a badge.",
     href: "/docs/components/badge",
-    ready: false,
+    ready: true,
   },
   {
     name: "Breadcrumb",

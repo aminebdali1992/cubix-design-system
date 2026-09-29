@@ -1,9 +1,15 @@
 export const badgePropRows = [
   {
     prop: "variant",
-    type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link"',
+    type: '"default" | "secondary" | "destructive" | "outline" | "ghost" | "link" | "dot"',
     default: '"default"',
     description: "The visual style of the badge.",
+  },
+  {
+    prop: "size",
+    type: '"default" | "lg"',
+    default: '"default"',
+    description: "The size of the badge: default is 20px tall, lg is 24px tall.",
   },
   {
     prop: "render",

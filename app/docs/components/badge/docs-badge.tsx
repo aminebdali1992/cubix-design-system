@@ -20,10 +20,12 @@ type BadgeVariant =
   | "outline"
   | "ghost"
   | "link"
+  | "dot"
 
 type BadgeProps = {
   className?: string
   variant?: BadgeVariant
+  size?: "default" | "lg"
   children?: ReactNode
   render?: ReactElement<{ className?: string; children?: ReactNode }>
 }
@@ -33,7 +35,7 @@ function useBadgeBase() {
   return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
 }
 
-function Badge({ render, className, children, variant, ...props }: BadgeProps) {
+function Badge({ render, className, children, variant, size, ...props }: BadgeProps) {
   const base = useBadgeBase()
 
   if (base === "radix") {
@@ -43,6 +45,7 @@ function Badge({ render, className, children, variant, ...props }: BadgeProps) {
           asChild
           className={className}
           variant={variant}
+          size={size}
           {...props}
         >
           {cloneElement(render, undefined, children ?? render.props.children)}
@@ -50,7 +53,12 @@ function Badge({ render, className, children, variant, ...props }: BadgeProps) {
       )
     }
     return (
-      <RadixBadge.Badge className={className} variant={variant} {...props}>
+      <RadixBadge.Badge
+        className={className}
+        variant={variant}
+        size={size}
+        {...props}
+      >
         {children}
       </RadixBadge.Badge>
     )
@@ -61,6 +69,7 @@ function Badge({ render, className, children, variant, ...props }: BadgeProps) {
       <AriaBadge.Badge
         className={className}
         variant={variant}
+        size={size}
         render={render}
         {...props}
       >
@@ -73,6 +82,7 @@ function Badge({ render, className, children, variant, ...props }: BadgeProps) {
     <BaseBadge.Badge
       className={className}
       variant={variant}
+      size={size}
       render={render}
       {...props}
     >
