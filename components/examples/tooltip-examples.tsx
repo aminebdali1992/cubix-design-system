@@ -1,7 +1,6 @@
 "use client"
 
-import { PlusIcon, SaveIcon } from "lucide-react"
-
+import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
 import { Button } from "@/components/cubix/button"
 import { Kbd } from "@/components/cubix/kbd"
 import {
@@ -9,17 +8,15 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/cubix/tooltip"
+} from "@/app/docs/components/tooltip/docs-tooltip"
 
 export function TooltipDemo() {
   return (
     <Tooltip>
-      <TooltipTrigger render={<Button variant="outline" />}>
-        Hover
+      <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+        نگه دارید
       </TooltipTrigger>
-      <TooltipContent>
-        <p>Add to library</p>
-      </TooltipContent>
+      <TooltipContent>افزودن به کتابخانه</TooltipContent>
     </Tooltip>
   )
 }
@@ -27,67 +24,21 @@ export function TooltipDemo() {
 export function TooltipSidesDemo() {
   return (
     <div className="flex flex-wrap items-center justify-center gap-2">
-      {(["left", "top", "bottom", "right"] as const).map((side) => (
+      {(
+        [
+          ["top", "بالا"],
+          ["bottom", "پایین"],
+          ["inline-start", "ابتدا (راست)"],
+          ["inline-end", "انتها (چپ)"],
+        ] as const
+      ).map(([side, label]) => (
         <Tooltip key={side}>
-          <TooltipTrigger
-            render={<Button variant="outline" className="w-fit capitalize" />}
-          >
-            {side}
+          <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+            {label}
           </TooltipTrigger>
-          <TooltipContent side={side}>
-            <p>Add to library</p>
-          </TooltipContent>
+          <TooltipContent side={side}>افزودن به کتابخانه</TooltipContent>
         </Tooltip>
       ))}
-    </div>
-  )
-}
-
-export function TooltipKeyboardDemo() {
-  return (
-    <Tooltip>
-      <TooltipTrigger
-        render={<Button variant="outline" size="icon-sm" aria-label="Save" />}
-      >
-        <SaveIcon />
-      </TooltipTrigger>
-      <TooltipContent>
-        Save Changes <Kbd>S</Kbd>
-      </TooltipContent>
-    </Tooltip>
-  )
-}
-
-export function TooltipDisabledDemo() {
-  return (
-    <Tooltip>
-      <TooltipTrigger render={<span className="inline-block w-fit" />}>
-        <Button variant="outline" disabled>
-          Disabled
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent>
-        <p>This feature is currently unavailable</p>
-      </TooltipContent>
-    </Tooltip>
-  )
-}
-
-export function TooltipRtlDemo() {
-  return (
-    <div dir="rtl" className="flex flex-wrap items-center justify-center gap-2">
-      {(["top", "bottom", "inline-start", "inline-end"] as const).map(
-        (side) => (
-          <Tooltip key={side}>
-            <TooltipTrigger render={<Button variant="outline" />}>
-              {side}
-            </TooltipTrigger>
-            <TooltipContent side={side}>
-              <p>Add to library</p>
-            </TooltipContent>
-          </Tooltip>
-        )
-      )}
     </div>
   )
 }
@@ -97,12 +48,40 @@ export function TooltipIconDemo() {
     <Tooltip>
       <TooltipTrigger
         render={
-          <Button variant="outline" size="icon" aria-label="Add to library" />
+          <Button variant="outline" size="icon-sm" aria-label="افزودن به کتابخانه" />
         }
       >
-        <PlusIcon />
+        <ButtonDemoIcon />
       </TooltipTrigger>
-      <TooltipContent>Add to library</TooltipContent>
+      <TooltipContent>افزودن به کتابخانه</TooltipContent>
+    </Tooltip>
+  )
+}
+
+export function TooltipKeyboardDemo() {
+  return (
+    <Tooltip>
+      <TooltipTrigger
+        render={<Button variant="outline" size="icon-sm" aria-label="ذخیره" />}
+      >
+        <ButtonDemoIcon />
+      </TooltipTrigger>
+      <TooltipContent>
+        ذخیره تغییرات <Kbd>S</Kbd>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+
+export function TooltipDisabledDemo() {
+  return (
+    <Tooltip>
+      <TooltipTrigger render={<span className="inline-block w-fit" />}>
+        <Button variant="outline" size="sm" disabled>
+          غیرفعال
+        </Button>
+      </TooltipTrigger>
+      <TooltipContent>این قابلیت فعلاً در دسترس نیست</TooltipContent>
     </Tooltip>
   )
 }
@@ -111,10 +90,10 @@ export function TooltipDelayDemo() {
   return (
     <TooltipProvider delay={700}>
       <Tooltip>
-        <TooltipTrigger render={<Button variant="outline" />}>
-          Slow open
+        <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+          باز شدن با تأخیر
         </TooltipTrigger>
-        <TooltipContent>Opens after 700ms</TooltipContent>
+        <TooltipContent>بعد از ۷۰۰ میلی‌ثانیه باز می‌شود</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   )

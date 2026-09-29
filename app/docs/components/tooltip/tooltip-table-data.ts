@@ -1,5 +1,12 @@
 export const tooltipPropRows = [
   {
+    prop: "dir",
+    type: '"ltr" | "rtl"',
+    default: "closest page dir, else rtl",
+    description:
+      "Text direction of the trigger and tooltip. Defaults to the closest dir on the page, and to right-to-left when there is none.",
+  },
+  {
     prop: "open",
     type: "boolean",
     description: "Controlled open state. Omit to use uncontrolled mode.",
@@ -19,7 +26,7 @@ export const tooltipPropRows = [
     prop: "delay",
     type: "number",
     description:
-      "Delay in ms before showing. Overrides TooltipProvider when set.",
+      "Delay in ms before showing. Overrides TooltipProvider when set (Base UI reads the delay from TooltipProvider).",
   },
   {
     prop: "children",

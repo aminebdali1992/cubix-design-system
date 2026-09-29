@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
@@ -9,8 +10,8 @@ import {
   TooltipDelayDemo,
   TooltipDemo,
   TooltipDisabledDemo,
+  TooltipIconDemo,
   TooltipKeyboardDemo,
-  TooltipRtlDemo,
   TooltipSidesDemo,
 } from "@/components/examples/tooltip-examples"
 
@@ -36,19 +37,17 @@ const usageImport = `import {
 } from "@/components/cubix/tooltip"`
 
 const usageSnippet = `<Tooltip>
-  <TooltipTrigger render={<Button variant="outline" />}>
-    Hover
+  <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+    نگه دارید
   </TooltipTrigger>
-  <TooltipContent>
-    <p>Add to library</p>
-  </TooltipContent>
+  <TooltipContent>افزودن به کتابخانه</TooltipContent>
 </Tooltip>`
 
 const layoutSnippet = `import { TooltipProvider } from "@/components/cubix/tooltip"
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="fa" dir="rtl">
       <body>
         <TooltipProvider>{children}</TooltipProvider>
       </body>
@@ -61,54 +60,93 @@ const compositionSnippet = `Tooltip
 └── TooltipContent`
 
 const sidesSnippet = `<div className="flex flex-wrap gap-2">
-  {(["left", "top", "bottom", "right"] as const).map((side) => (
+  {(["top", "bottom", "inline-start", "inline-end"] as const).map((side) => (
     <Tooltip key={side}>
-      <TooltipTrigger
-        render={<Button variant="outline" className="w-fit capitalize" />}
-      >
+      <TooltipTrigger render={<Button variant="outline" size="sm" />}>
         {side}
       </TooltipTrigger>
-      <TooltipContent side={side}>
-        <p>Add to library</p>
-      </TooltipContent>
+      <TooltipContent side={side}>افزودن به کتابخانه</TooltipContent>
     </Tooltip>
   ))}
 </div>`
 
+const iconSnippet = `<Tooltip>
+  <TooltipTrigger
+    render={<Button variant="outline" size="icon-sm" aria-label="افزودن به کتابخانه" />}
+  >
+    <Icon />
+  </TooltipTrigger>
+  <TooltipContent>افزودن به کتابخانه</TooltipContent>
+</Tooltip>`
+
 const keyboardSnippet = `<Tooltip>
   <TooltipTrigger
-    render={<Button variant="outline" size="icon-sm" aria-label="Save" />}
+    render={<Button variant="outline" size="icon-sm" aria-label="ذخیره" />}
   >
-    <SaveIcon />
+    <Icon />
   </TooltipTrigger>
   <TooltipContent>
-    Save Changes <Kbd>S</Kbd>
+    ذخیره تغییرات <Kbd>S</Kbd>
   </TooltipContent>
 </Tooltip>`
 
 const disabledSnippet = `<Tooltip>
   <TooltipTrigger render={<span className="inline-block w-fit" />}>
-    <Button variant="outline" disabled>
-      Disabled
+    <Button variant="outline" size="sm" disabled>
+      غیرفعال
     </Button>
   </TooltipTrigger>
-  <TooltipContent>
-    <p>This feature is currently unavailable</p>
-  </TooltipContent>
+  <TooltipContent>این قابلیت فعلاً در دسترس نیست</TooltipContent>
 </Tooltip>`
 
-const rtlSnippet = `<div dir="rtl" className="flex flex-wrap gap-2">
-  {(["top", "bottom", "inline-start", "inline-end"] as const).map((side) => (
-    <Tooltip key={side}>
-      <TooltipTrigger render={<Button variant="outline" />}>
-        {side}
-      </TooltipTrigger>
-      <TooltipContent side={side}>
-        <p>Add to library</p>
-      </TooltipContent>
-    </Tooltip>
-  ))}
-</div>`
+const delaySnippet = `<TooltipProvider delay={700}>
+  <Tooltip>
+    <TooltipTrigger render={<Button variant="outline" size="sm" />}>
+      باز شدن با تأخیر
+    </TooltipTrigger>
+    <TooltipContent>بعد از ۷۰۰ میلی‌ثانیه باز می‌شود</TooltipContent>
+  </Tooltip>
+</TooltipProvider>`
+
+function PreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div
+      dir="rtl"
+      lang="fa"
+      className="flex min-h-32 w-full items-center justify-center"
+    >
+      {children}
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
+function ExampleSection({
+  title,
+  description,
+  code,
+  children,
+}: {
+  title: string
+  description?: ReactNode
+  code: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      {description ? (
+        <p className="leading-relaxed text-muted-foreground">{description}</p>
+      ) : null}
+      <ComponentPreview code={code}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
 
 export default function TooltipDocsPage() {
   return (
@@ -119,8 +157,10 @@ export default function TooltipDocsPage() {
         slug="tooltip"
       />
 
-      <ComponentPreview code={usageSnippet} previewClassName="min-h-32">
-        <TooltipDemo />
+      <ComponentPreview code={usageSnippet}>
+        <PreviewShell>
+          <TooltipDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="tooltip" />
@@ -130,9 +170,9 @@ export default function TooltipDocsPage() {
           Add the Provider
         </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Place{" "}
-          <code className="font-mono text-sm">TooltipProvider</code> near the
-          root of your app so tooltips share delay and portal behavior.
+          Place <Code>TooltipProvider</Code> near the root of your app so
+          tooltips share one open delay. It is optional: without it every
+          tooltip opens immediately.
         </p>
         <CodeBlock code={layoutSnippet} title="app/layout.tsx" />
       </section>
@@ -148,89 +188,83 @@ export default function TooltipDocsPage() {
           Composition
         </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the following composition to build a{" "}
-          <code className="font-mono text-sm">Tooltip</code>:
+          The tooltip opens on hover and on keyboard focus, and closes on
+          Escape. It starts right-to-left and follows the closest{" "}
+          <Code>dir</Code> on the page; pass <Code>dir</Code> to{" "}
+          <Code>Tooltip</Code> to override it.
         </p>
-        <CodeBlock code={compositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Side</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use the{" "}
-          <code className="font-mono text-sm">side</code> prop to change the
-          position of the tooltip.
-        </p>
-        <ComponentPreview code={sidesSnippet} previewClassName="min-h-32">
+      <section className="space-y-8">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
+
+        <ExampleSection
+          title="Side"
+          description={
+            <>
+              Use <Code>side</Code> to choose where the tooltip appears. Prefer
+              the logical values <Code>inline-start</Code> and{" "}
+              <Code>inline-end</Code>: in RTL, <Code>inline-start</Code> is the
+              right side of the trigger.
+            </>
+          }
+          code={sidesSnippet}
+        >
           <TooltipSidesDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          With Keyboard Shortcut
-        </h2>
-        <ComponentPreview code={keyboardSnippet} previewClassName="min-h-32">
+        <ExampleSection
+          title="Icon button"
+          description={
+            <>
+              Give an icon-only trigger an <Code>aria-label</Code> so the
+              tooltip text is also available to screen readers.
+            </>
+          }
+          code={iconSnippet}
+        >
+          <TooltipIconDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="With Keyboard Shortcut"
+          code={keyboardSnippet}
+        >
           <TooltipKeyboardDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Disabled Button
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Show a tooltip on a disabled button by wrapping it with a{" "}
-          <code className="font-mono text-sm">span</code>.
-        </p>
-        <ComponentPreview code={disabledSnippet} previewClassName="min-h-32">
+        <ExampleSection
+          title="Disabled Button"
+          description={
+            <>
+              A disabled button can&apos;t be hovered or focused, so wrap it in
+              a <Code>span</Code> trigger.
+            </>
+          }
+          code={disabledSnippet}
+        >
           <TooltipDisabledDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Prefer logical sides like{" "}
-          <code className="font-mono text-sm">inline-start</code> and{" "}
-          <code className="font-mono text-sm">inline-end</code> when mirroring
-          layout with{" "}
-          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code>.
-        </p>
-        <ComponentPreview code={rtlSnippet} previewClassName="min-h-32">
-          <TooltipRtlDemo />
-        </ComponentPreview>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Delay</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Wrap tooltips in{" "}
-          <code className="font-mono text-sm">TooltipProvider</code> to share a
-          custom open delay across a tree.
-        </p>
-        <ComponentPreview
-          code={`<TooltipProvider delay={700}>
-  <Tooltip>
-    <TooltipTrigger render={<Button variant="outline" />}>
-      Slow open
-    </TooltipTrigger>
-    <TooltipContent>Opens after 700ms</TooltipContent>
-  </Tooltip>
-</TooltipProvider>`}
-          previewClassName="min-h-32"
+        <ExampleSection
+          title="Delay"
+          description={
+            <>
+              Wrap tooltips in <Code>TooltipProvider</Code> to set a shared open
+              delay, or pass <Code>delay</Code> to a single <Code>Tooltip</Code>.
+            </>
+          }
+          code={delaySnippet}
         >
           <TooltipDelayDemo />
-        </ComponentPreview>
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-6">
         <h2 className="scroll-m-20 font-semibold tracking-tight">
           API Reference
         </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          See also the Base UI Tooltip documentation for primitive props.
-        </p>
 
         <div className="space-y-3">
           <h3 className="scroll-m-20 font-semibold tracking-tight">
