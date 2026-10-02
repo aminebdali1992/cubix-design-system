@@ -67,22 +67,14 @@ function BreadcrumbLink({
 
   if (base === "aria") {
     return (
-      <AriaBreadcrumb.BreadcrumbLink
-        className={className}
-        render={render}
-        {...props}
-      >
+      <AriaBreadcrumb.BreadcrumbLink className={className} render={render} {...props}>
         {children}
       </AriaBreadcrumb.BreadcrumbLink>
     )
   }
 
   return (
-    <BaseBreadcrumb.BreadcrumbLink
-      className={className}
-      render={render}
-      {...props}
-    >
+    <BaseBreadcrumb.BreadcrumbLink className={className} render={render} {...props}>
       {children}
     </BaseBreadcrumb.BreadcrumbLink>
   )

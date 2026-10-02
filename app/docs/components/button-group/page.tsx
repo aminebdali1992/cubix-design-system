@@ -160,8 +160,8 @@ export default function ButtonGroupPage() {
           description={
             <>
               Control size with the <Code>size</Code> prop on each button. Keep every control in a
-              group at the same size - <Code>sm</Code> is ۳۲px, default is ۴۰px, and <Code>lg</Code>{" "}
-              is ۴۸px.
+              group at the same size - <Code>sm</Code> is 32px, default is 40px, and <Code>lg</Code>{" "}
+              is 48px.
             </>
           }
           code={sizeSource}
@@ -210,7 +210,7 @@ export default function ButtonGroupPage() {
           title="Input"
           description={
             <>
-              Join a Cubix <Code>TextFieldInput</Code> with a button. Default field height is ۴۰px,
+              Join a Cubix <Code>TextFieldInput</Code> with a button. Default field height is 40px,
               so it lines up with the default button size.
             </>
           }

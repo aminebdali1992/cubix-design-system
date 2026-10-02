@@ -5,10 +5,7 @@ import { ContextMenu as ContextMenuPrimitive } from "@base-ui/react/context-menu
 import { CheckIcon, ChevronRightIcon } from "lucide-react"
 
 import { Checkbox } from "@/components/cubix/base/checkbox"
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/cubix/base/radio-group"
+import { RadioGroup, RadioGroupItem } from "@/components/cubix/base/radio-group"
 import { DirectionProvider } from "@/components/cubix/base/direction"
 import { cn } from "@/lib/utils"
 
@@ -29,9 +26,7 @@ function useContextMenuLocale() {
   return React.useContext(ContextMenuLocaleContext)
 }
 
-function toTextDirection(
-  value: string | null | undefined
-): TextDirection | undefined {
+function toTextDirection(value: string | null | undefined): TextDirection | undefined {
   return value === "rtl" || value === "ltr" ? value : undefined
 }
 
@@ -45,9 +40,7 @@ function resolveClosestLang(node: Element | null): string | undefined {
 
 type ContextMenuStore = Map<string, unknown>
 
-const ContextMenuStoreContext = React.createContext<ContextMenuStore | null>(
-  null
-)
+const ContextMenuStoreContext = React.createContext<ContextMenuStore | null>(null)
 
 function textContent(node: React.ReactNode): string {
   if (node == null || typeof node === "boolean") return ""
@@ -62,10 +55,7 @@ function textContent(node: React.ReactNode): string {
 function radioGroupKey(children: React.ReactNode) {
   const values: string[] = []
   React.Children.forEach(children, (child) => {
-    if (
-      React.isValidElement<{ value?: unknown }>(child) &&
-      child.props.value !== undefined
-    ) {
+    if (React.isValidElement<{ value?: unknown }>(child) && child.props.value !== undefined) {
       values.push(String(child.props.value))
     }
   })
@@ -138,9 +128,7 @@ function ContextMenu({
 }
 
 function ContextMenuPortal({ ...props }: ContextMenuPrimitive.Portal.Props) {
-  return (
-    <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
-  )
+  return <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
 }
 
 function ContextMenuTrigger({
@@ -196,10 +184,7 @@ function ContextMenuContent({
   lang,
   ...props
 }: ContextMenuPrimitive.Popup.Props &
-  Pick<
-    ContextMenuPrimitive.Positioner.Props,
-    "align" | "alignOffset" | "side" | "sideOffset"
-  >) {
+  Pick<ContextMenuPrimitive.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset">) {
   const locale = useContextMenuLocale()
   const contentLocale = {
     dir: toTextDirection(dir) ?? locale.dir,
@@ -234,9 +219,7 @@ function ContextMenuContent({
 }
 
 function ContextMenuGroup({ ...props }: ContextMenuPrimitive.Group.Props) {
-  return (
-    <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />
-  )
+  return <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />
 }
 
 function ContextMenuLabel({
@@ -284,9 +267,7 @@ function ContextMenuItem({
 
 type ContextMenuIndicator = "check" | "control"
 
-const ContextMenuIndicatorContext = React.createContext<
-  ContextMenuIndicator | undefined
->(undefined)
+const ContextMenuIndicatorContext = React.createContext<ContextMenuIndicator | undefined>(undefined)
 
 function ContextMenuCheckIndicator({ checked }: { checked: boolean }) {
   return (
@@ -294,9 +275,7 @@ function ContextMenuCheckIndicator({ checked }: { checked: boolean }) {
       aria-hidden
       className="pointer-events-none absolute end-2 flex size-4 items-center justify-center"
     >
-      {checked ? (
-        <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" />
-      ) : null}
+      {checked ? <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" /> : null}
     </span>
   )
 }
@@ -338,8 +317,15 @@ function ContextMenuCheckboxItem({
       {indicator === "check" ? (
         <ContextMenuCheckIndicator checked={isChecked} />
       ) : (
-        <span aria-hidden className="pointer-events-none absolute end-2 flex items-center justify-center">
-          <Checkbox className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5" checked={isChecked} tabIndex={-1} />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute end-2 flex items-center justify-center"
+        >
+          <Checkbox
+            className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5"
+            checked={isChecked}
+            tabIndex={-1}
+          />
         </span>
       )}
       {children}
@@ -359,8 +345,10 @@ function ContextMenuRadioGroup({
 }: ContextMenuPrimitive.RadioGroup.Props & {
   indicator?: ContextMenuIndicator
 }) {
-  const [uncontrolledValue, setUncontrolledValue] =
-    usePersistentState<unknown>(radioGroupKey(children), defaultValue)
+  const [uncontrolledValue, setUncontrolledValue] = usePersistentState<unknown>(
+    radioGroupKey(children),
+    defaultValue
+  )
   const currentValue = value !== undefined ? value : uncontrolledValue
 
   return (
@@ -384,12 +372,12 @@ function ContextMenuRadioGroup({
 
 function ContextMenuRadioIndicator({ checked }: { checked: boolean }) {
   return (
-    <span
-      inert
-      className="pointer-events-none absolute end-2 flex items-center justify-center"
-    >
+    <span inert className="pointer-events-none absolute end-2 flex items-center justify-center">
       <RadioGroup value={checked ? "on" : ""} className="flex">
-        <RadioGroupItem value="on" className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5" />
+        <RadioGroupItem
+          value="on"
+          className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5"
+        />
       </RadioGroup>
     </span>
   )
@@ -432,10 +420,7 @@ function ContextMenuRadioItem({
   )
 }
 
-function ContextMenuSeparator({
-  className,
-  ...props
-}: ContextMenuPrimitive.Separator.Props) {
+function ContextMenuSeparator({ className, ...props }: ContextMenuPrimitive.Separator.Props) {
   return (
     <ContextMenuPrimitive.Separator
       data-slot="context-menu-separator"
@@ -445,10 +430,7 @@ function ContextMenuSeparator({
   )
 }
 
-function ContextMenuShortcut({
-  className,
-  ...props
-}: React.ComponentProps<"span">) {
+function ContextMenuShortcut({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
       data-slot="context-menu-shortcut"
@@ -462,9 +444,7 @@ function ContextMenuShortcut({
 }
 
 function ContextMenuSub({ ...props }: ContextMenuPrimitive.SubmenuRoot.Props) {
-  return (
-    <ContextMenuPrimitive.SubmenuRoot data-slot="context-menu-sub" {...props} />
-  )
+  return <ContextMenuPrimitive.SubmenuRoot data-slot="context-menu-sub" {...props} />
 }
 
 function ContextMenuSubTrigger({

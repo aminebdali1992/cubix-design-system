@@ -18,6 +18,11 @@ import {
   Text as AriaText,
 } from "react-aria-components"
 
+import {
+  liftAriaFieldInputValue,
+  markCubixFieldInput,
+  mergeAriaFieldValueProps,
+} from "@/lib/aria-field-value"
 import { cn } from "@/lib/utils"
 
 /*
@@ -61,9 +66,14 @@ const passwordFieldInputVariants = cva(
   }
 )
 
-type PasswordFieldSize = NonNullable<
-  VariantProps<typeof passwordFieldInputVariants>["size"]
->
+/*
+  Passwords are typed in Latin: dir="ltr" keeps trailing symbols in place when
+  the value is revealed, and match-parent keeps the text aligned with the
+  surrounding form direction.
+*/
+const PASSWORD_ALIGN_CLASS = "[text-align:match-parent]"
+
+type PasswordFieldSize = NonNullable<VariantProps<typeof passwordFieldInputVariants>["size"]>
 
 type PasswordFieldVisibilityContextValue = {
   visible: boolean
@@ -93,9 +103,10 @@ function PasswordField({
   ...props
 }: Omit<
   React.ComponentProps<typeof AriaPasswordField>,
-  "className" | "isDisabled" | "isInvalid"
+  "className" | "isDisabled" | "isInvalid" | "children"
 > & {
   className?: string
+  children?: React.ReactNode
   size?: PasswordFieldSize
   disabled?: boolean
   invalid?: boolean
@@ -106,9 +117,7 @@ function PasswordField({
   onVisibleChange?: (visible: boolean) => void
 }) {
   const isFieldDisabled = disabled ?? isDisabled
-  const [uncontrolledVisible, setUncontrolledVisible] = React.useState(
-    defaultVisible
-  )
+  const [uncontrolledVisible, setUncontrolledVisible] = React.useState(defaultVisible)
   const isVisibilityControlled = visibleProp !== undefined
   const visible = isVisibilityControlled ? Boolean(visibleProp) : uncontrolledVisible
   const setVisible = React.useCallback(
@@ -120,6 +129,8 @@ function PasswordField({
     },
     [isVisibilityControlled, onVisibleChange]
   )
+  const { children: fieldChildren, lifted } = liftAriaFieldInputValue(children)
+  const fieldProps = mergeAriaFieldValueProps(props, lifted)
 
   return (
     <PasswordFieldVisibilityContext.Provider
@@ -135,19 +146,16 @@ function PasswordField({
             "group/password-field flex w-full flex-col gap-2 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-70",
             className
           )}
-          {...props}
+          {...fieldProps}
         >
-          {children}
+          {fieldChildren}
         </AriaPasswordField>
       </PasswordFieldSizeContext.Provider>
     </PasswordFieldVisibilityContext.Provider>
   )
 }
 
-function PasswordFieldLabel({
-  className,
-  ...props
-}: React.ComponentProps<typeof AriaLabel>) {
+function PasswordFieldLabel({ className, ...props }: React.ComponentProps<typeof AriaLabel>) {
   return (
     <AriaLabel
       data-slot="password-field-label"
@@ -198,11 +206,9 @@ function PasswordFieldInput({
   className,
   size: sizeProp,
   autoComplete = "current-password",
+  dir = "ltr",
   ...props
-}: Omit<
-  React.ComponentProps<typeof AriaInput>,
-  "size" | "type" | "className" | "spellCheck"
-> & {
+}: Omit<React.ComponentProps<typeof AriaInput>, "size" | "type" | "className" | "spellCheck"> & {
   className?: string
   size?: PasswordFieldSize
 }) {
@@ -213,9 +219,11 @@ function PasswordFieldInput({
   return (
     <AriaInput
       data-slot="password-field-input"
+      dir={dir}
       data-size={size}
       className={cn(
         passwordFieldInputVariants({ size, inControl }),
+        PASSWORD_ALIGN_CLASS,
         className
       )}
       {...props}
@@ -266,7 +274,6 @@ function PasswordFieldEyeOffIcon({ className }: { className?: string }) {
   )
 }
 
-
 function PasswordFieldToggle({
   className,
   onClick,
@@ -290,7 +297,6 @@ function PasswordFieldToggle({
       data-icon="inline-end"
       data-state={visible ? "visible" : "hidden"}
       aria-label={label}
-      aria-pressed={visible}
       disabled={isDisabled}
       className={cn(
         "inline-flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary/20 disabled:pointer-events-none group-data-[disabled]/password-field:cursor-not-allowed",
@@ -345,20 +351,19 @@ function PasswordFieldError({
   return (
     <AriaFieldError
       data-slot="password-field-error"
-      className={cn(
-        "m-0 text-caption font-normal text-destructive",
-        className
-      )}
+      className={cn("m-0 text-caption font-normal text-destructive", className)}
       {...props}
     />
   )
 }
 
+const PasswordFieldInputMarked = markCubixFieldInput(PasswordFieldInput)
+
 export {
   PasswordField,
   PasswordFieldLabel,
   PasswordFieldControl,
-  PasswordFieldInput,
+  PasswordFieldInputMarked as PasswordFieldInput,
   PasswordFieldToggle,
   PasswordFieldDescription,
   PasswordFieldError,

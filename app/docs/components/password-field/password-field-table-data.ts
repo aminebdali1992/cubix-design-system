@@ -10,15 +10,13 @@ export const passwordFieldPropRows = [
     prop: "disabled",
     type: "boolean",
     default: "false",
-    description:
-      "Disables the field, input, and visibility toggle. Forwarded on every base.",
+    description: "Disables the field, input, and visibility toggle. Forwarded on every base.",
   },
   {
     prop: "invalid",
     type: "boolean",
     default: "false",
-    description:
-      "Marks the field as invalid and shows PasswordFieldError when present.",
+    description: "Marks the field as invalid and shows PasswordFieldError when present.",
   },
   {
     prop: "visible",
@@ -30,26 +28,23 @@ export const passwordFieldPropRows = [
     prop: "defaultVisible",
     type: "boolean",
     default: "false",
-    description:
-      "Initial visibility for uncontrolled use. Defaults to hidden (password).",
+    description: "Initial visibility for uncontrolled use. Defaults to hidden (password).",
   },
   {
     prop: "onVisibleChange",
     type: "(visible: boolean) => void",
-    description:
-      "Called when PasswordFieldToggle changes visibility.",
+    description: "Called when PasswordFieldToggle changes visibility.",
   },
   {
     prop: "name",
     type: "string",
     description:
-      "Identifies the field when a form is submitted (Base UI root; use the input name on Radix).",
+      "Identifies the field when a form is submitted. Forwarded to the input on every base.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the root styles (last one wins).",
+    description: "Additional Tailwind classes merged with the root styles (last one wins).",
   },
 ]
 
@@ -71,8 +66,14 @@ export const passwordFieldInputPropRows = [
     prop: "autoComplete",
     type: "string",
     default: '"current-password"',
+    description: 'Defaults to current-password. Use "new-password" for create or reset flows.',
+  },
+  {
+    prop: "dir",
+    type: '"ltr" | "rtl" | "auto"',
+    default: '"ltr"',
     description:
-      'Defaults to current-password. Use "new-password" for create or reset flows.',
+      "Passwords are typed in Latin, so the input defaults to ltr and trailing symbols stay in place when the value is revealed. Text still aligns with the surrounding form direction.",
   },
   {
     prop: "placeholder",
@@ -82,8 +83,7 @@ export const passwordFieldInputPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the input styles (last one wins).",
+    description: "Additional Tailwind classes merged with the input styles (last one wins).",
   },
   {
     prop: "...props",
@@ -109,8 +109,7 @@ export const passwordFieldControlPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the control styles (last one wins).",
+    description: "Additional Tailwind classes merged with the control styles (last one wins).",
   },
 ]
 
@@ -120,14 +119,13 @@ export const passwordFieldTogglePropRows = [
     type: "string",
     default: '"نمایش رمز عبور"',
     description:
-      "Accessible name while the password is hidden. Used as aria-label on the toggle.",
+      "Accessible name while the password is hidden. Used as aria-label on the toggle, which swaps names instead of using aria-pressed.",
   },
   {
     prop: "hideLabel",
     type: "string",
     default: '"مخفی کردن رمز عبور"',
-    description:
-      "Accessible name while the password is visible. Used as aria-label on the toggle.",
+    description: "Accessible name while the password is visible. Used as aria-label on the toggle.",
   },
   {
     prop: "className",
@@ -141,8 +139,7 @@ export const passwordFieldPartPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the part styles (last one wins).",
+    description: "Additional Tailwind classes merged with the part styles (last one wins).",
   },
   {
     prop: "...props",

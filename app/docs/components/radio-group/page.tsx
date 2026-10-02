@@ -6,15 +6,21 @@ import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
+import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  RadioGroupDemo,
-  RadioGroupDescriptionDemo,
-  RadioGroupDisabledDemo,
-  RadioGroupHorizontalDemo,
-  RadioGroupInvalidDemo,
-} from "@/components/examples/radio-group-examples"
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { RadioGroupDemo } from "./examples/radio-group-demo"
+import { RadioGroupDescriptionDemo } from "./examples/radio-group-description-demo"
+import { RadioGroupDisabledDemo } from "./examples/radio-group-disabled-demo"
+import { RadioGroupFormDemo } from "./examples/radio-group-form-demo"
+import { RadioGroupHorizontalDemo } from "./examples/radio-group-horizontal-demo"
+import { RadioGroupInvalidDemo } from "./examples/radio-group-invalid-demo"
 import {
+  radioGroupKeyboardRows,
   radioGroupPropRows,
   radioGroupStateRows,
   radioPropRows,
@@ -28,27 +34,24 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import { RadioGroup, RadioGroupItem } from "@/components/cubix/radio-group"
-import { Label } from "@/components/cubix/label"`
+const PUBLIC_IMPORT = "@/components/cubix/radio-group"
+const EXAMPLES_DIR = "app/docs/components/radio-group/examples"
 
-const usageSnippet = `<RadioGroup defaultValue="comfortable" aria-label="تراکم نمایش">
-  <div className="flex items-center gap-2">
-    <RadioGroupItem id="default" value="default" />
-    <Label htmlFor="default">پیش‌فرض</Label>
-  </div>
-  <div className="flex items-center gap-2">
-    <RadioGroupItem id="comfortable" value="comfortable" />
-    <Label htmlFor="comfortable">راحت</Label>
-  </div>
-  <div className="flex items-center gap-2">
-    <RadioGroupItem id="compact" value="compact" />
-    <Label htmlFor="compact">فشرده</Label>
-  </div>
-</RadioGroup>`
+function loadRadioGroupExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `RadioGroup
-  RadioGroupItem + Label (htmlFor → id)`
+└── div
+    ├── RadioGroupItem (id, value)
+    └── Label (htmlFor)`
 
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" lang="fa" className="flex w-full justify-center">
@@ -57,16 +60,49 @@ function PreviewShell({ children }: { children: ReactNode }) {
   )
 }
 
+function ExampleSection({
+  title,
+  description,
+  code,
+  previewClassName,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  previewClassName?: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName={previewClassName}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
 export default function RadioGroupPage() {
+  const demoSource = loadRadioGroupExample("radio-group-demo.tsx")
+  const descriptionSource = loadRadioGroupExample("radio-group-description-demo.tsx")
+  const horizontalSource = loadRadioGroupExample("radio-group-horizontal-demo.tsx")
+  const disabledSource = loadRadioGroupExample("radio-group-disabled-demo.tsx")
+  const invalidSource = loadRadioGroupExample("radio-group-invalid-demo.tsx")
+  const formSource = loadRadioGroupExample("radio-group-form-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Radio Group"
-        description={description}
-        slug="radio-group"
-      />
+      <ComponentDocsHeader title="Radio Group" description={description} slug="radio-group" />
 
-      <ComponentPreview code={usageSnippet}>
+      <ComponentPreview code={demoSource}>
         <PreviewShell>
           <RadioGroupDemo />
         </PreviewShell>
@@ -81,181 +117,106 @@ export default function RadioGroupPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          RadioGroupItem is the control only. Pair each option with{" "}
-          <code className="font-mono text-sm">Label</code> using matching{" "}
-          <code className="font-mono text-sm">id</code> and{" "}
-          <code className="font-mono text-sm">htmlFor</code>. Only one value can
-          be selected in the group at a time.
+          <Code>RadioGroupItem</Code> is the control only. Pair each one with a <Code>Label</Code>{" "}
+          using matching <Code>id</Code> and <Code>htmlFor</Code>. The group starts right-to-left
+          and follows the closest <Code>dir</Code> on the page.
         </p>
         <CodeBlock code={compositionSnippet} title="Structure" />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          The group renders <Code>role=&quot;radiogroup&quot;</Code>; name it with{" "}
+          <Code>aria-label</Code> or point <Code>aria-labelledby</Code> at a visible heading. The
+          group is a single tab stop, arrow keys move and select, and horizontal arrows follow the
+          reading direction.
+        </p>
+        <KeyboardTable data={radioGroupKeyboardRows} />
       </section>
 
       <section className="space-y-6">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            With description
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Compose each radio with a title and helper line for plans and
-            settings.
-          </p>
-          <ComponentPreview
-            code={`<RadioGroup defaultValue="pro" aria-label="انتخاب طرح">
-  <div className="flex items-start gap-2 rounded-lg border p-4">
-    <RadioGroupItem id="free" value="free" className="mt-0.5" />
-    <Label htmlFor="free" className="grid gap-1.5 leading-none">
-      <span>رایگان</span>
-      <span className="text-caption text-muted-foreground">
-        برای پروژه‌های شخصی و آزمایشی.
-      </span>
-    </Label>
-  </div>
-  <div className="flex items-start gap-2 rounded-lg border p-4">
-    <RadioGroupItem id="pro" value="pro" className="mt-0.5" />
-    <Label htmlFor="pro" className="grid gap-1.5 leading-none">
-      <span>حرفه‌ای</span>
-      <span className="text-caption text-muted-foreground">
-        برای تیم‌هایی که به امکانات بیشتر نیاز دارند.
-      </span>
-    </Label>
-  </div>
-</RadioGroup>`}
-          >
-            <PreviewShell>
-              <RadioGroupDescriptionDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="With description"
+          description="Wrap each option in a bordered row and add a helper line under the label."
+          code={descriptionSource}
+        >
+          <RadioGroupDescriptionDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Invalid
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set <code className="font-mono text-sm">aria-invalid</code> for
-            assistive tech when a choice is required and missing. Show the error
-            in helper text - the radio itself stays visually unchanged.
-          </p>
-          <ComponentPreview
-            code={`<div className="grid gap-2">
-  <RadioGroup aria-label="پذیرش قوانین" aria-invalid>
-    <div className="flex items-center gap-2">
-      <RadioGroupItem id="accept" value="accept" aria-invalid />
-      <Label htmlFor="accept">پذیرش قوانین و شرایط</Label>
-    </div>
-    <div className="flex items-center gap-2">
-      <RadioGroupItem id="decline" value="decline" aria-invalid />
-      <Label htmlFor="decline">عدم پذیرش</Label>
-    </div>
-  </RadioGroup>
-  <p className="ps-[26px] text-caption text-destructive">
-    برای ادامه باید یک گزینه را انتخاب کنید.
-  </p>
-</div>`}
-          >
-            <PreviewShell>
-              <RadioGroupInvalidDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Horizontal"
+          description={
+            <>
+              Lay the options out in a row with <Code>className=&quot;flex&quot;</Code>. In RTL the
+              first option sits on the right and ArrowLeft moves to the next one.
+            </>
+          }
+          code={horizontalSource}
+        >
+          <RadioGroupHorizontalDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Disabled
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Disable the whole group, or a single option.
-          </p>
-          <ComponentPreview
-            code={`<div className="grid gap-6">
-  <RadioGroup defaultValue="one" disabled aria-label="قفل‌شده">
-    <div className="flex items-center gap-2">
-      <RadioGroupItem id="one" value="one" />
-      <Label htmlFor="one">همه گزینه‌ها قفل‌اند</Label>
-    </div>
-  </RadioGroup>
-  <RadioGroup defaultValue="email" aria-label="کانال اعلان">
-    <div className="flex items-center gap-2">
-      <RadioGroupItem id="email" value="email" />
-      <Label htmlFor="email">ایمیل</Label>
-    </div>
-    <div className="flex items-center gap-2">
-      <RadioGroupItem id="sms" value="sms" disabled />
-      <Label htmlFor="sms">پیامک (در دسترس نیست)</Label>
-    </div>
-  </RadioGroup>
-</div>`}
-          >
-            <PreviewShell>
-              <RadioGroupDisabledDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Disabled"
+          description={
+            <>
+              Set <Code>disabled</Code> on one radio to lock it, or on the group to lock every
+              option. Arrow keys skip disabled radios.
+            </>
+          }
+          code={disabledSource}
+        >
+          <RadioGroupDisabledDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Horizontal
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set{" "}
-            <code className="font-mono text-sm">
-              className=&quot;flex flex-row gap-4&quot;
-            </code>{" "}
-            to place options in a row.
-          </p>
-          <ComponentPreview
-            code={`<RadioGroup defaultValue="center" className="flex flex-row gap-4" aria-label="تراز">
-  <div className="flex items-center gap-2">
-    <RadioGroupItem id="right" value="right" />
-    <Label htmlFor="right">راست</Label>
-  </div>
-  <div className="flex items-center gap-2">
-    <RadioGroupItem id="center" value="center" />
-    <Label htmlFor="center">وسط</Label>
-  </div>
-  <div className="flex items-center gap-2">
-    <RadioGroupItem id="left" value="left" />
-    <Label htmlFor="left">چپ</Label>
-  </div>
-</RadioGroup>`}
-          >
-            <PreviewShell>
-              <RadioGroupHorizontalDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Invalid"
+          description={
+            <>
+              Set <Code>aria-invalid</Code> on the group and its items when a required choice is
+              missing. The radios get a destructive border and ring; show the error copy below.
+            </>
+          }
+          code={invalidSource}
+        >
+          <RadioGroupInvalidDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Form"
+          description={
+            <>
+              Give the group a <Code>name</Code> so the selected value is submitted with the form.
+            </>
+          }
+          code={formSource}
+          previewClassName="bg-muted"
+        >
+          <RadioGroupFormDemo />
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Parts render{" "}
-            <code className="font-mono">data-slot</code> attributes (
-            <code className="font-mono">radio-group</code>,{" "}
-            <code className="font-mono">radio-group-item</code>,{" "}
-            <code className="font-mono">radio-group-indicator</code>) for
-            targeting in tests and parent selectors.
+            <strong className="text-foreground">Note:</strong> Parts render <Code>data-slot</Code>{" "}
+            attributes (<Code>radio-group</Code>, <Code>radio-group-item</Code>,{" "}
+            <Code>radio-group-indicator</Code>) for targeting in tests and parent selectors. Use the
+            same props on Base UI, React Aria, and Radix.
           </p>
         </div>
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          RadioGroup
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">RadioGroup</h3>
         <PropsTable data={radioGroupPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          RadioGroupItem
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">RadioGroupItem</h3>
         <PropsTable data={radioPropRows} />
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">States</h3>

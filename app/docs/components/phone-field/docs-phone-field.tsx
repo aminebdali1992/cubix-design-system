@@ -1,5 +1,6 @@
 "use client"
 
+import { markCubixFieldInput } from "@/lib/aria-field-value"
 import type { ComponentProps, ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
@@ -57,14 +58,7 @@ function usePhoneFieldBase() {
   return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
 }
 
-function PhoneField({
-  className,
-  size,
-  disabled,
-  invalid,
-  name,
-  children,
-}: PhoneFieldProps) {
+function PhoneField({ className, size, disabled, invalid, name, children }: PhoneFieldProps) {
   const base = usePhoneFieldBase()
 
   if (base === "radix") {
@@ -74,6 +68,7 @@ function PhoneField({
         size={size}
         disabled={disabled}
         invalid={invalid}
+        name={name}
       >
         {children}
       </RadixPhoneField.PhoneField>
@@ -133,11 +128,7 @@ function PhoneFieldLabel({ className, children }: PhoneFieldLabelProps) {
   )
 }
 
-function PhoneFieldControl({
-  className,
-  size,
-  children,
-}: PhoneFieldControlProps) {
+function PhoneFieldControl({ className, size, children }: PhoneFieldControlProps) {
   const base = usePhoneFieldBase()
 
   if (base === "radix") {
@@ -163,36 +154,18 @@ function PhoneFieldControl({
   )
 }
 
-function PhoneFieldClear({
-  className,
-  "aria-label": ariaLabel,
-}: PhoneFieldClearProps) {
+function PhoneFieldClear({ className, "aria-label": ariaLabel }: PhoneFieldClearProps) {
   const base = usePhoneFieldBase()
 
   if (base === "radix") {
-    return (
-      <RadixPhoneField.PhoneFieldClear
-        className={className}
-        aria-label={ariaLabel}
-      />
-    )
+    return <RadixPhoneField.PhoneFieldClear className={className} aria-label={ariaLabel} />
   }
 
   if (base === "aria") {
-    return (
-      <AriaPhoneField.PhoneFieldClear
-        className={className}
-        aria-label={ariaLabel}
-      />
-    )
+    return <AriaPhoneField.PhoneFieldClear className={className} aria-label={ariaLabel} />
   }
 
-  return (
-    <BasePhoneField.PhoneFieldClear
-      className={className}
-      aria-label={ariaLabel}
-    />
-  )
+  return <BasePhoneField.PhoneFieldClear className={className} aria-label={ariaLabel} />
 }
 
 function PhoneFieldInput(props: PhoneFieldInputProps) {
@@ -209,10 +182,7 @@ function PhoneFieldInput(props: PhoneFieldInputProps) {
   return <BasePhoneField.PhoneFieldInput {...props} />
 }
 
-function PhoneFieldDescription({
-  className,
-  children,
-}: PhoneFieldDescriptionProps) {
+function PhoneFieldDescription({ className, children }: PhoneFieldDescriptionProps) {
   const base = usePhoneFieldBase()
 
   if (base === "radix") {
@@ -264,12 +234,14 @@ function PhoneFieldError({ className, children }: PhoneFieldErrorProps) {
   )
 }
 
+const PhoneFieldInputMarked = markCubixFieldInput(PhoneFieldInput)
+
 export {
   PhoneField,
   PhoneFieldLabel,
   PhoneFieldControl,
   PhoneFieldClear,
-  PhoneFieldInput,
+  PhoneFieldInputMarked as PhoneFieldInput,
   PhoneFieldDescription,
   PhoneFieldError,
 }

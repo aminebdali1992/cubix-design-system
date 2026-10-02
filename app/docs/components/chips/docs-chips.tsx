@@ -31,13 +31,10 @@ type ChipProps = {
   value: string
   icon?: ReactNode
   avatar?: ReactNode
-  variant?:
-    | "default"
-    | "secondary"
-    | "gray"
-    | "outline"
+  variant?: "default" | "secondary" | "gray" | "outline"
   size?: "xs" | "sm" | "default" | "lg"
-  onRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  removeLabel?: string
+  onRemove?: () => void
   disabled?: boolean
   children?: ReactNode
 }

@@ -1,5 +1,6 @@
 "use client"
 
+import { markCubixFieldInput } from "@/lib/aria-field-value"
 import type { ComponentProps, ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
@@ -57,14 +58,7 @@ function useEmailFieldBase() {
   return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
 }
 
-function EmailField({
-  className,
-  size,
-  disabled,
-  invalid,
-  name,
-  children,
-}: EmailFieldProps) {
+function EmailField({ className, size, disabled, invalid, name, children }: EmailFieldProps) {
   const base = useEmailFieldBase()
 
   if (base === "radix") {
@@ -74,6 +68,7 @@ function EmailField({
         size={size}
         disabled={disabled}
         invalid={invalid}
+        name={name}
       >
         {children}
       </RadixEmailField.EmailField>
@@ -133,11 +128,7 @@ function EmailFieldLabel({ className, children }: EmailFieldLabelProps) {
   )
 }
 
-function EmailFieldControl({
-  className,
-  size,
-  children,
-}: EmailFieldControlProps) {
+function EmailFieldControl({ className, size, children }: EmailFieldControlProps) {
   const base = useEmailFieldBase()
 
   if (base === "radix") {
@@ -167,29 +158,14 @@ function EmailFieldClear({ className, "aria-label": ariaLabel }: EmailFieldClear
   const base = useEmailFieldBase()
 
   if (base === "radix") {
-    return (
-      <RadixEmailField.EmailFieldClear
-        className={className}
-        aria-label={ariaLabel}
-      />
-    )
+    return <RadixEmailField.EmailFieldClear className={className} aria-label={ariaLabel} />
   }
 
   if (base === "aria") {
-    return (
-      <AriaEmailField.EmailFieldClear
-        className={className}
-        aria-label={ariaLabel}
-      />
-    )
+    return <AriaEmailField.EmailFieldClear className={className} aria-label={ariaLabel} />
   }
 
-  return (
-    <BaseEmailField.EmailFieldClear
-      className={className}
-      aria-label={ariaLabel}
-    />
-  )
+  return <BaseEmailField.EmailFieldClear className={className} aria-label={ariaLabel} />
 }
 
 function EmailFieldInput(props: EmailFieldInputProps) {
@@ -206,10 +182,7 @@ function EmailFieldInput(props: EmailFieldInputProps) {
   return <BaseEmailField.EmailFieldInput {...props} />
 }
 
-function EmailFieldDescription({
-  className,
-  children,
-}: EmailFieldDescriptionProps) {
+function EmailFieldDescription({ className, children }: EmailFieldDescriptionProps) {
   const base = useEmailFieldBase()
 
   if (base === "radix") {
@@ -261,12 +234,14 @@ function EmailFieldError({ className, children }: EmailFieldErrorProps) {
   )
 }
 
+const EmailFieldInputMarked = markCubixFieldInput(EmailFieldInput)
+
 export {
   EmailField,
   EmailFieldLabel,
   EmailFieldControl,
   EmailFieldClear,
-  EmailFieldInput,
+  EmailFieldInputMarked as EmailFieldInput,
   EmailFieldDescription,
   EmailFieldError,
 }

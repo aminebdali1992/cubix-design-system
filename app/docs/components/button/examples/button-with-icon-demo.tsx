@@ -1,13 +1,12 @@
 "use client"
 
-import { PlusIcon } from "lucide-react"
-
+import { ButtonDemoIcon } from "@/components/docs/demo-icon"
 import { Button } from "../docs-button"
 
 export function ButtonWithIconDemo() {
   return (
     <Button>
-      <PlusIcon data-icon="inline-start" />
+      <ButtonDemoIcon data-icon="inline-start" />
       متن دکمه
     </Button>
   )

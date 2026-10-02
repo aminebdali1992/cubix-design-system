@@ -17,6 +17,11 @@ import {
   Text as AriaText,
 } from "react-aria-components"
 
+import {
+  liftAriaFieldInputValue,
+  markCubixFieldInput,
+  mergeAriaFieldValueProps,
+} from "@/lib/aria-field-value"
 import { cn } from "@/lib/utils"
 
 const textFieldControlVariants = cva(
@@ -55,9 +60,7 @@ const textFieldInputVariants = cva(
   }
 )
 
-type TextFieldSize = NonNullable<
-  VariantProps<typeof textFieldInputVariants>["size"]
->
+type TextFieldSize = NonNullable<VariantProps<typeof textFieldInputVariants>["size"]>
 
 const TextFieldSizeContext = React.createContext<TextFieldSize>("default")
 const TextFieldControlContext = React.createContext(false)
@@ -69,18 +72,22 @@ function TextField({
   invalid,
   isDisabled,
   isInvalid,
+  children,
   ...props
 }: Omit<
   React.ComponentProps<typeof AriaTextField>,
-  "className" | "isDisabled" | "isInvalid"
+  "className" | "isDisabled" | "isInvalid" | "children"
 > & {
   className?: string
+  children?: React.ReactNode
   size?: TextFieldSize
   disabled?: boolean
   invalid?: boolean
   isDisabled?: boolean
   isInvalid?: boolean
 }) {
+  const { children: fieldChildren, lifted } = liftAriaFieldInputValue(children)
+  const fieldProps = mergeAriaFieldValueProps(props, lifted)
   return (
     <TextFieldSizeContext.Provider value={size}>
       <AriaTextField
@@ -92,16 +99,15 @@ function TextField({
           "group/text-field flex w-full flex-col gap-2 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-70",
           className
         )}
-        {...props}
-      />
+        {...fieldProps}
+      >
+        {fieldChildren}
+      </AriaTextField>
     </TextFieldSizeContext.Provider>
   )
 }
 
-function TextFieldLabel({
-  className,
-  ...props
-}: React.ComponentProps<typeof AriaLabel>) {
+function TextFieldLabel({ className, ...props }: React.ComponentProps<typeof AriaLabel>) {
   return (
     <AriaLabel
       data-slot="text-field-label"
@@ -163,20 +169,14 @@ function TextFieldInput({
     <AriaInput
       data-slot="text-field-input"
       data-size={size}
-      className={cn(
-        textFieldInputVariants({ size, inControl }),
-        className
-      )}
+      className={cn(textFieldInputVariants({ size, inControl }), className)}
       {...props}
     />
   )
 }
 
 function clearTextFieldInput(input: HTMLInputElement) {
-  const descriptor = Object.getOwnPropertyDescriptor(
-    HTMLInputElement.prototype,
-    "value"
-  )
+  const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
   descriptor?.set?.call(input, "")
   input.dispatchEvent(new Event("input", { bubbles: true }))
   input.dispatchEvent(new Event("change", { bubbles: true }))
@@ -207,9 +207,7 @@ function TextFieldClear({
 
   React.useLayoutEffect(() => {
     const control = ref.current?.closest("[data-slot=text-field-control]")
-    const input = control?.querySelector<HTMLInputElement>(
-      "[data-slot=text-field-input]"
-    )
+    const input = control?.querySelector<HTMLInputElement>("[data-slot=text-field-input]")
     if (!input) return
 
     const sync = () => {
@@ -283,20 +281,19 @@ function TextFieldError({
   return (
     <AriaFieldError
       data-slot="text-field-error"
-      className={cn(
-        "m-0 text-caption font-normal text-destructive",
-        className
-      )}
+      className={cn("m-0 text-caption font-normal text-destructive", className)}
       {...props}
     />
   )
 }
 
+const TextFieldInputMarked = markCubixFieldInput(TextFieldInput)
+
 export {
   TextField,
   TextFieldLabel,
   TextFieldControl,
-  TextFieldInput,
+  TextFieldInputMarked as TextFieldInput,
   TextFieldClear,
   TextFieldDescription,
   TextFieldError,

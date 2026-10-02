@@ -54,14 +54,13 @@ const phoneFieldInputVariants = cva(
   }
 )
 
-type PhoneFieldSize = NonNullable<
-  VariantProps<typeof phoneFieldInputVariants>["size"]
->
+type PhoneFieldSize = NonNullable<VariantProps<typeof phoneFieldInputVariants>["size"]>
 
 type PhoneFieldContextValue = {
   size: PhoneFieldSize
   disabled?: boolean
   invalid?: boolean
+  name?: string
   id: string
   descriptionId: string
   errorId: string
@@ -76,6 +75,7 @@ function PhoneField({
   size = "default",
   disabled,
   invalid,
+  name,
   id: idProp,
   children,
   ...props
@@ -83,6 +83,7 @@ function PhoneField({
   size?: PhoneFieldSize
   disabled?: boolean
   invalid?: boolean
+  name?: string
 }) {
   const reactId = React.useId()
   const id = idProp ?? reactId
@@ -91,7 +92,7 @@ function PhoneField({
 
   return (
     <PhoneFieldContext.Provider
-      value={{ size, disabled, invalid, id, descriptionId, errorId }}
+      value={{ size, disabled, invalid, name, id, descriptionId, errorId }}
     >
       <PhoneFieldSizeContext.Provider value={size}>
         <div
@@ -140,9 +141,7 @@ function PhoneFieldControl({
   size?: PhoneFieldSize
 }) {
   const size =
-    sizeProp ??
-    React.useContext(PhoneFieldContext)?.size ??
-    React.useContext(PhoneFieldSizeContext)
+    sizeProp ?? React.useContext(PhoneFieldContext)?.size ?? React.useContext(PhoneFieldSizeContext)
 
   return (
     <PhoneFieldControlContext.Provider value={true}>
@@ -172,6 +171,7 @@ function PhoneFieldInput({
   className,
   size: sizeProp,
   id,
+  name,
   disabled,
   autoComplete = "tel",
   "aria-invalid": ariaInvalid,
@@ -185,11 +185,7 @@ function PhoneFieldInput({
   const size = sizeProp ?? ctx?.size ?? sizeFromContext
   const inControl = React.useContext(PhoneFieldControlContext)
   const isInvalid = ariaInvalid ?? ctx?.invalid
-  const describedBy = [
-    ariaDescribedby,
-    ctx?.descriptionId,
-    isInvalid ? ctx?.errorId : null,
-  ]
+  const describedBy = [ariaDescribedby, ctx?.descriptionId, isInvalid ? ctx?.errorId : null]
     .filter(Boolean)
     .join(" ")
 
@@ -198,13 +194,11 @@ function PhoneFieldInput({
       data-slot="phone-field-input"
       data-size={size}
       id={id ?? ctx?.id}
+      name={name ?? ctx?.name}
       disabled={disabled ?? ctx?.disabled}
       aria-invalid={isInvalid || undefined}
       aria-describedby={describedBy || undefined}
-      className={cn(
-        phoneFieldInputVariants({ size, inControl }),
-        className
-      )}
+      className={cn(phoneFieldInputVariants({ size, inControl }), className)}
       {...props}
       type="tel"
       inputMode="tel"
@@ -215,10 +209,7 @@ function PhoneFieldInput({
 }
 
 function clearPhoneFieldInput(input: HTMLInputElement) {
-  const descriptor = Object.getOwnPropertyDescriptor(
-    HTMLInputElement.prototype,
-    "value"
-  )
+  const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
   descriptor?.set?.call(input, "")
   input.dispatchEvent(new Event("input", { bubbles: true }))
   input.dispatchEvent(new Event("change", { bubbles: true }))
@@ -249,9 +240,7 @@ function PhoneFieldClear({
 
   React.useLayoutEffect(() => {
     const control = ref.current?.closest("[data-slot=phone-field-control]")
-    const input = control?.querySelector<HTMLInputElement>(
-      "[data-slot=phone-field-input]"
-    )
+    const input = control?.querySelector<HTMLInputElement>("[data-slot=phone-field-input]")
     if (!input) return
 
     const sync = () => {
@@ -297,11 +286,7 @@ function PhoneFieldClear({
   )
 }
 
-function PhoneFieldDescription({
-  className,
-  id,
-  ...props
-}: React.ComponentProps<"p">) {
+function PhoneFieldDescription({ className, id, ...props }: React.ComponentProps<"p">) {
   const ctx = React.useContext(PhoneFieldContext)
 
   return (
@@ -317,12 +302,7 @@ function PhoneFieldDescription({
   )
 }
 
-function PhoneFieldError({
-  className,
-  id,
-  children,
-  ...props
-}: React.ComponentProps<"div">) {
+function PhoneFieldError({ className, id, children, ...props }: React.ComponentProps<"div">) {
   const ctx = React.useContext(PhoneFieldContext)
 
   if (!children) {
@@ -338,10 +318,7 @@ function PhoneFieldError({
       role="alert"
       data-slot="phone-field-error"
       id={id ?? ctx?.errorId}
-      className={cn(
-        "m-0 text-caption font-normal text-destructive",
-        className
-      )}
+      className={cn("m-0 text-caption font-normal text-destructive", className)}
       {...props}
     >
       {children}

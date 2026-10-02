@@ -39,19 +39,17 @@ export const triggerPropRows = [
     prop: "render",
     type: "React.ReactElement",
     description:
-      "Renders the trigger as another element, e.g. render={<Button variant=\"outline\" />}. Base UI merges onto the element. React Aria renders its own pressable button and applies the Button's variant, size, className and aria-label. Radix UI uses asChild with the Button as the child instead.",
+      'Renders the trigger as another element, e.g. render={<Button variant="outline" />}. Base UI merges onto the element. React Aria renders its own pressable button and applies the Button\'s variant, size, className and aria-label. Radix UI uses asChild with the Button as the child instead.',
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
     type: "React.ReactNode",
-    description:
-      "Trigger content. Click, Enter, Space or ArrowDown opens the menu.",
+    description: "Trigger content. Click, Enter, Space or ArrowDown opens the menu.",
   },
 ]
 
@@ -85,14 +83,12 @@ export const contentPropRows = [
   {
     prop: "dir",
     type: '"ltr" | "rtl"',
-    description:
-      "Overrides the direction inherited from DropdownMenu for this menu.",
+    description: "Overrides the direction inherited from DropdownMenu for this menu.",
   },
   {
     prop: "lang",
     type: "string",
-    description:
-      "Overrides the language inherited from DropdownMenu for this menu.",
+    description: "Overrides the language inherited from DropdownMenu for this menu.",
   },
   {
     prop: "className",
@@ -117,8 +113,7 @@ export const itemPropRows = [
     prop: "variant",
     type: '"default" | "destructive"',
     default: '"default"',
-    description:
-      "Visual style of the menu item. Use destructive for irreversible actions.",
+    description: "Visual style of the menu item. Use destructive for irreversible actions.",
   },
   {
     prop: "disabled",
@@ -129,8 +124,7 @@ export const itemPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
@@ -155,8 +149,14 @@ export const checkboxItemPropRows = [
   {
     prop: "onCheckedChange",
     type: "(checked: boolean) => void",
+    description: "Called when the checked state changes.",
+  },
+  {
+    prop: "closeOnClick",
+    type: "boolean",
+    default: "false",
     description:
-      "Called when the checked state changes. Base UI keeps the menu open after toggling. Radix UI and React Aria close it.",
+      "Close the menu after toggling. By default the menu stays open so several options can be changed in one go.",
   },
   {
     prop: "indicator",
@@ -178,8 +178,7 @@ export const checkboxItemPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -199,7 +198,7 @@ export const radioGroupPropRows = [
     prop: "onValueChange",
     type: "(value: string) => void",
     description:
-      "Called when the selected value changes. Base UI keeps the menu open after a change. Radix UI and React Aria close it.",
+      "Called when the selected value changes. The menu stays open unless the item sets closeOnClick.",
   },
   {
     prop: "indicator",
@@ -211,14 +210,12 @@ export const radioGroupPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
     type: "React.ReactNode",
-    description:
-      "DropdownMenuRadioItem elements.",
+    description: "An optional DropdownMenuLabel followed by DropdownMenuRadioItem elements.",
   },
 ]
 
@@ -226,14 +223,19 @@ export const radioItemPropRows = [
   {
     prop: "value",
     type: "string",
-    description:
-      "Value of this item (required). It is selected when it matches the group value.",
+    description: "Value of this item (required). It is selected when it matches the group value.",
   },
   {
     prop: "indicator",
     type: '"check" | "control"',
     description:
       'Overrides the group indicator for this item: the Cubix Radio ("control") or a plain tick ("check").',
+  },
+  {
+    prop: "closeOnClick",
+    type: "boolean",
+    default: "false",
+    description: "Close the menu after this item is selected.",
   },
   {
     prop: "inset",
@@ -248,8 +250,7 @@ export const radioItemPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -262,8 +263,7 @@ export const labelPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
@@ -287,8 +287,7 @@ export const subTriggerPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
@@ -302,13 +301,58 @@ export const subContentPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
     type: "React.ReactNode",
     description:
       "Submenu items. The submenu opens toward the end side of the parent menu (the left in RTL) and flips when there is not enough room.",
+  },
+]
+
+export const shortcutPropRows = [
+  {
+    prop: "className",
+    type: "string",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
+  },
+  {
+    prop: "children",
+    type: "React.ReactNode",
+    description:
+      "Key combination shown at the inline end of the item. The keys always read left to right, also in RTL.",
+  },
+]
+
+export const dropdownMenuKeyboardRows = [
+  {
+    key: "Enter / Space / ArrowDown",
+    action: "On the trigger, opens the menu and focuses the first item.",
+  },
+  {
+    key: "ArrowDown / ArrowUp",
+    action: "Moves focus to the next or previous item.",
+  },
+  {
+    key: "Home / End",
+    action: "Moves focus to the first or last item.",
+  },
+  {
+    key: "Enter / Space",
+    action: "Activates the focused item. Checkbox and radio items toggle and keep the menu open.",
+  },
+  {
+    key: "ArrowLeft / ArrowRight",
+    action:
+      "On a submenu trigger, the key toward the inline end opens the submenu (ArrowLeft in RTL). The opposite key closes it and returns focus to the trigger.",
+  },
+  {
+    key: "Escape",
+    action: "Closes the menu and returns focus to the trigger.",
+  },
+  {
+    key: "Character keys",
+    action: "Moves focus to the next item whose label starts with the typed character.",
   },
 ]

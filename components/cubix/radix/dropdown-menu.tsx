@@ -5,10 +5,7 @@ import { CheckIcon, ChevronRightIcon } from "lucide-react"
 import { DropdownMenu as DropdownMenuPrimitive } from "radix-ui"
 
 import { Checkbox } from "@/components/cubix/radix/checkbox"
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/cubix/radix/radio-group"
+import { RadioGroup, RadioGroupItem } from "@/components/cubix/radix/radio-group"
 import { DirectionProvider } from "@/components/cubix/radix/direction"
 import { cn } from "@/lib/utils"
 
@@ -29,9 +26,7 @@ function useDropdownMenuLocale() {
   return React.useContext(DropdownMenuLocaleContext)
 }
 
-function toTextDirection(
-  value: string | null | undefined
-): TextDirection | undefined {
+function toTextDirection(value: string | null | undefined): TextDirection | undefined {
   return value === "rtl" || value === "ltr" ? value : undefined
 }
 
@@ -45,9 +40,7 @@ function resolveClosestLang(node: Element | null): string | undefined {
 
 type DropdownMenuStore = Map<string, unknown>
 
-const DropdownMenuStoreContext = React.createContext<DropdownMenuStore | null>(
-  null
-)
+const DropdownMenuStoreContext = React.createContext<DropdownMenuStore | null>(null)
 
 function textContent(node: React.ReactNode): string {
   if (node == null || typeof node === "boolean") return ""
@@ -62,10 +55,7 @@ function textContent(node: React.ReactNode): string {
 function radioGroupKey(children: React.ReactNode) {
   const values: string[] = []
   React.Children.forEach(children, (child) => {
-    if (
-      React.isValidElement<{ value?: unknown }>(child) &&
-      child.props.value !== undefined
-    ) {
+    if (React.isValidElement<{ value?: unknown }>(child) && child.props.value !== undefined) {
       values.push(String(child.props.value))
     }
   })
@@ -128,11 +118,7 @@ function DropdownMenu({
       <DropdownMenuLocaleResolverContext.Provider value={setResolved}>
         <DropdownMenuLocaleContext.Provider value={locale}>
           <DirectionProvider dir={locale.dir ?? "ltr"}>
-            <DropdownMenuPrimitive.Root
-              data-slot="dropdown-menu"
-              dir={locale.dir}
-              {...props}
-            />
+            <DropdownMenuPrimitive.Root data-slot="dropdown-menu" dir={locale.dir} {...props} />
           </DirectionProvider>
         </DropdownMenuLocaleContext.Provider>
       </DropdownMenuLocaleResolverContext.Provider>
@@ -143,9 +129,7 @@ function DropdownMenu({
 function DropdownMenuPortal({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Portal>) {
-  return (
-    <DropdownMenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />
-  )
+  return <DropdownMenuPrimitive.Portal data-slot="dropdown-menu-portal" {...props} />
 }
 
 function DropdownMenuTrigger({
@@ -206,7 +190,7 @@ function DropdownMenuContent({
         sideOffset={sideOffset}
         align={align}
         className={cn(
-          "z-50 max-h-(--radix-dropdown-menu-content-available-height) w-max min-w-[150px] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
+          "z-50 max-h-(--radix-dropdown-menu-content-available-height) w-max min-w-[150px] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:overflow-hidden data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
           className
         )}
         {...localeDomProps(contentLocale)}
@@ -216,12 +200,8 @@ function DropdownMenuContent({
   )
 }
 
-function DropdownMenuGroup({
-  ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Group>) {
-  return (
-    <DropdownMenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
-  )
+function DropdownMenuGroup({ ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Group>) {
+  return <DropdownMenuPrimitive.Group data-slot="dropdown-menu-group" {...props} />
 }
 
 function DropdownMenuItem({
@@ -249,9 +229,9 @@ function DropdownMenuItem({
 
 type DropdownMenuIndicator = "check" | "control"
 
-const DropdownMenuIndicatorContext = React.createContext<
-  DropdownMenuIndicator | undefined
->(undefined)
+const DropdownMenuIndicatorContext = React.createContext<DropdownMenuIndicator | undefined>(
+  undefined
+)
 
 function DropdownMenuCheckIndicator({ checked }: { checked: boolean }) {
   return (
@@ -259,11 +239,21 @@ function DropdownMenuCheckIndicator({ checked }: { checked: boolean }) {
       aria-hidden
       className="pointer-events-none absolute end-2 flex size-4 items-center justify-center"
     >
-      {checked ? (
-        <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" />
-      ) : null}
+      {checked ? <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" /> : null}
     </span>
   )
+}
+
+/*
+  Checkbox and radio items keep the menu open by default so several options
+  can be changed in one go, matching the Base UI and React Aria menus. Pass
+  closeOnClick to close the menu after a change.
+*/
+function keepOpenOnSelect(closeOnClick: boolean, onSelect?: (event: Event) => void) {
+  return (event: Event) => {
+    onSelect?.(event)
+    if (!closeOnClick) event.preventDefault()
+  }
 }
 
 function DropdownMenuCheckboxItem({
@@ -272,13 +262,16 @@ function DropdownMenuCheckboxItem({
   checked,
   defaultChecked,
   onCheckedChange,
+  onSelect,
   inset,
   indicator = "control",
+  closeOnClick = false,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.CheckboxItem> & {
   inset?: boolean
   defaultChecked?: boolean
   indicator?: DropdownMenuIndicator
+  closeOnClick?: boolean
 }) {
   const [uncontrolledChecked, setUncontrolledChecked] = usePersistentState(
     `checkbox:${textContent(children)}`,
@@ -299,13 +292,21 @@ function DropdownMenuCheckboxItem({
         if (checked === undefined) setUncontrolledChecked(value)
         onCheckedChange?.(value)
       }}
+      onSelect={keepOpenOnSelect(closeOnClick, onSelect)}
       {...props}
     >
       {indicator === "check" ? (
         <DropdownMenuCheckIndicator checked={isChecked === true} />
       ) : (
-        <span aria-hidden className="pointer-events-none absolute end-2 flex items-center justify-center">
-          <Checkbox className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5" checked={isChecked === true} tabIndex={-1} />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute end-2 flex items-center justify-center"
+        >
+          <Checkbox
+            className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5"
+            checked={isChecked === true}
+            tabIndex={-1}
+          />
         </span>
       )}
       {children}
@@ -313,9 +314,7 @@ function DropdownMenuCheckboxItem({
   )
 }
 
-const DropdownMenuRadioValueContext = React.createContext<string | undefined>(
-  undefined
-)
+const DropdownMenuRadioValueContext = React.createContext<string | undefined>(undefined)
 
 function DropdownMenuRadioGroup({
   value,
@@ -328,9 +327,10 @@ function DropdownMenuRadioGroup({
   defaultValue?: string
   indicator?: DropdownMenuIndicator
 }) {
-  const [uncontrolledValue, setUncontrolledValue] = usePersistentState<
-    string | undefined
-  >(radioGroupKey(children), defaultValue)
+  const [uncontrolledValue, setUncontrolledValue] = usePersistentState<string | undefined>(
+    radioGroupKey(children),
+    defaultValue
+  )
   const currentValue = value ?? uncontrolledValue
 
   return (
@@ -354,12 +354,12 @@ function DropdownMenuRadioGroup({
 
 function DropdownMenuRadioIndicator({ checked }: { checked: boolean }) {
   return (
-    <span
-      inert
-      className="pointer-events-none absolute end-2 flex items-center justify-center"
-    >
+    <span inert className="pointer-events-none absolute end-2 flex items-center justify-center">
       <RadioGroup value={checked ? "on" : ""} className="flex">
-        <RadioGroupItem value="on" className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5" />
+        <RadioGroupItem
+          value="on"
+          className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5"
+        />
       </RadioGroup>
     </span>
   )
@@ -371,10 +371,13 @@ function DropdownMenuRadioItem({
   inset,
   value,
   indicator,
+  onSelect,
+  closeOnClick = false,
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.RadioItem> & {
   inset?: boolean
   indicator?: DropdownMenuIndicator
+  closeOnClick?: boolean
 }) {
   const groupValue = React.useContext(DropdownMenuRadioValueContext)
   const groupIndicator = React.useContext(DropdownMenuIndicatorContext)
@@ -390,6 +393,7 @@ function DropdownMenuRadioItem({
         "relative flex w-full cursor-default items-center gap-1.5 rounded-sm py-1.75 ps-2 pe-10 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
+      onSelect={keepOpenOnSelect(closeOnClick, onSelect)}
       {...props}
     >
       {resolvedIndicator === "check" ? (
@@ -439,11 +443,7 @@ function DropdownMenuSeparator({
   The shortcut keeps the item's direction so ms-auto / ps-4 place it at the
   inline end, while the keys themselves read left to right (⇧⌘P, not P⌘⇧).
 */
-function DropdownMenuShortcut({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<"span">) {
+function DropdownMenuShortcut({ className, children, ...props }: React.ComponentProps<"span">) {
   return (
     <span
       data-slot="dropdown-menu-shortcut"
@@ -458,9 +458,7 @@ function DropdownMenuShortcut({
   )
 }
 
-function DropdownMenuSub({
-  ...props
-}: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
+function DropdownMenuSub({ ...props }: React.ComponentProps<typeof DropdownMenuPrimitive.Sub>) {
   return <DropdownMenuPrimitive.Sub data-slot="dropdown-menu-sub" {...props} />
 }
 
@@ -477,7 +475,7 @@ function DropdownMenuSubTrigger({
       data-slot="dropdown-menu-sub-trigger"
       data-inset={inset}
       className={cn(
-        "flex w-full cursor-default items-center gap-1.5 rounded-sm px-2 py-1.75 text-label whitespace-nowrap tracking-normal outline-none select-none focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-open:bg-accent data-open:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5",
+        "flex w-full cursor-default items-center gap-1.5 rounded-sm px-2 py-1.75 text-label whitespace-nowrap tracking-normal outline-none select-none focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
       {...props}
@@ -511,7 +509,7 @@ function DropdownMenuSubContent({
         data-slot="dropdown-menu-sub-content"
         alignOffset={alignOffset}
         className={cn(
-          "z-50 w-max min-w-[150px] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          "z-50 w-max min-w-[150px] origin-(--radix-dropdown-menu-content-transform-origin) overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
           className
         )}
         {...localeDomProps(contentLocale)}

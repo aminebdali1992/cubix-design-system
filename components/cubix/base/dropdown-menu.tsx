@@ -5,14 +5,8 @@ import { Menu as MenuPrimitive } from "@base-ui/react/menu"
 import { CheckIcon, ChevronRightIcon } from "lucide-react"
 
 import { Checkbox } from "@/components/cubix/base/checkbox"
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/cubix/base/radio-group"
-import {
-  DirectionProvider,
-  useDirection,
-} from "@/components/cubix/base/direction"
+import { RadioGroup, RadioGroupItem } from "@/components/cubix/base/radio-group"
+import { DirectionProvider, useDirection } from "@/components/cubix/base/direction"
 import { cn } from "@/lib/utils"
 
 type TextDirection = "ltr" | "rtl"
@@ -32,9 +26,7 @@ function useDropdownMenuLocale() {
   return React.useContext(DropdownMenuLocaleContext)
 }
 
-function toTextDirection(
-  value: string | null | undefined
-): TextDirection | undefined {
+function toTextDirection(value: string | null | undefined): TextDirection | undefined {
   return value === "rtl" || value === "ltr" ? value : undefined
 }
 
@@ -48,9 +40,7 @@ function resolveClosestLang(node: Element | null): string | undefined {
 
 type DropdownMenuStore = Map<string, unknown>
 
-const DropdownMenuStoreContext = React.createContext<DropdownMenuStore | null>(
-  null
-)
+const DropdownMenuStoreContext = React.createContext<DropdownMenuStore | null>(null)
 
 function textContent(node: React.ReactNode): string {
   if (node == null || typeof node === "boolean") return ""
@@ -65,10 +55,7 @@ function textContent(node: React.ReactNode): string {
 function radioGroupKey(children: React.ReactNode) {
   const values: string[] = []
   React.Children.forEach(children, (child) => {
-    if (
-      React.isValidElement<{ value?: unknown }>(child) &&
-      child.props.value !== undefined
-    ) {
+    if (React.isValidElement<{ value?: unknown }>(child) && child.props.value !== undefined) {
       values.push(String(child.props.value))
     }
   })
@@ -198,10 +185,7 @@ function DropdownMenuContent({
   lang,
   ...props
 }: MenuPrimitive.Popup.Props &
-  Pick<
-    MenuPrimitive.Positioner.Props,
-    "align" | "alignOffset" | "side" | "sideOffset"
-  >) {
+  Pick<MenuPrimitive.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset">) {
   const locale = useDropdownMenuLocale()
   const contentLocale = {
     dir: toTextDirection(dir) ?? locale.dir,
@@ -223,7 +207,7 @@ function DropdownMenuContent({
         <MenuPrimitive.Popup
           data-slot="dropdown-menu-content"
           className={cn(
-            "cn-menu-target cn-menu-translucent z-50 max-h-(--available-height) w-max min-w-[150px] origin-(--transform-origin) overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] duration-100 outline-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:overflow-hidden data-closed:fade-out-0 data-closed:zoom-out-95",
+            "z-50 max-h-(--available-height) w-max min-w-[150px] origin-(--transform-origin) overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] duration-100 outline-none data-[side=bottom]:slide-in-from-top-2 data-[side=inline-end]:slide-in-from-left-2 data-[side=inline-start]:slide-in-from-right-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:overflow-hidden data-closed:fade-out-0 data-closed:zoom-out-95",
             className
           )}
           {...localeDomProps(contentLocale)}
@@ -311,9 +295,9 @@ function DropdownMenuItem({
 
 type DropdownMenuIndicator = "check" | "control"
 
-const DropdownMenuIndicatorContext = React.createContext<
-  DropdownMenuIndicator | undefined
->(undefined)
+const DropdownMenuIndicatorContext = React.createContext<DropdownMenuIndicator | undefined>(
+  undefined
+)
 
 function DropdownMenuCheckIndicator({ checked }: { checked: boolean }) {
   return (
@@ -321,9 +305,7 @@ function DropdownMenuCheckIndicator({ checked }: { checked: boolean }) {
       aria-hidden
       className="pointer-events-none absolute end-2 flex size-4 items-center justify-center"
     >
-      {checked ? (
-        <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" />
-      ) : null}
+      {checked ? <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" /> : null}
     </span>
   )
 }
@@ -365,8 +347,15 @@ function DropdownMenuCheckboxItem({
       {indicator === "check" ? (
         <DropdownMenuCheckIndicator checked={isChecked} />
       ) : (
-        <span aria-hidden className="pointer-events-none absolute end-2 flex items-center justify-center">
-          <Checkbox className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5" checked={isChecked} tabIndex={-1} />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute end-2 flex items-center justify-center"
+        >
+          <Checkbox
+            className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5"
+            checked={isChecked}
+            tabIndex={-1}
+          />
         </span>
       )}
       {children}
@@ -386,8 +375,10 @@ function DropdownMenuRadioGroup({
 }: MenuPrimitive.RadioGroup.Props & {
   indicator?: DropdownMenuIndicator
 }) {
-  const [uncontrolledValue, setUncontrolledValue] =
-    usePersistentState<unknown>(radioGroupKey(children), defaultValue)
+  const [uncontrolledValue, setUncontrolledValue] = usePersistentState<unknown>(
+    radioGroupKey(children),
+    defaultValue
+  )
   const currentValue = value !== undefined ? value : uncontrolledValue
 
   return (
@@ -413,12 +404,12 @@ function DropdownMenuRadioGroup({
 
 function DropdownMenuRadioIndicator({ checked }: { checked: boolean }) {
   return (
-    <span
-      inert
-      className="pointer-events-none absolute end-2 flex items-center justify-center"
-    >
+    <span inert className="pointer-events-none absolute end-2 flex items-center justify-center">
       <RadioGroup value={checked ? "on" : ""} className="flex">
-        <RadioGroupItem value="on" className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5" />
+        <RadioGroupItem
+          value="on"
+          className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5"
+        />
       </RadioGroup>
     </span>
   )
@@ -461,10 +452,7 @@ function DropdownMenuRadioItem({
   )
 }
 
-function DropdownMenuSeparator({
-  className,
-  ...props
-}: MenuPrimitive.Separator.Props) {
+function DropdownMenuSeparator({ className, ...props }: MenuPrimitive.Separator.Props) {
   return (
     <MenuPrimitive.Separator
       data-slot="dropdown-menu-separator"
@@ -478,11 +466,7 @@ function DropdownMenuSeparator({
   The shortcut keeps the item's direction so ms-auto / ps-4 place it at the
   inline end, while the keys themselves read left to right (⇧⌘P, not P⌘⇧).
 */
-function DropdownMenuShortcut({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<"span">) {
+function DropdownMenuShortcut({ className, children, ...props }: React.ComponentProps<"span">) {
   return (
     <span
       data-slot="dropdown-menu-shortcut"

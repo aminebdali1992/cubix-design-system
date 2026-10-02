@@ -170,12 +170,7 @@ function VerifyCodeLabel({ className, children }: VerifyCodeLabelProps) {
   )
 }
 
-function VerifyCodeControl({
-  className,
-  size,
-  digitClassName,
-  children,
-}: VerifyCodeControlProps) {
+function VerifyCodeControl({ className, size, digitClassName, children }: VerifyCodeControlProps) {
   const base = useVerifyCodeBase()
 
   if (base === "radix") {
@@ -220,10 +215,7 @@ function VerifyCodeDigit(props: VerifyCodeDigitProps) {
   return <BaseVerifyCode.VerifyCodeDigit {...props} />
 }
 
-function VerifyCodeSeparator({
-  className,
-  children,
-}: VerifyCodeSeparatorProps) {
+function VerifyCodeSeparator({ className, children }: VerifyCodeSeparatorProps) {
   const base = useVerifyCodeBase()
 
   if (base === "radix") {
@@ -249,10 +241,7 @@ function VerifyCodeSeparator({
   )
 }
 
-function VerifyCodeDescription({
-  className,
-  children,
-}: VerifyCodeDescriptionProps) {
+function VerifyCodeDescription({ className, children }: VerifyCodeDescriptionProps) {
   const base = useVerifyCodeBase()
 
   if (base === "radix") {

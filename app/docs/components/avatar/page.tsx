@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
-import { CircleAlertIcon, PlusIcon } from "lucide-react"
+import { CircleAlertIcon } from "lucide-react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
@@ -8,13 +8,10 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  Avatar,
-  AvatarBadge,
-  AvatarFallback,
-  AvatarGroup,
-  AvatarGroupCount,
-  AvatarImage,
-} from "./docs-avatar"
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
 import {
   avatarPropRows,
   badgePropRows,
@@ -23,332 +20,102 @@ import {
   groupPropRows,
   imagePropRows,
 } from "./avatar-table-data"
+import { AvatarBadgeDemo } from "./examples/avatar-badge-demo"
+import { AvatarBadgeIconDemo } from "./examples/avatar-badge-icon-demo"
+import { AvatarDemo } from "./examples/avatar-demo"
+import { AvatarFallbackDemo } from "./examples/avatar-fallback-demo"
+import { AvatarGroupCountDemo } from "./examples/avatar-group-count-demo"
+import { AvatarGroupDemo } from "./examples/avatar-group-demo"
+import { AvatarGroupIconDemo } from "./examples/avatar-group-icon-demo"
+import { AvatarRingDemo } from "./examples/avatar-ring-demo"
+import { AvatarSizesDemo } from "./examples/avatar-sizes-demo"
+
+const description = "An image element with a fallback for representing the user."
 
 export const metadata: Metadata = {
   title: "Avatar",
-  description:
-    "An image element with a fallback for representing the user.",
+  description,
 }
 
-const cnSrc = "/docs/avatar/cn.png"
-const lrSrc = "/docs/avatar/lr.png"
-const erSrc = "/docs/avatar/girl.jpg"
+const PUBLIC_IMPORT = "@/components/cubix/avatar"
+const EXAMPLES_DIR = "app/docs/components/avatar/examples"
 
-const usageImport = `import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/components/cubix/avatar"`
-
-const usageSnippet = `<Avatar>
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>`
+function loadAvatarExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `Avatar
 ├── AvatarImage
 ├── AvatarFallback
-└── AvatarBadge`
+└── AvatarBadge
 
-const groupCompositionSnippet = `AvatarGroup
+AvatarGroup
 ├── Avatar
 ├── Avatar
 └── AvatarGroupCount`
 
-const badgeSnippet = `<Avatar size="sm">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-  <AvatarBadge
-    aria-label="آنلاین"
-    className="bg-green-600 dark:bg-green-800"
-  />
-</Avatar>
-<Avatar>
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-  <AvatarBadge
-    aria-label="آنلاین"
-    className="bg-green-600 dark:bg-green-800"
-  />
-</Avatar>
-<Avatar size="lg">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-  <AvatarBadge
-    aria-label="آنلاین"
-    className="bg-green-600 dark:bg-green-800"
-  />
-</Avatar>
-<Avatar size="xl">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-  <AvatarBadge
-    aria-label="آنلاین"
-    className="bg-green-600 dark:bg-green-800"
-  />
-</Avatar>
-<Avatar size="2xl">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-  <AvatarBadge
-    aria-label="آنلاین"
-    className="bg-green-600 dark:bg-green-800"
-  />
-</Avatar>`
-
-const badgeIconSnippet = `<Avatar>
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-  <AvatarBadge
-    aria-label="افزودن هم‌تیمی"
-    render={<button type="button" />}
-  >
-    <PlusIcon />
-  </AvatarBadge>
-</Avatar>
-<Avatar size="lg">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-  <AvatarBadge
-    aria-label="افزودن هم‌تیمی"
-    render={<button type="button" />}
-  >
-    <PlusIcon />
-  </AvatarBadge>
-</Avatar>
-<Avatar size="xl">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-  <AvatarBadge
-    aria-label="افزودن هم‌تیمی"
-    render={<button type="button" />}
-  >
-    <PlusIcon />
-  </AvatarBadge>
-</Avatar>
-<Avatar size="2xl">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-  <AvatarBadge
-    aria-label="افزودن هم‌تیمی"
-    render={<button type="button" />}
-  >
-    <PlusIcon />
-  </AvatarBadge>
-</Avatar>`
-
-const groupSnippet = `<AvatarGroup aria-label="تیم">
-  <Avatar size="sm">
-    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-    <AvatarFallback>ن</AvatarFallback>
-  </Avatar>
-  <Avatar size="sm">
-    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
-    <AvatarFallback>ع</AvatarFallback>
-  </Avatar>
-  <Avatar size="sm">
-    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-    <AvatarFallback>م</AvatarFallback>
-  </Avatar>
-</AvatarGroup>
-<AvatarGroup aria-label="تیم">
-  <Avatar>
-    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-    <AvatarFallback>ن</AvatarFallback>
-  </Avatar>
-  <Avatar>
-    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
-    <AvatarFallback>ع</AvatarFallback>
-  </Avatar>
-  <Avatar>
-    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-    <AvatarFallback>م</AvatarFallback>
-  </Avatar>
-</AvatarGroup>
-<AvatarGroup aria-label="تیم">
-  <Avatar size="lg">
-    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-    <AvatarFallback>ن</AvatarFallback>
-  </Avatar>
-  <Avatar size="lg">
-    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
-    <AvatarFallback>ع</AvatarFallback>
-  </Avatar>
-  <Avatar size="lg">
-    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-    <AvatarFallback>م</AvatarFallback>
-  </Avatar>
-</AvatarGroup>`
-
-const groupCountSnippet = `<AvatarGroup aria-label="تیم">
-  <Avatar size="sm">
-    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-    <AvatarFallback>ن</AvatarFallback>
-  </Avatar>
-  <Avatar size="sm">
-    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
-    <AvatarFallback>ع</AvatarFallback>
-  </Avatar>
-  <Avatar size="sm">
-    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-    <AvatarFallback>م</AvatarFallback>
-  </Avatar>
-  <AvatarGroupCount>+۳</AvatarGroupCount>
-</AvatarGroup>
-<AvatarGroup aria-label="تیم">
-  <Avatar>
-    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-    <AvatarFallback>ن</AvatarFallback>
-  </Avatar>
-  <Avatar>
-    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
-    <AvatarFallback>ع</AvatarFallback>
-  </Avatar>
-  <Avatar>
-    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-    <AvatarFallback>م</AvatarFallback>
-  </Avatar>
-  <AvatarGroupCount>+۳</AvatarGroupCount>
-</AvatarGroup>
-<AvatarGroup aria-label="تیم">
-  <Avatar size="lg">
-    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-    <AvatarFallback>ن</AvatarFallback>
-  </Avatar>
-  <Avatar size="lg">
-    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
-    <AvatarFallback>ع</AvatarFallback>
-  </Avatar>
-  <Avatar size="lg">
-    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-    <AvatarFallback>م</AvatarFallback>
-  </Avatar>
-  <AvatarGroupCount>+۳</AvatarGroupCount>
-</AvatarGroup>`
-
-const groupIconSnippet = `<AvatarGroup aria-label="تیم">
-  <Avatar size="sm">
-    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-    <AvatarFallback>ن</AvatarFallback>
-  </Avatar>
-  <Avatar size="sm">
-    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
-    <AvatarFallback>ع</AvatarFallback>
-  </Avatar>
-  <Avatar size="sm">
-    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-    <AvatarFallback>م</AvatarFallback>
-  </Avatar>
-  <AvatarGroupCount>
-    <PlusIcon />
-  </AvatarGroupCount>
-</AvatarGroup>
-<AvatarGroup aria-label="تیم">
-  <Avatar>
-    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-    <AvatarFallback>ن</AvatarFallback>
-  </Avatar>
-  <Avatar>
-    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
-    <AvatarFallback>ع</AvatarFallback>
-  </Avatar>
-  <Avatar>
-    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-    <AvatarFallback>م</AvatarFallback>
-  </Avatar>
-  <AvatarGroupCount>
-    <PlusIcon />
-  </AvatarGroupCount>
-</AvatarGroup>
-<AvatarGroup aria-label="تیم">
-  <Avatar size="lg">
-    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-    <AvatarFallback>ن</AvatarFallback>
-  </Avatar>
-  <Avatar size="lg">
-    <AvatarImage src="/docs/avatar/lr.png" alt="علی" />
-    <AvatarFallback>ع</AvatarFallback>
-  </Avatar>
-  <Avatar size="lg">
-    <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-    <AvatarFallback>م</AvatarFallback>
-  </Avatar>
-  <AvatarGroupCount>
-    <PlusIcon />
-  </AvatarGroupCount>
-</AvatarGroup>`
-
-const sizesSnippet = `<Avatar size="sm">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>
-<Avatar>
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>
-<Avatar size="lg">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>
-<Avatar size="xl">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>
-<Avatar size="2xl">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>`
-
-const ringSnippet = `<Avatar ring size="sm">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>
-<Avatar ring>
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>
-<Avatar ring size="lg">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>
-<Avatar ring size="xl">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>
-<Avatar ring size="2xl">
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>`
-
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
-    <div
-      dir="rtl"
-      lang="fa"
-      className="flex min-h-32 w-full flex-wrap items-center justify-center gap-4"
-    >
+    <div dir="rtl" lang="fa" className="flex w-full justify-center">
       {children}
     </div>
   )
 }
 
+function ExampleSection({
+  title,
+  description,
+  code,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
 export default function AvatarPage() {
+  const demoSource = loadAvatarExample("avatar-demo.tsx")
+  const sizesSource = loadAvatarExample("avatar-sizes-demo.tsx")
+  const fallbackSource = loadAvatarExample("avatar-fallback-demo.tsx")
+  const badgeSource = loadAvatarExample("avatar-badge-demo.tsx")
+  const badgeIconSource = loadAvatarExample("avatar-badge-icon-demo.tsx")
+  const groupSource = loadAvatarExample("avatar-group-demo.tsx")
+  const groupCountSource = loadAvatarExample("avatar-group-count-demo.tsx")
+  const groupIconSource = loadAvatarExample("avatar-group-icon-demo.tsx")
+  const ringSource = loadAvatarExample("avatar-ring-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Avatar"
-        description="An image element with a fallback for representing the user."
-        slug="avatar"
-      />
+      <ComponentDocsHeader title="Avatar" description={description} slug="avatar" />
 
-      <ComponentPreview code={usageSnippet}>
-            <PreviewShell>
-        <Avatar>
-          <AvatarImage src={cnSrc} alt="نیلوفر" />
-          <AvatarFallback>ن</AvatarFallback>
-        </Avatar>
-      </PreviewShell>
-</ComponentPreview>
+      <ComponentPreview code={demoSource}>
+        <PreviewShell>
+          <AvatarDemo />
+        </PreviewShell>
+      </ComponentPreview>
 
       <ComponentInstall name="avatar" />
 
@@ -359,511 +126,154 @@ export default function AvatarPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the following composition to build an Avatar:
+          Always keep <Code>AvatarFallback</Code> next to <Code>AvatarImage</Code> so initials stay
+          visible when the photo is missing. <Code>AvatarBadge</Code> and <Code>AvatarGroup</Code>{" "}
+          are optional.
         </p>
-        <CodeBlock code={compositionSnippet} />
-        <p className="leading-relaxed text-muted-foreground">
-          Use the following composition to build an Avatar Group:
-        </p>
-        <CodeBlock code={groupCompositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
       </section>
 
-      <section className="space-y-8">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Badge</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Use <code className="font-mono text-sm">AvatarBadge</code> for a
-            status dot. Override the color with{" "}
-            <code className="font-mono text-sm">className</code>. Give the
-            badge an aria-label so the status is announced.
-          </p>
-          <ComponentPreview code={badgeSnippet}>
-            <PreviewShell>
-              <Avatar size="sm">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-                <AvatarBadge
-                  aria-label="آنلاین"
-                  className="bg-green-600 dark:bg-green-800"
-                />
-              </Avatar>
-              <Avatar>
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-                <AvatarBadge
-                  aria-label="آنلاین"
-                  className="bg-green-600 dark:bg-green-800"
-                />
-              </Avatar>
-              <Avatar size="lg">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-                <AvatarBadge
-                  aria-label="آنلاین"
-                  className="bg-green-600 dark:bg-green-800"
-                />
-              </Avatar>
-              <Avatar size="xl">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-                <AvatarBadge
-                  aria-label="آنلاین"
-                  className="bg-green-600 dark:bg-green-800"
-                />
-              </Avatar>
-              <Avatar size="2xl">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-                <AvatarBadge
-                  aria-label="آنلاین"
-                  className="bg-green-600 dark:bg-green-800"
-                />
-              </Avatar>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Badge with icon
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            For real actions, compose{" "}
-            <code className="font-mono text-sm">AvatarBadge</code> onto a{" "}
-            <code className="font-mono text-sm">button</code> with{" "}
-            <code className="font-mono text-sm">render</code> (Base UI / React
-            Aria) or <code className="font-mono text-sm">asChild</code> (Radix),
-            and give it an aria-label.
-          </p>
-          <ComponentPreview code={badgeIconSnippet}>
-            <PreviewShell>
-              <Avatar>
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-                <AvatarBadge
-                  aria-label="افزودن هم‌تیمی"
-                  render={<button type="button" />}
-                >
-                  <PlusIcon />
-                </AvatarBadge>
-              </Avatar>
-              <Avatar size="lg">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-                <AvatarBadge
-                  aria-label="افزودن هم‌تیمی"
-                  render={<button type="button" />}
-                >
-                  <PlusIcon />
-                </AvatarBadge>
-              </Avatar>
-              <Avatar size="xl">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-                <AvatarBadge
-                  aria-label="افزودن هم‌تیمی"
-                  render={<button type="button" />}
-                >
-                  <PlusIcon />
-                </AvatarBadge>
-              </Avatar>
-              <Avatar size="2xl">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-                <AvatarBadge
-                  aria-label="افزودن هم‌تیمی"
-                  render={<button type="button" />}
-                >
-                  <PlusIcon />
-                </AvatarBadge>
-              </Avatar>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Avatar Group
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Stack avatars with{" "}
-            <code className="font-mono text-sm">AvatarGroup</code>. Label the
-            group so the set of people is announced.
-          </p>
-          <ComponentPreview code={groupSnippet}>
-            <PreviewShell>
-              <AvatarGroup aria-label="تیم">
-                <Avatar size="sm">
-                  <AvatarImage src={cnSrc} alt="نیلوفر" />
-                  <AvatarFallback>ن</AvatarFallback>
-                </Avatar>
-                <Avatar size="sm">
-                  <AvatarImage src={lrSrc} alt="علی" />
-                  <AvatarFallback>ع</AvatarFallback>
-                </Avatar>
-                <Avatar size="sm">
-                  <AvatarImage src={erSrc} alt="مریم" />
-                  <AvatarFallback>م</AvatarFallback>
-                </Avatar>
-              </AvatarGroup>
-              <AvatarGroup aria-label="تیم">
-                <Avatar>
-                  <AvatarImage src={cnSrc} alt="نیلوفر" />
-                  <AvatarFallback>ن</AvatarFallback>
-                </Avatar>
-                <Avatar>
-                  <AvatarImage src={lrSrc} alt="علی" />
-                  <AvatarFallback>ع</AvatarFallback>
-                </Avatar>
-                <Avatar>
-                  <AvatarImage src={erSrc} alt="مریم" />
-                  <AvatarFallback>م</AvatarFallback>
-                </Avatar>
-              </AvatarGroup>
-              <AvatarGroup aria-label="تیم">
-                <Avatar size="lg">
-                  <AvatarImage src={cnSrc} alt="نیلوفر" />
-                  <AvatarFallback>ن</AvatarFallback>
-                </Avatar>
-                <Avatar size="lg">
-                  <AvatarImage src={lrSrc} alt="علی" />
-                  <AvatarFallback>ع</AvatarFallback>
-                </Avatar>
-                <Avatar size="lg">
-                  <AvatarImage src={erSrc} alt="مریم" />
-                  <AvatarFallback>م</AvatarFallback>
-                </Avatar>
-              </AvatarGroup>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Group count
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Use <code className="font-mono text-sm">AvatarGroupCount</code> to
-            show remaining people.
-          </p>
-          <ComponentPreview code={groupCountSnippet}>
-            <PreviewShell>
-              <AvatarGroup aria-label="تیم">
-                <Avatar size="sm">
-                  <AvatarImage src={cnSrc} alt="نیلوفر" />
-                  <AvatarFallback>ن</AvatarFallback>
-                </Avatar>
-                <Avatar size="sm">
-                  <AvatarImage src={lrSrc} alt="علی" />
-                  <AvatarFallback>ع</AvatarFallback>
-                </Avatar>
-                <Avatar size="sm">
-                  <AvatarImage src={erSrc} alt="مریم" />
-                  <AvatarFallback>م</AvatarFallback>
-                </Avatar>
-                <AvatarGroupCount>+۳</AvatarGroupCount>
-              </AvatarGroup>
-              <AvatarGroup aria-label="تیم">
-                <Avatar>
-                  <AvatarImage src={cnSrc} alt="نیلوفر" />
-                  <AvatarFallback>ن</AvatarFallback>
-                </Avatar>
-                <Avatar>
-                  <AvatarImage src={lrSrc} alt="علی" />
-                  <AvatarFallback>ع</AvatarFallback>
-                </Avatar>
-                <Avatar>
-                  <AvatarImage src={erSrc} alt="مریم" />
-                  <AvatarFallback>م</AvatarFallback>
-                </Avatar>
-                <AvatarGroupCount>+۳</AvatarGroupCount>
-              </AvatarGroup>
-              <AvatarGroup aria-label="تیم">
-                <Avatar size="lg">
-                  <AvatarImage src={cnSrc} alt="نیلوفر" />
-                  <AvatarFallback>ن</AvatarFallback>
-                </Avatar>
-                <Avatar size="lg">
-                  <AvatarImage src={lrSrc} alt="علی" />
-                  <AvatarFallback>ع</AvatarFallback>
-                </Avatar>
-                <Avatar size="lg">
-                  <AvatarImage src={erSrc} alt="مریم" />
-                  <AvatarFallback>م</AvatarFallback>
-                </Avatar>
-                <AvatarGroupCount>+۳</AvatarGroupCount>
-              </AvatarGroup>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Group with icon
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            You can also pass an icon as the{" "}
-            <code className="font-mono text-sm">AvatarGroupCount</code> child.
-          </p>
-          <ComponentPreview code={groupIconSnippet}>
-            <PreviewShell>
-              <AvatarGroup aria-label="تیم">
-                <Avatar size="sm">
-                  <AvatarImage src={cnSrc} alt="نیلوفر" />
-                  <AvatarFallback>ن</AvatarFallback>
-                </Avatar>
-                <Avatar size="sm">
-                  <AvatarImage src={lrSrc} alt="علی" />
-                  <AvatarFallback>ع</AvatarFallback>
-                </Avatar>
-                <Avatar size="sm">
-                  <AvatarImage src={erSrc} alt="مریم" />
-                  <AvatarFallback>م</AvatarFallback>
-                </Avatar>
-                <AvatarGroupCount>
-                  <PlusIcon />
-                </AvatarGroupCount>
-              </AvatarGroup>
-              <AvatarGroup aria-label="تیم">
-                <Avatar>
-                  <AvatarImage src={cnSrc} alt="نیلوفر" />
-                  <AvatarFallback>ن</AvatarFallback>
-                </Avatar>
-                <Avatar>
-                  <AvatarImage src={lrSrc} alt="علی" />
-                  <AvatarFallback>ع</AvatarFallback>
-                </Avatar>
-                <Avatar>
-                  <AvatarImage src={erSrc} alt="مریم" />
-                  <AvatarFallback>م</AvatarFallback>
-                </Avatar>
-                <AvatarGroupCount>
-                  <PlusIcon />
-                </AvatarGroupCount>
-              </AvatarGroup>
-              <AvatarGroup aria-label="تیم">
-                <Avatar size="lg">
-                  <AvatarImage src={cnSrc} alt="نیلوفر" />
-                  <AvatarFallback>ن</AvatarFallback>
-                </Avatar>
-                <Avatar size="lg">
-                  <AvatarImage src={lrSrc} alt="علی" />
-                  <AvatarFallback>ع</AvatarFallback>
-                </Avatar>
-                <Avatar size="lg">
-                  <AvatarImage src={erSrc} alt="مریم" />
-                  <AvatarFallback>م</AvatarFallback>
-                </Avatar>
-                <AvatarGroupCount>
-                  <PlusIcon />
-                </AvatarGroupCount>
-              </AvatarGroup>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Sizes</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Use the <code className="font-mono text-sm">size</code> prop on the
-            root avatar: <code className="font-mono text-sm">sm</code> (24px), default (32px), <code className="font-mono text-sm">lg</code> (40px), <code className="font-mono text-sm">xl</code> (48px) and <code className="font-mono text-sm">2xl</code> (64px).
-          </p>
-          <ComponentPreview code={sizesSnippet}>
-            <PreviewShell>
-              <Avatar size="sm">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-              </Avatar>
-              <Avatar>
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-              </Avatar>
-              <Avatar size="lg">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-              </Avatar>
-              <Avatar size="xl">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-              </Avatar>
-              <Avatar size="2xl">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-              </Avatar>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Ring</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Add the <code className="font-mono text-sm">ring</code> prop to draw
-            a 1px gray ring around the avatar, with a 2px gap between the ring
-            and the circle.
-          </p>
-          <ComponentPreview code={ringSnippet}>
-            <PreviewShell>
-              <Avatar ring size="sm">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-              </Avatar>
-              <Avatar ring>
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-              </Avatar>
-              <Avatar ring size="lg">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-              </Avatar>
-              <Avatar ring size="xl">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-              </Avatar>
-              <Avatar ring size="2xl">
-                <AvatarImage src={cnSrc} alt="نیلوفر" />
-                <AvatarFallback>ن</AvatarFallback>
-              </Avatar>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Give <Code>AvatarImage</Code> an <Code>alt</Code> that names the person. Label status
+          badges with <Code>aria-label</Code>, compose action badges onto a <Code>button</Code> with{" "}
+          <Code>render</Code>, and name each <Code>AvatarGroup</Code> with <Code>aria-label</Code>.
+        </p>
       </section>
 
       <section className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Accessibility
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Avatar is presentational. The image, fallback, badge, and group need
-          names so the control stays readable without the photo.
-        </p>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Name the image
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Give <code className="font-mono text-sm">AvatarImage</code> an{" "}
-            <code className="font-mono text-sm">alt</code> that names the
-            person. Always keep{" "}
-            <code className="font-mono text-sm">AvatarFallback</code> so
-            initials remain if the image fails.
-          </p>
-          <CodeBlock
-            code={`<Avatar>
-  <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-  <AvatarFallback>ن</AvatarFallback>
-</Avatar>`}
-          />
-        </div>
+        <ExampleSection
+          title="Sizes"
+          description={
+            <>
+              Use <Code>size</Code> on the root: <Code>sm</Code> (24px), default (32px),{" "}
+              <Code>lg</Code> (40px), <Code>xl</Code> (48px) and <Code>2xl</Code> (64px).
+            </>
+          }
+          code={sizesSource}
+        >
+          <AvatarSizesDemo />
+        </ExampleSection>
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Label status badges
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            An empty badge is only a color. Add{" "}
-            <code className="font-mono text-sm">aria-label</code> for the
-            status it represents. For clickable actions, compose the badge onto
-            a button with{" "}
-            <code className="font-mono text-sm">render</code> or{" "}
-            <code className="font-mono text-sm">asChild</code> so keyboard and
-            focus work.
-          </p>
-          <CodeBlock
-            code={`<AvatarBadge aria-label="آنلاین" />
-<AvatarBadge
-  aria-label="افزودن هم‌تیمی"
-  render={<button type="button" />}
->
-  <PlusIcon />
-</AvatarBadge>`}
-          />
-        </div>
+        <ExampleSection
+          title="Fallback"
+          description="When the image fails to load, the fallback initials stay visible."
+          code={fallbackSource}
+        >
+          <AvatarFallbackDemo />
+        </ExampleSection>
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Label the group
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            AvatarGroup renders{" "}
-            <code className="font-mono text-sm">role=&quot;group&quot;</code>.
-            Give it an aria-label that describes the set of people.
-          </p>
-          <CodeBlock
-            code={`<AvatarGroup aria-label="تیم">
-  <Avatar>
-    <AvatarImage src="/docs/avatar/cn.png" alt="نیلوفر" />
-    <AvatarFallback>ن</AvatarFallback>
-  </Avatar>
-</AvatarGroup>`}
-          />
-        </div>
+        <ExampleSection
+          title="Badge"
+          description={
+            <>
+              Use <Code>AvatarBadge</Code> for a status dot. Override the color with a Cubix token
+              such as <Code>bg-chart-2</Code>, and give the badge an <Code>aria-label</Code>.
+            </>
+          }
+          code={badgeSource}
+        >
+          <AvatarBadgeDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Badge with icon"
+          description={
+            <>
+              For real actions, compose <Code>AvatarBadge</Code> onto a <Code>button</Code> with{" "}
+              <Code>render</Code> and give it an <Code>aria-label</Code>.
+            </>
+          }
+          code={badgeIconSource}
+        >
+          <AvatarBadgeIconDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Avatar group"
+          description={
+            <>
+              Stack avatars with <Code>AvatarGroup</Code>. Label the group so the set of people is
+              announced.
+            </>
+          }
+          code={groupSource}
+        >
+          <AvatarGroupDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Group count"
+          description={
+            <>
+              Use <Code>AvatarGroupCount</Code> to show remaining people.
+            </>
+          }
+          code={groupCountSource}
+        >
+          <AvatarGroupCountDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Group with icon"
+          description={
+            <>
+              Pass an icon as the <Code>AvatarGroupCount</Code> child for an invite or overflow
+              action.
+            </>
+          }
+          code={groupIconSource}
+        >
+          <AvatarGroupIconDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Ring"
+          description={
+            <>
+              Add <Code>ring</Code> to draw a border-token ring around the avatar with a 2px gap.
+            </>
+          }
+          code={ringSource}
+        >
+          <AvatarRingDemo />
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Always provide{" "}
-            <code className="font-mono">AvatarFallback</code> so the control
-            stays readable when the image is missing.
+            <strong className="text-foreground">Note:</strong> Parts render <Code>data-slot</Code>{" "}
+            attributes (<Code>avatar</Code>, <Code>avatar-image</Code>, <Code>avatar-fallback</Code>
+            , <Code>avatar-badge</Code>, <Code>avatar-group</Code>, <Code>avatar-group-count</Code>)
+            for targeting in tests and parent selectors. Always provide <Code>AvatarFallback</Code>.
+            Use the same props on Base UI, React Aria, and Radix.
           </p>
         </div>
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">Avatar</h3>
-        <p className="leading-relaxed text-muted-foreground">
-          The root that wraps the image, fallback, and optional badge.
-        </p>
         <PropsTable data={avatarPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          AvatarImage
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          The photo. Hidden automatically when it fails to load.
-        </p>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">AvatarImage</h3>
         <PropsTable data={imagePropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          AvatarFallback
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          Initials or an icon shown while the image loads or after it fails.
-        </p>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">AvatarFallback</h3>
         <PropsTable data={fallbackPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          AvatarBadge
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          A status indicator at the end of the avatar. Compose onto a button
-          when the badge is an action.
-        </p>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">AvatarBadge</h3>
         <PropsTable data={badgePropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          AvatarGroup
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          Overlapping avatars for a set of people.
-        </p>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">AvatarGroup</h3>
         <PropsTable data={groupPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          AvatarGroupCount
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          Overflow count or icon after the stacked avatars.
-        </p>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">AvatarGroupCount</h3>
         <PropsTable data={groupCountPropRows} />
       </section>
     </article>

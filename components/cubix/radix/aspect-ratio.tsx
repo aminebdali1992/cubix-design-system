@@ -1,25 +1,33 @@
-"use client"
+/*
+  Cubix Aspect Ratio - a container that keeps a constant width-to-height ratio.
 
-import type { ComponentProps } from "react"
-import { AspectRatio as AspectRatioPrimitive } from "radix-ui"
+  Children are usually positioned with absolute inset-0 so they fill the box.
+  Cubix uses the CSS aspect-ratio property on every base so width constraints
+  such as max-w-sm apply to the same element that holds the ratio. The Radix
+  padding-bottom wrapper would ignore those classes on the root.
+*/
+import type { CSSProperties, ComponentProps } from "react"
 
 import { cn } from "@/lib/utils"
 
-function AspectRatio({
-  className,
-  ratio,
-  ...props
-}: Omit<ComponentProps<typeof AspectRatioPrimitive.Root>, "ratio"> & {
+type AspectRatioProps = ComponentProps<"div"> & {
   ratio: number
-}) {
+}
+
+function AspectRatio({ ratio, className, style, ...props }: AspectRatioProps) {
+  const ratioStyle = {
+    ...style,
+    aspectRatio: ratio,
+  } satisfies CSSProperties
+
   return (
-    <AspectRatioPrimitive.Root
+    <div
       data-slot="aspect-ratio"
-      ratio={ratio}
-      className={cn("relative", className)}
+      style={ratioStyle}
+      className={cn("relative overflow-hidden", className)}
       {...props}
     />
   )
 }
 
-export { AspectRatio }
+export { AspectRatio, type AspectRatioProps }

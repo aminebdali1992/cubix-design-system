@@ -8,16 +8,19 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  PhoneFieldClearDemo,
-  PhoneFieldCustomDemo,
-  PhoneFieldDemo,
-  PhoneFieldDescriptionDemo,
-  PhoneFieldDisabledDemo,
-  PhoneFieldFormDemo,
-  PhoneFieldIconsDemo,
-  PhoneFieldInvalidDemo,
-  PhoneFieldSizesDemo,
-} from "@/components/examples/phone-field-examples"
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { PhoneFieldClearDemo } from "./examples/phone-field-clear-demo"
+import { PhoneFieldCustomDemo } from "./examples/phone-field-custom-demo"
+import { PhoneFieldDemo } from "./examples/phone-field-demo"
+import { PhoneFieldDescriptionDemo } from "./examples/phone-field-description-demo"
+import { PhoneFieldDisabledDemo } from "./examples/phone-field-disabled-demo"
+import { PhoneFieldFormDemo } from "./examples/phone-field-form-demo"
+import { PhoneFieldIconsDemo } from "./examples/phone-field-icons-demo"
+import { PhoneFieldInvalidDemo } from "./examples/phone-field-invalid-demo"
+import { PhoneFieldSizesDemo } from "./examples/phone-field-sizes-demo"
 import {
   phoneFieldClearPropRows,
   phoneFieldControlPropRows,
@@ -34,27 +37,14 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import {
-  PhoneField,
-  PhoneFieldClear,
-  PhoneFieldControl,
-  PhoneFieldDescription,
-  PhoneFieldError,
-  PhoneFieldInput,
-  PhoneFieldLabel,
-} from "@/components/cubix/phone-field"`
+const PUBLIC_IMPORT = "@/components/cubix/phone-field"
+const EXAMPLES_DIR = "app/docs/components/phone-field/examples"
 
-const usageSnippet = `<PhoneField>
-  <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldControl>
-    <Icon data-icon="inline-start" />
-    <PhoneFieldInput defaultValue="۰۹۱۲۳۴۵۶۷۸۹" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
-    <PhoneFieldClear />
-  </PhoneFieldControl>
-  <PhoneFieldDescription>
-    برای ورود و بازیابی حساب از این شماره استفاده می‌شود.
-  </PhoneFieldDescription>
-</PhoneField>`
+function loadPhoneFieldExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `PhoneField
 ├── PhoneFieldLabel
@@ -65,6 +55,10 @@ const compositionSnippet = `PhoneField
 ├── PhoneFieldDescription
 └── PhoneFieldError`
 
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" lang="fa" className="flex w-full justify-center">
@@ -73,28 +67,52 @@ function PreviewShell({ children }: { children: ReactNode }) {
   )
 }
 
+function ExampleSection({
+  title,
+  description,
+  code,
+  previewClassName,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  previewClassName?: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName={previewClassName}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
 export default function PhoneFieldPage() {
+  const demoSource = loadPhoneFieldExample("phone-field-demo.tsx")
+  const descriptionSource = loadPhoneFieldExample("phone-field-description-demo.tsx")
+  const invalidSource = loadPhoneFieldExample("phone-field-invalid-demo.tsx")
+  const disabledSource = loadPhoneFieldExample("phone-field-disabled-demo.tsx")
+  const sizesSource = loadPhoneFieldExample("phone-field-sizes-demo.tsx")
+  const iconsSource = loadPhoneFieldExample("phone-field-icons-demo.tsx")
+  const clearSource = loadPhoneFieldExample("phone-field-clear-demo.tsx")
+  const formSource = loadPhoneFieldExample("phone-field-form-demo.tsx")
+  const customSource = loadPhoneFieldExample("phone-field-custom-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Phone Field"
-        description={description}
-        slug="phone-field"
-      />
+      <ComponentDocsHeader title="Phone Field" description={description} slug="phone-field" />
 
-      <ComponentPreview
-        code={`<PhoneField>
-  <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldControl>
-    <Icon data-icon="inline-start" />
-    <PhoneFieldInput defaultValue="۰۹۱۲۳۴۵۶۷۸۹" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
-    <PhoneFieldClear />
-  </PhoneFieldControl>
-  <PhoneFieldDescription>
-    برای ورود و بازیابی حساب از این شماره استفاده می‌شود.
-  </PhoneFieldDescription>
-</PhoneField>`}
-      >
+      <ComponentPreview code={demoSource}>
         <PreviewShell>
           <PhoneFieldDemo />
         </PreviewShell>
@@ -109,280 +127,149 @@ export default function PhoneFieldPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Same composition as Text Field. Compose label, control, help text,
-          and error as siblings under{" "}
-          <code className="font-mono text-sm">PhoneField</code>. Wrap the input
-          in{" "}
-          <code className="font-mono text-sm">PhoneFieldControl</code> when you
-          need icons or a clear button - mark icons with{" "}
-          <code className="font-mono text-sm">data-icon</code> like Button so
-          spacing follows reading direction.{" "}
-          <code className="font-mono text-sm">PhoneFieldInput</code> always
-          renders <code className="font-mono text-sm">type=&quot;tel&quot;</code>{" "}
-          with telephone autocomplete and inputMode.{" "}
-          <code className="font-mono text-sm">PhoneFieldClear</code> appears
-          when the input has a value.
+          Same composition as Text Field. <Code>PhoneFieldInput</Code> always renders{" "}
+          <Code>type=&quot;tel&quot;</Code> with telephone autocomplete and inputMode, so mobile
+          keyboards open the dial pad.
         </p>
-        <CodeBlock code={compositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          <Code>PhoneFieldLabel</Code> is wired to the input, and <Code>PhoneFieldDescription</Code>{" "}
+          and <Code>PhoneFieldError</Code> are announced through <Code>aria-describedby</Code>.{" "}
+          <Code>invalid</Code> sets <Code>aria-invalid</Code> on the input. Give{" "}
+          <Code>PhoneFieldClear</Code> a localized <Code>aria-label</Code>; it leaves the tab order
+          while hidden.
+        </p>
       </section>
 
       <section className="space-y-6">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Description
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Add helper text below the control for format hints or guidance.
-          </p>
-          <ComponentPreview
-            code={`<PhoneField>
-  <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
-  <PhoneFieldDescription>
-    شماره باید با ۰۹ شروع شود و ۱۱ رقم باشد.
-  </PhoneFieldDescription>
-</PhoneField>`}
-          >
-            <PreviewShell>
-              <PhoneFieldDescriptionDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Description"
+          description="Add helper text below the control for format hints or guidance."
+          code={descriptionSource}
+        >
+          <PhoneFieldDescriptionDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Invalid
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set <code className="font-mono text-sm">invalid</code> on the root
-            to apply destructive styles and show the error message.
-          </p>
-          <ComponentPreview
-            code={`<PhoneField invalid>
-  <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldInput defaultValue="۰۹۱۲" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
-  <PhoneFieldError>یک شماره همراه معتبر وارد کنید.</PhoneFieldError>
-</PhoneField>`}
-          >
-            <PreviewShell>
-              <PhoneFieldInvalidDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Invalid"
+          description={
+            <>
+              Set <Code>invalid</Code> on the root to apply destructive styles and show{" "}
+              <Code>PhoneFieldError</Code>.
+            </>
+          }
+          code={invalidSource}
+        >
+          <PhoneFieldInvalidDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Disabled
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Disable the field to block interaction. The control uses a muted
-            fill; label and description stay readable.
-          </p>
-          <ComponentPreview
-            code={`<PhoneField disabled>
-  <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldInput defaultValue="۰۹۱۲۳۴۵۶۷۸۹" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
-  <PhoneFieldDescription>این فیلد فعلاً قابل ویرایش نیست.</PhoneFieldDescription>
-</PhoneField>`}
-          >
-            <PreviewShell>
-              <PhoneFieldDisabledDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Disabled"
+          description="Disable the field to block interaction. The control uses a muted fill; label and description stay readable."
+          code={disabledSource}
+        >
+          <PhoneFieldDisabledDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Sizes</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Two heights ship by default:{" "}
-            <code className="font-mono text-sm">default</code> (40px) and{" "}
-            <code className="font-mono text-sm">lg</code> (48px). Use{" "}
-            <code className="font-mono text-sm">className</code> for any other
-            size.
-          </p>
-          <ComponentPreview
-            code={`<PhoneField size="default">
-  <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldControl>
-    <Icon data-icon="inline-start" />
-    <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
-    <PhoneFieldClear />
-  </PhoneFieldControl>
-  <PhoneFieldDescription>ارتفاع ۴۰ پیکسل</PhoneFieldDescription>
-</PhoneField>
-<PhoneField size="lg">
-  <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldControl>
-    <Icon data-icon="inline-start" />
-    <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
-    <PhoneFieldClear />
-  </PhoneFieldControl>
-  <PhoneFieldDescription>ارتفاع ۴۸ پیکسل</PhoneFieldDescription>
-</PhoneField>`}
-          >
-            <PreviewShell>
-              <PhoneFieldSizesDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Sizes"
+          description={
+            <>
+              Two heights ship by default: <Code>default</Code> (40px) and <Code>lg</Code> (48px).
+              Use <Code>className</Code> for any other size.
+            </>
+          }
+          code={sizesSource}
+        >
+          <PhoneFieldSizesDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Icons</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Place icons inside{" "}
-            <code className="font-mono text-sm">PhoneFieldControl</code> with{" "}
-            <code className="font-mono text-sm">data-icon</code> like Button so
-            spacing follows reading direction. The phone mark is the usual
-            start icon for mobile numbers.
-          </p>
-          <ComponentPreview
-            code={`<PhoneField>
-  <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldControl>
-    <Icon data-icon="inline-start" />
-    <PhoneFieldInput placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
-  </PhoneFieldControl>
-</PhoneField>`}
-          >
-            <PreviewShell>
-              <PhoneFieldIconsDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Icons"
+          description={
+            <>
+              Place icons inside <Code>PhoneFieldControl</Code> with <Code>data-icon</Code> like
+              Button so spacing follows the reading direction.
+            </>
+          }
+          code={iconsSource}
+        >
+          <PhoneFieldIconsDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Clear</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            <code className="font-mono text-sm">PhoneFieldClear</code> appears
-            inside the control when the input has a value.
-          </p>
-          <ComponentPreview
-            code={`<PhoneField>
-  <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldControl>
-    <PhoneFieldInput defaultValue="۰۹۱۲۳۴۵۶۷۸۹" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
-    <PhoneFieldClear />
-  </PhoneFieldControl>
-</PhoneField>`}
-          >
-            <PreviewShell>
-              <PhoneFieldClearDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Clear"
+          description={
+            <>
+              <Code>PhoneFieldClear</Code> appears inside the control while the input has a value
+              and returns focus to the input after clearing.
+            </>
+          }
+          code={clearSource}
+        >
+          <PhoneFieldClearDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            In a form
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Compose Phone Field with Button inside a bordered surface for a
-            complete form block.
-          </p>
-          <ComponentPreview
-            previewClassName="bg-muted"
-            code={`<form className="grid max-w-xs gap-6 rounded-xl bg-background p-6">
-  <div className="space-y-1.5">
-    <p className="text-body font-medium">ورود با شماره همراه</p>
-    <p className="text-caption text-muted-foreground">
-      کد تأیید به این شماره ارسال می‌شود.
-    </p>
-  </div>
-  <PhoneField>
-    <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-    <PhoneFieldControl>
-      <Icon data-icon="inline-start" />
-      <PhoneFieldInput name="phone" placeholder="۰۹۱۲۰۰۰۰۰۰۰" required />
-      <PhoneFieldClear />
-    </PhoneFieldControl>
-    <PhoneFieldDescription>
-      یک شماره همراه معتبر وارد کنید.
-    </PhoneFieldDescription>
-  </PhoneField>
-  <div className="grid grid-cols-2 gap-2">
-    <Button type="button" variant="outline">انصراف</Button>
-    <Button type="submit">ادامه</Button>
-  </div>
-</form>`}
-          >
-            <PreviewShell>
-              <PhoneFieldFormDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="In a form"
+          description={
+            <>
+              Set <Code>name</Code> on the root so the value is submitted with the form, and pair
+              the field with Cubix Button.
+            </>
+          }
+          code={formSource}
+          previewClassName="bg-muted"
+        >
+          <PhoneFieldFormDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Custom styling
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Every part accepts a{" "}
-            <code className="font-mono text-sm">className</code> merged with
-            the shipped <code className="font-mono text-sm">cn</code> helper.
-            Here the field uses a filled surface instead of the default
-            outline:
-          </p>
-          <ComponentPreview
-            code={`<PhoneField>
-  <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
-  <PhoneFieldInput
-    className="border-border bg-muted focus-visible:bg-background dark:bg-muted dark:focus-visible:bg-background"
-    placeholder="۰۹۱۲۰۰۰۰۰۰۰"
-  />
-  <PhoneFieldDescription>
-    با className می‌توانید ظاهر را سفارشی کنید.
-  </PhoneFieldDescription>
-</PhoneField>`}
-          >
-            <PreviewShell>
-              <PhoneFieldCustomDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Custom styling"
+          description={
+            <>
+              Every part accepts a <Code>className</Code> merged with the shipped <Code>cn</Code>{" "}
+              helper. Here the input uses a filled surface instead of the default outline.
+            </>
+          }
+          code={customSource}
+        >
+          <PhoneFieldCustomDemo />
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Parts render{" "}
-            <code className="font-mono">data-slot</code> attributes (
-            <code className="font-mono">phone-field</code>,{" "}
-            <code className="font-mono">phone-field-label</code>,{" "}
-            <code className="font-mono">phone-field-control</code>,{" "}
-            <code className="font-mono">phone-field-input</code>,{" "}
-            <code className="font-mono">phone-field-clear</code>,{" "}
-            <code className="font-mono">phone-field-description</code>,{" "}
-            <code className="font-mono">phone-field-error</code>) for targeting
-            in tests and parent selectors.
+            <strong className="text-foreground">Note:</strong> Parts render <Code>data-slot</Code>{" "}
+            attributes (<Code>phone-field</Code>, <Code>phone-field-label</Code>,{" "}
+            <Code>phone-field-control</Code>, <Code>phone-field-input</Code>,{" "}
+            <Code>phone-field-clear</Code>, <Code>phone-field-description</Code>,{" "}
+            <Code>phone-field-error</Code>) for targeting in tests and parent selectors. Use the
+            same props on Base UI, React Aria, and Radix.
           </p>
         </div>
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">PhoneField</h3>
         <PropsTable data={phoneFieldPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          PhoneFieldControl
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">PhoneFieldControl</h3>
         <PropsTable data={phoneFieldControlPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          PhoneFieldInput
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">PhoneFieldInput</h3>
         <PropsTable data={phoneFieldInputPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          PhoneFieldClear
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">PhoneFieldClear</h3>
         <PropsTable data={phoneFieldClearPropRows} />
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">

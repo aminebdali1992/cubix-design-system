@@ -1,64 +1,55 @@
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
+import { CircleAlertIcon } from "lucide-react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
+import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  DropdownMenuBasicDemo,
-  DropdownMenuCheckboxesDemo,
-  DropdownMenuCheckboxesIconsDemo,
-  DropdownMenuDemo,
-  DropdownMenuDestructiveDemo,
-  DropdownMenuIconsDemo,
-  DropdownMenuIndicatorDemo,
-  DropdownMenuRadioGroupDemo,
-  DropdownMenuSubmenuDemo,
-} from "@/components/examples/dropdown-menu-examples"
-
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
 import {
   checkboxItemPropRows,
   contentPropRows,
+  dropdownMenuKeyboardRows,
   dropdownMenuPropRows,
   itemPropRows,
   labelPropRows,
   radioGroupPropRows,
   radioItemPropRows,
+  shortcutPropRows,
   subContentPropRows,
   subTriggerPropRows,
   triggerPropRows,
 } from "./dropdown-menu-table-data"
+import { DropdownMenuBasicDemo } from "./examples/dropdown-menu-basic-demo"
+import { DropdownMenuCheckboxesDemo } from "./examples/dropdown-menu-checkboxes-demo"
+import { DropdownMenuDemo } from "./examples/dropdown-menu-demo"
+import { DropdownMenuDestructiveDemo } from "./examples/dropdown-menu-destructive-demo"
+import { DropdownMenuIndicatorDemo } from "./examples/dropdown-menu-indicator-demo"
+import { DropdownMenuRadioDemo } from "./examples/dropdown-menu-radio-demo"
+import { DropdownMenuSubmenuDemo } from "./examples/dropdown-menu-submenu-demo"
 
-const description =
-  "Displays a menu of actions or options to the user, triggered by a button."
+const description = "Displays a menu of actions or options to the user, triggered by a button."
 
 export const metadata: Metadata = {
   title: "Dropdown Menu",
   description,
 }
 
-const usageImport = `import { Button } from "@/components/cubix/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/cubix/dropdown-menu"`
+const PUBLIC_IMPORT = "@/components/cubix/dropdown-menu"
+const EXAMPLES_DIR = "app/docs/components/dropdown-menu/examples"
 
-const usageSnippet = `<DropdownMenu dir="rtl" lang="fa">
-  <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>
-    باز کردن
-  </DropdownMenuTrigger>
-  <DropdownMenuContent>
-    <DropdownMenuItem>زبانه جدید</DropdownMenuItem>
-    <DropdownMenuItem>پنجره جدید</DropdownMenuItem>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>چاپ</DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>`
+function loadDropdownMenuExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `DropdownMenu
 ├── DropdownMenuTrigger
@@ -66,212 +57,19 @@ const compositionSnippet = `DropdownMenu
     ├── DropdownMenuGroup
     │   ├── DropdownMenuLabel
     │   └── DropdownMenuItem
-    ├── DropdownMenuItem
+    │       └── DropdownMenuShortcut
     ├── DropdownMenuSeparator
     ├── DropdownMenuCheckboxItem
     ├── DropdownMenuRadioGroup
     │   └── DropdownMenuRadioItem
     └── DropdownMenuSub
         ├── DropdownMenuSubTrigger
-        └── DropdownMenuSubContent
-            └── DropdownMenuItem`
+        └── DropdownMenuSubContent`
 
-const demoSnippet = `<DropdownMenu dir="rtl" lang="fa">
-  <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>
-    باز کردن
-  </DropdownMenuTrigger>
-  <DropdownMenuContent>
-    <DropdownMenuGroup>
-      <DropdownMenuLabel>پنجره‌ها</DropdownMenuLabel>
-      <DropdownMenuItem>زبانه جدید</DropdownMenuItem>
-      <DropdownMenuItem>پنجره جدید</DropdownMenuItem>
-    </DropdownMenuGroup>
-    <DropdownMenuSeparator />
-    <DropdownMenuSub>
-      <DropdownMenuSubTrigger>اشتراک‌گذاری</DropdownMenuSubTrigger>
-      <DropdownMenuSubContent>
-        <DropdownMenuItem>لینک ایمیل</DropdownMenuItem>
-        <DropdownMenuItem>پیام‌ها</DropdownMenuItem>
-      </DropdownMenuSubContent>
-    </DropdownMenuSub>
-    <DropdownMenuSeparator />
-    <DropdownMenuGroup>
-      <DropdownMenuLabel>نمایش</DropdownMenuLabel>
-      <DropdownMenuCheckboxItem>نوار ابزار</DropdownMenuCheckboxItem>
-      <DropdownMenuCheckboxItem defaultChecked>
-        نوار وضعیت
-      </DropdownMenuCheckboxItem>
-    </DropdownMenuGroup>
-  </DropdownMenuContent>
-</DropdownMenu>`
-
-const basicSnippet = `<DropdownMenu dir="rtl" lang="fa">
-  <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>
-    باز کردن
-  </DropdownMenuTrigger>
-  <DropdownMenuContent>
-    <DropdownMenuGroup>
-      <DropdownMenuLabel>پنجره‌ها</DropdownMenuLabel>
-      <DropdownMenuItem>زبانه جدید</DropdownMenuItem>
-      <DropdownMenuItem>پنجره جدید</DropdownMenuItem>
-      <DropdownMenuItem disabled>پنجره ناشناس</DropdownMenuItem>
-    </DropdownMenuGroup>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem>چاپ</DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>`
-
-const iconsSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
-
-<DropdownMenuContent>
-  <DropdownMenuItem>
-    <ButtonDemoIcon />
-    زبانه جدید
-  </DropdownMenuItem>
-  <DropdownMenuItem>
-    <ButtonDemoIcon />
-    پنجره جدید
-  </DropdownMenuItem>
-  <DropdownMenuItem disabled>
-    <ButtonDemoIcon />
-    پنجره ناشناس
-  </DropdownMenuItem>
-  <DropdownMenuSeparator />
-  <DropdownMenuSub>
-    <DropdownMenuSubTrigger>
-      <ButtonDemoIcon />
-      اشتراک‌گذاری
-    </DropdownMenuSubTrigger>
-    <DropdownMenuSubContent>
-      <DropdownMenuItem>
-        <ButtonDemoIcon />
-        لینک ایمیل
-      </DropdownMenuItem>
-      <DropdownMenuItem>
-        <ButtonDemoIcon />
-        پیام‌ها
-      </DropdownMenuItem>
-    </DropdownMenuSubContent>
-  </DropdownMenuSub>
-  <DropdownMenuSeparator />
-  <DropdownMenuItem>
-    <ButtonDemoIcon />
-    چاپ
-  </DropdownMenuItem>
-</DropdownMenuContent>`
-
-const submenuSnippet = `<DropdownMenuContent>
-  <DropdownMenuItem>واگرد</DropdownMenuItem>
-  <DropdownMenuItem>بازگردانی</DropdownMenuItem>
-  <DropdownMenuSeparator />
-  <DropdownMenuSub>
-    <DropdownMenuSubTrigger>یافتن</DropdownMenuSubTrigger>
-    <DropdownMenuSubContent>
-      <DropdownMenuItem>یافتن</DropdownMenuItem>
-      <DropdownMenuItem>یافتن بعدی</DropdownMenuItem>
-      <DropdownMenuItem>یافتن قبلی</DropdownMenuItem>
-    </DropdownMenuSubContent>
-  </DropdownMenuSub>
-  <DropdownMenuSeparator />
-  <DropdownMenuItem>برش</DropdownMenuItem>
-  <DropdownMenuItem>کپی</DropdownMenuItem>
-  <DropdownMenuItem>جای‌گذاری</DropdownMenuItem>
-</DropdownMenuContent>`
-
-const checkboxesSnippet = `<DropdownMenuContent>
-  <DropdownMenuGroup>
-    <DropdownMenuLabel>نمایش</DropdownMenuLabel>
-    <DropdownMenuCheckboxItem>نوار ابزار</DropdownMenuCheckboxItem>
-    <DropdownMenuCheckboxItem defaultChecked>
-      نوار وضعیت
-    </DropdownMenuCheckboxItem>
-  </DropdownMenuGroup>
-  <DropdownMenuSeparator />
-  <DropdownMenuItem>بارگذاری مجدد</DropdownMenuItem>
-  <DropdownMenuItem disabled>بارگذاری اجباری</DropdownMenuItem>
-</DropdownMenuContent>`
-
-const checkboxesIconsSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
-
-<DropdownMenuContent>
-  <DropdownMenuGroup>
-    <DropdownMenuLabel>نمایش</DropdownMenuLabel>
-    <DropdownMenuCheckboxItem>
-      <ButtonDemoIcon />
-      نوار ابزار
-    </DropdownMenuCheckboxItem>
-    <DropdownMenuCheckboxItem defaultChecked>
-      <ButtonDemoIcon />
-      نوار وضعیت
-    </DropdownMenuCheckboxItem>
-    <DropdownMenuCheckboxItem disabled>
-      <ButtonDemoIcon />
-      نوار کناری
-    </DropdownMenuCheckboxItem>
-  </DropdownMenuGroup>
-</DropdownMenuContent>`
-
-const radioSnippet = `const [user, setUser] = React.useState("sara")
-
-<DropdownMenuContent>
-  <DropdownMenuRadioGroup value={user} onValueChange={setUser}>
-    <DropdownMenuLabel>کاربر</DropdownMenuLabel>
-    <DropdownMenuRadioItem value="amin">امین</DropdownMenuRadioItem>
-    <DropdownMenuRadioItem value="sara">سارا</DropdownMenuRadioItem>
-    <DropdownMenuRadioItem value="reza">رضا</DropdownMenuRadioItem>
-  </DropdownMenuRadioGroup>
-  <DropdownMenuSeparator />
-  <DropdownMenuItem>ویرایش</DropdownMenuItem>
-  <DropdownMenuItem>افزودن پروفایل</DropdownMenuItem>
-</DropdownMenuContent>`
-
-const indicatorSnippet = `const [user, setUser] = React.useState("sara")
-
-<DropdownMenuContent>
-  <DropdownMenuGroup>
-    <DropdownMenuLabel>نمایش</DropdownMenuLabel>
-    <DropdownMenuCheckboxItem indicator="check">
-      نوار ابزار
-    </DropdownMenuCheckboxItem>
-    <DropdownMenuCheckboxItem indicator="check" defaultChecked>
-      نوار وضعیت
-    </DropdownMenuCheckboxItem>
-  </DropdownMenuGroup>
-  <DropdownMenuSeparator />
-  <DropdownMenuRadioGroup
-    indicator="check"
-    value={user}
-    onValueChange={setUser}
-  >
-    <DropdownMenuLabel>کاربر</DropdownMenuLabel>
-    <DropdownMenuRadioItem value="amin">امین</DropdownMenuRadioItem>
-    <DropdownMenuRadioItem value="sara">سارا</DropdownMenuRadioItem>
-    <DropdownMenuRadioItem value="reza">رضا</DropdownMenuRadioItem>
-  </DropdownMenuRadioGroup>
-</DropdownMenuContent>`
-
-const destructiveSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
-
-<DropdownMenuContent>
-  <DropdownMenuItem>
-    <ButtonDemoIcon />
-    ویرایش
-  </DropdownMenuItem>
-  <DropdownMenuItem>
-    <ButtonDemoIcon />
-    تکثیر
-  </DropdownMenuItem>
-  <DropdownMenuItem>
-    <ButtonDemoIcon />
-    اشتراک‌گذاری
-  </DropdownMenuItem>
-  <DropdownMenuSeparator />
-  <DropdownMenuItem variant="destructive">
-    <ButtonDemoIcon />
-    حذف
-  </DropdownMenuItem>
-</DropdownMenuContent>`
-
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" lang="fa" className="flex w-full justify-center">
@@ -280,35 +78,48 @@ function PreviewShell({ children }: { children: ReactNode }) {
   )
 }
 
-function Code({ children }: { children: ReactNode }) {
-  return <code className="font-mono text-sm">{children}</code>
-}
-
-function PropsSection({
+function ExampleSection({
   title,
+  description,
+  code,
   children,
 }: {
   title: string
+  description: ReactNode
+  code: string
   children: ReactNode
 }) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
-      {children}
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
     </div>
   )
 }
 
-export default function DropdownMenuDocsPage() {
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
+export default function DropdownMenuPage() {
+  const demoSource = loadDropdownMenuExample("dropdown-menu-demo.tsx")
+  const basicSource = loadDropdownMenuExample("dropdown-menu-basic-demo.tsx")
+  const submenuSource = loadDropdownMenuExample("dropdown-menu-submenu-demo.tsx")
+  const checkboxesSource = loadDropdownMenuExample("dropdown-menu-checkboxes-demo.tsx")
+  const radioSource = loadDropdownMenuExample("dropdown-menu-radio-demo.tsx")
+  const indicatorSource = loadDropdownMenuExample("dropdown-menu-indicator-demo.tsx")
+  const destructiveSource = loadDropdownMenuExample("dropdown-menu-destructive-demo.tsx")
+  const usageImport = extractDemoImports(basicSource)
+  const usageSnippet = extractDemoJsx(basicSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Dropdown Menu"
-        description={description}
-        slug="dropdown-menu"
-      />
+      <ComponentDocsHeader title="Dropdown Menu" description={description} slug="dropdown-menu" />
 
-      <ComponentPreview code={demoSnippet} previewClassName="min-h-48">
+      <ComponentPreview code={demoSource}>
         <PreviewShell>
           <DropdownMenuDemo />
         </PreviewShell>
@@ -323,184 +134,167 @@ export default function DropdownMenuDocsPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the following composition to build a <Code>DropdownMenu</Code>:
+          Pass <Code>render=&#123;&lt;Button /&gt;&#125;</Code> to style the trigger as a Cubix
+          Button. The menu reads <Code>dir</Code> and <Code>lang</Code> from the closest element on
+          the page and carries them into the portaled content, so it opens aligned to the start edge
+          of the trigger (the right edge in RTL).
         </p>
-        <CodeBlock code={compositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Basic</h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Click the trigger, or focus it and press Enter, Space or ArrowDown.
-          The menu opens under the trigger, aligned to its start edge (the
-          right edge in RTL).
+          The trigger exposes <Code>aria-haspopup</Code> and <Code>aria-expanded</Code>, the content
+          is a <Code>menu</Code>, and checkbox and radio items announce their checked state. Focus
+          moves into the menu when it opens and returns to the trigger when it closes. Give
+          icon-only triggers an <Code>aria-label</Code>.
         </p>
-        <ComponentPreview code={basicSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <DropdownMenuBasicDemo />
-          </PreviewShell>
-        </ComponentPreview>
+        <KeyboardTable data={dropdownMenuKeyboardRows} />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Icons</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Place an icon before the label inside <Code>DropdownMenuItem</Code>{" "}
-          or <Code>DropdownMenuSubTrigger</Code>. It sits at the start of the
-          item (the right side in RTL).
-        </p>
-        <ComponentPreview code={iconsSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <DropdownMenuIconsDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+      <section className="space-y-6">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Submenu</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Nest menus with <Code>DropdownMenuSub</Code>,{" "}
-          <Code>DropdownMenuSubTrigger</Code>, and{" "}
-          <Code>DropdownMenuSubContent</Code>. In RTL the submenu opens to the
-          left and ArrowLeft opens it from the keyboard.
-        </p>
-        <ComponentPreview code={submenuSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <DropdownMenuSubmenuDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Checkboxes
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use <Code>DropdownMenuCheckboxItem</Code> for options that can be
-          turned on and off. Without <Code>checked</Code>, the state is kept
-          when the menu closes and opens again.
-        </p>
-        <ComponentPreview code={checkboxesSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <DropdownMenuCheckboxesDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Checkboxes with icons
-        </h2>
-        <ComponentPreview
-          code={checkboxesIconsSnippet}
-          previewClassName="min-h-40"
+        <ExampleSection
+          title="Basic"
+          description={
+            <>
+              Group related items under a <Code>DropdownMenuLabel</Code> and split sections with{" "}
+              <Code>DropdownMenuSeparator</Code>. Set <Code>disabled</Code> on an item to lock it.
+            </>
+          }
+          code={basicSource}
         >
-          <PreviewShell>
-            <DropdownMenuCheckboxesIconsDemo />
-          </PreviewShell>
-        </ComponentPreview>
+          <DropdownMenuBasicDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Submenu"
+          description={
+            <>
+              Nest menus with <Code>DropdownMenuSub</Code>, <Code>DropdownMenuSubTrigger</Code> and{" "}
+              <Code>DropdownMenuSubContent</Code>. In RTL the submenu opens to the left and
+              ArrowLeft opens it from the keyboard.
+            </>
+          }
+          code={submenuSource}
+        >
+          <DropdownMenuSubmenuDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Checkboxes"
+          description={
+            <>
+              Use <Code>DropdownMenuCheckboxItem</Code> for options that turn on and off. The menu
+              stays open while toggling, and without <Code>checked</Code> the state is kept when the
+              menu closes and opens again.
+            </>
+          }
+          code={checkboxesSource}
+        >
+          <DropdownMenuCheckboxesDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Radio group"
+          description={
+            <>
+              Use <Code>DropdownMenuRadioGroup</Code> with <Code>DropdownMenuRadioItem</Code> when
+              only one option can be selected. Here the trigger shows the current choice.
+            </>
+          }
+          code={radioSource}
+        >
+          <DropdownMenuRadioDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Tick indicator"
+          description={
+            <>
+              Set <Code>indicator=&quot;check&quot;</Code> to show a plain tick instead of the Cubix
+              Checkbox or Radio. On a radio group it applies to every item in the group.
+            </>
+          }
+          code={indicatorSource}
+        >
+          <DropdownMenuIndicatorDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Destructive"
+          description={
+            <>
+              Use <Code>variant=&quot;destructive&quot;</Code> on <Code>DropdownMenuItem</Code> for
+              irreversible actions such as delete. The icon-only trigger is named with{" "}
+              <Code>aria-label</Code>.
+            </>
+          }
+          code={destructiveSource}
+        >
+          <DropdownMenuDestructiveDemo />
+        </ExampleSection>
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Radio</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use <Code>DropdownMenuRadioGroup</Code> with{" "}
-          <Code>DropdownMenuRadioItem</Code> when only one option can be
-          selected.
-        </p>
-        <ComponentPreview code={radioSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <DropdownMenuRadioGroupDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+      <section id="api-reference" className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
+        <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
+          <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
+          <p className="leading-relaxed text-muted-foreground">
+            <strong className="text-foreground">Note:</strong> Parts render <Code>data-slot</Code>{" "}
+            attributes (<Code>dropdown-menu-trigger</Code>, <Code>dropdown-menu-content</Code>,{" "}
+            <Code>dropdown-menu-group</Code>, <Code>dropdown-menu-label</Code>,{" "}
+            <Code>dropdown-menu-item</Code>, <Code>dropdown-menu-checkbox-item</Code>,{" "}
+            <Code>dropdown-menu-radio-group</Code>, <Code>dropdown-menu-radio-item</Code>,{" "}
+            <Code>dropdown-menu-separator</Code>, <Code>dropdown-menu-shortcut</Code>,{" "}
+            <Code>dropdown-menu-sub-trigger</Code>, <Code>dropdown-menu-sub-content</Code>) for
+            targeting in tests and parent selectors. Use the same props on Base UI, React Aria, and
+            Radix.
+          </p>
+        </div>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Tick indicator
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Set indicator=&quot;check&quot; to show a plain tick instead of the
-          Cubix Checkbox or Radio. The default is &quot;control&quot;. On a
-          radio group it applies to every item in the group.
-        </p>
-        <ComponentPreview code={indicatorSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <DropdownMenuIndicatorDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">DropdownMenu</h3>
+        <PropsTable data={dropdownMenuPropRows} />
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Destructive
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use <Code>variant=&quot;destructive&quot;</Code> on{" "}
-          <Code>DropdownMenuItem</Code> for irreversible actions such as
-          delete.
-        </p>
-        <ComponentPreview code={destructiveSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <DropdownMenuDestructiveDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">DropdownMenuTrigger</h3>
+        <PropsTable data={triggerPropRows} />
 
-      <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">DropdownMenuContent</h3>
+        <PropsTable data={contentPropRows} />
 
-        <PropsSection title="DropdownMenu">
-          <PropsTable data={dropdownMenuPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">DropdownMenuItem</h3>
+        <PropsTable data={itemPropRows} />
 
-        <PropsSection title="DropdownMenuTrigger">
-          <PropsTable data={triggerPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">DropdownMenuLabel</h3>
+        <PropsTable data={labelPropRows} />
 
-        <PropsSection title="DropdownMenuContent">
-          <PropsTable data={contentPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">DropdownMenuCheckboxItem</h3>
+        <PropsTable data={checkboxItemPropRows} />
 
-        <PropsSection title="DropdownMenuItem">
-          <PropsTable data={itemPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">DropdownMenuRadioGroup</h3>
+        <PropsTable data={radioGroupPropRows} />
 
-        <PropsSection title="DropdownMenuLabel">
-          <PropsTable data={labelPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">DropdownMenuRadioItem</h3>
+        <PropsTable data={radioItemPropRows} />
 
-        <PropsSection title="DropdownMenuCheckboxItem">
-          <PropsTable data={checkboxItemPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">DropdownMenuShortcut</h3>
+        <PropsTable data={shortcutPropRows} />
 
-        <PropsSection title="DropdownMenuRadioGroup">
-          <PropsTable data={radioGroupPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">DropdownMenuSubTrigger</h3>
+        <PropsTable data={subTriggerPropRows} />
 
-        <PropsSection title="DropdownMenuRadioItem">
-          <PropsTable data={radioItemPropRows} />
-        </PropsSection>
-
-        <PropsSection title="DropdownMenuSubTrigger">
-          <PropsTable data={subTriggerPropRows} />
-        </PropsSection>
-
-        <PropsSection title="DropdownMenuSubContent">
-          <PropsTable data={subContentPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">DropdownMenuSubContent</h3>
+        <PropsTable data={subContentPropRows} />
 
         <p className="leading-relaxed text-muted-foreground">
-          <Code>DropdownMenuGroup</Code>, <Code>DropdownMenuSeparator</Code>{" "}
-          and <Code>DropdownMenuSub</Code> take <Code>className</Code> and{" "}
-          <Code>children</Code> only (<Code>DropdownMenuSeparator</Code> has
-          no children).
+          <Code>DropdownMenuGroup</Code> takes <Code>className</Code> and <Code>children</Code>,{" "}
+          <Code>DropdownMenuSeparator</Code> takes <Code>className</Code>, and{" "}
+          <Code>DropdownMenuSub</Code> takes a <Code>DropdownMenuSubTrigger</Code> followed by a{" "}
+          <Code>DropdownMenuSubContent</Code>.
         </p>
       </section>
     </article>

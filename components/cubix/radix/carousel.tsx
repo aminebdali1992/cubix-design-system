@@ -2,9 +2,7 @@
 
 import * as React from "react"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
-import useEmblaCarousel, {
-  type UseEmblaCarouselType,
-} from "embla-carousel-react"
+import useEmblaCarousel, { type UseEmblaCarouselType } from "embla-carousel-react"
 
 import { Button } from "@/components/cubix/radix/button"
 import { cn } from "@/lib/utils"
@@ -44,9 +42,10 @@ function useCarousel() {
 }
 
 function readClosestDirection(node: HTMLElement | null): "ltr" | "rtl" {
-  if (!node) return "ltr"
+  if (!node) return "rtl"
   const root = node.closest("[dir]")
-  return root?.getAttribute("dir") === "rtl" ? "rtl" : "ltr"
+  const value = root?.getAttribute("dir")
+  return value === "ltr" || value === "rtl" ? value : "rtl"
 }
 
 function Carousel({
@@ -59,9 +58,7 @@ function Carousel({
   ...props
 }: React.ComponentProps<"div"> & CarouselProps) {
   const rootRef = React.useRef<HTMLDivElement>(null)
-  const [direction, setDirection] = React.useState<"ltr" | "rtl">(
-    () => opts?.direction ?? "ltr"
-  )
+  const [direction, setDirection] = React.useState<"ltr" | "rtl">(() => opts?.direction ?? "rtl")
   const prevDirectionRef = React.useRef(direction)
   const prevOrientationRef = React.useRef(orientation)
 
@@ -157,8 +154,7 @@ function Carousel({
         carouselRef,
         api,
         opts,
-        orientation:
-          orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
+        orientation: orientation || (opts?.axis === "y" ? "vertical" : "horizontal"),
         scrollPrev,
         scrollNext,
         canScrollPrev,
@@ -186,17 +182,9 @@ function CarouselContent({ className, ...props }: React.ComponentProps<"div">) {
   const { carouselRef, orientation } = useCarousel()
 
   return (
-    <div
-      ref={carouselRef}
-      className="overflow-hidden"
-      data-slot="carousel-content"
-    >
+    <div ref={carouselRef} className="overflow-hidden" data-slot="carousel-content">
       <div
-        className={cn(
-          "flex",
-          orientation === "horizontal" ? "-ms-4" : "-mt-4 flex-col",
-          className
-        )}
+        className={cn("flex", orientation === "horizontal" ? "-ms-4" : "-mt-4 flex-col", className)}
         {...props}
       />
     </div>
@@ -246,7 +234,7 @@ function CarouselPrevious({
       {...props}
     >
       <ChevronLeftIcon className="cn-rtl-flip" />
-      <span className="sr-only">Previous slide</span>
+      <span className="sr-only">اسلاید قبلی</span>
     </Button>
   )
 }
@@ -276,7 +264,7 @@ function CarouselNext({
       {...props}
     >
       <ChevronRightIcon className="cn-rtl-flip" />
-      <span className="sr-only">Next slide</span>
+      <span className="sr-only">اسلاید بعدی</span>
     </Button>
   )
 }

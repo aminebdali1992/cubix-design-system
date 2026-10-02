@@ -30,8 +30,7 @@ export const verifyCodePropRows = [
     prop: "invalid",
     type: "boolean",
     default: "false",
-    description:
-      "Marks the field as invalid and applies a destructive border on the digit boxes.",
+    description: "Marks the field as invalid and applies a destructive border on the digit boxes.",
   },
   {
     prop: "defaultValue",
@@ -42,14 +41,12 @@ export const verifyCodePropRows = [
   {
     prop: "value",
     type: "string",
-    description:
-      "Controlled code string. Pair with onValueChange when the parent owns the value.",
+    description: "Controlled code string. Pair with onValueChange when the parent owns the value.",
   },
   {
     prop: "onValueChange",
     type: "(value: string) => void",
-    description:
-      "Called with the combined Persian-digit string whenever a digit changes.",
+    description: "Called with the combined Persian-digit string whenever a digit changes.",
   },
   {
     prop: "name",
@@ -60,8 +57,7 @@ export const verifyCodePropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the root styles (last one wins).",
+    description: "Additional Tailwind classes merged with the root styles (last one wins).",
   },
 ]
 
@@ -69,8 +65,7 @@ export const verifyCodeControlPropRows = [
   {
     prop: "size",
     type: '"default" | "lg"',
-    description:
-      "Overrides the size from VerifyCode. Height matches the default and lg sizes.",
+    description: "Overrides the size from VerifyCode. Height matches the default and lg sizes.",
   },
   {
     prop: "digitClassName",
@@ -87,8 +82,7 @@ export const verifyCodeControlPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the control styles (last one wins).",
+    description: "Additional Tailwind classes merged with the control styles (last one wins).",
   },
 ]
 
@@ -109,14 +103,12 @@ export const verifyCodeDigitPropRows = [
     prop: "inputMode",
     type: '"numeric"',
     default: '"numeric"',
-    description:
-      "Locked to numeric so mobile keyboards show a number pad.",
+    description: "Locked to numeric so mobile keyboards show a number pad.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the digit styles (last one wins).",
+    description: "Additional Tailwind classes merged with the digit styles (last one wins).",
   },
   {
     prop: "...props",
@@ -131,14 +123,12 @@ export const verifyCodeSeparatorPropRows = [
     prop: "children",
     type: "React.ReactNode",
     default: '"-"',
-    description:
-      "Separator content between digit groups. Defaults to a hyphen.",
+    description: "Separator content between digit groups. Defaults to a hyphen.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the separator styles (last one wins).",
+    description: "Additional Tailwind classes merged with the separator styles (last one wins).",
   },
 ]
 
@@ -160,8 +150,7 @@ export const verifyCodeResendPropRows = [
     prop: "expiredLabel",
     type: "React.ReactNode",
     default: '"دریافت مجدد کد تایید"',
-    description:
-      "Helper text shown beside the badge after the countdown reaches zero.",
+    description: "Helper text shown beside the badge after the countdown reaches zero.",
   },
   {
     prop: "resendLabel",
@@ -179,8 +168,7 @@ export const verifyCodeResendPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the resend row styles (last one wins).",
+    description: "Additional Tailwind classes merged with the resend row styles (last one wins).",
   },
 ]
 
@@ -193,8 +181,7 @@ export const verifyCodePartPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the part styles (last one wins).",
+    description: "Additional Tailwind classes merged with the part styles (last one wins).",
   },
   {
     prop: "...props",

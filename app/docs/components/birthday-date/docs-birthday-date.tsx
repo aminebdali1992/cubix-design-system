@@ -57,14 +57,7 @@ function useBirthdayDateBase() {
   return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
 }
 
-function BirthdayDate({
-  className,
-  size,
-  disabled,
-  invalid,
-  name,
-  children,
-}: BirthdayDateProps) {
+function BirthdayDate({ className, size, disabled, invalid, name, children }: BirthdayDateProps) {
   const base = useBirthdayDateBase()
 
   if (base === "radix") {
@@ -134,11 +127,7 @@ function BirthdayDateLabel({ className, children }: BirthdayDateLabelProps) {
   )
 }
 
-function BirthdayDateControl({
-  className,
-  size,
-  children,
-}: BirthdayDateControlProps) {
+function BirthdayDateControl({ className, size, children }: BirthdayDateControlProps) {
   const base = useBirthdayDateBase()
 
   if (base === "radix") {
@@ -185,10 +174,7 @@ function BirthdayDateYear(props: BirthdayDateSegmentProps) {
   return <BaseBirthdayDate.BirthdayDateYear {...props} />
 }
 
-function BirthdayDateSeparator({
-  className,
-  children,
-}: BirthdayDateSeparatorProps) {
+function BirthdayDateSeparator({ className, children }: BirthdayDateSeparatorProps) {
   const base = useBirthdayDateBase()
 
   if (base === "radix") {
@@ -214,10 +200,7 @@ function BirthdayDateSeparator({
   )
 }
 
-function BirthdayDateDescription({
-  className,
-  children,
-}: BirthdayDateDescriptionProps) {
+function BirthdayDateDescription({ className, children }: BirthdayDateDescriptionProps) {
   const base = useBirthdayDateBase()
 
   if (base === "radix") {

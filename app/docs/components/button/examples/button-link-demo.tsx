@@ -9,7 +9,7 @@ export function ButtonLinkDemo() {
   return (
     <Button nativeButton={false} render={<Link href="/docs" />}>
       متن دکمه
-      <ChevronLeftIcon data-icon="inline-end" />
+      <ChevronLeftIcon data-icon="inline-end" className="size-4" absoluteStrokeWidth strokeWidth={2} />
     </Button>
   )
 }

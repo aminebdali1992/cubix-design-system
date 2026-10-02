@@ -20,6 +20,11 @@ import {
   Text as AriaText,
 } from "react-aria-components"
 
+import {
+  liftAriaFieldInputValue,
+  markCubixFieldInput,
+  mergeAriaFieldValueProps,
+} from "@/lib/aria-field-value"
 import { cn } from "@/lib/utils"
 
 /*
@@ -63,9 +68,7 @@ const amountFieldInputVariants = cva(
   }
 )
 
-type AmountFieldSize = NonNullable<
-  VariantProps<typeof amountFieldInputVariants>["size"]
->
+type AmountFieldSize = NonNullable<VariantProps<typeof amountFieldInputVariants>["size"]>
 
 type AmountFieldCurrencyUnit = "تومان" | "ریال"
 
@@ -86,18 +89,7 @@ const THOUSANDS_SEP = "٬"
 const AMOUNT_DIGIT = /[\d۰-۹٠-٩]/
 const AMOUNT_ALLOWED_INSERT = /^[\d۰-۹٠-٩]+$/
 
-const ONES = [
-  "",
-  "یک",
-  "دو",
-  "سه",
-  "چهار",
-  "پنج",
-  "شش",
-  "هفت",
-  "هشت",
-  "نه",
-]
+const ONES = ["", "یک", "دو", "سه", "چهار", "پنج", "شش", "هفت", "هشت", "نه"]
 const TEENS = [
   "ده",
   "یازده",
@@ -110,30 +102,8 @@ const TEENS = [
   "هجده",
   "نوزده",
 ]
-const TENS = [
-  "",
-  "",
-  "بیست",
-  "سی",
-  "چهل",
-  "پنجاه",
-  "شصت",
-  "هفتاد",
-  "هشتاد",
-  "نود",
-]
-const HUNDREDS = [
-  "",
-  "صد",
-  "دویست",
-  "سیصد",
-  "چهارصد",
-  "پانصد",
-  "ششصد",
-  "هفتصد",
-  "هشتصد",
-  "نهصد",
-]
+const TENS = ["", "", "بیست", "سی", "چهل", "پنجاه", "شصت", "هفتاد", "هشتاد", "نود"]
+const HUNDREDS = ["", "صد", "دویست", "سیصد", "چهارصد", "پانصد", "ششصد", "هفتصد", "هشتصد", "نهصد"]
 const SCALES = ["", "هزار", "میلیون", "میلیارد", "تریلیون"]
 
 function toLatinDigits(value: string) {
@@ -143,10 +113,7 @@ function toLatinDigits(value: string) {
 }
 
 function toPersianDigits(value: string) {
-  return toLatinDigits(value).replace(
-    /\d/g,
-    (digit) => PERSIAN_DIGITS[Number(digit)] ?? digit
-  )
+  return toLatinDigits(value).replace(/\d/g, (digit) => PERSIAN_DIGITS[Number(digit)] ?? digit)
 }
 
 function extractAmountDigits(value: string) {
@@ -236,10 +203,7 @@ function formatAmountFieldAmountInWords(
   }
   if (currency === "ریال") {
     // 10 ریال = 1 تومان
-    const tomans =
-      digits.length <= 1
-        ? "0"
-        : digits.slice(0, -1).replace(/^0+(?=\d)/, "") || "0"
+    const tomans = digits.length <= 1 ? "0" : digits.slice(0, -1).replace(/^0+(?=\d)/, "") || "0"
     return `${numberToPersianWordsFromDigits(tomans)} تومان`
   }
   return ""
@@ -267,10 +231,7 @@ function caretFromDigitCount(value: string, digitCount: number) {
 }
 
 function setAmountFieldInputValue(input: HTMLInputElement, next: string) {
-  const descriptor = Object.getOwnPropertyDescriptor(
-    HTMLInputElement.prototype,
-    "value"
-  )
+  const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
   descriptor?.set?.call(input, next)
   input.dispatchEvent(new Event("input", { bubbles: true }))
   input.dispatchEvent(new Event("change", { bubbles: true }))
@@ -289,22 +250,20 @@ function normalizeAmountPropValue(
 
 function AmountFieldStoreProvider({
   children,
+  initialDigits = "",
 }: {
   children: React.ReactNode
+  initialDigits?: string
 }) {
-  const [digits, setDigits] = React.useState("")
-  const [currency, setCurrency] = React.useState<AmountFieldCurrencyUnit | "">(
-    ""
-  )
+  const [digits, setDigits] = React.useState(initialDigits)
+  const [currency, setCurrency] = React.useState<AmountFieldCurrencyUnit | "">("")
   const store = React.useMemo(
     () => ({ digits, currency, setDigits, setCurrency }),
     [digits, currency]
   )
 
   return (
-    <AmountFieldStoreContext.Provider value={store}>
-      {children}
-    </AmountFieldStoreContext.Provider>
+    <AmountFieldStoreContext.Provider value={store}>{children}</AmountFieldStoreContext.Provider>
   )
 }
 
@@ -315,20 +274,34 @@ function AmountField({
   invalid,
   isDisabled,
   isInvalid,
+  children,
   ...props
 }: Omit<
   React.ComponentProps<typeof AriaAmountField>,
-  "className" | "isDisabled" | "isInvalid"
+  "className" | "isDisabled" | "isInvalid" | "children"
 > & {
   className?: string
+  children?: React.ReactNode
   size?: AmountFieldSize
   disabled?: boolean
   invalid?: boolean
   isDisabled?: boolean
   isInvalid?: boolean
 }) {
+  const { children: fieldChildren, lifted } = liftAriaFieldInputValue(children)
+  const formattedLifted = {
+    ...lifted,
+    defaultValue:
+      lifted.defaultValue == null ? undefined : formatAmountFieldValue(lifted.defaultValue),
+    value: lifted.value == null ? undefined : formatAmountFieldValue(lifted.value),
+  }
+  const fieldProps = mergeAriaFieldValueProps(props, formattedLifted)
+  const initialDigits = extractAmountDigits(
+    String(formattedLifted.value ?? formattedLifted.defaultValue ?? "")
+  )
+
   return (
-    <AmountFieldStoreProvider>
+    <AmountFieldStoreProvider initialDigits={initialDigits}>
       <AmountFieldSizeContext.Provider value={size}>
         <AriaAmountField
           data-slot="amount-field"
@@ -339,17 +312,16 @@ function AmountField({
             "group/amount-field flex w-full flex-col gap-2 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-70",
             className
           )}
-          {...props}
-        />
+          {...fieldProps}
+        >
+          {fieldChildren}
+        </AriaAmountField>
       </AmountFieldSizeContext.Provider>
     </AmountFieldStoreProvider>
   )
 }
 
-function AmountFieldLabel({
-  className,
-  ...props
-}: React.ComponentProps<typeof AriaLabel>) {
+function AmountFieldLabel({ className, ...props }: React.ComponentProps<typeof AriaLabel>) {
   return (
     <AriaLabel
       data-slot="amount-field-label"
@@ -417,11 +389,8 @@ function AmountFieldInput({
   const inControl = React.useContext(AmountFieldControlContext)
   const store = React.useContext(AmountFieldStoreContext)
   const persianDefault =
-    defaultValue === undefined
-      ? undefined
-      : normalizeAmountPropValue(defaultValue)
-  const persianValue =
-    value === undefined ? undefined : normalizeAmountPropValue(value)
+    defaultValue === undefined ? undefined : normalizeAmountPropValue(defaultValue)
+  const persianValue = value === undefined ? undefined : normalizeAmountPropValue(value)
 
   const setDigits = store?.setDigits
 
@@ -435,13 +404,8 @@ function AmountFieldInput({
     setDigits?.(extractAmountDigits(String(persianDefault ?? "")))
   }, [value, persianDefault, setDigits])
 
-  const applyFormattedValue = (
-    input: HTMLInputElement,
-    raw: string,
-    caret: number | null
-  ) => {
-    const digitCount =
-      caret == null ? null : countDigitsBefore(raw, caret)
+  const applyFormattedValue = (input: HTMLInputElement, raw: string, caret: number | null) => {
+    const digitCount = caret == null ? null : countDigitsBefore(raw, caret)
     const next = formatAmountFieldValue(raw)
     store?.setDigits(extractAmountDigits(next))
     if (next === input.value) return
@@ -479,8 +443,7 @@ function AmountFieldInput({
         const input = event.currentTarget
         const start = input.selectionStart ?? input.value.length
         const end = input.selectionEnd ?? input.value.length
-        const raw =
-          input.value.slice(0, start) + persian + input.value.slice(end)
+        const raw = input.value.slice(0, start) + persian + input.value.slice(end)
         applyFormattedValue(input, raw, start + persian.length)
       }}
       onPaste={(event) => {
@@ -496,8 +459,7 @@ function AmountFieldInput({
         const input = event.currentTarget
         const start = input.selectionStart ?? input.value.length
         const end = input.selectionEnd ?? input.value.length
-        const raw =
-          input.value.slice(0, start) + digits + input.value.slice(end)
+        const raw = input.value.slice(0, start) + digits + input.value.slice(end)
         applyFormattedValue(input, raw, start + digits.length)
       }}
       onInput={(event) => {
@@ -508,11 +470,7 @@ function AmountFieldInput({
           store?.setDigits(extractAmountDigits(input.value))
           return
         }
-        applyFormattedValue(
-          input,
-          input.value,
-          input.selectionStart ?? input.value.length
-        )
+        applyFormattedValue(input, input.value, input.selectionStart ?? input.value.length)
       }}
     />
   )
@@ -594,20 +552,19 @@ function AmountFieldError({
   return (
     <AriaFieldError
       data-slot="amount-field-error"
-      className={cn(
-        "m-0 text-caption font-normal text-destructive",
-        className
-      )}
+      className={cn("m-0 text-caption font-normal text-destructive", className)}
       {...props}
     />
   )
 }
 
+const AmountFieldInputMarked = markCubixFieldInput(AmountFieldInput)
+
 export {
   AmountField,
   AmountFieldLabel,
   AmountFieldControl,
-  AmountFieldInput,
+  AmountFieldInputMarked as AmountFieldInput,
   AmountFieldCurrency,
   AmountFieldDescription,
   AmountFieldError,

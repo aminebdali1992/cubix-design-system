@@ -17,20 +17,18 @@ export const numberFieldPropRows = [
     prop: "invalid",
     type: "boolean",
     default: "false",
-    description:
-      "Marks the field as invalid and shows NumberFieldError when present.",
+    description: "Marks the field as invalid and shows NumberFieldError when present.",
   },
   {
     prop: "name",
     type: "string",
     description:
-      "Identifies the field when a form is submitted (Base UI root; use the input name on Radix).",
+      "Identifies the field when a form is submitted. Forwarded to the input on every base.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the root styles (last one wins).",
+    description: "Additional Tailwind classes merged with the root styles (last one wins).",
   },
 ]
 
@@ -52,27 +50,24 @@ export const numberFieldInputPropRows = [
     prop: "inputMode",
     type: '"numeric"',
     default: '"numeric"',
-    description:
-      "Locked to numeric so mobile keyboards show a number pad.",
+    description: "Locked to numeric so mobile keyboards show a number pad.",
   },
   {
     prop: "min",
     type: "number | string",
-    description:
-      "Minimum value used by NumberFieldStepper when decreasing.",
+    description: "Minimum value used by NumberFieldStepper when decreasing.",
   },
   {
     prop: "max",
     type: "number | string",
-    description:
-      "Maximum value used by NumberFieldStepper when increasing.",
+    description: "Maximum value used by NumberFieldStepper when increasing.",
   },
   {
     prop: "step",
     type: "number | string",
     default: "1",
     description:
-      "Step size read by NumberFieldStepper unless the stepper overrides it.",
+      "Step size used by ArrowUp / ArrowDown on the input and by NumberFieldStepper unless the stepper overrides it.",
   },
   {
     prop: "placeholder",
@@ -82,8 +77,7 @@ export const numberFieldInputPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the input styles (last one wins).",
+    description: "Additional Tailwind classes merged with the input styles (last one wins).",
   },
   {
     prop: "...props",
@@ -109,8 +103,7 @@ export const numberFieldControlPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the control styles (last one wins).",
+    description: "Additional Tailwind classes merged with the control styles (last one wins).",
   },
 ]
 
@@ -119,25 +112,24 @@ export const numberFieldStepperPropRows = [
     prop: "step",
     type: "number",
     description:
-      "Overrides the input step attribute. Defaults to 1 when neither is set.",
+      "Overrides the input step attribute for the arrow buttons only. Set step on NumberFieldInput to keep keyboard and buttons in sync. Defaults to 1 when neither is set.",
   },
   {
     prop: "incrementLabel",
     type: "string",
-    default: '"Increase"',
+    default: '"افزایش"',
     description: "Accessible name for the increase button.",
   },
   {
     prop: "decrementLabel",
     type: "string",
-    default: '"Decrease"',
+    default: '"کاهش"',
     description: "Accessible name for the decrease button.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the stepper styles (last one wins).",
+    description: "Additional Tailwind classes merged with the stepper styles (last one wins).",
   },
 ]
 
@@ -145,8 +137,7 @@ export const numberFieldPartPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the part styles (last one wins).",
+    description: "Additional Tailwind classes merged with the part styles (last one wins).",
   },
   {
     prop: "...props",

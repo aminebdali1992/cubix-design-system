@@ -28,7 +28,7 @@ export function ButtonGroupSelectDemo() {
       </Select>
       <TextFieldInput placeholder="مبلغ را وارد کنید" aria-label="مبلغ" inputMode="decimal" />
       <Button variant="outline" size="icon" aria-label="انتقال">
-        <ArrowLeftIcon />
+        <ArrowLeftIcon className="size-4" absoluteStrokeWidth strokeWidth={1.6} />
       </Button>
     </ButtonGroup>
   )

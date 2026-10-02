@@ -150,8 +150,7 @@ function RadioGroupItem({
         id={id}
         value={value}
         disabled={disabled}
-        invalid={invalid}
-        aria-invalid={ariaInvalid}
+        aria-invalid={invalid ?? ariaInvalid}
         aria-label={ariaLabel}
       >
         {children}

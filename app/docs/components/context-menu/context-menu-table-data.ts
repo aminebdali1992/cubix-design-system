@@ -39,8 +39,7 @@ export const triggerPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
@@ -54,26 +53,22 @@ export const contentPropRows = [
   {
     prop: "dir",
     type: '"ltr" | "rtl"',
-    description:
-      "Overrides the direction inherited from ContextMenu for this menu.",
+    description: "Overrides the direction inherited from ContextMenu for this menu.",
   },
   {
     prop: "lang",
     type: "string",
-    description:
-      "Overrides the language inherited from ContextMenu for this menu.",
+    description: "Overrides the language inherited from ContextMenu for this menu.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
     type: "React.ReactNode",
-    description:
-      "Menu items. The menu opens at the pointer and flips to stay in view.",
+    description: "Menu items. The menu opens at the pointer and flips to stay in view.",
   },
 ]
 
@@ -97,8 +92,7 @@ export const itemPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -137,8 +131,7 @@ export const checkboxItemPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -170,8 +163,7 @@ export const radioItemPropRows = [
   {
     prop: "value",
     type: "string",
-    description:
-      "Value of this item. It is selected when it matches the group value.",
+    description: "Value of this item. It is selected when it matches the group value.",
   },
   {
     prop: "indicator",
@@ -192,7 +184,34 @@ export const radioItemPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
+  },
+]
+
+export const contextMenuKeyboardRows = [
+  {
+    key: "Shift+F10 / ContextMenu",
+    action: "Opens the menu at the focused trigger.",
+  },
+  {
+    key: "ArrowDown / ArrowUp",
+    action: "Moves focus to the next or previous item.",
+  },
+  {
+    key: "Home / End",
+    action: "Moves focus to the first or last item.",
+  },
+  {
+    key: "Enter / Space",
+    action: "Activates the focused item. Checkbox and radio items toggle and keep the menu open.",
+  },
+  {
+    key: "ArrowLeft / ArrowRight",
+    action:
+      "On a submenu trigger, the key toward the inline end opens the submenu (ArrowLeft in RTL). The opposite key closes it and returns focus to the trigger.",
+  },
+  {
+    key: "Escape",
+    action: "Closes the menu and returns focus to the trigger.",
   },
 ]

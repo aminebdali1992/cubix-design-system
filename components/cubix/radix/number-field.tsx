@@ -4,8 +4,8 @@
   Cubix Number Field - labeled integer input specialized from Text Field.
 
   type stays text with inputMode numeric; values always display as Persian
-  digits. text-right keeps values readable in RTL. Stepper arrows adjust the
-  value. Weight 400 and tracking-normal keep IRANSans XV readable. Icons use
+  digits. text-right keeps values readable in RTL. Stepper arrows and
+  ArrowUp / ArrowDown on the input adjust the value. Weight 400 and tracking-normal keep IRANSans XV readable. Icons use
   data-icon like Button.
 */
 import * as React from "react"
@@ -55,14 +55,13 @@ const numberFieldInputVariants = cva(
   }
 )
 
-type NumberFieldSize = NonNullable<
-  VariantProps<typeof numberFieldInputVariants>["size"]
->
+type NumberFieldSize = NonNullable<VariantProps<typeof numberFieldInputVariants>["size"]>
 
 type NumberFieldContextValue = {
   size: NumberFieldSize
   disabled?: boolean
   invalid?: boolean
+  name?: string
   id: string
   descriptionId: string
   errorId: string
@@ -77,6 +76,7 @@ function NumberField({
   size = "default",
   disabled,
   invalid,
+  name,
   id: idProp,
   children,
   ...props
@@ -84,6 +84,7 @@ function NumberField({
   size?: NumberFieldSize
   disabled?: boolean
   invalid?: boolean
+  name?: string
 }) {
   const reactId = React.useId()
   const id = idProp ?? reactId
@@ -92,7 +93,7 @@ function NumberField({
 
   return (
     <NumberFieldContext.Provider
-      value={{ size, disabled, invalid, id, descriptionId, errorId }}
+      value={{ size, disabled, invalid, name, id, descriptionId, errorId }}
     >
       <NumberFieldSizeContext.Provider value={size}>
         <div
@@ -173,6 +174,7 @@ function NumberFieldInput({
   className,
   size: sizeProp,
   id,
+  name,
   disabled,
   autoComplete = "off",
   "aria-invalid": ariaInvalid,
@@ -180,6 +182,7 @@ function NumberFieldInput({
   onBeforeInput,
   onPaste,
   onInput,
+  onKeyDown,
   defaultValue,
   value,
   ...props
@@ -191,11 +194,7 @@ function NumberFieldInput({
   const size = sizeProp ?? ctx?.size ?? sizeFromContext
   const inControl = React.useContext(NumberFieldControlContext)
   const isInvalid = ariaInvalid ?? ctx?.invalid
-  const describedBy = [
-    ariaDescribedby,
-    ctx?.descriptionId,
-    isInvalid ? ctx?.errorId : null,
-  ]
+  const describedBy = [ariaDescribedby, ctx?.descriptionId, isInvalid ? ctx?.errorId : null]
     .filter(Boolean)
     .join(" ")
   const persianDefault =
@@ -214,13 +213,11 @@ function NumberFieldInput({
       data-slot="number-field-input"
       data-size={size}
       id={id ?? ctx?.id}
+      name={name ?? ctx?.name}
       disabled={disabled ?? ctx?.disabled}
       aria-invalid={isInvalid || undefined}
       aria-describedby={describedBy || undefined}
-      className={cn(
-        numberFieldInputVariants({ size, inControl }),
-        className
-      )}
+      className={cn(numberFieldInputVariants({ size, inControl }), className)}
       {...props}
       type="text"
       inputMode="numeric"
@@ -242,8 +239,7 @@ function NumberFieldInput({
         const input = event.currentTarget
         const start = input.selectionStart ?? input.value.length
         const end = input.selectionEnd ?? input.value.length
-        const next =
-          input.value.slice(0, start) + persian + input.value.slice(end)
+        const next = input.value.slice(0, start) + persian + input.value.slice(end)
         setNumberFieldInputValue(input, next)
         const caret = start + persian.length
         requestAnimationFrame(() => {
@@ -266,21 +262,25 @@ function NumberFieldInput({
         const input = event.currentTarget
         const start = input.selectionStart ?? input.value.length
         const end = input.selectionEnd ?? input.value.length
-        const next =
-          input.value.slice(0, start) + sanitized + input.value.slice(end)
+        const next = input.value.slice(0, start) + sanitized + input.value.slice(end)
         setNumberFieldInputValue(input, next)
         const caret = start + sanitized.length
         requestAnimationFrame(() => {
           input.setSelectionRange(caret, caret)
         })
       }}
+      onKeyDown={(event) => {
+        onKeyDown?.(event)
+        if (event.defaultPrevented) return
+        if (event.key !== "ArrowUp" && event.key !== "ArrowDown") return
+        event.preventDefault()
+        stepNumberFieldInput(event.currentTarget, event.key === "ArrowUp" ? 1 : -1)
+      }}
       onInput={(event) => {
         onInput?.(event)
         if (event.defaultPrevented || value !== undefined) return
         const input = event.currentTarget
-        const next = toPersianDigits(
-          input.value.replace(/[^\d۰-۹٠-٩.\-]/g, "")
-        )
+        const next = toPersianDigits(input.value.replace(/[^\d۰-۹٠-٩.\-]/g, ""))
         if (next === input.value) return
         const caret = input.selectionStart ?? next.length
         setNumberFieldInputValue(input, next)
@@ -303,10 +303,7 @@ function toLatinDigits(value: string) {
 }
 
 function toPersianDigits(value: string) {
-  return toLatinDigits(value).replace(
-    /\d/g,
-    (digit) => PERSIAN_DIGITS[Number(digit)] ?? digit
-  )
+  return toLatinDigits(value).replace(/\d/g, (digit) => PERSIAN_DIGITS[Number(digit)] ?? digit)
 }
 
 function formatDigits(value: number) {
@@ -314,33 +311,22 @@ function formatDigits(value: number) {
 }
 
 function setNumberFieldInputValue(input: HTMLInputElement, next: string) {
-  const descriptor = Object.getOwnPropertyDescriptor(
-    HTMLInputElement.prototype,
-    "value"
-  )
+  const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
   descriptor?.set?.call(input, next)
   input.dispatchEvent(new Event("input", { bubbles: true }))
   input.dispatchEvent(new Event("change", { bubbles: true }))
 }
 
-function stepNumberFieldInput(
-  input: HTMLInputElement,
-  direction: 1 | -1,
-  stepOverride?: number
-) {
+function stepNumberFieldInput(input: HTMLInputElement, direction: 1 | -1, stepOverride?: number) {
   if (input.disabled || input.readOnly) return
 
   const latin = toLatinDigits(input.value).replace(/[^\d.-]/g, "")
-  const current =
-    latin === "" || latin === "-" || latin === "." ? 0 : Number(latin)
+  const current = latin === "" || latin === "-" || latin === "." ? 0 : Number(latin)
   if (Number.isNaN(current)) return
 
   const stepAttr = input.step
-  const parsedStep =
-    stepOverride ??
-    (stepAttr && stepAttr !== "any" ? Number(stepAttr) : 1)
-  const step =
-    Number.isFinite(parsedStep) && parsedStep !== 0 ? parsedStep : 1
+  const parsedStep = stepOverride ?? (stepAttr && stepAttr !== "any" ? Number(stepAttr) : 1)
+  const step = Number.isFinite(parsedStep) && parsedStep !== 0 ? parsedStep : 1
 
   let next = current + direction * step
   const min = input.min === "" ? undefined : Number(input.min)
@@ -397,8 +383,8 @@ function NumberFieldChevronDownIcon({ className }: { className?: string }) {
 function NumberFieldStepper({
   className,
   step,
-  incrementLabel = "Increase",
-  decrementLabel = "Decrease",
+  incrementLabel = "افزایش",
+  decrementLabel = "کاهش",
   ...props
 }: React.ComponentProps<"div"> & {
   step?: number
@@ -410,9 +396,7 @@ function NumberFieldStepper({
 
   React.useLayoutEffect(() => {
     const control = ref.current?.closest("[data-slot=number-field-control]")
-    const input = control?.querySelector<HTMLInputElement>(
-      "[data-slot=number-field-input]"
-    )
+    const input = control?.querySelector<HTMLInputElement>("[data-slot=number-field-input]")
     if (!input) return
 
     const sync = () => {
@@ -445,10 +429,7 @@ function NumberFieldStepper({
       ref={ref}
       data-slot="number-field-stepper"
       data-icon="inline-end"
-      className={cn(
-        "flex shrink-0 flex-col items-center justify-center -space-y-1",
-        className
-      )}
+      className={cn("flex shrink-0 flex-col items-center justify-center -space-y-1", className)}
       {...props}
     >
       <button
@@ -479,11 +460,7 @@ function NumberFieldStepper({
   )
 }
 
-function NumberFieldDescription({
-  className,
-  id,
-  ...props
-}: React.ComponentProps<"p">) {
+function NumberFieldDescription({ className, id, ...props }: React.ComponentProps<"p">) {
   const ctx = React.useContext(NumberFieldContext)
 
   return (
@@ -499,12 +476,7 @@ function NumberFieldDescription({
   )
 }
 
-function NumberFieldError({
-  className,
-  id,
-  children,
-  ...props
-}: React.ComponentProps<"div">) {
+function NumberFieldError({ className, id, children, ...props }: React.ComponentProps<"div">) {
   const ctx = React.useContext(NumberFieldContext)
 
   if (!children) {
@@ -520,10 +492,7 @@ function NumberFieldError({
       role="alert"
       data-slot="number-field-error"
       id={id ?? ctx?.errorId}
-      className={cn(
-        "m-0 text-caption font-normal text-destructive",
-        className
-      )}
+      className={cn("m-0 text-caption font-normal text-destructive", className)}
       {...props}
     >
       {children}

@@ -5,10 +5,7 @@ import { CheckIcon, ChevronRightIcon } from "lucide-react"
 import { Menubar as MenubarPrimitive } from "radix-ui"
 
 import { Checkbox } from "@/components/cubix/radix/checkbox"
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/cubix/radix/radio-group"
+import { RadioGroup, RadioGroupItem } from "@/components/cubix/radix/radio-group"
 import { DirectionProvider } from "@/components/cubix/radix/direction"
 import { cn } from "@/lib/utils"
 
@@ -25,9 +22,7 @@ function useMenubarLocale() {
   return React.useContext(MenubarLocaleContext)
 }
 
-function toTextDirection(
-  value: string | null | undefined
-): TextDirection | undefined {
+function toTextDirection(value: string | null | undefined): TextDirection | undefined {
   return value === "rtl" || value === "ltr" ? value : undefined
 }
 
@@ -43,6 +38,62 @@ function localeDomProps(locale: MenubarLocale) {
   return {
     ...(locale.dir ? { dir: locale.dir } : {}),
     ...(locale.lang ? { lang: locale.lang } : {}),
+  }
+}
+
+type MenubarStore = Map<string, unknown>
+
+const MenubarStoreContext = React.createContext<MenubarStore | null>(null)
+
+function textContent(node: React.ReactNode): string {
+  if (node == null || typeof node === "boolean") return ""
+  if (typeof node === "string" || typeof node === "number") return String(node)
+  if (Array.isArray(node)) return node.map(textContent).join("")
+  if (React.isValidElement<{ children?: React.ReactNode }>(node)) {
+    return textContent(node.props.children)
+  }
+  return ""
+}
+
+function radioGroupKey(children: React.ReactNode) {
+  const values: string[] = []
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement<{ value?: unknown }>(child) && child.props.value !== undefined) {
+      values.push(String(child.props.value))
+    }
+  })
+  return `radio:${values.join("|")}`
+}
+
+/*
+  Menu content unmounts when the menu closes, so uncontrolled checkbox and
+  radio state is kept on the menu (keyed by the item label or the group's
+  item values) and survives reopening it.
+*/
+function usePersistentState<T>(key: string, initial: T) {
+  const store = React.useContext(MenubarStoreContext)
+  const [value, setValue] = React.useState<T>(() =>
+    store?.has(key) ? (store.get(key) as T) : initial
+  )
+  const update = React.useCallback(
+    (next: T) => {
+      store?.set(key, next)
+      setValue(next)
+    },
+    [store, key]
+  )
+  return [value, update] as const
+}
+
+/*
+  Checkbox and radio items keep the menu open by default so several options
+  can be changed in one go, matching the Base UI and React Aria menubars.
+  Pass closeOnClick to close the menu after a change.
+*/
+function keepOpenOnSelect(closeOnClick: boolean, onSelect?: (event: Event) => void) {
+  return (event: Event) => {
+    onSelect?.(event)
+    if (!closeOnClick) event.preventDefault()
   }
 }
 
@@ -87,29 +138,27 @@ function Menubar({
   )
 }
 
-function MenubarMenu({
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Menu>) {
-  return <MenubarPrimitive.Menu data-slot="menubar-menu" {...props} />
+function MenubarMenu({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Menu>) {
+  const [store] = React.useState<MenubarStore>(() => new Map())
+
+  return (
+    <MenubarStoreContext.Provider value={store}>
+      <MenubarPrimitive.Menu data-slot="menubar-menu" {...props} />
+    </MenubarStoreContext.Provider>
+  )
 }
 
-function MenubarGroup({
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Group>) {
+function MenubarGroup({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Group>) {
   return <MenubarPrimitive.Group data-slot="menubar-group" {...props} />
 }
 
-function MenubarPortal({
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Portal>) {
+function MenubarPortal({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Portal>) {
   return <MenubarPrimitive.Portal data-slot="menubar-portal" {...props} />
 }
 
 type MenubarIndicator = "check" | "control"
 
-const MenubarIndicatorContext = React.createContext<
-  MenubarIndicator | undefined
->(undefined)
+const MenubarIndicatorContext = React.createContext<MenubarIndicator | undefined>(undefined)
 
 function MenubarCheckIndicator({ checked }: { checked: boolean }) {
   return (
@@ -117,28 +166,28 @@ function MenubarCheckIndicator({ checked }: { checked: boolean }) {
       aria-hidden
       className="pointer-events-none absolute end-2 flex size-4 items-center justify-center"
     >
-      {checked ? (
-        <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" />
-      ) : null}
+      {checked ? <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" /> : null}
     </span>
   )
 }
 
-const MenubarRadioValueContext = React.createContext<string | undefined>(
-  undefined
-)
+const MenubarRadioValueContext = React.createContext<string | undefined>(undefined)
 
 function MenubarRadioGroup({
   value,
   defaultValue,
   onValueChange,
   indicator,
+  children,
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.RadioGroup> & {
   defaultValue?: string
   indicator?: MenubarIndicator
 }) {
-  const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue)
+  const [uncontrolledValue, setUncontrolledValue] = usePersistentState<string | undefined>(
+    radioGroupKey(children),
+    defaultValue
+  )
   const currentValue = value ?? uncontrolledValue
 
   return (
@@ -152,7 +201,9 @@ function MenubarRadioGroup({
             onValueChange?.(next)
           }}
           {...props}
-        />
+        >
+          {children}
+        </MenubarPrimitive.RadioGroup>
       </MenubarRadioValueContext.Provider>
     </MenubarIndicatorContext.Provider>
   )
@@ -200,7 +251,7 @@ function MenubarContent({
         alignOffset={alignOffset}
         sideOffset={sideOffset}
         className={cn(
-          "z-50 w-max min-w-[150px] origin-(--radix-menubar-content-transform-origin) overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
+          "z-50 w-max min-w-[150px] origin-(--radix-menubar-content-transform-origin) overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:overflow-hidden data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
           className
         )}
         {...localeDomProps(contentLocale)}
@@ -239,15 +290,19 @@ function MenubarCheckboxItem({
   checked,
   defaultChecked,
   onCheckedChange,
+  onSelect,
   inset,
   indicator = "control",
+  closeOnClick = false,
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.CheckboxItem> & {
   inset?: boolean
   defaultChecked?: boolean
   indicator?: MenubarIndicator
+  closeOnClick?: boolean
 }) {
-  const [uncontrolledChecked, setUncontrolledChecked] = React.useState(
+  const [uncontrolledChecked, setUncontrolledChecked] = usePersistentState(
+    `checkbox:${textContent(children)}`,
     defaultChecked ?? false
   )
   const isChecked = checked ?? uncontrolledChecked
@@ -265,13 +320,21 @@ function MenubarCheckboxItem({
         if (checked === undefined) setUncontrolledChecked(value)
         onCheckedChange?.(value)
       }}
+      onSelect={keepOpenOnSelect(closeOnClick, onSelect)}
       {...props}
     >
       {indicator === "check" ? (
         <MenubarCheckIndicator checked={isChecked === true} />
       ) : (
-        <span aria-hidden className="pointer-events-none absolute end-2 flex items-center justify-center">
-          <Checkbox className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5" checked={isChecked === true} tabIndex={-1} />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute end-2 flex items-center justify-center"
+        >
+          <Checkbox
+            className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5"
+            checked={isChecked === true}
+            tabIndex={-1}
+          />
         </span>
       )}
       {children}
@@ -281,12 +344,12 @@ function MenubarCheckboxItem({
 
 function MenubarRadioIndicator({ checked }: { checked: boolean }) {
   return (
-    <span
-      inert
-      className="pointer-events-none absolute end-2 flex items-center justify-center"
-    >
+    <span inert className="pointer-events-none absolute end-2 flex items-center justify-center">
       <RadioGroup value={checked ? "on" : ""} className="flex">
-        <RadioGroupItem value="on" className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5" />
+        <RadioGroupItem
+          value="on"
+          className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5"
+        />
       </RadioGroup>
     </span>
   )
@@ -298,10 +361,13 @@ function MenubarRadioItem({
   inset,
   value,
   indicator,
+  onSelect,
+  closeOnClick = false,
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.RadioItem> & {
   inset?: boolean
   indicator?: MenubarIndicator
+  closeOnClick?: boolean
 }) {
   const groupValue = React.useContext(MenubarRadioValueContext)
   const groupIndicator = React.useContext(MenubarIndicatorContext)
@@ -317,6 +383,7 @@ function MenubarRadioItem({
         "relative flex w-full cursor-default items-center gap-1.5 rounded-sm py-1.75 ps-2 pe-10 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
+      onSelect={keepOpenOnSelect(closeOnClick, onSelect)}
       {...props}
     >
       {resolvedIndicator === "check" ? (
@@ -362,10 +429,7 @@ function MenubarSeparator({
   )
 }
 
-function MenubarShortcut({
-  className,
-  ...props
-}: React.ComponentProps<"span">) {
+function MenubarShortcut({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
       data-slot="menubar-shortcut"
@@ -378,9 +442,7 @@ function MenubarShortcut({
   )
 }
 
-function MenubarSub({
-  ...props
-}: React.ComponentProps<typeof MenubarPrimitive.Sub>) {
+function MenubarSub({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Sub>) {
   return <MenubarPrimitive.Sub data-slot="menubar-sub" {...props} />
 }
 
@@ -397,7 +459,7 @@ function MenubarSubTrigger({
       data-slot="menubar-sub-trigger"
       data-inset={inset}
       className={cn(
-        "flex w-full cursor-default items-center gap-1.5 rounded-sm px-2 py-1.75 text-label whitespace-nowrap tracking-normal outline-none select-none focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-open:bg-accent data-open:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground [&>svg:not([class*='size-'])]:size-4.5",
+        "flex w-full cursor-default items-center gap-1.5 rounded-sm px-2 py-1.75 text-label whitespace-nowrap tracking-normal outline-none select-none focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
       {...props}
@@ -428,7 +490,7 @@ function MenubarSubContent({
     <MenubarPrimitive.SubContent
       data-slot="menubar-sub-content"
       className={cn(
-        "z-50 w-max min-w-[150px] origin-(--radix-menubar-content-transform-origin) overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+        "z-50 w-max min-w-[150px] origin-(--radix-menubar-content-transform-origin) overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
         className
       )}
       {...localeDomProps(contentLocale)}

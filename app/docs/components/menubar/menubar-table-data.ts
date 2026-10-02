@@ -14,8 +14,7 @@ export const menubarPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
@@ -28,8 +27,7 @@ export const triggerPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
@@ -66,8 +64,7 @@ export const contentPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -91,8 +88,7 @@ export const itemPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -126,8 +122,7 @@ export const checkboxItemPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -159,8 +154,7 @@ export const radioItemPropRows = [
   {
     prop: "value",
     type: "string",
-    description:
-      "Value of this item. It is selected when it matches the group value.",
+    description: "Value of this item. It is selected when it matches the group value.",
   },
   {
     prop: "indicator",
@@ -181,7 +175,34 @@ export const radioItemPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
+  },
+]
+
+export const menubarKeyboardRows = [
+  {
+    key: "ArrowLeft / ArrowRight",
+    action:
+      "Moves focus between menu triggers in reading direction. With a menu open, opens the neighboring menu instead.",
+  },
+  {
+    key: "Enter / Space / ArrowDown",
+    action: "On a trigger, opens its menu and focuses the first item.",
+  },
+  {
+    key: "ArrowDown / ArrowUp",
+    action: "Moves focus to the next or previous item.",
+  },
+  {
+    key: "Home / End",
+    action: "Moves focus to the first or last item.",
+  },
+  {
+    key: "Enter / Space",
+    action: "Activates the focused item. Checkbox and radio items toggle and keep the menu open.",
+  },
+  {
+    key: "Escape",
+    action: "Closes the menu and returns focus to its trigger.",
   },
 ]

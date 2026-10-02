@@ -1,11 +1,6 @@
 "use client"
 
-import {
-  cloneElement,
-  type ComponentProps,
-  type ReactElement,
-  type ReactNode,
-} from "react"
+import { cloneElement, type ComponentProps, type ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
 import * as AriaDropdownMenu from "@/components/cubix/aria/dropdown-menu"
@@ -28,7 +23,7 @@ type DropdownMenuProps = {
 }
 
 type DropdownMenuTriggerProps = SlotProps & {
-  render?: ReactElement<{ children?: ReactNode }>
+  render?: NonNullable<ComponentProps<typeof AriaDropdownMenu.DropdownMenuTrigger>["render"]>
 }
 
 type DropdownMenuContentProps = SlotProps & {
@@ -52,6 +47,7 @@ type DropdownMenuCheckboxItemProps = SlotProps & {
   indicator?: "check" | "control"
   inset?: boolean
   disabled?: boolean
+  closeOnClick?: boolean
   onCheckedChange?: (checked: boolean) => void
 }
 
@@ -69,6 +65,7 @@ type DropdownMenuRadioItemProps = SlotProps & {
   indicator?: "check" | "control"
   inset?: boolean
   disabled?: boolean
+  closeOnClick?: boolean
 }
 
 type DropdownMenuLabelProps = SlotProps & {
@@ -79,10 +76,6 @@ type DropdownMenuSubTriggerProps = SlotProps & {
   inset?: boolean
   disabled?: boolean
 }
-
-type AriaTriggerProps = ComponentProps<
-  typeof AriaDropdownMenu.DropdownMenuTrigger
->
 
 function useDropdownMenuBase() {
   const pathname = usePathname()
@@ -96,11 +89,7 @@ function DropdownMenu(props: DropdownMenuProps) {
   return <BaseDropdownMenu.DropdownMenu {...props} />
 }
 
-function DropdownMenuTrigger({
-  render,
-  children,
-  ...props
-}: DropdownMenuTriggerProps) {
+function DropdownMenuTrigger({ render, children, ...props }: DropdownMenuTriggerProps) {
   const base = useDropdownMenuBase()
   if (base === "radix") {
     if (render) {
@@ -118,10 +107,7 @@ function DropdownMenuTrigger({
   }
   if (base === "aria") {
     return (
-      <AriaDropdownMenu.DropdownMenuTrigger
-        render={render as AriaTriggerProps["render"]}
-        {...props}
-      >
+      <AriaDropdownMenu.DropdownMenuTrigger render={render} {...props}>
         {children}
       </AriaDropdownMenu.DropdownMenuTrigger>
     )

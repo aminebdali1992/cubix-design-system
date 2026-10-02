@@ -6,66 +6,49 @@ import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
+import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  ComboboxAutoHighlightDemo,
-  ComboboxClearDemo,
-  ComboboxCustomDemo,
-  ComboboxCustomStylingDemo,
-  ComboboxDemo,
-  ComboboxDisabledDemo,
-  ComboboxDisabledItemsDemo,
-  ComboboxGroupsDemo,
-  ComboboxInputGroupDemo,
-  ComboboxInvalidDemo,
-  ComboboxMultipleDemo,
-  ComboboxPopupDemo,
-  ComboboxSizesDemo,
-} from "@/components/examples/combobox-examples"
-
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
 import {
+  comboboxKeyboardRows,
   comboboxPropRows,
   contentPropRows,
   inputPropRows,
   itemPropRows,
 } from "./combobox-table-data"
+import { ComboboxAutoHighlightDemo } from "./examples/combobox-auto-highlight-demo"
+import { ComboboxClearDemo } from "./examples/combobox-clear-demo"
+import { ComboboxCustomDemo } from "./examples/combobox-custom-demo"
+import { ComboboxCustomStylingDemo } from "./examples/combobox-custom-styling-demo"
+import { ComboboxDemo } from "./examples/combobox-demo"
+import { ComboboxDisabledDemo } from "./examples/combobox-disabled-demo"
+import { ComboboxDisabledItemsDemo } from "./examples/combobox-disabled-items-demo"
+import { ComboboxGroupsDemo } from "./examples/combobox-groups-demo"
+import { ComboboxInputGroupDemo } from "./examples/combobox-input-group-demo"
+import { ComboboxInvalidDemo } from "./examples/combobox-invalid-demo"
+import { ComboboxMultipleDemo } from "./examples/combobox-multiple-demo"
+import { ComboboxPopupDemo } from "./examples/combobox-popup-demo"
+import { ComboboxSizesDemo } from "./examples/combobox-sizes-demo"
 
-const description =
-  "Autocomplete input and command palette with a list of suggestions."
+const description = "Autocomplete input and command palette with a list of suggestions."
 
 export const metadata: Metadata = {
   title: "Combobox",
   description,
 }
 
-const usageImport = `import {
-  Combobox,
-  ComboboxContent,
-  ComboboxEmpty,
-  ComboboxInput,
-  ComboboxItem,
-  ComboboxList,
-} from "@/components/cubix/combobox"`
+const PUBLIC_IMPORT = "@/components/cubix/combobox"
+const EXAMPLES_DIR = "app/docs/components/combobox/examples"
 
-const usageSnippet = `const cities = ["تهران", "مشهد", "اصفهان", "شیراز", "تبریز"]
-
-export function ExampleCombobox() {
-  return (
-    <Combobox dir="rtl" lang="fa" items={cities}>
-      <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
-      <ComboboxContent>
-        <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
-        <ComboboxList>
-          {(item) => (
-            <ComboboxItem key={item} value={item}>
-              {item}
-            </ComboboxItem>
-          )}
-        </ComboboxList>
-      </ComboboxContent>
-    </Combobox>
-  )
-}`
+function loadComboboxExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const simpleComposition = `Combobox
 ├── ComboboxInput
@@ -95,254 +78,10 @@ const groupsComposition = `Combobox
             │   └── ComboboxItem
             └── ComboboxSeparator`
 
-const sizesSnippet = `<Combobox dir="rtl" lang="fa" items={cities}>
-  <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
-  <ComboboxContent>…</ComboboxContent>
-</Combobox>
-
-<Combobox dir="rtl" lang="fa" items={cities}>
-  <ComboboxInput placeholder="انتخاب شهر" size="lg" className="w-56" />
-  <ComboboxContent>…</ComboboxContent>
-</Combobox>`
-
-const multipleSnippet = `const anchor = useComboboxAnchor()
-
-<Combobox
-  dir="rtl"
-  lang="fa"
-  multiple
-  autoHighlight
-  items={cities}
-  defaultValue={[cities[0]]}
->
-  <ComboboxChips ref={anchor} className="w-64">
-    <ComboboxValue>
-      {(values) => (
-        <>
-          {values.map((value) => (
-            <ComboboxChip key={value}>{value}</ComboboxChip>
-          ))}
-          <ComboboxChipsInput />
-        </>
-      )}
-    </ComboboxValue>
-  </ComboboxChips>
-  <ComboboxContent anchor={anchor}>
-    <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
-    <ComboboxList>
-      {(item) => (
-        <ComboboxItem key={item} value={item}>
-          {item}
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`
-
-const clearSnippet = `<Combobox dir="rtl" lang="fa" items={cities} defaultValue={cities[0]}>
-  <ComboboxInput placeholder="انتخاب شهر" showClear className="w-56" />
-  <ComboboxContent>
-    <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
-    <ComboboxList>
-      {(item) => (
-        <ComboboxItem key={item} value={item}>
-          {item}
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`
-
-const groupsSnippet = `const foods = [
-  { value: "میوه‌ها", items: ["سیب", "انار", "پرتقال"] },
-  { value: "سبزیجات", items: ["هویج", "خیار", "کدو"] },
-]
-
-<Combobox dir="rtl" lang="fa" items={foods}>
-  <ComboboxInput placeholder="انتخاب خوراکی" className="w-56" />
-  <ComboboxContent>
-    <ComboboxEmpty>موردی یافت نشد.</ComboboxEmpty>
-    <ComboboxList>
-      {(group, index) => (
-        <ComboboxGroup key={group.value} items={group.items}>
-          <ComboboxLabel>{group.value}</ComboboxLabel>
-          <ComboboxCollection>
-            {(item) => (
-              <ComboboxItem key={item} value={item}>
-                {item}
-              </ComboboxItem>
-            )}
-          </ComboboxCollection>
-          {index < foods.length - 1 && <ComboboxSeparator />}
-        </ComboboxGroup>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`
-
-const disabledItemsSnippet = `<Combobox dir="rtl" lang="fa" items={cities}>
-  <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
-  <ComboboxContent>
-    <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
-    <ComboboxList>
-      {(item) => (
-        <ComboboxItem key={item} value={item} disabled={item === "تبریز"}>
-          {item}
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`
-
-const customItemsSnippet = `type City = {
-  id: string
-  name: string
-  province: string
-}
-
-const cities: City[] = [
-  { id: "tehran", name: "تهران", province: "استان تهران" },
-  { id: "mashhad", name: "مشهد", province: "استان خراسان رضوی" },
-  { id: "isfahan", name: "اصفهان", province: "استان اصفهان" },
-  { id: "shiraz", name: "شیراز", province: "استان فارس" },
-  { id: "tabriz", name: "تبریز", province: "استان آذربایجان شرقی" },
-]
-
-<Combobox
-  dir="rtl"
-  lang="fa"
-  items={cities}
-  itemToStringLabel={(city: City) => city.name}
->
-  <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
-  <ComboboxContent>
-    <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
-    <ComboboxList>
-      {(city: City) => (
-        <ComboboxItem key={city.id} value={city}>
-          <div className="flex min-w-0 flex-col">
-            <span className="truncate">{city.name}</span>
-            <span className="text-caption text-muted-foreground">
-              {city.province}
-            </span>
-          </div>
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`
-
-const invalidSnippet = `<Combobox dir="rtl" lang="fa" items={cities}>
-  <ComboboxInput
-    placeholder="انتخاب شهر"
-    aria-invalid="true"
-    className="w-56"
-  />
-  <ComboboxContent>
-    <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
-    <ComboboxList>
-      {(item) => (
-        <ComboboxItem key={item} value={item}>
-          {item}
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`
-
-const disabledSnippet = `<Combobox dir="rtl" lang="fa" items={cities} disabled>
-  <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
-  <ComboboxContent>
-    <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
-    <ComboboxList>
-      {(item) => (
-        <ComboboxItem key={item} value={item}>
-          {item}
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`
-
-const autoHighlightSnippet = `<Combobox dir="rtl" lang="fa" items={cities} autoHighlight>
-  <ComboboxInput placeholder="انتخاب شهر" className="w-56" />
-  <ComboboxContent>
-    <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
-    <ComboboxList>
-      {(item) => (
-        <ComboboxItem key={item} value={item}>
-          {item}
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`
-
-const popupSnippet = `import { Button } from "@/components/cubix/button"
-
-<Combobox dir="rtl" lang="fa" items={cities}>
-  <ComboboxTrigger
-    render={
-      <Button
-        variant="outline"
-        className="w-56 justify-between px-3 font-normal"
-      />
-    }
-  >
-    <ComboboxValue placeholder="انتخاب شهر" />
-  </ComboboxTrigger>
-  <ComboboxContent>
-    <ComboboxInput placeholder="جستجو" />
-    <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
-    <ComboboxList>
-      {(item) => (
-        <ComboboxItem key={item} value={item}>
-          {item}
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`
-
-const inputGroupSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
-
-import { InputGroupAddon } from "@/components/cubix/input-group"
-
-<Combobox dir="rtl" lang="fa" items={cities}>
-  <ComboboxInput placeholder="انتخاب شهر" className="w-56">
-    <InputGroupAddon>
-      <ButtonDemoIcon />
-    </InputGroupAddon>
-  </ComboboxInput>
-  <ComboboxContent>
-    <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
-    <ComboboxList>
-      {(item) => (
-        <ComboboxItem key={item} value={item}>
-          {item}
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`
-
-const customStylingSnippet = `<Combobox dir="rtl" lang="fa" items={cities}>
-  <ComboboxInput
-    placeholder="انتخاب شهر"
-    className="w-56 border-border bg-muted has-[[data-slot=input-group-control]:focus-visible]:bg-background dark:bg-muted dark:has-[[data-slot=input-group-control]:focus-visible]:bg-background"
-  />
-  <ComboboxContent className="rounded-xl">
-    <ComboboxEmpty>شهری یافت نشد.</ComboboxEmpty>
-    <ComboboxList>
-      {(item) => (
-        <ComboboxItem key={item} value={item} className="rounded-md">
-          {item}
-        </ComboboxItem>
-      )}
-    </ComboboxList>
-  </ComboboxContent>
-</Combobox>`
-
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" lang="fa" className="flex w-full justify-center">
@@ -351,59 +90,54 @@ function PreviewShell({ children }: { children: ReactNode }) {
   )
 }
 
-function Code({ children }: { children: ReactNode }) {
-  return <code className="font-mono text-sm">{children}</code>
-}
-
-function PropsSection({
+function ExampleSection({
   title,
+  description,
+  code,
   children,
 }: {
   title: string
+  description: ReactNode
+  code: string
   children: ReactNode
 }) {
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
-      {children}
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName="min-h-56">
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
     </div>
   )
 }
 
-function ExampleSection({
-  title,
-  code,
-  children,
-  description,
-}: {
-  title: string
-  code: string
-  children: ReactNode
-  description?: ReactNode
-}) {
-  return (
-    <section className="space-y-4">
-      <h2 className="scroll-m-20 font-semibold tracking-tight">{title}</h2>
-      {description ? (
-        <p className="leading-relaxed text-muted-foreground">{description}</p>
-      ) : null}
-      <ComponentPreview code={code} previewClassName="min-h-56">
-        <PreviewShell>{children}</PreviewShell>
-      </ComponentPreview>
-    </section>
-  )
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
 }
 
-export default function ComboboxDocsPage() {
+export default function ComboboxPage() {
+  const demoSource = loadComboboxExample("combobox-demo.tsx")
+  const sizesSource = loadComboboxExample("combobox-sizes-demo.tsx")
+  const multipleSource = loadComboboxExample("combobox-multiple-demo.tsx")
+  const clearSource = loadComboboxExample("combobox-clear-demo.tsx")
+  const groupsSource = loadComboboxExample("combobox-groups-demo.tsx")
+  const disabledItemsSource = loadComboboxExample("combobox-disabled-items-demo.tsx")
+  const customSource = loadComboboxExample("combobox-custom-demo.tsx")
+  const invalidSource = loadComboboxExample("combobox-invalid-demo.tsx")
+  const disabledSource = loadComboboxExample("combobox-disabled-demo.tsx")
+  const autoHighlightSource = loadComboboxExample("combobox-auto-highlight-demo.tsx")
+  const popupSource = loadComboboxExample("combobox-popup-demo.tsx")
+  const inputGroupSource = loadComboboxExample("combobox-input-group-demo.tsx")
+  const customStylingSource = loadComboboxExample("combobox-custom-styling-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Combobox"
-        description={description}
-        slug="combobox"
-      />
+      <ComponentDocsHeader title="Combobox" description={description} slug="combobox" />
 
-      <ComponentPreview code={usageSnippet} previewClassName="min-h-56">
+      <ComponentPreview code={demoSource} previewClassName="min-h-56">
         <PreviewShell>
           <ComboboxDemo />
         </PreviewShell>
@@ -418,221 +152,225 @@ export default function ComboboxDocsPage() {
       </section>
 
       <section className="space-y-8">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
 
         <div className="space-y-4">
           <h3 className="scroll-m-20 font-semibold tracking-tight">Simple</h3>
           <p className="leading-relaxed text-muted-foreground">
-            A single-line input and a flat list.
+            A single-line input and a flat list. The popup reads <Code>dir</Code> and{" "}
+            <Code>lang</Code> from the closest ancestor and aligns to the start edge of the input
+            (the right edge in RTL).
           </p>
-          <CodeBlock code={simpleComposition} />
+          <CodeBlock code={simpleComposition} title="Structure" />
         </div>
 
         <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            With chips
-          </h3>
+          <h3 className="scroll-m-20 font-semibold tracking-tight">With chips</h3>
           <p className="leading-relaxed text-muted-foreground">
             Multi-select with <Code>multiple</Code>, chips, and a chips input.
           </p>
-          <CodeBlock code={chipsComposition} />
+          <CodeBlock code={chipsComposition} title="Structure" />
         </div>
 
         <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            With groups
-          </h3>
+          <h3 className="scroll-m-20 font-semibold tracking-tight">With groups</h3>
           <p className="leading-relaxed text-muted-foreground">
-            Nested items per group using <Code>ComboboxCollection</Code> inside
-            each <Code>ComboboxGroup</Code>.
+            Nested items per group using <Code>ComboboxCollection</Code> inside each{" "}
+            <Code>ComboboxGroup</Code>.
           </p>
-          <CodeBlock code={groupsComposition} />
+          <CodeBlock code={groupsComposition} title="Structure" />
         </div>
       </section>
 
-      <ExampleSection
-        title="Basic"
-        code={usageSnippet}
-        description={
-          <>
-            Type to filter the list, or press ArrowDown to open it. The popup
-            is as wide as the input and aligned to its start edge (the right
-            edge in RTL). The selected item shows a check at the end.
-          </>
-        }
-      >
-        <ComboboxDemo />
-      </ExampleSection>
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          The input is a combobox with <Code>aria-expanded</Code>, <Code>aria-controls</Code>, and{" "}
+          <Code>aria-autocomplete</Code>. The list is a listbox; selected items announce as
+          selected. Give the field an accessible name through a label or <Code>aria-label</Code>.
+        </p>
+        <KeyboardTable data={comboboxKeyboardRows} />
+      </section>
 
-      <ExampleSection
-        title="Sizes"
-        code={sizesSnippet}
-        description={
-          <>
-            Set <Code>size</Code> to <Code>default</Code> (40px) or{" "}
-            <Code>lg</Code> (48px), the same heights and inline padding as Text
-            Field. <Code>ComboboxChips</Code> takes the same prop. The popup
-            list is the same for both sizes.
-          </>
-        }
-      >
-        <ComboboxSizesDemo />
-      </ExampleSection>
+      <section className="space-y-6">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-      <ExampleSection
-        title="Multiple"
-        code={multipleSnippet}
-        description={
-          <>
-            Use <Code>multiple</Code> with <Code>ComboboxChips</Code> for
-            multi-select. Pass the chips ref from{" "}
-            <Code>useComboboxAnchor</Code> as the popup <Code>anchor</Code>.
-          </>
-        }
-      >
-        <ComboboxMultipleDemo />
-      </ExampleSection>
+        <ExampleSection
+          title="Basic"
+          description={
+            <>
+              Type to filter the list, or press ArrowDown to open it. The selected item shows a
+              check at the end.
+            </>
+          }
+          code={demoSource}
+        >
+          <ComboboxDemo />
+        </ExampleSection>
 
-      <ExampleSection
-        title="Clear button"
-        code={clearSnippet}
-        description={
-          <>
-            Set <Code>showClear</Code> to show a clear button while a value is
-            selected. It takes the place of the chevron.
-          </>
-        }
-      >
-        <ComboboxClearDemo />
-      </ExampleSection>
+        <ExampleSection
+          title="Sizes"
+          description={
+            <>
+              Set <Code>size</Code> to <Code>default</Code> (40px) or <Code>lg</Code> (48px),
+              matching Text Field. <Code>ComboboxChips</Code> takes the same prop. The popup list is
+              the same for both sizes.
+            </>
+          }
+          code={sizesSource}
+        >
+          <ComboboxSizesDemo />
+        </ExampleSection>
 
-      <ExampleSection
-        title="Groups"
-        code={groupsSnippet}
-        description={
-          <>
-            Use <Code>ComboboxGroup</Code>, <Code>ComboboxLabel</Code> and{" "}
-            <Code>ComboboxSeparator</Code> to group items.
-          </>
-        }
-      >
-        <ComboboxGroupsDemo />
-      </ExampleSection>
+        <ExampleSection
+          title="Multiple"
+          description={
+            <>
+              Use <Code>multiple</Code> with <Code>ComboboxChips</Code> for multi-select. Pass the
+              chips ref from <Code>useComboboxAnchor</Code> as the popup <Code>anchor</Code>.
+            </>
+          }
+          code={multipleSource}
+        >
+          <ComboboxMultipleDemo />
+        </ExampleSection>
 
-      <ExampleSection
-        title="Disabled items"
-        code={disabledItemsSnippet}
-        description={
-          <>
-            Set <Code>disabled</Code> on a <Code>ComboboxItem</Code> to keep it
-            visible but not selectable. Keyboard navigation skips it.
-          </>
-        }
-      >
-        <ComboboxDisabledItemsDemo />
-      </ExampleSection>
+        <ExampleSection
+          title="Clear button"
+          description={
+            <>
+              Set <Code>showClear</Code> to show a clear button while a value is selected. It takes
+              the place of the chevron.
+            </>
+          }
+          code={clearSource}
+        >
+          <ComboboxClearDemo />
+        </ExampleSection>
 
-      <ExampleSection
-        title="Custom items"
-        code={customItemsSnippet}
-        description={
-          <>
-            When items are objects, use <Code>itemToStringLabel</Code> to
-            choose the text shown in the input and used for filtering, and
-            render any content inside <Code>ComboboxItem</Code>.
-          </>
-        }
-      >
-        <ComboboxCustomDemo />
-      </ExampleSection>
+        <ExampleSection
+          title="Groups"
+          description={
+            <>
+              Use <Code>ComboboxGroup</Code>, <Code>ComboboxLabel</Code> and{" "}
+              <Code>ComboboxSeparator</Code> to group items.
+            </>
+          }
+          code={groupsSource}
+        >
+          <ComboboxGroupsDemo />
+        </ExampleSection>
 
-      <ExampleSection
-        title="Invalid"
-        code={invalidSnippet}
-        description={
-          <>
-            Set <Code>aria-invalid</Code> on <Code>ComboboxInput</Code> to mark
-            the combobox as invalid.
-          </>
-        }
-      >
-        <ComboboxInvalidDemo />
-      </ExampleSection>
+        <ExampleSection
+          title="Disabled items"
+          description={
+            <>
+              Set <Code>disabled</Code> on a <Code>ComboboxItem</Code> to keep it visible but not
+              selectable. Keyboard navigation skips it.
+            </>
+          }
+          code={disabledItemsSource}
+        >
+          <ComboboxDisabledItemsDemo />
+        </ExampleSection>
 
-      <ExampleSection
-        title="Disabled"
-        code={disabledSnippet}
-        description={
-          <>
-            Set <Code>disabled</Code> on <Code>Combobox</Code> to disable the
-            input and its trigger.
-          </>
-        }
-      >
-        <ComboboxDisabledDemo />
-      </ExampleSection>
+        <ExampleSection
+          title="Custom items"
+          description={
+            <>
+              When items are objects, use <Code>itemToStringLabel</Code> to choose the text shown in
+              the input and used for filtering, and render any content inside{" "}
+              <Code>ComboboxItem</Code>.
+            </>
+          }
+          code={customSource}
+        >
+          <ComboboxCustomDemo />
+        </ExampleSection>
 
-      <ExampleSection
-        title="Auto highlight"
-        code={autoHighlightSnippet}
-        description={
-          <>
-            Set <Code>autoHighlight</Code> to highlight the first match while
-            typing, so Enter selects it.
-          </>
-        }
-      >
-        <ComboboxAutoHighlightDemo />
-      </ExampleSection>
+        <ExampleSection
+          title="Invalid"
+          description={
+            <>
+              Set <Code>aria-invalid</Code> on <Code>ComboboxInput</Code> to mark the combobox as
+              invalid.
+            </>
+          }
+          code={invalidSource}
+        >
+          <ComboboxInvalidDemo />
+        </ExampleSection>
 
-      <ExampleSection
-        title="Popup"
-        code={popupSnippet}
-        description={
-          <>
-            Open the combobox from a button with <Code>ComboboxTrigger</Code>{" "}
-            and move <Code>ComboboxInput</Code> inside{" "}
-            <Code>ComboboxContent</Code>. The input there has no chevron.
-          </>
-        }
-      >
-        <ComboboxPopupDemo />
-      </ExampleSection>
+        <ExampleSection
+          title="Disabled"
+          description={
+            <>
+              Set <Code>disabled</Code> on <Code>Combobox</Code> to disable the input and its
+              trigger.
+            </>
+          }
+          code={disabledSource}
+        >
+          <ComboboxDisabledDemo />
+        </ExampleSection>
 
-      <ExampleSection
-        title="Input group"
-        code={inputGroupSnippet}
-        description={
-          <>
-            Add an <Code>InputGroupAddon</Code> inside{" "}
-            <Code>ComboboxInput</Code>. The whole group is the popup anchor.
-          </>
-        }
-      >
-        <ComboboxInputGroupDemo />
-      </ExampleSection>
+        <ExampleSection
+          title="Auto highlight"
+          description={
+            <>
+              Set <Code>autoHighlight</Code> to highlight the first match while typing, so Enter
+              selects it.
+            </>
+          }
+          code={autoHighlightSource}
+        >
+          <ComboboxAutoHighlightDemo />
+        </ExampleSection>
 
-      <ExampleSection
-        title="Custom styling"
-        code={customStylingSnippet}
-        description={
-          <>
-            Every part accepts a <Code>className</Code> merged with the shipped{" "}
-            <Code>cn</Code> helper. Here the field uses a filled surface instead
-            of the default outline, and the popup and its items use larger
-            rounding:
-          </>
-        }
-      >
-        <ComboboxCustomStylingDemo />
-      </ExampleSection>
+        <ExampleSection
+          title="Popup"
+          description={
+            <>
+              Open the combobox from a button with <Code>ComboboxTrigger</Code> and move{" "}
+              <Code>ComboboxInput</Code> inside <Code>ComboboxContent</Code>. The input there has no
+              chevron.
+            </>
+          }
+          code={popupSource}
+        >
+          <ComboboxPopupDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Input group"
+          description={
+            <>
+              Add an <Code>InputGroupAddon</Code> inside <Code>ComboboxInput</Code>. The whole group
+              is the popup anchor.
+            </>
+          }
+          code={inputGroupSource}
+        >
+          <ComboboxInputGroupDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Custom styling"
+          description={
+            <>
+              Every part accepts a <Code>className</Code> merged with the shipped <Code>cn</Code>{" "}
+              helper. Here the field uses a filled surface instead of the default outline, and the
+              popup and its items use larger rounding.
+            </>
+          }
+          code={customStylingSource}
+        >
+          <ComboboxCustomStylingDemo />
+        </ExampleSection>
+      </section>
 
       <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
@@ -650,35 +388,30 @@ export default function ComboboxDocsPage() {
             <code className="font-mono">combobox-chips</code>,{" "}
             <code className="font-mono">combobox-chip</code>,{" "}
             <code className="font-mono">combobox-chip-remove</code>,{" "}
-            <code className="font-mono">combobox-chip-input</code>) for targeting
-            in tests and parent selectors. The field is an input group (
+            <code className="font-mono">combobox-chip-input</code>) for targeting in tests and
+            parent selectors. The field is an input group (
             <code className="font-mono">input-group</code>,{" "}
-            <code className="font-mono">input-group-control</code>).
+            <code className="font-mono">input-group-control</code>). Use the same props on Base UI,
+            React Aria, and Radix.
           </p>
         </div>
 
-        <PropsSection title="Combobox">
-          <PropsTable data={comboboxPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Combobox</h3>
+        <PropsTable data={comboboxPropRows} />
 
-        <PropsSection title="ComboboxInput">
-          <PropsTable data={inputPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ComboboxInput</h3>
+        <PropsTable data={inputPropRows} />
 
-        <PropsSection title="ComboboxContent">
-          <PropsTable data={contentPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ComboboxContent</h3>
+        <PropsTable data={contentPropRows} />
 
-        <PropsSection title="ComboboxItem">
-          <PropsTable data={itemPropRows} />
-        </PropsSection>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ComboboxItem</h3>
+        <PropsTable data={itemPropRows} />
 
         <p className="leading-relaxed text-muted-foreground">
-          <Code>ComboboxList</Code>, <Code>ComboboxGroup</Code>,{" "}
-          <Code>ComboboxLabel</Code>, <Code>ComboboxEmpty</Code> and{" "}
-          <Code>ComboboxSeparator</Code> take <Code>className</Code> and{" "}
-          <Code>children</Code> (<Code>ComboboxSeparator</Code> has no
-          children).
+          <Code>ComboboxList</Code>, <Code>ComboboxGroup</Code>, <Code>ComboboxLabel</Code>,{" "}
+          <Code>ComboboxEmpty</Code> and <Code>ComboboxSeparator</Code> take <Code>className</Code>{" "}
+          and <Code>children</Code> (<Code>ComboboxSeparator</Code> has no children).
         </p>
       </section>
     </article>

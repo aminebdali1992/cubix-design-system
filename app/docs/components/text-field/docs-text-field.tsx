@@ -1,5 +1,6 @@
 "use client"
 
+import { markCubixFieldInput } from "@/lib/aria-field-value"
 import type { ComponentProps, ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
@@ -54,14 +55,7 @@ function useTextFieldBase() {
   return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
 }
 
-function TextField({
-  className,
-  size,
-  disabled,
-  invalid,
-  name,
-  children,
-}: TextFieldProps) {
+function TextField({ className, size, disabled, invalid, name, children }: TextFieldProps) {
   const base = useTextFieldBase()
 
   if (base === "radix") {
@@ -71,6 +65,7 @@ function TextField({
         size={size}
         disabled={disabled}
         invalid={invalid}
+        name={name}
       >
         {children}
       </RadixTextField.TextField>
@@ -117,24 +112,16 @@ function TextFieldLabel({ className, children }: TextFieldLabelProps) {
 
   if (base === "aria") {
     return (
-      <AriaTextField.TextFieldLabel className={className}>
-        {children}
-      </AriaTextField.TextFieldLabel>
+      <AriaTextField.TextFieldLabel className={className}>{children}</AriaTextField.TextFieldLabel>
     )
   }
 
   return (
-    <BaseTextField.TextFieldLabel className={className}>
-      {children}
-    </BaseTextField.TextFieldLabel>
+    <BaseTextField.TextFieldLabel className={className}>{children}</BaseTextField.TextFieldLabel>
   )
 }
 
-function TextFieldControl({
-  className,
-  size,
-  children,
-}: TextFieldControlProps) {
+function TextFieldControl({ className, size, children }: TextFieldControlProps) {
   const base = useTextFieldBase()
 
   if (base === "radix") {
@@ -164,29 +151,14 @@ function TextFieldClear({ className, "aria-label": ariaLabel }: TextFieldClearPr
   const base = useTextFieldBase()
 
   if (base === "radix") {
-    return (
-      <RadixTextField.TextFieldClear
-        className={className}
-        aria-label={ariaLabel}
-      />
-    )
+    return <RadixTextField.TextFieldClear className={className} aria-label={ariaLabel} />
   }
 
   if (base === "aria") {
-    return (
-      <AriaTextField.TextFieldClear
-        className={className}
-        aria-label={ariaLabel}
-      />
-    )
+    return <AriaTextField.TextFieldClear className={className} aria-label={ariaLabel} />
   }
 
-  return (
-    <BaseTextField.TextFieldClear
-      className={className}
-      aria-label={ariaLabel}
-    />
-  )
+  return <BaseTextField.TextFieldClear className={className} aria-label={ariaLabel} />
 }
 
 function TextFieldInput(props: TextFieldInputProps) {
@@ -203,10 +175,7 @@ function TextFieldInput(props: TextFieldInputProps) {
   return <BaseTextField.TextFieldInput {...props} />
 }
 
-function TextFieldDescription({
-  className,
-  children,
-}: TextFieldDescriptionProps) {
+function TextFieldDescription({ className, children }: TextFieldDescriptionProps) {
   const base = useTextFieldBase()
 
   if (base === "radix") {
@@ -245,25 +214,23 @@ function TextFieldError({ className, children }: TextFieldErrorProps) {
 
   if (base === "aria") {
     return (
-      <AriaTextField.TextFieldError className={className}>
-        {children}
-      </AriaTextField.TextFieldError>
+      <AriaTextField.TextFieldError className={className}>{children}</AriaTextField.TextFieldError>
     )
   }
 
   return (
-    <BaseTextField.TextFieldError className={className}>
-      {children}
-    </BaseTextField.TextFieldError>
+    <BaseTextField.TextFieldError className={className}>{children}</BaseTextField.TextFieldError>
   )
 }
+
+const TextFieldInputMarked = markCubixFieldInput(TextFieldInput)
 
 export {
   TextField,
   TextFieldLabel,
   TextFieldControl,
   TextFieldClear,
-  TextFieldInput,
+  TextFieldInputMarked as TextFieldInput,
   TextFieldDescription,
   TextFieldError,
 }

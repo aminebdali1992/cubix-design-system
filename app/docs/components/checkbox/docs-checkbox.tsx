@@ -1,6 +1,5 @@
 "use client"
 
-import type { ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
 import * as AriaCheckbox from "@/components/cubix/aria/checkbox"
@@ -22,8 +21,8 @@ type CheckboxProps = {
   invalid?: boolean
   "aria-invalid"?: boolean
   "aria-label"?: string
+  "aria-describedby"?: string
   onCheckedChange?: (checked: boolean) => void
-  children?: ReactNode
 }
 
 function useCheckboxBase() {
@@ -45,6 +44,7 @@ function Checkbox({
   invalid,
   "aria-invalid": ariaInvalid,
   "aria-label": ariaLabel,
+  "aria-describedby": ariaDescribedBy,
   onCheckedChange,
 }: CheckboxProps) {
   const base = useCheckboxBase()
@@ -64,6 +64,7 @@ function Checkbox({
         required={required}
         aria-invalid={invalid ?? ariaInvalid}
         aria-label={ariaLabel}
+        aria-describedby={ariaDescribedBy}
         onCheckedChange={onCheckedChange}
       />
     )
@@ -85,6 +86,7 @@ function Checkbox({
         invalid={invalid}
         aria-invalid={ariaInvalid}
         aria-label={ariaLabel}
+        aria-describedby={ariaDescribedBy}
         onCheckedChange={onCheckedChange}
       />
     )
@@ -104,6 +106,7 @@ function Checkbox({
       required={required}
       aria-invalid={invalid ?? ariaInvalid}
       aria-label={ariaLabel}
+      aria-describedby={ariaDescribedBy}
       onCheckedChange={onCheckedChange}
     />
   )

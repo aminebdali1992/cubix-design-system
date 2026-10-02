@@ -6,18 +6,23 @@ import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
+import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  TabsControlledDemo,
-  TabsCustomDemo,
-  TabsDemo,
-  TabsDisabledDemo,
-  TabsIconsDemo,
-  TabsRemovableDemo,
-  TabsVerticalDemo,
-} from "@/components/examples/tabs-examples"
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { TabsControlledDemo } from "./examples/tabs-controlled-demo"
+import { TabsCustomDemo } from "./examples/tabs-custom-demo"
+import { TabsDemo } from "./examples/tabs-demo"
+import { TabsDisabledDemo } from "./examples/tabs-disabled-demo"
+import { TabsIconsDemo } from "./examples/tabs-icons-demo"
+import { TabsRemovableDemo } from "./examples/tabs-removable-demo"
+import { TabsVerticalDemo } from "./examples/tabs-vertical-demo"
 import {
   tabsContentPropRows,
+  tabsKeyboardRows,
   tabsListPropRows,
   tabsPropRows,
   tabsTriggerPropRows,
@@ -31,43 +36,30 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/cubix/tabs"`
+const PUBLIC_IMPORT = "@/components/cubix/tabs"
+const EXAMPLES_DIR = "app/docs/components/tabs/examples"
 
-const usageSnippet = `<Tabs defaultValue="account" className="w-full max-w-md">
-  <TabsList>
-    <TabsTrigger value="account">
-      <Icon data-icon="inline-start" />
-      حساب کاربری
-    </TabsTrigger>
-    <TabsTrigger value="password">
-      <Icon data-icon="inline-start" />
-      گذرواژه
-    </TabsTrigger>
-  </TabsList>
-  <TabsContent value="account">تغییرات حساب کاربری خود را اینجا انجام دهید.</TabsContent>
-  <TabsContent value="password">گذرواژه‌ی خود را اینجا تغییر دهید.</TabsContent>
-</Tabs>`
+function loadTabsExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `Tabs
 ├── TabsList
 │   └── TabsTrigger (value)
 └── TabsContent (value)`
 
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" lang="fa" className="flex w-full justify-center">
       {children}
     </div>
   )
-}
-
-function Code({ children }: { children: ReactNode }) {
-  return <code className="font-mono text-sm">{children}</code>
 }
 
 function ExampleSection({
@@ -92,12 +84,26 @@ function ExampleSection({
   )
 }
 
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
 export default function TabsPage() {
+  const demoSource = loadTabsExample("tabs-demo.tsx")
+  const iconsSource = loadTabsExample("tabs-icons-demo.tsx")
+  const removableSource = loadTabsExample("tabs-removable-demo.tsx")
+  const verticalSource = loadTabsExample("tabs-vertical-demo.tsx")
+  const disabledSource = loadTabsExample("tabs-disabled-demo.tsx")
+  const controlledSource = loadTabsExample("tabs-controlled-demo.tsx")
+  const customSource = loadTabsExample("tabs-custom-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
       <ComponentDocsHeader title="Tabs" description={description} slug="tabs" />
 
-      <ComponentPreview code={usageSnippet}>
+      <ComponentPreview code={demoSource}>
         <PreviewShell>
           <TabsDemo />
         </PreviewShell>
@@ -112,20 +118,29 @@ export default function TabsPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Every <Code>TabsTrigger</Code> is paired with a{" "}
-          <Code>TabsContent</Code> that has the same <Code>value</Code>. Tabs
-          start right-to-left and follow the closest <Code>dir</Code> on the
-          page; pass <Code>dir</Code> to override it. Arrow keys move focus in
-          the reading direction, so they are mirrored in RTL.
+          Every <Code>TabsTrigger</Code> is paired with a <Code>TabsContent</Code> that has the same{" "}
+          <Code>value</Code>. Tabs start right-to-left and follow the closest <Code>dir</Code> on
+          the page; pass <Code>dir</Code> to override it.
         </p>
         <CodeBlock code={compositionSnippet} title="Structure" />
       </section>
 
-      <section className="space-y-8">
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          The list renders <Code>role=&quot;tablist&quot;</Code>, each trigger{" "}
+          <Code>role=&quot;tab&quot;</Code> with <Code>aria-selected</Code>, and each panel{" "}
+          <Code>role=&quot;tabpanel&quot;</Code> linked to its tab. Name the list with{" "}
+          <Code>aria-label</Code>. The list is a single tab stop and arrow keys follow the reading
+          direction. Removable tabs announce their Delete and Backspace shortcuts through{" "}
+          <Code>aria-keyshortcuts</Code>.
+        </p>
+        <KeyboardTable data={tabsKeyboardRows} />
+      </section>
+
+      <section className="space-y-6">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
         <ExampleSection
@@ -133,24 +148,11 @@ export default function TabsPage() {
           description={
             <>
               Put an icon inside the trigger and mark it with{" "}
-              <Code>data-icon=&quot;inline-start&quot;</Code> so spacing follows
-              the reading direction.
+              <Code>data-icon=&quot;inline-start&quot;</Code> so spacing follows the reading
+              direction.
             </>
           }
-          code={`<Tabs defaultValue="profile" className="w-full max-w-md">
-  <TabsList>
-    <TabsTrigger value="profile">
-      <ButtonDemoIcon data-icon="inline-start" />
-      نمایه
-    </TabsTrigger>
-    <TabsTrigger value="notifications">
-      <ButtonDemoIcon data-icon="inline-start" />
-      اعلان‌ها
-    </TabsTrigger>
-  </TabsList>
-  <TabsContent value="profile">تنظیمات نمایه.</TabsContent>
-  <TabsContent value="notifications">تنظیمات اعلان‌ها.</TabsContent>
-</Tabs>`}
+          code={iconsSource}
         >
           <TabsIconsDemo />
         </ExampleSection>
@@ -159,51 +161,32 @@ export default function TabsPage() {
           title="Removable"
           description={
             <>
-              Pass <Code>onRemove</Code> to a trigger to add a × button at its
-              end. The focused tab can also be removed with Delete or Backspace.
+              Pass <Code>onRemove</Code> to a trigger to add a remove control at its end. When the
+              active tab is removed, select its neighbor in the same handler.
             </>
           }
-          code={`<TabsTrigger value="inbox" onRemove={() => remove("inbox")}>
-  ورودی
-</TabsTrigger>`}
+          code={removableSource}
         >
-          <PreviewShell>
-            <TabsRemovableDemo />
-          </PreviewShell>
+          <TabsRemovableDemo />
         </ExampleSection>
+
         <ExampleSection
           title="Vertical"
           description={
             <>
-              Use <Code>orientation=&quot;vertical&quot;</Code> to stack the
-              triggers. The list is placed at the inline start.
+              Use <Code>orientation=&quot;vertical&quot;</Code> to stack the triggers. The list is
+              placed at the inline start and ArrowUp / ArrowDown move between tabs.
             </>
           }
-          code={`<Tabs defaultValue="general" orientation="vertical" className="w-full max-w-lg">
-  <TabsList>
-    <TabsTrigger value="general">عمومی</TabsTrigger>
-    <TabsTrigger value="security">امنیت</TabsTrigger>
-    <TabsTrigger value="billing">صورتحساب</TabsTrigger>
-  </TabsList>
-  <TabsContent value="general">تنظیمات عمومی.</TabsContent>
-  <TabsContent value="security">تنظیمات امنیت.</TabsContent>
-  <TabsContent value="billing">تنظیمات صورتحساب.</TabsContent>
-</Tabs>`}
+          code={verticalSource}
         >
           <TabsVerticalDemo />
         </ExampleSection>
 
         <ExampleSection
           title="Disabled tab"
-          description="A disabled trigger cannot be selected or focused with the arrow keys."
-          code={`<Tabs defaultValue="active" className="w-full max-w-md">
-  <TabsList>
-    <TabsTrigger value="active">فعال</TabsTrigger>
-    <TabsTrigger value="disabled" disabled>غیرفعال</TabsTrigger>
-  </TabsList>
-  <TabsContent value="active">پنل تب فعال.</TabsContent>
-  <TabsContent value="disabled">این پنل قابل انتخاب نیست.</TabsContent>
-</Tabs>`}
+          description="A disabled trigger cannot be selected, and arrow key navigation skips it."
+          code={disabledSource}
         >
           <TabsDisabledDemo />
         </ExampleSection>
@@ -212,20 +195,11 @@ export default function TabsPage() {
           title="Controlled"
           description={
             <>
-              Pass <Code>value</Code> and <Code>onValueChange</Code> to own the
-              active tab from outside.
+              Pass <Code>value</Code> and <Code>onValueChange</Code> to own the active tab, for
+              example to drive it from step buttons.
             </>
           }
-          code={`const [value, setValue] = React.useState("one")
-
-<Tabs value={value} onValueChange={setValue}>
-  <TabsList>
-    <TabsTrigger value="one">مرحله‌ی ۱</TabsTrigger>
-    <TabsTrigger value="two">مرحله‌ی ۲</TabsTrigger>
-  </TabsList>
-  <TabsContent value="one">محتوای مرحله‌ی ۱.</TabsContent>
-  <TabsContent value="two">محتوای مرحله‌ی ۲.</TabsContent>
-</Tabs>`}
+          code={controlledSource}
         >
           <TabsControlledDemo />
         </ExampleSection>
@@ -234,41 +208,26 @@ export default function TabsPage() {
           title="Custom styling"
           description={
             <>
-              Each part accepts a <Code>className</Code> merged with the shipped{" "}
-              <Code>cn</Code> helper. The active trigger is marked with{" "}
-              <Code>data-active</Code> on Base UI,{" "}
-              <Code>data-[state=active]</Code> on Radix and{" "}
-              <Code>data-selected</Code> on React Aria, so target the attribute
-              your version renders.
+              Every base marks the active trigger with <Code>aria-selected=&quot;true&quot;</Code>,
+              so one set of <Code>aria-selected:</Code> classes styles it on Base UI, React Aria,
+              and Radix.
             </>
           }
-          code={`<TabsList className="h-auto w-full justify-start gap-0 rounded-none bg-transparent bg-[linear-gradient(to_right,color-mix(in_oklab,var(--border),var(--foreground)_10%)_50%,transparent_50%)] bg-[length:6px_1px] bg-repeat-x bg-bottom p-0">
-  <TabsTrigger
-    value="a"
-    className="h-auto w-fit flex-none justify-start rounded-none border-0 border-b border-transparent bg-transparent px-3 pb-3 text-muted-foreground shadow-none after:hidden hover:text-foreground data-active:border-foreground! data-active:text-foreground!"
-  >
-    نمای کلی
-  </TabsTrigger>
-</TabsList>`}
+          code={customSource}
         >
           <TabsCustomDemo />
         </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Parts render{" "}
-            <code className="font-mono">data-slot</code> attributes (
-            <code className="font-mono">tabs</code>,{" "}
-            <code className="font-mono">tabs-list</code>,{" "}
-            <code className="font-mono">tabs-trigger</code>,{" "}
-            <code className="font-mono">tabs-content</code>) for targeting.
-            Base UI, Radix and React Aria share the same props.
+            <strong className="text-foreground">Note:</strong> Parts render <Code>data-slot</Code>{" "}
+            attributes (<Code>tabs</Code>, <Code>tabs-list</Code>, <Code>tabs-trigger</Code>,{" "}
+            <Code>tabs-remove</Code>, <Code>tabs-content</Code>) for targeting in tests and parent
+            selectors. Use the same props on Base UI, React Aria, and Radix.
           </p>
         </div>
 

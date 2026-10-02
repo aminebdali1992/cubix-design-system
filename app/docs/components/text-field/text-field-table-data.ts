@@ -17,20 +17,18 @@ export const textFieldPropRows = [
     prop: "invalid",
     type: "boolean",
     default: "false",
-    description:
-      "Marks the field as invalid and shows TextFieldError when present.",
+    description: "Marks the field as invalid and shows TextFieldError when present.",
   },
   {
     prop: "name",
     type: "string",
     description:
-      "Identifies the field when a form is submitted (Base UI root; use the input name on Radix).",
+      "Identifies the field when a form is submitted. Forwarded to TextFieldInput on every base.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the root styles (last one wins).",
+    description: "Additional Tailwind classes merged with the root styles (last one wins).",
   },
 ]
 
@@ -49,8 +47,7 @@ export const textFieldInputPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the input styles (last one wins).",
+    description: "Additional Tailwind classes merged with the input styles (last one wins).",
   },
   {
     prop: "...props",
@@ -76,8 +73,7 @@ export const textFieldControlPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the control styles (last one wins).",
+    description: "Additional Tailwind classes merged with the control styles (last one wins).",
   },
 ]
 
@@ -86,14 +82,12 @@ export const textFieldClearPropRows = [
     prop: "aria-label",
     type: "string",
     default: '"Clear"',
-    description:
-      "Accessible name for the clear button. Required when no visible text is present.",
+    description: "Accessible name for the clear button. Required when no visible text is present.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the clear button styles (last one wins).",
+    description: "Additional Tailwind classes merged with the clear button styles (last one wins).",
   },
 ]
 
@@ -101,8 +95,7 @@ export const textFieldPartPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the part styles (last one wins).",
+    description: "Additional Tailwind classes merged with the part styles (last one wins).",
   },
   {
     prop: "...props",

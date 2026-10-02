@@ -8,17 +8,20 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  VerifyCodeCustomDemo,
-  VerifyCodeDemo,
-  VerifyCodeDisabledDemo,
-  VerifyCodeFilledDemo,
-  VerifyCodeFormDemo,
-  VerifyCodeGroupsDemo,
-  VerifyCodeInvalidDemo,
-  VerifyCodeLengthDemo,
-  VerifyCodeResendDemo,
-  VerifyCodeSizesDemo,
-} from "@/components/examples/verify-code-examples"
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { VerifyCodeCustomDemo } from "./examples/verify-code-custom-demo"
+import { VerifyCodeDemo } from "./examples/verify-code-demo"
+import { VerifyCodeDisabledDemo } from "./examples/verify-code-disabled-demo"
+import { VerifyCodeFilledDemo } from "./examples/verify-code-filled-demo"
+import { VerifyCodeFormDemo } from "./examples/verify-code-form-demo"
+import { VerifyCodeGroupsDemo } from "./examples/verify-code-groups-demo"
+import { VerifyCodeInvalidDemo } from "./examples/verify-code-invalid-demo"
+import { VerifyCodeLengthDemo } from "./examples/verify-code-length-demo"
+import { VerifyCodeResendDemo } from "./examples/verify-code-resend-demo"
+import { VerifyCodeSizesDemo } from "./examples/verify-code-sizes-demo"
 import {
   verifyCodeControlPropRows,
   verifyCodeDigitPropRows,
@@ -29,38 +32,35 @@ import {
 } from "./verify-code-table-data"
 
 const description =
-  "A labeled one-time verify code field with separate digit boxes. Set length for box count and groups to insert - separators between digit groups. Values always display as Persian digits."
+  "A one-time code field with digit boxes, optional groups, resend timer, description, and error. Values always display as Persian digits."
 
 export const metadata: Metadata = {
   title: "Verify Code",
   description,
 }
 
-const usageImport = `import {
-  VerifyCode,
-  VerifyCodeControl,
-  VerifyCodeLabel,
-  VerifyCodeResend,
-  formatVerifyCodeValue,
-  parseVerifyCodeValue,
-} from "@/components/cubix/verify-code"`
+const PUBLIC_IMPORT = "@/components/cubix/verify-code"
+const EXAMPLES_DIR = "app/docs/components/verify-code/examples"
 
-const usageSnippet = `<VerifyCode length={6}>
-  <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
-  <VerifyCodeControl />
-  <VerifyCodeResend />
-</VerifyCode>`
+function loadVerifyCodeExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `VerifyCode
 ├── VerifyCodeLabel
 ├── VerifyCodeControl
-│   ├── VerifyCodeDigit × group
-│   ├── VerifyCodeSeparator (when groups is set)
-│   └── VerifyCodeDigit × group
+│   ├── VerifyCodeDigit
+│   └── VerifyCodeSeparator
 ├── VerifyCodeResend
-├── VerifyCodeDescription (optional)
-└── VerifyCodeError (optional)`
+├── VerifyCodeDescription
+└── VerifyCodeError`
 
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" lang="fa" className="flex w-full min-w-0 justify-center">
@@ -69,16 +69,53 @@ function PreviewShell({ children }: { children: ReactNode }) {
   )
 }
 
+function ExampleSection({
+  title,
+  description,
+  code,
+  previewClassName,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  previewClassName?: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName={previewClassName}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
 export default function VerifyCodePage() {
+  const demoSource = loadVerifyCodeExample("verify-code-demo.tsx")
+  const lengthDemoSource = loadVerifyCodeExample("verify-code-length-demo.tsx")
+  const groupsDemoSource = loadVerifyCodeExample("verify-code-groups-demo.tsx")
+  const resendDemoSource = loadVerifyCodeExample("verify-code-resend-demo.tsx")
+  const filledDemoSource = loadVerifyCodeExample("verify-code-filled-demo.tsx")
+  const invalidDemoSource = loadVerifyCodeExample("verify-code-invalid-demo.tsx")
+  const disabledDemoSource = loadVerifyCodeExample("verify-code-disabled-demo.tsx")
+  const sizesDemoSource = loadVerifyCodeExample("verify-code-sizes-demo.tsx")
+  const formDemoSource = loadVerifyCodeExample("verify-code-form-demo.tsx")
+  const customDemoSource = loadVerifyCodeExample("verify-code-custom-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Verify Code"
-        description={description}
-        slug="verify-code"
-      />
+      <ComponentDocsHeader title="Verify Code" description={description} slug="verify-code" />
 
-      <ComponentPreview code={usageSnippet}>
+      <ComponentPreview code={demoSource}>
         <PreviewShell>
           <VerifyCodeDemo />
         </PreviewShell>
@@ -93,325 +130,206 @@ export default function VerifyCodePage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Compose label, control, and resend timer under{" "}
-          <code className="font-mono text-sm">VerifyCode</code>.{" "}
-          <code className="font-mono text-sm">VerifyCodeControl</code> renders{" "}
-          <code className="font-mono text-sm">length</code> digit boxes
-          (default 6, clamped 4-8). Pass{" "}
-          <code className="font-mono text-sm">groups</code> on the root - for
-          example{" "}
-          <code className="font-mono text-sm">groups=&#123;[3, 3]&#125;</code> -
-          to insert a{" "}
-          <code className="font-mono text-sm">-</code> between digit groups.
-          Digits always display in Persian. Filling a box moves focus to the
-          next; Backspace on an empty box clears the previous digit and moves
-          back. Arrow keys move between boxes. Paste a full code to fill all
-          parts. The label focuses the first digit box.{" "}
-          <code className="font-mono text-sm">VerifyCodeDescription</code> and{" "}
-          <code className="font-mono text-sm">VerifyCodeError</code> are
-          optional helper parts wired through{" "}
-          <code className="font-mono text-sm">aria-describedby</code>.{" "}
-          <code className="font-mono text-sm">VerifyCodeResend</code> is the
-          fixed helper row under the boxes: a countdown (default 1 minute) in a
-          muted badge; when it ends, the helper text becomes دریافت مجدد کد
-          تایید and the same badge shows دریافت مجدد. Clicking the badge
-          restarts the countdown and calls{" "}
-          <code className="font-mono text-sm">onResend</code>. Set{" "}
-          <code className="font-mono text-sm">invalid</code> to mark the digit
-          boxes with a destructive border. The control uses{" "}
-          <code className="font-mono text-sm">dir=&quot;ltr&quot;</code> so
-          digits follow left-to-right order on RTL pages. Use{" "}
-          <code className="font-mono text-sm">parseVerifyCodeValue</code> and{" "}
-          <code className="font-mono text-sm">formatVerifyCodeValue</code> for
-          the combined string.
+          {"Compose label, control, resend, help text, and error under "}
+          <Code>VerifyCode</Code>
+          {". "}
+          <Code>VerifyCodeControl</Code>
+          {" renders digit boxes from "}
+          <Code>length</Code>
+          {" and optional "}
+          <Code>groups</Code>
+          {
+            ". Digits always display in Persian. Filling a box moves focus forward; Backspace on an empty box moves back. Paste a full code to fill every box."
+          }
         </p>
         <CodeBlock code={compositionSnippet} title="Structure" />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          {
+            "Each digit box is named by position. Auto-advance and Backspace keep keyboard entry on one path. "
+          }
+          <Code>VerifyCodeResend</Code>
+          {" exposes a clear countdown and becomes a button when ready. "}
+          <Code>VerifyCodeDescription</Code>
+          {" and "}
+          <Code>VerifyCodeError</Code>
+          {" are announced through "}
+          <Code>aria-describedby</Code>
+          {". Set "}
+          <Code>name</Code>
+          {" on the root to submit a single hidden value for the full code."}
+        </p>
       </section>
 
       <section className="space-y-6">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Resend</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            <code className="font-mono text-sm">VerifyCodeResend</code> is
-            included under the control in every example. Pass{" "}
-            <code className="font-mono text-sm">duration</code> in seconds to
-            customize - for example{" "}
-            <code className="font-mono text-sm">duration=&#123;120&#125;</code>{" "}
-            for two minutes (default is 60). When the timer ends, the helper
-            text becomes دریافت مجدد کد تایید and the same badge shows دریافت
-            مجدد; clicking it restarts the countdown and calls{" "}
-            <code className="font-mono text-sm">onResend</code>.
-          </p>
-          <ComponentPreview
-            code={`<VerifyCode>
-  <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
-  <VerifyCodeControl />
-  <VerifyCodeResend duration={120} />
-</VerifyCode>`}
-          >
-            <PreviewShell>
-              <VerifyCodeResendDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Length"
+          description={
+            <>
+              {"Change how many digit boxes render with the "}
+              <Code>length</Code>
+              {" prop."}
+            </>
+          }
+          code={lengthDemoSource}
+        >
+          <VerifyCodeLengthDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Length</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set <code className="font-mono text-sm">length</code> on the root
-            to change how many digit boxes render (4 to 8).
-          </p>
-          <ComponentPreview
-            code={`<VerifyCode length={4}>
-  <VerifyCodeLabel>کد ۴ رقمی</VerifyCodeLabel>
-  <VerifyCodeControl />
-  <VerifyCodeResend />
-</VerifyCode>
+        <ExampleSection
+          title="Groups"
+          description={
+            <>
+              {"Pass "}
+              <Code>groups</Code>
+              {" to insert separators between digit runs (for example 3-3)."}
+            </>
+          }
+          code={groupsDemoSource}
+        >
+          <VerifyCodeGroupsDemo />
+        </ExampleSection>
 
-<VerifyCode length={6}>
-  <VerifyCodeLabel>کد ۶ رقمی</VerifyCodeLabel>
-  <VerifyCodeControl />
-  <VerifyCodeResend />
-</VerifyCode>`}
-          >
-            <PreviewShell>
-              <VerifyCodeLengthDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Resend"
+          description={
+            <>
+              {"Use "}
+              <Code>VerifyCodeResend</Code>
+              {" with "}
+              <Code>duration</Code>
+              {" for a countdown before the user can request a new code."}
+            </>
+          }
+          code={resendDemoSource}
+        >
+          <VerifyCodeResendDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Groups</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Pass <code className="font-mono text-sm">groups</code> on the root
-            to insert a <code className="font-mono text-sm">-</code> between
-            digit groups. The numbers must sum to{" "}
-            <code className="font-mono text-sm">length</code> - for example{" "}
-            <code className="font-mono text-sm">
-              groups=&#123;[3, 3]&#125;
-            </code>{" "}
-            or{" "}
-            <code className="font-mono text-sm">
-              groups=&#123;[2, 2, 2]&#125;
-            </code>
-            .
-          </p>
-          <ComponentPreview
-            code={`<VerifyCode length={6} groups={[3, 3]}>
-  <VerifyCodeLabel>کد ۶ رقمی</VerifyCodeLabel>
-  <VerifyCodeControl />
-  <VerifyCodeResend />
-</VerifyCode>
+        <ExampleSection
+          title="Filled"
+          description={
+            <>
+              {"Pass "}
+              <Code>defaultValue</Code>
+              {" on the root to show a complete code."}
+            </>
+          }
+          code={filledDemoSource}
+        >
+          <VerifyCodeFilledDemo />
+        </ExampleSection>
 
-<VerifyCode length={6} groups={[2, 2, 2]}>
-  <VerifyCodeLabel>کد ۶ رقمی</VerifyCodeLabel>
-  <VerifyCodeControl />
-  <VerifyCodeResend />
-</VerifyCode>`}
-          >
-            <PreviewShell>
-              <VerifyCodeGroupsDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Invalid"
+          description={
+            <>
+              {"Set "}
+              <Code>invalid</Code>
+              {" on the root to apply destructive styles and show "}
+              <Code>VerifyCodeError</Code>
+              {"."}
+            </>
+          }
+          code={invalidDemoSource}
+        >
+          <VerifyCodeInvalidDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Filled</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Pass <code className="font-mono text-sm">defaultValue</code> on the
-            root to show a completed code.
-          </p>
-          <ComponentPreview
-            code={`<VerifyCode defaultValue="۱۲۳۴۵۶">
-  <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
-  <VerifyCodeControl />
-  <VerifyCodeResend />
-</VerifyCode>`}
-          >
-            <PreviewShell>
-              <VerifyCodeFilledDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Disabled"
+          description="Disable the field to block every digit and the resend control. Label and description stay readable."
+          code={disabledDemoSource}
+        >
+          <VerifyCodeDisabledDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Invalid
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set <code className="font-mono text-sm">invalid</code> on the root
-            to apply destructive border styles on the digit boxes. Compose{" "}
-            <code className="font-mono text-sm">VerifyCodeError</code> for an
-            error message linked to the digit inputs.
-          </p>
-          <ComponentPreview
-            code={`<VerifyCode invalid defaultValue="۱۲۳۴">
-  <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
-  <VerifyCodeControl />
-  <VerifyCodeResend />
-  <VerifyCodeError>کد تایید معتبر نیست.</VerifyCodeError>
-</VerifyCode>`}
-          >
-            <PreviewShell>
-              <VerifyCodeInvalidDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Sizes"
+          description={
+            <>
+              {"Two heights ship by default: "}
+              <Code>default</Code>
+              {" (40px) and "}
+              <Code>lg</Code>
+              {" (48px). Use "}
+              <Code>className</Code>
+              {" for any other size."}
+            </>
+          }
+          code={sizesDemoSource}
+        >
+          <VerifyCodeSizesDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Disabled
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set <code className="font-mono text-sm">disabled</code> on the root
-            to prevent editing and pause the resend countdown.
-          </p>
-          <ComponentPreview
-            code={`<VerifyCode disabled>
-  <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
-  <VerifyCodeControl />
-  <VerifyCodeResend />
-</VerifyCode>`}
-          >
-            <PreviewShell>
-              <VerifyCodeDisabledDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="In a form"
+          description={
+            <>
+              {"Set "}
+              <Code>name</Code>
+              {
+                " on the root so the combined code is submitted with the form, and pair the field with Cubix Button."
+              }
+            </>
+          }
+          code={formDemoSource}
+          previewClassName="bg-muted"
+        >
+          <VerifyCodeFormDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Sizes</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Use <code className="font-mono text-sm">size=&quot;lg&quot;</code>{" "}
-            for taller digit boxes.
-          </p>
-          <ComponentPreview
-            code={`<VerifyCode size="default">
-  <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
-  <VerifyCodeControl />
-  <VerifyCodeResend />
-</VerifyCode>
-
-<VerifyCode size="lg">
-  <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
-  <VerifyCodeControl />
-  <VerifyCodeResend />
-</VerifyCode>`}
-          >
-            <PreviewShell>
-              <VerifyCodeSizesDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            In a form
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set <code className="font-mono text-sm">name</code> on the root to
-            submit a combined code value. Compose with Button for a complete
-            block.
-          </p>
-          <ComponentPreview
-            previewClassName="bg-muted"
-            code={`<form className="grid w-full max-w-sm gap-6 rounded-xl bg-background p-6">
-  <VerifyCode name="verifyCode">
-    <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
-    <VerifyCodeControl />
-    <VerifyCodeResend />
-  </VerifyCode>
-  <div className="grid grid-cols-2 gap-2">
-    <Button type="button" variant="outline">انصراف</Button>
-    <Button type="submit">تایید</Button>
-  </div>
-</form>`}
-          >
-            <PreviewShell>
-              <VerifyCodeFormDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Custom styling
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Pass{" "}
-            <code className="font-mono text-sm">digitClassName</code> on{" "}
-            <code className="font-mono text-sm">VerifyCodeControl</code> to
-            style every auto-rendered digit box:
-          </p>
-          <ComponentPreview
-            code={`<VerifyCode>
-  <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
-  <VerifyCodeControl digitClassName="border-border bg-muted dark:bg-muted" />
-  <VerifyCodeResend />
-</VerifyCode>`}
-          >
-            <PreviewShell>
-              <VerifyCodeCustomDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Custom styling"
+          description={
+            <>
+              {"Every part accepts a "}
+              <Code>className</Code>
+              {" merged with the shipped "}
+              <Code>cn</Code>
+              {" helper."}
+            </>
+          }
+          code={customDemoSource}
+        >
+          <VerifyCodeCustomDemo />
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Parts render{" "}
-            <code className="font-mono">data-slot</code> attributes (
-            <code className="font-mono">verify-code</code>,{" "}
-            <code className="font-mono">verify-code-label</code>,{" "}
-            <code className="font-mono">verify-code-control</code>,{" "}
-            <code className="font-mono">verify-code-digit</code>,{" "}
-            <code className="font-mono">verify-code-separator</code>,{" "}
-            <code className="font-mono">verify-code-resend</code>,{" "}
-            <code className="font-mono">verify-code-timer</code>,{" "}
-            <code className="font-mono">verify-code-description</code>,{" "}
-            <code className="font-mono">verify-code-error</code>) for targeting
-            in tests and parent selectors. Helpers{" "}
-            <code className="font-mono">formatVerifyCodeValue</code>,{" "}
-            <code className="font-mono">parseVerifyCodeValue</code>, and{" "}
-            <code className="font-mono">formatVerifyCodeTimer</code> convert
-            between display strings, the digit array, and the countdown label.
+            <strong className="text-foreground">Note:</strong> Parts render <Code>data-slot</Code>{" "}
+            attributes (<Code>verify-code</Code>, <Code>verify-code-label</Code>,{" "}
+            <Code>verify-code-control</Code>, <Code>verify-code-digit</Code>,{" "}
+            <Code>verify-code-separator</Code>, <Code>verify-code-resend</Code>,{" "}
+            <Code>verify-code-description</Code>, <Code>verify-code-error</Code>) for targeting in
+            tests and parent selectors. Use the same props on Base UI, React Aria, and Radix.
           </p>
         </div>
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          VerifyCode
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">VerifyCode</h3>
         <PropsTable data={verifyCodePropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          VerifyCodeControl
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">VerifyCodeControl</h3>
         <PropsTable data={verifyCodeControlPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          VerifyCodeDigit
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">VerifyCodeDigit</h3>
         <PropsTable data={verifyCodeDigitPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          VerifyCodeSeparator
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">VerifyCodeSeparator</h3>
         <PropsTable data={verifyCodeSeparatorPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          VerifyCodeResend
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">VerifyCodeResend</h3>
         <PropsTable data={verifyCodeResendPropRows} />
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">

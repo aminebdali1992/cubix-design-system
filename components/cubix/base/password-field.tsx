@@ -56,9 +56,14 @@ const passwordFieldInputVariants = cva(
   }
 )
 
-type PasswordFieldSize = NonNullable<
-  VariantProps<typeof passwordFieldInputVariants>["size"]
->
+/*
+  Passwords are typed in Latin: dir="ltr" keeps trailing symbols in place when
+  the value is revealed, and match-parent keeps the text aligned with the
+  surrounding form direction.
+*/
+const PASSWORD_ALIGN_CLASS = "[text-align:match-parent]"
+
+type PasswordFieldSize = NonNullable<VariantProps<typeof passwordFieldInputVariants>["size"]>
 
 type PasswordFieldVisibilityContextValue = {
   visible: boolean
@@ -89,9 +94,7 @@ function PasswordField({
   defaultVisible?: boolean
   onVisibleChange?: (visible: boolean) => void
 }) {
-  const [uncontrolledVisible, setUncontrolledVisible] = React.useState(
-    defaultVisible
-  )
+  const [uncontrolledVisible, setUncontrolledVisible] = React.useState(defaultVisible)
   const isVisibilityControlled = visibleProp !== undefined
   const visible = isVisibilityControlled ? Boolean(visibleProp) : uncontrolledVisible
   const setVisible = React.useCallback(
@@ -105,9 +108,7 @@ function PasswordField({
   )
 
   return (
-    <PasswordFieldVisibilityContext.Provider
-      value={{ visible, setVisible, disabled }}
-    >
+    <PasswordFieldVisibilityContext.Provider value={{ visible, setVisible, disabled }}>
       <PasswordFieldSizeContext.Provider value={size}>
         <FieldPrimitive.Root
           data-slot="password-field"
@@ -180,11 +181,9 @@ function PasswordFieldInput({
   className,
   size: sizeProp,
   autoComplete = "current-password",
+  dir = "ltr",
   ...props
-}: Omit<
-  React.ComponentProps<typeof InputPrimitive>,
-  "size" | "type" | "spellCheck"
-> & {
+}: Omit<React.ComponentProps<typeof InputPrimitive>, "size" | "type" | "spellCheck"> & {
   size?: PasswordFieldSize
 }) {
   const size = sizeProp ?? React.useContext(PasswordFieldSizeContext)
@@ -194,9 +193,11 @@ function PasswordFieldInput({
   return (
     <InputPrimitive
       data-slot="password-field-input"
+      dir={dir}
       data-size={size}
       className={cn(
         passwordFieldInputVariants({ size, inControl }),
+        PASSWORD_ALIGN_CLASS,
         className
       )}
       {...props}
@@ -247,7 +248,6 @@ function PasswordFieldEyeOffIcon({ className }: { className?: string }) {
   )
 }
 
-
 function PasswordFieldToggle({
   className,
   onClick,
@@ -271,7 +271,6 @@ function PasswordFieldToggle({
       data-icon="inline-end"
       data-state={visible ? "visible" : "hidden"}
       aria-label={label}
-      aria-pressed={visible}
       disabled={isDisabled}
       className={cn(
         "inline-flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary/20 disabled:pointer-events-none group-data-disabled/password-field:cursor-not-allowed",
@@ -332,10 +331,7 @@ function PasswordFieldError({
           <FieldPrimitive.Error
             data-slot="password-field-error"
             match={match ?? true}
-            className={cn(
-              "m-0 text-caption font-normal text-destructive",
-              className
-            )}
+            className={cn("m-0 text-caption font-normal text-destructive", className)}
             {...props}
           >
             {children}

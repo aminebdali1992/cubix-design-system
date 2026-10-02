@@ -49,14 +49,13 @@ const textFieldInputVariants = cva(
   }
 )
 
-type TextFieldSize = NonNullable<
-  VariantProps<typeof textFieldInputVariants>["size"]
->
+type TextFieldSize = NonNullable<VariantProps<typeof textFieldInputVariants>["size"]>
 
 type TextFieldContextValue = {
   size: TextFieldSize
   disabled?: boolean
   invalid?: boolean
+  name?: string
   id: string
   descriptionId: string
   errorId: string
@@ -71,6 +70,7 @@ function TextField({
   size = "default",
   disabled,
   invalid,
+  name,
   id: idProp,
   children,
   ...props
@@ -78,6 +78,7 @@ function TextField({
   size?: TextFieldSize
   disabled?: boolean
   invalid?: boolean
+  name?: string
 }) {
   const reactId = React.useId()
   const id = idProp ?? reactId
@@ -86,7 +87,7 @@ function TextField({
 
   return (
     <TextFieldContext.Provider
-      value={{ size, disabled, invalid, id, descriptionId, errorId }}
+      value={{ size, disabled, invalid, name, id, descriptionId, errorId }}
     >
       <TextFieldSizeContext.Provider value={size}>
         <div
@@ -107,10 +108,7 @@ function TextField({
   )
 }
 
-function TextFieldLabel({
-  className,
-  ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root>) {
+function TextFieldLabel({ className, ...props }: React.ComponentProps<typeof LabelPrimitive.Root>) {
   const ctx = React.useContext(TextFieldContext)
 
   return (
@@ -135,9 +133,7 @@ function TextFieldControl({
   size?: TextFieldSize
 }) {
   const size =
-    sizeProp ??
-    React.useContext(TextFieldContext)?.size ??
-    React.useContext(TextFieldSizeContext)
+    sizeProp ?? React.useContext(TextFieldContext)?.size ?? React.useContext(TextFieldSizeContext)
 
   return (
     <TextFieldControlContext.Provider value={true}>
@@ -167,6 +163,7 @@ function TextFieldInput({
   className,
   size: sizeProp,
   id,
+  name,
   disabled,
   "aria-invalid": ariaInvalid,
   "aria-describedby": ariaDescribedby,
@@ -179,11 +176,7 @@ function TextFieldInput({
   const size = sizeProp ?? ctx?.size ?? sizeFromContext
   const inControl = React.useContext(TextFieldControlContext)
   const isInvalid = ariaInvalid ?? ctx?.invalid
-  const describedBy = [
-    ariaDescribedby,
-    ctx?.descriptionId,
-    isInvalid ? ctx?.errorId : null,
-  ]
+  const describedBy = [ariaDescribedby, ctx?.descriptionId, isInvalid ? ctx?.errorId : null]
     .filter(Boolean)
     .join(" ")
 
@@ -192,23 +185,18 @@ function TextFieldInput({
       data-slot="text-field-input"
       data-size={size}
       id={id ?? ctx?.id}
+      name={name ?? ctx?.name}
       disabled={disabled ?? ctx?.disabled}
       aria-invalid={isInvalid || undefined}
       aria-describedby={describedBy || undefined}
-      className={cn(
-        textFieldInputVariants({ size, inControl }),
-        className
-      )}
+      className={cn(textFieldInputVariants({ size, inControl }), className)}
       {...props}
     />
   )
 }
 
 function clearTextFieldInput(input: HTMLInputElement) {
-  const descriptor = Object.getOwnPropertyDescriptor(
-    HTMLInputElement.prototype,
-    "value"
-  )
+  const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
   descriptor?.set?.call(input, "")
   input.dispatchEvent(new Event("input", { bubbles: true }))
   input.dispatchEvent(new Event("change", { bubbles: true }))
@@ -239,9 +227,7 @@ function TextFieldClear({
 
   React.useLayoutEffect(() => {
     const control = ref.current?.closest("[data-slot=text-field-control]")
-    const input = control?.querySelector<HTMLInputElement>(
-      "[data-slot=text-field-input]"
-    )
+    const input = control?.querySelector<HTMLInputElement>("[data-slot=text-field-input]")
     if (!input) return
 
     const sync = () => {
@@ -287,11 +273,7 @@ function TextFieldClear({
   )
 }
 
-function TextFieldDescription({
-  className,
-  id,
-  ...props
-}: React.ComponentProps<"p">) {
+function TextFieldDescription({ className, id, ...props }: React.ComponentProps<"p">) {
   const ctx = React.useContext(TextFieldContext)
 
   return (
@@ -307,12 +289,7 @@ function TextFieldDescription({
   )
 }
 
-function TextFieldError({
-  className,
-  id,
-  children,
-  ...props
-}: React.ComponentProps<"div">) {
+function TextFieldError({ className, id, children, ...props }: React.ComponentProps<"div">) {
   const ctx = React.useContext(TextFieldContext)
 
   if (!children) {
@@ -328,10 +305,7 @@ function TextFieldError({
       role="alert"
       data-slot="text-field-error"
       id={id ?? ctx?.errorId}
-      className={cn(
-        "m-0 text-caption font-normal text-destructive",
-        className
-      )}
+      className={cn("m-0 text-caption font-normal text-destructive", className)}
       {...props}
     >
       {children}

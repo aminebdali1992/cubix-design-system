@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils"
 */
 
 const emailFieldControlVariants = cva(
-  "group/email-field-control relative flex w-full min-w-0 items-center rounded-lg border border-input bg-transparent transition-colors outline-none has-disabled:cursor-not-allowed has-disabled:border-transparent has-disabled:bg-muted has-[[data-slot=email-field-input]:focus-visible]:border-primary has-[[data-slot=email-field-input]:focus-visible]:ring-3 has-[[data-slot=email-field-input]:focus-visible]:ring-primary/20 has-[[data-slot=email-field-input]:focus-visible]:ring-offset-1 has-[[data-slot=email-field-input]:focus-visible]:ring-offset-background has-[[data-slot=email-field-input][aria-invalid=true]]:border-destructive has-[[data-slot=email-field-input][aria-invalid=true]]:ring-3 has-[[data-slot=email-field-input][aria-invalid=true]]:ring-destructive/20 has-[[data-slot=email-field-input][aria-invalid=true]]:ring-offset-1 has-[[data-slot=email-field-input][aria-invalid=true]]:ring-offset-background has-[[data-slot=email-field-input][aria-invalid=true]:focus-visible]:border-destructive has-[[data-slot=email-field-input][aria-invalid=true]:focus-visible]:ring-destructive/20 dark:bg-input/30 dark:has-disabled:bg-muted dark:has-[[data-slot=email-field-input][aria-invalid=true]]:border-destructive/50 dark:has-[[data-slot=email-field-input][aria-invalid=true]]:ring-destructive/40 dark:has-[[data-slot=email-field-input][aria-invalid=true]:focus-visible]:border-destructive/50 dark:has-[[data-slot=email-field-input][aria-invalid=true]:focus-visible]:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:text-muted-foreground [&_svg:not([class*='size-'])]:size-4",
+  "group/email-field-control relative flex w-full min-w-0 items-center rounded-lg border border-input bg-transparent transition-colors outline-none has-disabled:cursor-not-allowed has-disabled:border-transparent has-disabled:bg-muted has-[[data-slot=email-field-input]:focus-visible]:border-primary has-[[data-slot=email-field-input]:focus-visible]:ring-3 has-[[data-slot=email-field-input]:focus-visible]:ring-primary/20 has-[[data-slot=email-field-input]:focus-visible]:ring-offset-1 has-[[data-slot=email-field-input]:focus-visible]:ring-offset-background has-[[data-slot=email-field-input][aria-invalid=true]]:border-destructive has-[[data-slot=email-field-input][aria-invalid=true]]:ring-0 has-[[data-slot=email-field-input][aria-invalid=true]:focus-visible]:border-destructive has-[[data-slot=email-field-input][aria-invalid=true]:focus-visible]:ring-0 dark:bg-input/30 dark:has-disabled:bg-muted dark:has-[[data-slot=email-field-input][aria-invalid=true]]:border-destructive/50 dark:has-[[data-slot=email-field-input][aria-invalid=true]:focus-visible]:border-destructive/50 dark:has-[[data-slot=email-field-input][aria-invalid=true]:focus-visible]:ring-0 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:text-muted-foreground [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       size: {
@@ -35,7 +35,7 @@ const emailFieldControlVariants = cva(
 )
 
 const emailFieldInputVariants = cva(
-  "w-full min-w-0 rounded-lg border border-input bg-transparent font-normal leading-none tracking-normal text-foreground transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-description file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-3 focus-visible:ring-primary/20 focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:border-transparent disabled:bg-muted disabled:text-muted-foreground disabled:placeholder:text-muted-foreground aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 aria-invalid:ring-offset-1 aria-invalid:ring-offset-background aria-invalid:focus-visible:border-destructive aria-invalid:focus-visible:ring-destructive/20 dark:bg-input/30 dark:disabled:bg-muted dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 dark:aria-invalid:focus-visible:border-destructive/50 dark:aria-invalid:focus-visible:ring-destructive/40",
+  "w-full min-w-0 rounded-lg border border-input bg-transparent font-normal leading-none tracking-normal text-foreground transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-description file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-3 focus-visible:ring-primary/20 focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:border-transparent disabled:bg-muted disabled:text-muted-foreground disabled:placeholder:text-muted-foreground aria-invalid:border-destructive aria-invalid:ring-0 aria-invalid:focus-visible:border-destructive aria-invalid:focus-visible:ring-0 dark:bg-input/30 dark:disabled:bg-muted dark:aria-invalid:border-destructive/50 dark:aria-invalid:focus-visible:border-destructive/50",
   {
     variants: {
       size: {
@@ -54,14 +54,19 @@ const emailFieldInputVariants = cva(
   }
 )
 
-type EmailFieldSize = NonNullable<
-  VariantProps<typeof emailFieldInputVariants>["size"]
->
+/*
+  Addresses are Latin: dir="ltr" keeps a trailing @ or . in place while typing,
+  and match-parent keeps the text aligned with the surrounding form direction.
+*/
+const EMAIL_ALIGN_CLASS = "[text-align:match-parent]"
+
+type EmailFieldSize = NonNullable<VariantProps<typeof emailFieldInputVariants>["size"]>
 
 type EmailFieldContextValue = {
   size: EmailFieldSize
   disabled?: boolean
   invalid?: boolean
+  name?: string
   id: string
   descriptionId: string
   errorId: string
@@ -76,6 +81,7 @@ function EmailField({
   size = "default",
   disabled,
   invalid,
+  name,
   id: idProp,
   children,
   ...props
@@ -83,6 +89,7 @@ function EmailField({
   size?: EmailFieldSize
   disabled?: boolean
   invalid?: boolean
+  name?: string
 }) {
   const reactId = React.useId()
   const id = idProp ?? reactId
@@ -91,7 +98,7 @@ function EmailField({
 
   return (
     <EmailFieldContext.Provider
-      value={{ size, disabled, invalid, id, descriptionId, errorId }}
+      value={{ size, disabled, invalid, name, id, descriptionId, errorId }}
     >
       <EmailFieldSizeContext.Provider value={size}>
         <div
@@ -140,9 +147,7 @@ function EmailFieldControl({
   size?: EmailFieldSize
 }) {
   const size =
-    sizeProp ??
-    React.useContext(EmailFieldContext)?.size ??
-    React.useContext(EmailFieldSizeContext)
+    sizeProp ?? React.useContext(EmailFieldContext)?.size ?? React.useContext(EmailFieldSizeContext)
 
   return (
     <EmailFieldControlContext.Provider value={true}>
@@ -172,8 +177,10 @@ function EmailFieldInput({
   className,
   size: sizeProp,
   id,
+  name,
   disabled,
   autoComplete = "email",
+  dir = "ltr",
   "aria-invalid": ariaInvalid,
   "aria-describedby": ariaDescribedby,
   ...props
@@ -185,11 +192,7 @@ function EmailFieldInput({
   const size = sizeProp ?? ctx?.size ?? sizeFromContext
   const inControl = React.useContext(EmailFieldControlContext)
   const isInvalid = ariaInvalid ?? ctx?.invalid
-  const describedBy = [
-    ariaDescribedby,
-    ctx?.descriptionId,
-    isInvalid ? ctx?.errorId : null,
-  ]
+  const describedBy = [ariaDescribedby, ctx?.descriptionId, isInvalid ? ctx?.errorId : null]
     .filter(Boolean)
     .join(" ")
 
@@ -198,13 +201,12 @@ function EmailFieldInput({
       data-slot="email-field-input"
       data-size={size}
       id={id ?? ctx?.id}
+      name={name ?? ctx?.name}
       disabled={disabled ?? ctx?.disabled}
       aria-invalid={isInvalid || undefined}
       aria-describedby={describedBy || undefined}
-      className={cn(
-        emailFieldInputVariants({ size, inControl }),
-        className
-      )}
+      dir={dir}
+      className={cn(emailFieldInputVariants({ size, inControl }), EMAIL_ALIGN_CLASS, className)}
       {...props}
       type="email"
       inputMode="email"
@@ -215,10 +217,7 @@ function EmailFieldInput({
 }
 
 function clearEmailFieldInput(input: HTMLInputElement) {
-  const descriptor = Object.getOwnPropertyDescriptor(
-    HTMLInputElement.prototype,
-    "value"
-  )
+  const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
   descriptor?.set?.call(input, "")
   input.dispatchEvent(new Event("input", { bubbles: true }))
   input.dispatchEvent(new Event("change", { bubbles: true }))
@@ -249,9 +248,7 @@ function EmailFieldClear({
 
   React.useLayoutEffect(() => {
     const control = ref.current?.closest("[data-slot=email-field-control]")
-    const input = control?.querySelector<HTMLInputElement>(
-      "[data-slot=email-field-input]"
-    )
+    const input = control?.querySelector<HTMLInputElement>("[data-slot=email-field-input]")
     if (!input) return
 
     const sync = () => {
@@ -297,11 +294,7 @@ function EmailFieldClear({
   )
 }
 
-function EmailFieldDescription({
-  className,
-  id,
-  ...props
-}: React.ComponentProps<"p">) {
+function EmailFieldDescription({ className, id, ...props }: React.ComponentProps<"p">) {
   const ctx = React.useContext(EmailFieldContext)
 
   return (
@@ -317,12 +310,7 @@ function EmailFieldDescription({
   )
 }
 
-function EmailFieldError({
-  className,
-  id,
-  children,
-  ...props
-}: React.ComponentProps<"div">) {
+function EmailFieldError({ className, id, children, ...props }: React.ComponentProps<"div">) {
   const ctx = React.useContext(EmailFieldContext)
 
   if (!children) {
@@ -338,10 +326,7 @@ function EmailFieldError({
       role="alert"
       data-slot="email-field-error"
       id={id ?? ctx?.errorId}
-      className={cn(
-        "m-0 text-caption font-normal text-destructive",
-        className
-      )}
+      className={cn("m-0 text-caption font-normal text-destructive", className)}
       {...props}
     >
       {children}

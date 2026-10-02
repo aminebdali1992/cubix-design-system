@@ -8,8 +8,7 @@ export const alertPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "...props",
@@ -17,31 +16,28 @@ export const alertPropRows = [
     description:
       "All native div attributes (role, id, aria-*, ...) are forwarded to the rendered element.",
   },
-];
+]
 
 export const alertTitleRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
-];
+]
 
 export const alertDescriptionRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
-];
+]
 
 export const alertActionRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
-];
+]

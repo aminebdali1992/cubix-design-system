@@ -8,16 +8,19 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  TextFieldClearDemo,
-  TextFieldCustomDemo,
-  TextFieldDemo,
-  TextFieldDescriptionDemo,
-  TextFieldDisabledDemo,
-  TextFieldFormDemo,
-  TextFieldIconsDemo,
-  TextFieldInvalidDemo,
-  TextFieldSizesDemo,
-} from "@/components/examples/text-field-examples"
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { TextFieldClearDemo } from "./examples/text-field-clear-demo"
+import { TextFieldCustomDemo } from "./examples/text-field-custom-demo"
+import { TextFieldDemo } from "./examples/text-field-demo"
+import { TextFieldDescriptionDemo } from "./examples/text-field-description-demo"
+import { TextFieldDisabledDemo } from "./examples/text-field-disabled-demo"
+import { TextFieldFormDemo } from "./examples/text-field-form-demo"
+import { TextFieldIconsDemo } from "./examples/text-field-icons-demo"
+import { TextFieldInvalidDemo } from "./examples/text-field-invalid-demo"
+import { TextFieldSizesDemo } from "./examples/text-field-sizes-demo"
 import {
   textFieldClearPropRows,
   textFieldControlPropRows,
@@ -34,25 +37,14 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import {
-  TextField,
-  TextFieldClear,
-  TextFieldControl,
-  TextFieldDescription,
-  TextFieldError,
-  TextFieldInput,
-  TextFieldLabel,
-} from "@/components/cubix/text-field"`
+const PUBLIC_IMPORT = "@/components/cubix/text-field"
+const EXAMPLES_DIR = "app/docs/components/text-field/examples"
 
-const usageSnippet = `<TextField>
-  <TextFieldLabel>نام و نام خانوادگی</TextFieldLabel>
-  <TextFieldControl>
-    <Icon data-icon="inline-start" />
-    <TextFieldInput defaultValue="امین ابدالی" placeholder="امین ابدالی" />
-    <TextFieldClear />
-  </TextFieldControl>
-  <TextFieldDescription>نام کامل خود را وارد کنید.</TextFieldDescription>
-</TextField>`
+function loadTextFieldExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `TextField
 ├── TextFieldLabel
@@ -63,6 +55,10 @@ const compositionSnippet = `TextField
 ├── TextFieldDescription
 └── TextFieldError`
 
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" lang="fa" className="flex w-full justify-center">
@@ -71,26 +67,52 @@ function PreviewShell({ children }: { children: ReactNode }) {
   )
 }
 
+function ExampleSection({
+  title,
+  description,
+  code,
+  previewClassName,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  previewClassName?: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName={previewClassName}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
 export default function TextFieldPage() {
+  const demoSource = loadTextFieldExample("text-field-demo.tsx")
+  const descriptionSource = loadTextFieldExample("text-field-description-demo.tsx")
+  const invalidSource = loadTextFieldExample("text-field-invalid-demo.tsx")
+  const disabledSource = loadTextFieldExample("text-field-disabled-demo.tsx")
+  const sizesSource = loadTextFieldExample("text-field-sizes-demo.tsx")
+  const iconsSource = loadTextFieldExample("text-field-icons-demo.tsx")
+  const clearSource = loadTextFieldExample("text-field-clear-demo.tsx")
+  const formSource = loadTextFieldExample("text-field-form-demo.tsx")
+  const customSource = loadTextFieldExample("text-field-custom-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Text Field"
-        description={description}
-        slug="text-field"
-      />
+      <ComponentDocsHeader title="Text Field" description={description} slug="text-field" />
 
-      <ComponentPreview
-        code={`<TextField>
-  <TextFieldLabel>نام و نام خانوادگی</TextFieldLabel>
-  <TextFieldControl>
-    <Icon data-icon="inline-start" />
-    <TextFieldInput defaultValue="امین ابدالی" placeholder="امین ابدالی" />
-    <TextFieldClear />
-  </TextFieldControl>
-  <TextFieldDescription>نام کامل خود را وارد کنید.</TextFieldDescription>
-</TextField>`}
-      >
+      <ComponentPreview code={demoSource}>
         <PreviewShell>
           <TextFieldDemo />
         </PreviewShell>
@@ -105,274 +127,150 @@ export default function TextFieldPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Compose label, control, help text, and error as siblings under{" "}
-          <code className="font-mono text-sm">TextField</code>. Wrap the input
-          in{" "}
-          <code className="font-mono text-sm">TextFieldControl</code> when you
-          need icons or a clear button - mark icons with{" "}
-          <code className="font-mono text-sm">data-icon</code> like Button so
-          spacing follows reading direction.{" "}
-          <code className="font-mono text-sm">TextFieldClear</code> appears
-          when the input has a value.
+          Compose label, control, help text, and error as siblings under <Code>TextField</Code>.
+          Wrap the input in <Code>TextFieldControl</Code> when you need icons or a clear button -
+          mark icons with <Code>data-icon</Code> like Button so spacing follows the reading
+          direction. <Code>TextFieldClear</Code> appears only while the input has a value.
         </p>
-        <CodeBlock code={compositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          <Code>TextFieldLabel</Code> is wired to the input, and <Code>TextFieldDescription</Code>{" "}
+          and <Code>TextFieldError</Code> are announced through <Code>aria-describedby</Code>.{" "}
+          <Code>invalid</Code> sets <Code>aria-invalid</Code> on the input. Give{" "}
+          <Code>TextFieldClear</Code> a localized <Code>aria-label</Code>; it leaves the tab order
+          while hidden.
+        </p>
       </section>
 
       <section className="space-y-6">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Description
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Add helper text below the control for format hints or guidance.
-          </p>
-          <ComponentPreview
-            code={`<TextField>
-  <TextFieldLabel>نام کاربری</TextFieldLabel>
-  <TextFieldInput placeholder="amin" />
-  <TextFieldDescription>
-    فقط حروف انگلیسی، عدد و زیرخط مجاز است.
-  </TextFieldDescription>
-</TextField>`}
-          >
-            <PreviewShell>
-              <TextFieldDescriptionDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Description"
+          description="Add helper text below the control for format hints or guidance."
+          code={descriptionSource}
+        >
+          <TextFieldDescriptionDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Invalid
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set <code className="font-mono text-sm">invalid</code> on the root
-            to apply destructive styles and show the error message.
-          </p>
-          <ComponentPreview
-            code={`<TextField invalid>
-  <TextFieldLabel>نام کاربری</TextFieldLabel>
-  <TextFieldInput defaultValue="amin!" />
-  <TextFieldError>فقط حروف انگلیسی، عدد و زیرخط مجاز است.</TextFieldError>
-</TextField>`}
-          >
-            <PreviewShell>
-              <TextFieldInvalidDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Invalid"
+          description={
+            <>
+              Set <Code>invalid</Code> on the root to apply destructive styles and show{" "}
+              <Code>TextFieldError</Code>.
+            </>
+          }
+          code={invalidSource}
+        >
+          <TextFieldInvalidDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Disabled
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Disable the field to block interaction. The control uses a muted
-            fill; label and description stay readable.
-          </p>
-          <ComponentPreview
-            code={`<TextField disabled>
-  <TextFieldLabel>نام و نام خانوادگی</TextFieldLabel>
-  <TextFieldInput defaultValue="امین ابدالی" placeholder="امین ابدالی" />
-  <TextFieldDescription>این فیلد فعلاً قابل ویرایش نیست.</TextFieldDescription>
-</TextField>`}
-          >
-            <PreviewShell>
-              <TextFieldDisabledDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Disabled"
+          description="Disable the field to block interaction. The control uses a muted fill; label and description stay readable."
+          code={disabledSource}
+        >
+          <TextFieldDisabledDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Sizes</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Two heights ship by default:{" "}
-            <code className="font-mono text-sm">default</code> (40px) and{" "}
-            <code className="font-mono text-sm">lg</code> (48px). Use{" "}
-            <code className="font-mono text-sm">className</code> for any other
-            size.
-          </p>
-          <ComponentPreview
-            code={`<TextField size="default">
-  <TextFieldLabel>نام و نام خانوادگی</TextFieldLabel>
-  <TextFieldControl>
-    <Icon data-icon="inline-start" />
-    <TextFieldInput placeholder="امین ابدالی" />
-    <TextFieldClear />
-  </TextFieldControl>
-  <TextFieldDescription>ارتفاع ۴۰ پیکسل</TextFieldDescription>
-</TextField>
-<TextField size="lg">
-  <TextFieldLabel>نام و نام خانوادگی</TextFieldLabel>
-  <TextFieldControl>
-    <Icon data-icon="inline-start" />
-    <TextFieldInput placeholder="امین ابدالی" />
-    <TextFieldClear />
-  </TextFieldControl>
-  <TextFieldDescription>ارتفاع ۴۸ پیکسل</TextFieldDescription>
-</TextField>`}
-          >
-            <PreviewShell>
-              <TextFieldSizesDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Sizes"
+          description={
+            <>
+              Two heights ship by default: <Code>default</Code> (40px) and <Code>lg</Code> (48px).
+              Use <Code>className</Code> for any other size.
+            </>
+          }
+          code={sizesSource}
+        >
+          <TextFieldSizesDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Icons</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Place icons inside{" "}
-            <code className="font-mono text-sm">TextFieldControl</code> with{" "}
-            <code className="font-mono text-sm">data-icon</code> like Button so
-            spacing follows reading direction.
-          </p>
-          <ComponentPreview
-            code={`<TextField>
-  <TextFieldLabel>نام و نام خانوادگی</TextFieldLabel>
-  <TextFieldControl>
-    <Icon data-icon="inline-start" />
-    <TextFieldInput placeholder="امین ابدالی" />
-    <Icon data-icon="inline-end" />
-  </TextFieldControl>
-</TextField>`}
-          >
-            <PreviewShell>
-              <TextFieldIconsDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Icons"
+          description={
+            <>
+              Place icons inside <Code>TextFieldControl</Code> with <Code>data-icon</Code> like
+              Button so spacing follows the reading direction.
+            </>
+          }
+          code={iconsSource}
+        >
+          <TextFieldIconsDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Clear</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            <code className="font-mono text-sm">TextFieldClear</code> appears
-            inside the control when the input has a value.
-          </p>
-          <ComponentPreview
-            code={`<TextField>
-  <TextFieldLabel>نام و نام خانوادگی</TextFieldLabel>
-  <TextFieldControl>
-    <TextFieldInput defaultValue="امین ابدالی" placeholder="امین ابدالی" />
-    <TextFieldClear />
-  </TextFieldControl>
-</TextField>`}
-          >
-            <PreviewShell>
-              <TextFieldClearDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Clear"
+          description={
+            <>
+              <Code>TextFieldClear</Code> appears inside the control while the input has a value and
+              returns focus to the input after clearing.
+            </>
+          }
+          code={clearSource}
+        >
+          <TextFieldClearDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            In a form
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Compose Text Field with Button inside a bordered surface for a
-            complete form block.
-          </p>
-          <ComponentPreview
-            previewClassName="bg-muted"
-            code={`<form className="grid max-w-xs gap-6 rounded-xl bg-background p-6">
-  <div className="space-y-1.5">
-    <p className="text-body font-medium">ایجاد حساب</p>
-    <p className="text-caption text-muted-foreground">
-      برای ادامه، نام کامل خود را وارد کنید.
-    </p>
-  </div>
-  <TextField>
-    <TextFieldLabel>نام و نام خانوادگی</TextFieldLabel>
-    <TextFieldControl>
-      <Icon data-icon="inline-start" />
-      <TextFieldInput name="fullName" placeholder="امین ابدالی" required />
-      <TextFieldClear />
-    </TextFieldControl>
-    <TextFieldDescription>نام کامل خود را وارد کنید.</TextFieldDescription>
-  </TextField>
-  <div className="grid grid-cols-2 gap-2">
-    <Button type="button" variant="outline">انصراف</Button>
-    <Button type="submit">ادامه</Button>
-  </div>
-</form>`}
-          >
-            <PreviewShell>
-              <TextFieldFormDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="In a form"
+          description={
+            <>
+              Set <Code>name</Code> on the root so the value is submitted with the form, and pair
+              the field with Cubix Button.
+            </>
+          }
+          code={formSource}
+          previewClassName="bg-muted"
+        >
+          <TextFieldFormDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Custom styling
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Every part accepts a{" "}
-            <code className="font-mono text-sm">className</code> merged with
-            the shipped <code className="font-mono text-sm">cn</code> helper.
-            Here the field uses a filled surface instead of the default
-            outline:
-          </p>
-          <ComponentPreview
-            code={`<TextField>
-  <TextFieldLabel>نام و نام خانوادگی</TextFieldLabel>
-  <TextFieldInput
-    className="border-border bg-muted focus-visible:bg-background dark:bg-muted dark:focus-visible:bg-background"
-    placeholder="امین ابدالی"
-  />
-  <TextFieldDescription>
-    با className می‌توانید ظاهر را سفارشی کنید.
-  </TextFieldDescription>
-</TextField>`}
-          >
-            <PreviewShell>
-              <TextFieldCustomDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Custom styling"
+          description={
+            <>
+              Every part accepts a <Code>className</Code> merged with the shipped <Code>cn</Code>{" "}
+              helper. Here the input uses a filled surface instead of the default outline.
+            </>
+          }
+          code={customSource}
+        >
+          <TextFieldCustomDemo />
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Parts render{" "}
-            <code className="font-mono">data-slot</code> attributes (
-            <code className="font-mono">text-field</code>,{" "}
-            <code className="font-mono">text-field-label</code>,{" "}
-            <code className="font-mono">text-field-control</code>,{" "}
-            <code className="font-mono">text-field-input</code>,{" "}
-            <code className="font-mono">text-field-clear</code>,{" "}
-            <code className="font-mono">text-field-description</code>,{" "}
-            <code className="font-mono">text-field-error</code>) for targeting
-            in tests and parent selectors.
+            <strong className="text-foreground">Note:</strong> Parts render <Code>data-slot</Code>{" "}
+            attributes (<Code>text-field</Code>, <Code>text-field-label</Code>,{" "}
+            <Code>text-field-control</Code>, <Code>text-field-input</Code>,{" "}
+            <Code>text-field-clear</Code>, <Code>text-field-description</Code>,{" "}
+            <Code>text-field-error</Code>) for targeting in tests and parent selectors. Use the same
+            props on Base UI, React Aria, and Radix.
           </p>
         </div>
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">TextField</h3>
         <PropsTable data={textFieldPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          TextFieldControl
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">TextFieldControl</h3>
         <PropsTable data={textFieldControlPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          TextFieldInput
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">TextFieldInput</h3>
         <PropsTable data={textFieldInputPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          TextFieldClear
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">TextFieldClear</h3>
         <PropsTable data={textFieldClearPropRows} />
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">

@@ -1,32 +1,37 @@
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
+import { CircleAlertIcon } from "lucide-react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
+import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  ContextMenuBasicDemo,
-  ContextMenuCheckboxDemo,
-  ContextMenuCheckboxIconsDemo,
-  ContextMenuDemo,
-  ContextMenuDestructiveDemo,
-  ContextMenuIconsDemo,
-  ContextMenuIndicatorDemo,
-  ContextMenuRadioDemo,
-  ContextMenuSubmenuDemo,
-} from "@/components/examples/context-menu-examples"
-
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
 import {
   checkboxItemPropRows,
   contentPropRows,
+  contextMenuKeyboardRows,
   contextMenuPropRows,
   itemPropRows,
   radioGroupPropRows,
   radioItemPropRows,
   triggerPropRows,
 } from "./context-menu-table-data"
+import { ContextMenuBasicDemo } from "./examples/context-menu-basic-demo"
+import { ContextMenuCheckboxDemo } from "./examples/context-menu-checkbox-demo"
+import { ContextMenuCheckboxIconsDemo } from "./examples/context-menu-checkbox-icons-demo"
+import { ContextMenuDemo } from "./examples/context-menu-demo"
+import { ContextMenuDestructiveDemo } from "./examples/context-menu-destructive-demo"
+import { ContextMenuIconsDemo } from "./examples/context-menu-icons-demo"
+import { ContextMenuIndicatorDemo } from "./examples/context-menu-indicator-demo"
+import { ContextMenuRadioDemo } from "./examples/context-menu-radio-demo"
+import { ContextMenuSubmenuDemo } from "./examples/context-menu-submenu-demo"
 
 const description =
   "Displays a menu of actions at the pointer, opened with a right click or long press."
@@ -36,25 +41,14 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import {
-  ContextMenu,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuSeparator,
-  ContextMenuTrigger,
-} from "@/components/cubix/context-menu"`
+const PUBLIC_IMPORT = "@/components/cubix/context-menu"
+const EXAMPLES_DIR = "app/docs/components/context-menu/examples"
 
-const usageSnippet = `<ContextMenu dir="rtl" lang="fa">
-  <ContextMenuTrigger className="flex h-36 w-full max-w-xs items-center justify-center rounded-lg border border-dashed px-4 text-center text-caption text-muted-foreground">
-    برای باز کردن منو کلیک راست کنید
-  </ContextMenuTrigger>
-  <ContextMenuContent>
-    <ContextMenuItem>بازگشت</ContextMenuItem>
-    <ContextMenuItem>جلو</ContextMenuItem>
-    <ContextMenuSeparator />
-    <ContextMenuItem>بارگذاری مجدد</ContextMenuItem>
-  </ContextMenuContent>
-</ContextMenu>`
+function loadContextMenuExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `ContextMenu
 ├── ContextMenuTrigger
@@ -69,152 +63,10 @@ const compositionSnippet = `ContextMenu
         └── ContextMenuSubContent
             └── ContextMenuItem`
 
-const demoSnippet = `<ContextMenu dir="rtl" lang="fa">
-  <ContextMenuTrigger className="flex h-36 w-full max-w-xs items-center justify-center rounded-lg border border-dashed px-4 text-center text-caption text-muted-foreground">
-    برای باز کردن منو کلیک راست کنید
-  </ContextMenuTrigger>
-  <ContextMenuContent>
-    <ContextMenuItem>بازگشت</ContextMenuItem>
-    <ContextMenuItem disabled>جلو</ContextMenuItem>
-    <ContextMenuItem>بارگذاری مجدد</ContextMenuItem>
-    <ContextMenuSub>
-      <ContextMenuSubTrigger>ابزارهای بیشتر</ContextMenuSubTrigger>
-      <ContextMenuSubContent>
-        <ContextMenuItem>ذخیره صفحه به‌عنوان</ContextMenuItem>
-        <ContextMenuItem>ایجاد میان‌بر</ContextMenuItem>
-        <ContextMenuItem>نام‌گذاری پنجره</ContextMenuItem>
-        <ContextMenuSeparator />
-        <ContextMenuItem>ابزارهای توسعه‌دهنده</ContextMenuItem>
-      </ContextMenuSubContent>
-    </ContextMenuSub>
-    <ContextMenuSeparator />
-    <ContextMenuCheckboxItem defaultChecked>نوار ابزار</ContextMenuCheckboxItem>
-    <ContextMenuCheckboxItem>نوار وضعیت</ContextMenuCheckboxItem>
-    <ContextMenuSeparator />
-    <ContextMenuRadioGroup defaultValue="sara">
-      <ContextMenuRadioItem value="amin">امین</ContextMenuRadioItem>
-      <ContextMenuRadioItem value="sara">سارا</ContextMenuRadioItem>
-      <ContextMenuRadioItem value="reza">رضا</ContextMenuRadioItem>
-    </ContextMenuRadioGroup>
-  </ContextMenuContent>
-</ContextMenu>`
-
-const basicSnippet = `<ContextMenu dir="rtl" lang="fa">
-  <ContextMenuTrigger className="...">
-    برای باز کردن منو کلیک راست کنید
-  </ContextMenuTrigger>
-  <ContextMenuContent>
-    <ContextMenuItem>بازگشت</ContextMenuItem>
-    <ContextMenuItem disabled>جلو</ContextMenuItem>
-    <ContextMenuItem>بارگذاری مجدد</ContextMenuItem>
-    <ContextMenuSeparator />
-    <ContextMenuItem>ذخیره صفحه به‌عنوان</ContextMenuItem>
-    <ContextMenuItem>چاپ</ContextMenuItem>
-  </ContextMenuContent>
-</ContextMenu>`
-
-const iconsSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
-
-<ContextMenuContent>
-  <ContextMenuItem>
-    <ButtonDemoIcon />
-    بازگشت
-  </ContextMenuItem>
-  <ContextMenuItem>
-    <ButtonDemoIcon />
-    بارگذاری مجدد
-  </ContextMenuItem>
-  <ContextMenuSeparator />
-  <ContextMenuSub>
-    <ContextMenuSubTrigger>
-      <ButtonDemoIcon />
-      اشتراک‌گذاری
-    </ContextMenuSubTrigger>
-    <ContextMenuSubContent>
-      <ContextMenuItem>
-        <ButtonDemoIcon />
-        لینک ایمیل
-      </ContextMenuItem>
-    </ContextMenuSubContent>
-  </ContextMenuSub>
-</ContextMenuContent>`
-
-const submenuSnippet = `<ContextMenuContent>
-  <ContextMenuItem>بازگشت</ContextMenuItem>
-  <ContextMenuSeparator />
-  <ContextMenuSub>
-    <ContextMenuSubTrigger>ابزارهای بیشتر</ContextMenuSubTrigger>
-    <ContextMenuSubContent>
-      <ContextMenuItem>ذخیره صفحه به‌عنوان</ContextMenuItem>
-      <ContextMenuItem>ایجاد میان‌بر</ContextMenuItem>
-      <ContextMenuItem>نام‌گذاری پنجره</ContextMenuItem>
-    </ContextMenuSubContent>
-  </ContextMenuSub>
-</ContextMenuContent>`
-
-const checkboxSnippet = `<ContextMenuContent>
-  <ContextMenuCheckboxItem>نوار ابزار</ContextMenuCheckboxItem>
-  <ContextMenuCheckboxItem defaultChecked>
-    نوار وضعیت
-  </ContextMenuCheckboxItem>
-  <ContextMenuSeparator />
-  <ContextMenuItem>بارگذاری مجدد</ContextMenuItem>
-</ContextMenuContent>`
-
-const checkboxIconsSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
-
-<ContextMenuContent>
-  <ContextMenuCheckboxItem>
-    <ButtonDemoIcon />
-    نوار ابزار
-  </ContextMenuCheckboxItem>
-  <ContextMenuCheckboxItem defaultChecked>
-    <ButtonDemoIcon />
-    نوار وضعیت
-  </ContextMenuCheckboxItem>
-</ContextMenuContent>`
-
-const radioSnippet = `const [user, setUser] = React.useState("sara")
-
-<ContextMenuContent>
-  <ContextMenuRadioGroup value={user} onValueChange={setUser}>
-    <ContextMenuRadioItem value="amin">امین</ContextMenuRadioItem>
-    <ContextMenuRadioItem value="sara">سارا</ContextMenuRadioItem>
-    <ContextMenuRadioItem value="reza">رضا</ContextMenuRadioItem>
-  </ContextMenuRadioGroup>
-</ContextMenuContent>`
-
-const indicatorSnippet = `<ContextMenuContent>
-  <ContextMenuCheckboxItem indicator="check">نوار ابزار</ContextMenuCheckboxItem>
-  <ContextMenuCheckboxItem indicator="check" defaultChecked>
-    نوار وضعیت
-  </ContextMenuCheckboxItem>
-  <ContextMenuSeparator />
-  <ContextMenuRadioGroup indicator="check" value={user} onValueChange={setUser}>
-    <ContextMenuRadioItem value="amin">امین</ContextMenuRadioItem>
-    <ContextMenuRadioItem value="sara">سارا</ContextMenuRadioItem>
-    <ContextMenuRadioItem value="reza">رضا</ContextMenuRadioItem>
-  </ContextMenuRadioGroup>
-</ContextMenuContent>`
-
-const destructiveSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
-
-<ContextMenuContent>
-  <ContextMenuItem>
-    <ButtonDemoIcon />
-    ویرایش
-  </ContextMenuItem>
-  <ContextMenuItem>
-    <ButtonDemoIcon />
-    تکثیر
-  </ContextMenuItem>
-  <ContextMenuSeparator />
-  <ContextMenuItem variant="destructive">
-    <ButtonDemoIcon />
-    حذف
-  </ContextMenuItem>
-</ContextMenuContent>`
-
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" lang="fa" className="flex w-full justify-center">
@@ -223,16 +75,50 @@ function PreviewShell({ children }: { children: ReactNode }) {
   )
 }
 
-export default function ContextMenuDocsPage() {
+function ExampleSection({
+  title,
+  description,
+  code,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName="min-h-40">
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
+export default function ContextMenuPage() {
+  const demoSource = loadContextMenuExample("context-menu-demo.tsx")
+  const basicSource = loadContextMenuExample("context-menu-basic-demo.tsx")
+  const iconsSource = loadContextMenuExample("context-menu-icons-demo.tsx")
+  const submenuSource = loadContextMenuExample("context-menu-submenu-demo.tsx")
+  const checkboxSource = loadContextMenuExample("context-menu-checkbox-demo.tsx")
+  const checkboxIconsSource = loadContextMenuExample("context-menu-checkbox-icons-demo.tsx")
+  const radioSource = loadContextMenuExample("context-menu-radio-demo.tsx")
+  const indicatorSource = loadContextMenuExample("context-menu-indicator-demo.tsx")
+  const destructiveSource = loadContextMenuExample("context-menu-destructive-demo.tsx")
+  const usageImport = extractDemoImports(basicSource)
+  const usageSnippet = extractDemoJsx(basicSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Context Menu"
-        description={description}
-        slug="context-menu"
-      />
+      <ComponentDocsHeader title="Context Menu" description={description} slug="context-menu" />
 
-      <ComponentPreview code={demoSnippet} previewClassName="min-h-48">
+      <ComponentPreview code={demoSource} previewClassName="min-h-48">
         <PreviewShell>
           <ContextMenuDemo />
         </PreviewShell>
@@ -247,176 +133,173 @@ export default function ContextMenuDocsPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the following composition to build a{" "}
-          <code className="font-mono text-sm">ContextMenu</code>:
+          The menu reads <Code>dir</Code> and <Code>lang</Code> from the closest ancestor and
+          carries them into the portaled content. Right click, long press, Shift+F10, or the
+          ContextMenu key opens it at the pointer.
         </p>
-        <CodeBlock code={compositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Basic</h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Right click the trigger area, long press it on touch screens, or
-          focus it and press Shift+F10 or the menu key. The menu opens at the
-          pointer.
+          The trigger is focusable. The content is a <Code>menu</Code>, and checkbox and radio items
+          announce their checked state. Focus moves into the menu when it opens and returns to the
+          trigger when it closes.
         </p>
-        <ComponentPreview code={basicSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <ContextMenuBasicDemo />
-          </PreviewShell>
-        </ComponentPreview>
+        <KeyboardTable data={contextMenuKeyboardRows} />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Icons</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Place an icon before the label inside{" "}
-          <code className="font-mono text-sm">ContextMenuItem</code> or{" "}
-          <code className="font-mono text-sm">ContextMenuSubTrigger</code>. It
-          sits at the start of the item (the right side in RTL).
-        </p>
-        <ComponentPreview code={iconsSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <ContextMenuIconsDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+      <section className="space-y-6">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Submenu</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Nest menus with{" "}
-          <code className="font-mono text-sm">ContextMenuSub</code>,{" "}
-          <code className="font-mono text-sm">ContextMenuSubTrigger</code>, and{" "}
-          <code className="font-mono text-sm">ContextMenuSubContent</code>.
-        </p>
-        <ComponentPreview code={submenuSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <ContextMenuSubmenuDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+        <ExampleSection
+          title="Basic"
+          description={
+            <>
+              Right click the trigger area, long press it on touch screens, or focus it and press
+              Shift+F10 or the menu key. Set <Code>disabled</Code> on an item to lock it.
+            </>
+          }
+          code={basicSource}
+        >
+          <ContextMenuBasicDemo />
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Checkboxes
-        </h2>
-        <ComponentPreview code={checkboxSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <ContextMenuCheckboxDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+        <ExampleSection
+          title="Icons"
+          description={
+            <>
+              Place an icon before the label inside <Code>ContextMenuItem</Code> or{" "}
+              <Code>ContextMenuSubTrigger</Code>. It sits at the start of the item (the right side
+              in RTL).
+            </>
+          }
+          code={iconsSource}
+        >
+          <ContextMenuIconsDemo />
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Checkboxes with icons
-        </h2>
-        <ComponentPreview code={checkboxIconsSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <ContextMenuCheckboxIconsDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+        <ExampleSection
+          title="Submenu"
+          description={
+            <>
+              Nest menus with <Code>ContextMenuSub</Code>, <Code>ContextMenuSubTrigger</Code>, and{" "}
+              <Code>ContextMenuSubContent</Code>. In RTL the submenu opens to the left and ArrowLeft
+              opens it from the keyboard.
+            </>
+          }
+          code={submenuSource}
+        >
+          <ContextMenuSubmenuDemo />
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Radio</h2>
-        <ComponentPreview code={radioSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <ContextMenuRadioDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+        <ExampleSection
+          title="Checkboxes"
+          description={
+            <>
+              Use <Code>ContextMenuCheckboxItem</Code> for options that turn on and off. The menu
+              stays open while toggling.
+            </>
+          }
+          code={checkboxSource}
+        >
+          <ContextMenuCheckboxDemo />
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Tick indicator
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Set indicator=&quot;check&quot; to show a plain tick instead of the
-          Cubix Checkbox or Radio. The default is &quot;control&quot;. On a
-          radio group it applies to every item in the group.
-        </p>
-        <ComponentPreview code={indicatorSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <ContextMenuIndicatorDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+        <ExampleSection
+          title="Checkboxes with icons"
+          description={
+            <>Icons sit before the label; the checkbox control stays at the end of the item.</>
+          }
+          code={checkboxIconsSource}
+        >
+          <ContextMenuCheckboxIconsDemo />
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Destructive
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use <code className="font-mono text-sm">variant=&quot;destructive&quot;</code>{" "}
-          on <code className="font-mono text-sm">ContextMenuItem</code> for
-          irreversible actions such as delete.
-        </p>
-        <ComponentPreview code={destructiveSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <ContextMenuDestructiveDemo />
-          </PreviewShell>
-        </ComponentPreview>
+        <ExampleSection
+          title="Radio"
+          description={
+            <>
+              Use <Code>ContextMenuRadioGroup</Code> with <Code>ContextMenuRadioItem</Code> for
+              exclusive choices.
+            </>
+          }
+          code={radioSource}
+        >
+          <ContextMenuRadioDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Tick indicator"
+          description={
+            <>
+              Set <Code>indicator=&quot;check&quot;</Code> to show a plain tick instead of the Cubix
+              Checkbox or Radio. The default is <Code>&quot;control&quot;</Code>. On a radio group
+              it applies to every item in the group.
+            </>
+          }
+          code={indicatorSource}
+        >
+          <ContextMenuIndicatorDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Destructive"
+          description={
+            <>
+              Use <Code>variant=&quot;destructive&quot;</Code> on <Code>ContextMenuItem</Code> for
+              irreversible actions such as delete.
+            </>
+          }
+          code={destructiveSource}
+        >
+          <ContextMenuDestructiveDemo />
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
-
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ContextMenu
-          </h3>
-          <PropsTable data={contextMenuPropRows} />
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
+        <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
+          <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
+          <p className="leading-relaxed text-muted-foreground">
+            <strong className="text-foreground">Note:</strong> Parts render{" "}
+            <code className="font-mono">data-slot</code> attributes (
+            <code className="font-mono">context-menu-trigger</code>,{" "}
+            <code className="font-mono">context-menu-content</code>,{" "}
+            <code className="font-mono">context-menu-item</code>,{" "}
+            <code className="font-mono">context-menu-checkbox-item</code>,{" "}
+            <code className="font-mono">context-menu-radio-group</code>,{" "}
+            <code className="font-mono">context-menu-radio-item</code>,{" "}
+            <code className="font-mono">context-menu-separator</code>,{" "}
+            <code className="font-mono">context-menu-sub-trigger</code>,{" "}
+            <code className="font-mono">context-menu-sub-content</code>) for targeting in tests and
+            parent selectors. Use the same props on Base UI, React Aria, and Radix.
+          </p>
         </div>
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ContextMenuTrigger
-          </h3>
-          <PropsTable data={triggerPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ContextMenu</h3>
+        <PropsTable data={contextMenuPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ContextMenuContent
-          </h3>
-          <PropsTable data={contentPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ContextMenuTrigger</h3>
+        <PropsTable data={triggerPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ContextMenuItem
-          </h3>
-          <PropsTable data={itemPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ContextMenuContent</h3>
+        <PropsTable data={contentPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ContextMenuCheckboxItem
-          </h3>
-          <PropsTable data={checkboxItemPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ContextMenuItem</h3>
+        <PropsTable data={itemPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ContextMenuRadioGroup
-          </h3>
-          <PropsTable data={radioGroupPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ContextMenuCheckboxItem</h3>
+        <PropsTable data={checkboxItemPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ContextMenuRadioItem
-          </h3>
-          <PropsTable data={radioItemPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ContextMenuRadioGroup</h3>
+        <PropsTable data={radioGroupPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ContextMenuRadioItem</h3>
+        <PropsTable data={radioItemPropRows} />
       </section>
     </article>
   )

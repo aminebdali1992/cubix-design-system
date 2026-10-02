@@ -57,14 +57,7 @@ function useCreditCardBase() {
   return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
 }
 
-function CreditCard({
-  className,
-  size,
-  disabled,
-  invalid,
-  name,
-  children,
-}: CreditCardProps) {
+function CreditCard({ className, size, disabled, invalid, name, children }: CreditCardProps) {
   const base = useCreditCardBase()
 
   if (base === "radix") {
@@ -134,11 +127,7 @@ function CreditCardLabel({ className, children }: CreditCardLabelProps) {
   )
 }
 
-function CreditCardControl({
-  className,
-  size,
-  children,
-}: CreditCardControlProps) {
+function CreditCardControl({ className, size, children }: CreditCardControlProps) {
   const base = useCreditCardBase()
 
   if (base === "radix") {
@@ -192,10 +181,7 @@ function CreditCardGroup4(props: CreditCardSegmentProps) {
   return <BaseCreditCard.CreditCardGroup4 {...props} />
 }
 
-function CreditCardSeparator({
-  className,
-  children,
-}: CreditCardSeparatorProps) {
+function CreditCardSeparator({ className, children }: CreditCardSeparatorProps) {
   const base = useCreditCardBase()
 
   if (base === "radix") {
@@ -221,10 +207,7 @@ function CreditCardSeparator({
   )
 }
 
-function CreditCardDescription({
-  className,
-  children,
-}: CreditCardDescriptionProps) {
+function CreditCardDescription({ className, children }: CreditCardDescriptionProps) {
   const base = useCreditCardBase()
 
   if (base === "radix") {

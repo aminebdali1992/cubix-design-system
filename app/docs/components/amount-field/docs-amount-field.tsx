@@ -1,5 +1,6 @@
 "use client"
 
+import { markCubixFieldInput } from "@/lib/aria-field-value"
 import type { ComponentProps, ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
@@ -58,14 +59,7 @@ function useAmountFieldBase() {
   return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
 }
 
-function AmountField({
-  className,
-  size,
-  disabled,
-  invalid,
-  name,
-  children,
-}: AmountFieldProps) {
+function AmountField({ className, size, disabled, invalid, name, children }: AmountFieldProps) {
   const base = useAmountFieldBase()
 
   if (base === "radix") {
@@ -75,6 +69,7 @@ function AmountField({
         size={size}
         disabled={disabled}
         invalid={invalid}
+        name={name}
       >
         {children}
       </RadixAmountField.AmountField>
@@ -134,11 +129,7 @@ function AmountFieldLabel({ className, children }: AmountFieldLabelProps) {
   )
 }
 
-function AmountFieldControl({
-  className,
-  size,
-  children,
-}: AmountFieldControlProps) {
+function AmountFieldControl({ className, size, children }: AmountFieldControlProps) {
   const base = useAmountFieldBase()
 
   if (base === "radix") {
@@ -182,20 +173,14 @@ function AmountFieldCurrency({ className, unit }: AmountFieldCurrencyProps) {
   const base = useAmountFieldBase()
 
   if (base === "radix") {
-    return (
-      <RadixAmountField.AmountFieldCurrency className={className} unit={unit} />
-    )
+    return <RadixAmountField.AmountFieldCurrency className={className} unit={unit} />
   }
 
   if (base === "aria") {
-    return (
-      <AriaAmountField.AmountFieldCurrency className={className} unit={unit} />
-    )
+    return <AriaAmountField.AmountFieldCurrency className={className} unit={unit} />
   }
 
-  return (
-    <BaseAmountField.AmountFieldCurrency className={className} unit={unit} />
-  )
+  return <BaseAmountField.AmountFieldCurrency className={className} unit={unit} />
 }
 
 function AmountFieldDescription({
@@ -207,10 +192,7 @@ function AmountFieldDescription({
 
   if (base === "radix") {
     return (
-      <RadixAmountField.AmountFieldDescription
-        className={className}
-        amountInWords={amountInWords}
-      >
+      <RadixAmountField.AmountFieldDescription className={className} amountInWords={amountInWords}>
         {children}
       </RadixAmountField.AmountFieldDescription>
     )
@@ -218,20 +200,14 @@ function AmountFieldDescription({
 
   if (base === "aria") {
     return (
-      <AriaAmountField.AmountFieldDescription
-        className={className}
-        amountInWords={amountInWords}
-      >
+      <AriaAmountField.AmountFieldDescription className={className} amountInWords={amountInWords}>
         {children}
       </AriaAmountField.AmountFieldDescription>
     )
   }
 
   return (
-    <BaseAmountField.AmountFieldDescription
-      className={className}
-      amountInWords={amountInWords}
-    >
+    <BaseAmountField.AmountFieldDescription className={className} amountInWords={amountInWords}>
       {children}
     </BaseAmountField.AmountFieldDescription>
   )
@@ -263,11 +239,13 @@ function AmountFieldError({ className, children }: AmountFieldErrorProps) {
   )
 }
 
+const AmountFieldInputMarked = markCubixFieldInput(AmountFieldInput)
+
 export {
   AmountField,
   AmountFieldLabel,
   AmountFieldControl,
-  AmountFieldInput,
+  AmountFieldInputMarked as AmountFieldInput,
   AmountFieldCurrency,
   AmountFieldDescription,
   AmountFieldError,

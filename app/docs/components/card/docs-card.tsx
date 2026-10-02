@@ -13,9 +13,7 @@ function useCardBase() {
   return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
 }
 
-function Card(
-  props: ComponentProps<typeof BaseCard.Card>
-) {
+function Card(props: ComponentProps<typeof BaseCard.Card>) {
   const base = useCardBase()
 
   if (base === "radix") {
@@ -57,9 +55,7 @@ function CardTitle(props: ComponentProps<typeof BaseCard.CardTitle>) {
   return <BaseCard.CardTitle {...props} />
 }
 
-function CardDescription(
-  props: ComponentProps<typeof BaseCard.CardDescription>
-) {
+function CardDescription(props: ComponentProps<typeof BaseCard.CardDescription>) {
   const base = useCardBase()
 
   if (base === "radix") {
@@ -115,12 +111,4 @@ function CardFooter(props: ComponentProps<typeof BaseCard.CardFooter>) {
   return <BaseCard.CardFooter {...props} />
 }
 
-export {
-  Card,
-  CardHeader,
-  CardFooter,
-  CardTitle,
-  CardAction,
-  CardDescription,
-  CardContent,
-}
+export { Card, CardHeader, CardFooter, CardTitle, CardAction, CardDescription, CardContent }

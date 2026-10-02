@@ -7,8 +7,9 @@
   itself; multiple mode keeps any number selected. Both modes take string
   arrays for value and defaultValue, matching Cubix Accordion. Arrow keys
   move focus between the enabled chips of the same group (wrapping at the
-  ends), Home and End jump to the first and last one - Radix's toggle group
-  native behavior.
+  ends) and follow the reading direction, so they are mirrored in RTL. Home
+  and End jump to the first and last one. Backspace or Delete removes a
+  focused removable chip.
 */
 import * as React from "react"
 import { ToggleGroup as ToggleGroupPrimitive } from "radix-ui"
@@ -35,9 +36,7 @@ function usePageDir(dir: ChipsProps["dir"]) {
   const [pageDir, setPageDir] = React.useState<"ltr" | "rtl">("rtl")
 
   React.useLayoutEffect(() => {
-    const closest = nodeRef.current?.parentElement
-      ?.closest("[dir]")
-      ?.getAttribute("dir")
+    const closest = nodeRef.current?.parentElement?.closest("[dir]")?.getAttribute("dir")
     if (closest === "ltr" || closest === "rtl") {
       setPageDir(closest)
     }
@@ -65,10 +64,7 @@ function Chips({
       ref.current = node
     }
   }
-  const rootClassName = cn(
-    "flex w-full flex-wrap items-center gap-2",
-    className
-  )
+  const rootClassName = cn("flex w-full flex-wrap items-center gap-2", className)
 
   if (multiple) {
     return (
@@ -105,6 +101,21 @@ function Chips({
       {...props}
     />
   )
+}
+
+/*
+  Removing the focused chip would drop focus to the page body. Move it to
+  the next enabled chip first, or to the previous one when removing the last.
+*/
+function focusSiblingChip(chip: HTMLElement) {
+  const group = chip.closest("[data-slot=chips]")
+  if (!group) return
+  const chips = Array.from(
+    group.querySelectorAll<HTMLElement>("[data-slot=chip]:not(:disabled):not([data-disabled])")
+  )
+  const index = chips.indexOf(chip)
+  const sibling = chips[index + 1] ?? chips[index - 1]
+  sibling?.focus()
 }
 
 /*
@@ -187,7 +198,8 @@ type ChipProps = React.ComponentProps<typeof ToggleGroupPrimitive.Item> & {
   avatar?: React.ReactNode
   variant?: ChipVariant
   size?: ChipSize
-  onRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  removeLabel?: string
+  onRemove?: () => void
 }
 
 function Chip({
@@ -197,12 +209,22 @@ function Chip({
   children,
   icon,
   avatar,
+  removeLabel = "حذف",
   onRemove,
+  onKeyDown,
   ...props
 }: ChipProps) {
   const chip = (
     <ToggleGroupPrimitive.Item
       data-slot="chip"
+      onKeyDown={(event) => {
+        onKeyDown?.(event)
+        if (!onRemove || event.defaultPrevented) return
+        if (event.key !== "Backspace" && event.key !== "Delete") return
+        event.preventDefault()
+        focusSiblingChip(event.currentTarget)
+        onRemove()
+      }}
       className={cn(
         "peer/chip inline-flex shrink-0 items-center rounded-full has-data-[slot=chip-avatar]:ps-[3px] border border-border bg-background font-normal whitespace-nowrap text-foreground outline-none transition-colors hover:bg-muted group-hover/chip:bg-muted focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         chipSizes[size].chip,
@@ -243,22 +265,26 @@ function Chip({
   /*
     The remove button sits beside the chip instead of inside it, because
     HTML does not allow a button inside another button. It is positioned
-    over the chip's end padding so it looks the same.
+    over the chip's end padding so it looks the same. It stays out of the
+    tab order; keyboard users remove the focused chip with Backspace or
+    Delete.
   */
   return (
-    <span
-      data-slot="chip-root"
-      className="group/chip relative inline-flex shrink-0"
-    >
+    <span data-slot="chip-root" className="group/chip relative inline-flex shrink-0">
       {chip}
       <button
         type="button"
         data-slot="chip-remove"
-        aria-label="Remove"
+        aria-label={removeLabel}
         tabIndex={-1}
         onClick={(event) => {
           event.stopPropagation()
-          onRemove(event)
+          const root = event.currentTarget.parentElement
+          const chipElement = root?.querySelector<HTMLElement>("[data-slot=chip]")
+          if (chipElement && root?.contains(document.activeElement)) {
+            focusSiblingChip(chipElement)
+          }
+          onRemove()
         }}
         className={cn(
           "absolute top-1/2 inline-flex size-5 -translate-y-1/2 cursor-default items-center justify-center rounded-full text-foreground opacity-70 outline-none transition-opacity duration-200 ease-out hover:opacity-100 focus-visible:opacity-100 peer-disabled/chip:pointer-events-none peer-disabled/chip:opacity-35 peer-data-disabled/chip:pointer-events-none peer-data-disabled/chip:opacity-35 [&_svg]:pointer-events-none",
@@ -272,11 +298,4 @@ function Chip({
   )
 }
 
-export {
-  Chips,
-  Chip,
-  type ChipsProps,
-  type ChipProps,
-  type ChipVariant,
-  type ChipSize,
-}
+export { Chips, Chip, type ChipsProps, type ChipProps, type ChipVariant, type ChipSize }

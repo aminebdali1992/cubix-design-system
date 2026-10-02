@@ -23,15 +23,7 @@ type CarouselNavProps = {
     | "outline"
     | "ghost"
     | "link"
-  size?:
-    | "default"
-    | "xs"
-    | "sm"
-    | "lg"
-    | "icon"
-    | "icon-xs"
-    | "icon-sm"
-    | "icon-lg"
+  size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
   disabled?: boolean
 } & Omit<ComponentProps<"button">, "size">
 
@@ -111,10 +103,4 @@ function CarouselNext(props: CarouselNavProps) {
 }
 
 export type { CarouselApi } from "@/components/cubix/base/carousel"
-export {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-}
+export { Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext }

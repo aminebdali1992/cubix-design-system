@@ -10,6 +10,14 @@ import { DEFAULT_BASE, parseComponentPath } from "@/lib/bases"
 
 type ToastOptions = AriaToast.ToastOptions
 
+type ToastPromiseValue<T> = string | ToastOptions | ((value: T) => string | ToastOptions)
+
+type ToastPromiseOptions<T> = {
+  loading: string | ToastOptions
+  success: ToastPromiseValue<T>
+  error: ToastPromiseValue<unknown>
+}
+
 function useToastBase() {
   return parseComponentPath(usePathname())?.base ?? DEFAULT_BASE
 }
@@ -19,33 +27,24 @@ function currentBase() {
   return parseComponentPath(window.location.pathname)?.base ?? DEFAULT_BASE
 }
 
-function pick() {
-  const base = currentBase()
-  if (base === "radix") return RadixToast.toast
-  if (base === "aria") return AriaToast.toast
-  return BaseToast.toast
-}
-
 const toast = {
   add(options: ToastOptions): string {
-    return pick().add(options as never) as string
+    const base = currentBase()
+    if (base === "radix") return RadixToast.toast.add(options)
+    if (base === "aria") return AriaToast.toast.add(options)
+    return BaseToast.toast.add(options)
   },
   close(id: string) {
-    pick().close(id)
+    const base = currentBase()
+    if (base === "radix") return RadixToast.toast.close(id)
+    if (base === "aria") return AriaToast.toast.close(id)
+    return BaseToast.toast.close(id)
   },
-  promise<T>(
-    task: Promise<T>,
-    options: {
-      loading: string
-      success: string | ((data: T) => string)
-      error: string
-    }
-  ) {
-    const run = pick().promise as unknown as (
-      task: Promise<T>,
-      options: unknown
-    ) => Promise<T>
-    return run(task, options)
+  promise<T>(task: Promise<T>, options: ToastPromiseOptions<T>): Promise<T> {
+    const base = currentBase()
+    if (base === "radix") return RadixToast.toast.promise(task, options)
+    if (base === "aria") return AriaToast.toast.promise(task, options)
+    return BaseToast.toast.promise(task, options)
   },
 }
 

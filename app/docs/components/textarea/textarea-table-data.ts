@@ -15,8 +15,7 @@
   {
     prop: "placeholder",
     type: "string",
-    description:
-      "Hint text shown when the textarea is empty (styled with muted-foreground).",
+    description: "Hint text shown when the textarea is empty (styled with muted-foreground).",
   },
   {
     prop: "className",
@@ -42,7 +41,6 @@ export const textareaControlPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the control styles (last one wins).",
+    description: "Additional Tailwind classes merged with the control styles (last one wins).",
   },
 ]

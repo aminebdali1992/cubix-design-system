@@ -8,17 +8,20 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  AmountFieldAmountInWordsDemo,
-  AmountFieldCurrencyDemo,
-  AmountFieldCustomDemo,
-  AmountFieldDemo,
-  AmountFieldDescriptionDemo,
-  AmountFieldDisabledDemo,
-  AmountFieldFormDemo,
-  AmountFieldIconsDemo,
-  AmountFieldInvalidDemo,
-  AmountFieldSizesDemo,
-} from "@/components/examples/amount-field-examples"
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { AmountFieldAmountInWordsDemo } from "./examples/amount-field-amount-in-words-demo"
+import { AmountFieldCurrencyDemo } from "./examples/amount-field-currency-demo"
+import { AmountFieldCustomDemo } from "./examples/amount-field-custom-demo"
+import { AmountFieldDemo } from "./examples/amount-field-demo"
+import { AmountFieldDescriptionDemo } from "./examples/amount-field-description-demo"
+import { AmountFieldDisabledDemo } from "./examples/amount-field-disabled-demo"
+import { AmountFieldFormDemo } from "./examples/amount-field-form-demo"
+import { AmountFieldIconsDemo } from "./examples/amount-field-icons-demo"
+import { AmountFieldInvalidDemo } from "./examples/amount-field-invalid-demo"
+import { AmountFieldSizesDemo } from "./examples/amount-field-sizes-demo"
 import {
   amountFieldControlPropRows,
   amountFieldCurrencyPropRows,
@@ -35,29 +38,14 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import {
-  AmountField,
-  AmountFieldControl,
-  AmountFieldCurrency,
-  AmountFieldDescription,
-  AmountFieldError,
-  AmountFieldInput,
-  AmountFieldLabel,
-  formatAmountFieldValue,
-  parseAmountFieldValue,
-} from "@/components/cubix/amount-field"`
+const PUBLIC_IMPORT = "@/components/cubix/amount-field"
+const EXAMPLES_DIR = "app/docs/components/amount-field/examples"
 
-const usageSnippet = `<AmountField>
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldControl>
-    <Icon data-icon="inline-start" />
-    <AmountFieldInput defaultValue="۱۲۵۰۰۰۰" placeholder="۰" />
-    <AmountFieldCurrency unit="تومان" />
-  </AmountFieldControl>
-  <AmountFieldDescription>
-    مبلغ را به تومان وارد کنید. ارقام به‌صورت خودکار گروه‌بندی می‌شوند.
-  </AmountFieldDescription>
-</AmountField>`
+function loadAmountFieldExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `AmountField
 ├── AmountFieldLabel
@@ -68,6 +56,10 @@ const compositionSnippet = `AmountField
 ├── AmountFieldDescription
 └── AmountFieldError`
 
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" lang="fa" className="flex w-full justify-center">
@@ -76,28 +68,53 @@ function PreviewShell({ children }: { children: ReactNode }) {
   )
 }
 
+function ExampleSection({
+  title,
+  description,
+  code,
+  previewClassName,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  previewClassName?: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName={previewClassName}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
 export default function AmountFieldPage() {
+  const demoSource = loadAmountFieldExample("amount-field-demo.tsx")
+  const descriptionSource = loadAmountFieldExample("amount-field-description-demo.tsx")
+  const amountInWordsSource = loadAmountFieldExample("amount-field-amount-in-words-demo.tsx")
+  const invalidSource = loadAmountFieldExample("amount-field-invalid-demo.tsx")
+  const disabledSource = loadAmountFieldExample("amount-field-disabled-demo.tsx")
+  const sizesSource = loadAmountFieldExample("amount-field-sizes-demo.tsx")
+  const iconsSource = loadAmountFieldExample("amount-field-icons-demo.tsx")
+  const currencySource = loadAmountFieldExample("amount-field-currency-demo.tsx")
+  const formSource = loadAmountFieldExample("amount-field-form-demo.tsx")
+  const customSource = loadAmountFieldExample("amount-field-custom-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Amount Field"
-        description={description}
-        slug="amount-field"
-      />
+      <ComponentDocsHeader title="Amount Field" description={description} slug="amount-field" />
 
-      <ComponentPreview
-        code={`<AmountField>
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldControl>
-    <Icon data-icon="inline-start" />
-    <AmountFieldInput defaultValue="۱۲۵۰۰۰۰" placeholder="۰" />
-    <AmountFieldCurrency unit="تومان" />
-  </AmountFieldControl>
-  <AmountFieldDescription>
-    مبلغ را به تومان وارد کنید. ارقام به‌صورت خودکار گروه‌بندی می‌شوند.
-  </AmountFieldDescription>
-</AmountField>`}
-      >
+      <ComponentPreview code={demoSource}>
         <PreviewShell>
           <AmountFieldDemo />
         </PreviewShell>
@@ -112,335 +129,165 @@ export default function AmountFieldPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Same composition as Text Field. Place{" "}
-          <code className="font-mono text-sm">AmountFieldCurrency</code> inside
-          the control.{" "}
-          <code className="font-mono text-sm">AmountFieldInput</code> uses{" "}
-          <code className="font-mono text-sm">inputMode=&quot;numeric&quot;</code>{" "}
-          with <code className="font-mono text-sm">type=&quot;text&quot;</code>,
-          always shows Persian digits with thousand separators (٬), and aligns
-          text to the right. Optional{" "}
-          <code className="font-mono text-sm">amountInWords</code> on{" "}
-          <code className="font-mono text-sm">AmountFieldDescription</code>{" "}
-          spells the amount and flips تومان ↔ ریال. Use{" "}
-          <code className="font-mono text-sm">parseAmountFieldValue</code> to
-          read a numeric amount from the formatted string.
+          Same composition as Text Field, with <Code>AmountFieldCurrency</Code> for the unit.
+          <Code>AmountFieldInput</Code> uses <Code>inputMode=&quot;numeric&quot;</Code> with{" "}
+          <Code>type=&quot;text&quot;</Code>, converts Latin digits, and inserts thousand separators
+          as you type. Use <Code>parseAmountFieldValue</Code> when you need the numeric amount from
+          the formatted string.
         </p>
-        <CodeBlock code={compositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Letters are blocked on insert and paste so the field stays numeric.{" "}
+          <Code>AmountFieldDescription</Code> and <Code>AmountFieldError</Code> are announced
+          through <Code>aria-describedby</Code>, and <Code>invalid</Code> sets{" "}
+          <Code>aria-invalid</Code> on the input. When <Code>amountInWords</Code> is on, the spoken
+          amount updates as the value changes.
+        </p>
       </section>
 
       <section className="space-y-6">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Description
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Add helper text below the control for format hints or guidance.
-          </p>
-          <ComponentPreview
-            code={`<AmountField>
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldInput placeholder="۰" />
-  <AmountFieldDescription>
-    فقط عدد وارد کنید. جداکننده هزارگان به‌صورت خودکار اضافه می‌شود.
-  </AmountFieldDescription>
-</AmountField>`}
-          >
-            <PreviewShell>
-              <AmountFieldDescriptionDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Description"
+          description="Add helper text below the input for format hints or guidance."
+          code={descriptionSource}
+        >
+          <AmountFieldDescriptionDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Amount in words
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set{" "}
-            <code className="font-mono text-sm">amountInWords</code> on{" "}
-            <code className="font-mono text-sm">AmountFieldDescription</code>{" "}
-            to show the amount spelled in Persian. If the currency is تومان,
-            the words use ریال (×10); if ریال, the words use تومان (÷10).
-            Without this prop, the description stays a normal help text. When
-            the input is empty, children are shown instead (or the description
-            hides if there are none).
-          </p>
-          <ComponentPreview
-            code={`<AmountField>
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldControl>
-    <AmountFieldInput defaultValue="۱۲۵۰۰۰" placeholder="۰" />
-    <AmountFieldCurrency unit="تومان" />
-  </AmountFieldControl>
-  <AmountFieldDescription amountInWords />
-</AmountField>
-<AmountField>
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldControl>
-    <AmountFieldInput defaultValue="۱۲۵۰۰۰۰" placeholder="۰" />
-    <AmountFieldCurrency unit="ریال" />
-  </AmountFieldControl>
-  <AmountFieldDescription amountInWords />
-</AmountField>`}
-          >
-            <PreviewShell>
-              <AmountFieldAmountInWordsDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Amount in words"
+          description={
+            <>
+              Set <Code>amountInWords</Code> on <Code>AmountFieldDescription</Code> to spell the
+              amount in Persian. With <Code>تومان</Code>, words use ریال (×10); with{" "}
+              <Code>ریال</Code>, words use تومان (÷10).
+            </>
+          }
+          code={amountInWordsSource}
+        >
+          <AmountFieldAmountInWordsDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Invalid
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set <code className="font-mono text-sm">invalid</code> on the root
-            to apply destructive styles and show the error message.
-          </p>
-          <ComponentPreview
-            code={`<AmountField invalid>
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldInput defaultValue="" placeholder="۰" />
-  <AmountFieldError>یک مبلغ معتبر وارد کنید.</AmountFieldError>
-</AmountField>`}
-          >
-            <PreviewShell>
-              <AmountFieldInvalidDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Currency"
+          description={
+            <>
+              Place <Code>AmountFieldCurrency</Code> in the control with <Code>unit</Code> set to{" "}
+              <Code>تومان</Code> or <Code>ریال</Code>.
+            </>
+          }
+          code={currencySource}
+        >
+          <AmountFieldCurrencyDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Disabled
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Disable the field to block interaction. The control uses a muted
-            fill; label and description stay readable.
-          </p>
-          <ComponentPreview
-            code={`<AmountField disabled>
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldControl>
-    <Icon data-icon="inline-start" />
-    <AmountFieldInput defaultValue="۱۲۵۰۰۰۰" placeholder="۰" />
-    <AmountFieldCurrency unit="تومان" />
-  </AmountFieldControl>
-  <AmountFieldDescription>این فیلد فعلاً قابل ویرایش نیست.</AmountFieldDescription>
-</AmountField>`}
-          >
-            <PreviewShell>
-              <AmountFieldDisabledDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Invalid"
+          description={
+            <>
+              Set <Code>invalid</Code> on the root to apply destructive styles and show{" "}
+              <Code>AmountFieldError</Code>.
+            </>
+          }
+          code={invalidSource}
+        >
+          <AmountFieldInvalidDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Sizes</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Two heights ship by default:{" "}
-            <code className="font-mono text-sm">default</code> (40px) and{" "}
-            <code className="font-mono text-sm">lg</code> (48px). Use{" "}
-            <code className="font-mono text-sm">className</code> for any other
-            size.
-          </p>
-          <ComponentPreview
-            code={`<AmountField size="default">
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldControl>
-    <Icon data-icon="inline-start" />
-    <AmountFieldInput placeholder="۰" />
-    <AmountFieldCurrency unit="تومان" />
-  </AmountFieldControl>
-  <AmountFieldDescription>ارتفاع ۴۰ پیکسل</AmountFieldDescription>
-</AmountField>
-<AmountField size="lg">
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldControl>
-    <Icon data-icon="inline-start" />
-    <AmountFieldInput placeholder="۰" />
-    <AmountFieldCurrency unit="تومان" />
-  </AmountFieldControl>
-  <AmountFieldDescription>ارتفاع ۴۸ پیکسل</AmountFieldDescription>
-</AmountField>`}
-          >
-            <PreviewShell>
-              <AmountFieldSizesDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Disabled"
+          description="Disable the field to block the input. The control uses a muted fill; label and description stay readable."
+          code={disabledSource}
+        >
+          <AmountFieldDisabledDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Icons</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Place icons inside{" "}
-            <code className="font-mono text-sm">AmountFieldControl</code> with{" "}
-            <code className="font-mono text-sm">data-icon</code> like Button so
-            spacing follows reading direction.
-          </p>
-          <ComponentPreview
-            code={`<AmountField>
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldControl>
-    <Icon data-icon="inline-start" />
-    <AmountFieldInput placeholder="۰" />
-    <AmountFieldCurrency unit="تومان" />
-  </AmountFieldControl>
-</AmountField>`}
-          >
-            <PreviewShell>
-              <AmountFieldIconsDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Sizes"
+          description={
+            <>
+              Two heights ship by default: <Code>default</Code> (40px) and <Code>lg</Code> (48px).
+              Use <Code>className</Code> for any other size.
+            </>
+          }
+          code={sizesSource}
+        >
+          <AmountFieldSizesDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Currency
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            <code className="font-mono text-sm">AmountFieldCurrency</code>{" "}
-            accepts only تومان or ریال via the{" "}
-            <code className="font-mono text-sm">unit</code> prop.
-          </p>
-          <ComponentPreview
-            code={`<AmountField>
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldControl>
-    <AmountFieldInput defaultValue="۲۵۰۰۰۰" placeholder="۰" />
-    <AmountFieldCurrency unit="تومان" />
-  </AmountFieldControl>
-</AmountField>
-<AmountField>
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldControl>
-    <AmountFieldInput defaultValue="۲۵۰۰۰۰۰" placeholder="۰" />
-    <AmountFieldCurrency unit="ریال" />
-  </AmountFieldControl>
-</AmountField>`}
-          >
-            <PreviewShell>
-              <AmountFieldCurrencyDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Icons"
+          description={
+            <>
+              Place icons inside <Code>AmountFieldControl</Code> with <Code>data-icon</Code> like
+              Button so spacing follows the reading direction.
+            </>
+          }
+          code={iconsSource}
+        >
+          <AmountFieldIconsDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            In a form
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Compose Amount Field with Button inside a bordered surface for a
-            complete payment block.
-          </p>
-          <ComponentPreview
-            previewClassName="bg-muted"
-            code={`<form className="grid max-w-xs gap-6 rounded-xl bg-background p-6">
-  <div className="space-y-1.5">
-    <p className="text-body font-medium">پرداخت</p>
-    <p className="text-caption text-muted-foreground">
-      مبلغ قابل پرداخت را وارد کنید.
-    </p>
-  </div>
-  <AmountField>
-    <AmountFieldLabel>مبلغ</AmountFieldLabel>
-    <AmountFieldControl>
-      <Icon data-icon="inline-start" />
-      <AmountFieldInput name="amount" placeholder="۰" required />
-      <AmountFieldCurrency unit="تومان" />
-    </AmountFieldControl>
-    <AmountFieldDescription>
-      یک مبلغ معتبر به تومان وارد کنید.
-    </AmountFieldDescription>
-  </AmountField>
-  <div className="grid grid-cols-2 gap-2">
-    <Button type="button" variant="outline">انصراف</Button>
-    <Button type="submit">ادامه</Button>
-  </div>
-</form>`}
-          >
-            <PreviewShell>
-              <AmountFieldFormDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="In a form"
+          description={
+            <>
+              Set <Code>name</Code> on the root so the value is submitted with the form, and pair
+              the field with Cubix Button.
+            </>
+          }
+          code={formSource}
+          previewClassName="bg-muted"
+        >
+          <AmountFieldFormDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Custom styling
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Every part accepts a{" "}
-            <code className="font-mono text-sm">className</code> merged with
-            the shipped <code className="font-mono text-sm">cn</code> helper.
-            Here the field uses a filled surface instead of the default
-            outline:
-          </p>
-          <ComponentPreview
-            code={`<AmountField>
-  <AmountFieldLabel>مبلغ</AmountFieldLabel>
-  <AmountFieldInput
-    className="border-border bg-muted focus-visible:bg-background dark:bg-muted dark:focus-visible:bg-background"
-    placeholder="۰"
-  />
-  <AmountFieldDescription>
-    با className می‌توانید ظاهر را سفارشی کنید.
-  </AmountFieldDescription>
-</AmountField>`}
-          >
-            <PreviewShell>
-              <AmountFieldCustomDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Custom styling"
+          description={
+            <>
+              Every part accepts a <Code>className</Code> merged with the shipped <Code>cn</Code>{" "}
+              helper. Here the field uses a filled surface instead of the default outline.
+            </>
+          }
+          code={customSource}
+        >
+          <AmountFieldCustomDemo />
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Parts render{" "}
-            <code className="font-mono">data-slot</code> attributes (
-            <code className="font-mono">amount-field</code>,{" "}
-            <code className="font-mono">amount-field-label</code>,{" "}
-            <code className="font-mono">amount-field-control</code>,{" "}
-            <code className="font-mono">amount-field-input</code>,{" "}
-            <code className="font-mono">amount-field-currency</code>,{" "}
-            <code className="font-mono">amount-field-description</code>,{" "}
-            <code className="font-mono">amount-field-error</code>) for targeting
-            in tests and parent selectors. Helpers{" "}
-            <code className="font-mono">formatAmountFieldValue</code> and{" "}
-            <code className="font-mono">parseAmountFieldValue</code> convert
-            between display strings and numbers.
+            <strong className="text-foreground">Note:</strong> Parts render <Code>data-slot</Code>{" "}
+            attributes (<Code>amount-field</Code>, <Code>amount-field-label</Code>,{" "}
+            <Code>amount-field-control</Code>, <Code>amount-field-input</Code>,{" "}
+            <Code>amount-field-currency</Code>, <Code>amount-field-description</Code>,{" "}
+            <Code>amount-field-error</Code>) for targeting in tests and parent selectors. Use the
+            same props on Base UI, React Aria, and Radix.
           </p>
         </div>
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">AmountField</h3>
         <PropsTable data={amountFieldPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          AmountFieldControl
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">AmountFieldControl</h3>
         <PropsTable data={amountFieldControlPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          AmountFieldInput
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">AmountFieldInput</h3>
         <PropsTable data={amountFieldInputPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          AmountFieldCurrency
-        </h3>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">AmountFieldCurrency</h3>
         <PropsTable data={amountFieldCurrencyPropRows} />
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">

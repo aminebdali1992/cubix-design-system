@@ -33,9 +33,7 @@ function usePageDir(dir?: "ltr" | "rtl") {
   const [pageDir, setPageDir] = React.useState<"ltr" | "rtl">("rtl")
 
   React.useLayoutEffect(() => {
-    const closest = ref.current?.parentElement
-      ?.closest("[dir]")
-      ?.getAttribute("dir")
+    const closest = ref.current?.parentElement?.closest("[dir]")?.getAttribute("dir")
     if (closest === "ltr" || closest === "rtl") {
       setPageDir(closest)
     }
@@ -45,11 +43,7 @@ function usePageDir(dir?: "ltr" | "rtl") {
 }
 type CubixTabsProps = Omit<
   TabsProps,
-  | "className"
-  | "selectedKey"
-  | "defaultSelectedKey"
-  | "onSelectionChange"
-  | "children"
+  "className" | "selectedKey" | "defaultSelectedKey" | "onSelectionChange" | "children"
 > & {
   className?: string
   value?: string
@@ -80,13 +74,8 @@ function Tabs({
         orientation={orientation}
         selectedKey={value}
         defaultSelectedKey={defaultValue}
-        onSelectionChange={
-          onValueChange ? (key) => onValueChange(String(key)) : undefined
-        }
-        className={cn(
-          "group/tabs flex gap-2 data-horizontal:flex-col",
-          className
-        )}
+        onSelectionChange={onValueChange ? (key) => onValueChange(String(key)) : undefined}
+        className={cn("group/tabs flex gap-2 data-horizontal:flex-col", className)}
         {...props}
       >
         {children}
@@ -140,20 +129,41 @@ function TabsRemoveIcon({ className }: { className?: string }) {
 }
 
 /*
-  A tab is already a button, so the remove control is a span with
-  role="button" and no tab stop (nested buttons are invalid HTML). Keyboard
-  users remove the focused tab with Delete or Backspace.
+  Removing the focused tab would drop focus to the page body. Move it to the
+  next enabled tab first, or to the previous one when removing the last.
+*/
+function focusSiblingTab(tab: HTMLElement) {
+  const list = tab.closest("[data-slot=tabs-list]")
+  if (!list) return
+  const tabs = Array.from(
+    list.querySelectorAll<HTMLElement>(
+      "[data-slot=tabs-trigger]:not(:disabled):not([data-disabled]):not([aria-disabled=true])"
+    )
+  )
+  const index = tabs.indexOf(tab)
+  const sibling = tabs[index + 1] ?? tabs[index - 1]
+  sibling?.focus()
+}
+
+/*
+  A tab's children are presentational to assistive technology, so the
+  remove control is a pointer-only span hidden from it. Keyboard and screen
+  reader users remove the focused tab with Delete or Backspace, announced
+  through aria-keyshortcuts on the tab.
 */
 function TabsRemove({ onRemove }: { onRemove: () => void }) {
   return (
     <span
-      role="button"
-      aria-label="Remove"
+      aria-hidden="true"
       data-slot="tabs-remove"
       onPointerDown={(event) => event.stopPropagation()}
       onMouseDown={(event) => event.stopPropagation()}
       onClick={(event) => {
         event.stopPropagation()
+        const tab = event.currentTarget.closest<HTMLElement>("[data-slot=tabs-trigger]")
+        if (tab && tab === document.activeElement) {
+          focusSiblingTab(tab)
+        }
         onRemove()
       }}
       className="inline-flex size-5 shrink-0 cursor-default items-center justify-center rounded-full opacity-70 transition-opacity duration-200 ease-out hover:opacity-100"
@@ -177,21 +187,35 @@ function TabsTrigger({
   children?: React.ReactNode
   onRemove?: () => void
 }) {
-  const tabRef = React.useRef<HTMLDivElement>(null)
   const removeRef = React.useRef(onRemove)
-  removeRef.current = onRemove
-  React.useEffect(() => {
-    const el = tabRef.current
-    if (!el) return
-    const handle = (event: KeyboardEvent) => {
-      if (removeRef.current && (event.key === "Delete" || event.key === "Backspace")) {
+  React.useLayoutEffect(() => {
+    removeRef.current = onRemove
+  })
+  const removable = Boolean(onRemove)
+  /*
+    React Aria's Tab takes no keyboard handlers, and it mounts the real tab
+    node after the collection is built, so the listener attaches through a
+    callback ref that runs when that node appears.
+  */
+  const tabRef = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      if (!node || !removable) return
+      node.setAttribute("aria-keyshortcuts", "Delete Backspace")
+      const handle = (event: KeyboardEvent) => {
+        if (!removeRef.current || event.defaultPrevented) return
+        if (event.key !== "Delete" && event.key !== "Backspace") return
         event.preventDefault()
+        focusSiblingTab(node)
         removeRef.current()
       }
-    }
-    el.addEventListener("keydown", handle)
-    return () => el.removeEventListener("keydown", handle)
-  }, [])
+      node.addEventListener("keydown", handle)
+      return () => {
+        node.removeAttribute("aria-keyshortcuts")
+        node.removeEventListener("keydown", handle)
+      }
+    },
+    [removable]
+  )
   return (
     <Tab
       id={value}
@@ -206,7 +230,6 @@ function TabsTrigger({
       )}
       {...props}
       ref={tabRef}
-
     >
       {children}
       {onRemove && <TabsRemove onRemove={onRemove} />}

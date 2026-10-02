@@ -26,10 +26,7 @@ import {
 } from "react-aria-components"
 
 import { Checkbox } from "@/components/cubix/aria/checkbox"
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/cubix/aria/radio-group"
+import { RadioGroup, RadioGroupItem } from "@/components/cubix/aria/radio-group"
 import { cn } from "@/lib/utils"
 
 const itemStyles =
@@ -58,9 +55,7 @@ function useContextMenuLocale() {
   return React.useContext(ContextMenuLocaleContext)
 }
 
-function toTextDirection(
-  value: string | null | undefined
-): TextDirection | undefined {
+function toTextDirection(value: string | null | undefined): TextDirection | undefined {
   return value === "rtl" || value === "ltr" ? value : undefined
 }
 
@@ -87,9 +82,7 @@ function resolveAriaLocale(locale: ContextMenuLocale): string | undefined {
 
 type ContextMenuStore = Map<string, unknown>
 
-const ContextMenuStoreContext = React.createContext<ContextMenuStore | null>(
-  null
-)
+const ContextMenuStoreContext = React.createContext<ContextMenuStore | null>(null)
 
 function textContent(node: React.ReactNode): string {
   if (node == null || typeof node === "boolean") return ""
@@ -104,10 +97,7 @@ function textContent(node: React.ReactNode): string {
 function radioGroupKey(children: React.ReactNode) {
   const values: string[] = []
   React.Children.forEach(children, (child) => {
-    if (
-      React.isValidElement<{ value?: unknown }>(child) &&
-      child.props.value !== undefined
-    ) {
+    if (React.isValidElement<{ value?: unknown }>(child) && child.props.value !== undefined) {
       values.push(String(child.props.value))
     }
   })
@@ -149,9 +139,7 @@ function ContextMenuCheckIndicator({ checked }: { checked: boolean }) {
       aria-hidden
       className="pointer-events-none absolute end-2 flex size-4 items-center justify-center"
     >
-      {checked ? (
-        <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" />
-      ) : null}
+      {checked ? <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" /> : null}
     </span>
   )
 }
@@ -162,8 +150,7 @@ type ContextMenuRadioContextValue = {
   indicator?: ContextMenuIndicator
 }
 
-const ContextMenuRadioContext =
-  React.createContext<ContextMenuRadioContextValue | null>(null)
+const ContextMenuRadioContext = React.createContext<ContextMenuRadioContextValue | null>(null)
 
 /*
   The root renders no element, so the trigger reports the closest dir / lang
@@ -223,11 +210,7 @@ function ContextMenu({
   )
 }
 
-function ContextMenuTrigger({
-  className,
-  ref,
-  ...props
-}: React.ComponentProps<typeof Button>) {
+function ContextMenuTrigger({ className, ref, ...props }: React.ComponentProps<typeof Button>) {
   const locale = useContextMenuLocale()
   const reportLocale = React.useContext(ContextMenuLocaleResolverContext)
   const triggerRef = React.useRef<HTMLButtonElement | null>(null)
@@ -262,17 +245,8 @@ function ContextMenuTrigger({
   )
 }
 
-function ContextMenuGroup({
-  className,
-  ...props
-}: React.ComponentProps<typeof MenuSection>) {
-  return (
-    <MenuSection
-      data-slot="context-menu-group"
-      className={cn(className)}
-      {...props}
-    />
-  )
+function ContextMenuGroup({ className, ...props }: React.ComponentProps<typeof MenuSection>) {
+  return <MenuSection data-slot="context-menu-group" className={cn(className)} {...props} />
 }
 
 function ContextMenuPortal({ children }: { children?: React.ReactNode }) {
@@ -373,15 +347,17 @@ function ContextMenuCheckboxItem({
   indicator = "control",
   disabled,
   isDisabled,
+  closeOnClick = false,
   ref,
   ...props
-}: Omit<React.ComponentProps<typeof MenuItem>, "children"> & {
+}: Omit<React.ComponentProps<typeof MenuItem>, "children" | "shouldCloseOnSelect"> & {
   inset?: boolean
   indicator?: ContextMenuIndicator
   disabled?: boolean
   checked?: boolean
   defaultChecked?: boolean
   onCheckedChange?: (checked: boolean) => void
+  closeOnClick?: boolean
   children?: React.ReactNode
 }) {
   const [uncontrolledChecked, setUncontrolledChecked] = usePersistentState(
@@ -419,6 +395,7 @@ function ContextMenuCheckboxItem({
       data-inset={inset ? "" : undefined}
       className={cn(selectableItemStyles, className)}
       isDisabled={isDisabled ?? disabled}
+      shouldCloseOnSelect={closeOnClick}
       onAction={() => {
         const next = !isChecked
         if (checked === undefined) setUncontrolledChecked(next)
@@ -429,8 +406,15 @@ function ContextMenuCheckboxItem({
       {indicator === "check" ? (
         <ContextMenuCheckIndicator checked={isChecked} />
       ) : (
-        <span aria-hidden className="pointer-events-none absolute end-2 flex items-center justify-center">
-          <Checkbox className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5" checked={isChecked} excludeFromTabOrder />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute end-2 flex items-center justify-center"
+        >
+          <Checkbox
+            className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5"
+            checked={isChecked}
+            excludeFromTabOrder
+          />
         </span>
       )}
       {children}
@@ -451,9 +435,10 @@ function ContextMenuRadioGroup({
   onValueChange?: (value: string) => void
   indicator?: ContextMenuIndicator
 }) {
-  const [uncontrolled, setUncontrolled] = usePersistentState<
-    string | undefined
-  >(radioGroupKey(typeof children === "function" ? null : children), defaultValue)
+  const [uncontrolled, setUncontrolled] = usePersistentState<string | undefined>(
+    radioGroupKey(typeof children === "function" ? null : children),
+    defaultValue
+  )
   const current = value ?? uncontrolled
 
   const handleValueChange = (next: string) => {
@@ -491,12 +476,13 @@ function ContextMenuRadioGroup({
 
 function ContextMenuRadioIndicator({ checked }: { checked: boolean }) {
   return (
-    <span
-      inert
-      className="pointer-events-none absolute end-2 flex items-center justify-center"
-    >
+    <span inert className="pointer-events-none absolute end-2 flex items-center justify-center">
       <RadioGroup value={checked ? "on" : ""} className="flex" aria-label="radio">
-        <RadioGroupItem value="on" className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5" aria-label="radio" />
+        <RadioGroupItem
+          value="on"
+          className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5"
+          aria-label="radio"
+        />
       </RadioGroup>
     </span>
   )
@@ -510,11 +496,13 @@ function ContextMenuRadioItem({
   indicator,
   disabled,
   isDisabled,
+  closeOnClick = false,
   ...props
-}: Omit<React.ComponentProps<typeof MenuItem>, "id" | "children"> & {
+}: Omit<React.ComponentProps<typeof MenuItem>, "id" | "children" | "shouldCloseOnSelect"> & {
   inset?: boolean
   indicator?: ContextMenuIndicator
   disabled?: boolean
+  closeOnClick?: boolean
   value: string
   children?: React.ReactNode
 }) {
@@ -529,6 +517,7 @@ function ContextMenuRadioItem({
       data-inset={inset ? "" : undefined}
       className={cn(selectableItemStyles, className)}
       isDisabled={isDisabled ?? disabled}
+      shouldCloseOnSelect={closeOnClick}
       {...props}
     >
       {resolvedIndicator === "check" ? (
@@ -561,10 +550,7 @@ function ContextMenuLabel({
   )
 }
 
-function ContextMenuSeparator({
-  className,
-  ...props
-}: React.ComponentProps<typeof Separator>) {
+function ContextMenuSeparator({ className, ...props }: React.ComponentProps<typeof Separator>) {
   return (
     <Separator
       data-slot="context-menu-separator"
@@ -574,10 +560,7 @@ function ContextMenuSeparator({
   )
 }
 
-function ContextMenuShortcut({
-  className,
-  ...props
-}: React.ComponentProps<typeof Keyboard>) {
+function ContextMenuShortcut({ className, ...props }: React.ComponentProps<typeof Keyboard>) {
   return (
     <Keyboard
       data-slot="context-menu-shortcut"
@@ -593,11 +576,13 @@ function ContextMenuShortcut({
 function ContextMenuSub({ children }: { children?: React.ReactNode }) {
   return (
     <SubmenuTrigger data-slot="context-menu-sub">
-      {React.Children.toArray(children) as [
-        React.ReactElement,
-        React.ReactElement,
-        ...React.ReactElement[],
-      ]}
+      {
+        React.Children.toArray(children) as [
+          React.ReactElement,
+          React.ReactElement,
+          ...React.ReactElement[],
+        ]
+      }
     </SubmenuTrigger>
   )
 }

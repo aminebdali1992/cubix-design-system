@@ -8,14 +8,18 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  CheckboxDemo,
-  CheckboxDescriptionDemo,
-  CheckboxDisabledDemo,
-  CheckboxInvalidDemo,
-  CheckboxPendingDemo,
-  CheckboxStatesDemo,
-} from "@/components/examples/checkbox-examples"
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
 import { checkboxPropRows, checkboxStateRows } from "./checkbox-table-data"
+import { CheckboxDemo } from "./examples/checkbox-demo"
+import { CheckboxDescriptionDemo } from "./examples/checkbox-description-demo"
+import { CheckboxDisabledDemo } from "./examples/checkbox-disabled-demo"
+import { CheckboxFormDemo } from "./examples/checkbox-form-demo"
+import { CheckboxGroupDemo } from "./examples/checkbox-group-demo"
+import { CheckboxInvalidDemo } from "./examples/checkbox-invalid-demo"
+import { CheckboxPendingDemo } from "./examples/checkbox-pending-demo"
 
 const description =
   "A control that toggles between checked, unchecked, and indeterminate. Compose with Label via id and htmlFor."
@@ -25,17 +29,23 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import { Checkbox } from "@/components/cubix/checkbox"
-import { Label } from "@/components/cubix/label"`
+const PUBLIC_IMPORT = "@/components/cubix/checkbox"
+const EXAMPLES_DIR = "app/docs/components/checkbox/examples"
 
-const usageSnippet = `<div className="flex items-center gap-2">
-  <Checkbox id="terms" />
-  <Label htmlFor="terms">پذیرش قوانین و شرایط</Label>
-</div>`
+function loadCheckboxExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
-const compositionSnippet = `Checkbox
-Label (htmlFor → Checkbox id)`
+const compositionSnippet = `div
+├── Checkbox (id)
+└── Label (htmlFor)`
 
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" lang="fa" className="flex w-full justify-center">
@@ -44,16 +54,50 @@ function PreviewShell({ children }: { children: ReactNode }) {
   )
 }
 
+function ExampleSection({
+  title,
+  description,
+  code,
+  previewClassName,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  previewClassName?: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName={previewClassName}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
 export default function CheckboxPage() {
+  const demoSource = loadCheckboxExample("checkbox-demo.tsx")
+  const descriptionSource = loadCheckboxExample("checkbox-description-demo.tsx")
+  const groupSource = loadCheckboxExample("checkbox-group-demo.tsx")
+  const invalidSource = loadCheckboxExample("checkbox-invalid-demo.tsx")
+  const disabledSource = loadCheckboxExample("checkbox-disabled-demo.tsx")
+  const pendingSource = loadCheckboxExample("checkbox-pending-demo.tsx")
+  const formSource = loadCheckboxExample("checkbox-form-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Checkbox"
-        description={description}
-        slug="checkbox"
-      />
+      <ComponentDocsHeader title="Checkbox" description={description} slug="checkbox" />
 
-      <ComponentPreview code={usageSnippet}>
+      <ComponentPreview code={demoSource}>
         <PreviewShell>
           <CheckboxDemo />
         </PreviewShell>
@@ -68,180 +112,108 @@ export default function CheckboxPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Checkbox is the control only. Pair it with{" "}
-          <code className="font-mono text-sm">Label</code> using matching{" "}
-          <code className="font-mono text-sm">id</code> and{" "}
-          <code className="font-mono text-sm">htmlFor</code>. Use{" "}
-          <code className="font-mono text-sm">indeterminate</code> for partial
-          selection, and <code className="font-mono text-sm">aria-invalid</code>{" "}
-          for error states.
+          Checkbox is the control only. Pair it with <Code>Label</Code> using matching{" "}
+          <Code>id</Code> and <Code>htmlFor</Code>. Use <Code>indeterminate</Code> for partial
+          selection and <Code>aria-invalid</Code> for error states.
         </p>
         <CodeBlock code={compositionSnippet} title="Structure" />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Every base exposes a native checkbox role with <Code>aria-checked</Code>, including the
+          mixed state for <Code>indeterminate</Code>. Space toggles the focused control, and
+          clicking the Label toggles it too. Link helper or error text with{" "}
+          <Code>aria-describedby</Code>, and group related options in a <Code>fieldset</Code> with a{" "}
+          <Code>legend</Code>. While <Code>pending</Code> is set the control is disabled and reports{" "}
+          <Code>aria-busy</Code>.
+        </p>
       </section>
 
       <section className="space-y-6">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">States</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Checked, indeterminate, and disabled cover the common conditions.
-          </p>
-          <ComponentPreview
-            code={`<div className="grid gap-3">
-  <div className="flex items-center gap-2">
-    <Checkbox id="checked" defaultChecked />
-    <Label htmlFor="checked">تایید شده</Label>
-  </div>
-  <div className="flex items-center gap-2">
-    <Checkbox id="indeterminate" indeterminate />
-    <Label htmlFor="indeterminate">انتخاب ناقص</Label>
-  </div>
-  <div className="flex items-center gap-2">
-    <Checkbox id="disabled" disabled />
-    <Label htmlFor="disabled">غیرفعال</Label>
-  </div>
-</div>`}
-          >
-            <PreviewShell>
-              <CheckboxStatesDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="With description"
+          description="Add a helper line for consent and settings rows, linked with aria-describedby."
+          code={descriptionSource}
+        >
+          <CheckboxDescriptionDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            With description
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Compose Checkbox with a title and helper line for consent and
-            settings rows.
-          </p>
-          <ComponentPreview
-            code={`<div className="flex items-start gap-3 rounded-lg border p-4">
-  <Checkbox id="terms" defaultChecked className="mt-0.5" />
-  <Label htmlFor="terms" className="grid gap-1.5 leading-none">
-    <span>پذیرش قوانین و شرایط</span>
-    <span className="text-caption text-muted-foreground">
-      با ادامه، شرایط استفاده و سیاست حریم خصوصی را می‌پذیرید.
-    </span>
-  </Label>
-</div>`}
-          >
-            <PreviewShell>
-              <CheckboxDescriptionDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Indeterminate"
+          description={
+            <>
+              A parent checkbox shows <Code>indeterminate</Code> while only some children are
+              selected, and toggles all of them at once.
+            </>
+          }
+          code={groupSource}
+        >
+          <CheckboxGroupDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Invalid
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set <code className="font-mono text-sm">aria-invalid</code> for
-            assistive tech when the choice is required and missing. Show the
-            error in helper text - the checkbox itself stays visually unchanged.
-          </p>
-          <ComponentPreview
-            code={`<div className="grid gap-2">
-  <div className="flex items-center gap-2">
-    <Checkbox id="terms" aria-invalid />
-    <Label htmlFor="terms">پذیرش قوانین و شرایط</Label>
-  </div>
-  <p className="ps-[26px] text-caption text-destructive">
-    برای ادامه باید قوانین را بپذیرید.
-  </p>
-</div>`}
-          >
-            <PreviewShell>
-              <CheckboxInvalidDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Invalid"
+          description={
+            <>
+              Set <Code>aria-invalid</Code> when a required choice is missing. The control gets a
+              destructive border and ring; show the error copy below it.
+            </>
+          }
+          code={invalidSource}
+        >
+          <CheckboxInvalidDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Disabled
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Disabled checkboxes cannot be toggled. Pair with Label for a clear
-            unavailable state.
-          </p>
-          <ComponentPreview
-            code={`<div className="grid gap-3">
-  <div className="flex items-center gap-2">
-    <Checkbox id="email" disabled />
-    <Label htmlFor="email">اعلان‌های ایمیلی</Label>
-  </div>
-  <div className="flex items-center gap-2">
-    <Checkbox id="push" disabled defaultChecked />
-    <Label htmlFor="push">اعلان‌های فشاری</Label>
-  </div>
-</div>`}
-          >
-            <PreviewShell>
-              <CheckboxDisabledDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Disabled"
+          description="Disabled checkboxes cannot be toggled. Checked and indeterminate controls fade to reduced opacity."
+          code={disabledSource}
+        >
+          <CheckboxDisabledDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Pending
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Set <code className="font-mono text-sm">pending</code> while a save
-            is in flight. The square is replaced by a circular spinner and
-            interaction is blocked until the request finishes.
-          </p>
-          <ComponentPreview
-            code={`const [checked, setChecked] = React.useState(false)
-const [pending, setPending] = React.useState(false)
+        <ExampleSection
+          title="Pending"
+          description={
+            <>
+              Set <Code>pending</Code> while a save is in flight. The square is replaced by a
+              circular spinner and interaction is blocked until the request finishes.
+            </>
+          }
+          code={pendingSource}
+        >
+          <CheckboxPendingDemo />
+        </ExampleSection>
 
-function handleCheckedChange(next: boolean) {
-  setChecked(next)
-  setPending(true)
-  // await save...
-  setPending(false)
-}
-
-<div className="flex items-center gap-2">
-  <Checkbox
-    id="notify"
-    checked={checked}
-    pending={pending}
-    onCheckedChange={handleCheckedChange}
-  />
-  <Label htmlFor="notify">ذخیره تنظیمات اعلان</Label>
-</div>`}
-          >
-            <PreviewShell>
-              <CheckboxPendingDemo />
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Form"
+          description={
+            <>
+              Give each checkbox a <Code>name</Code> and <Code>value</Code> so checked options are
+              submitted with the form.
+            </>
+          }
+          code={formSource}
+          previewClassName="bg-muted"
+        >
+          <CheckboxFormDemo />
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Parts render{" "}
-            <code className="font-mono">data-slot</code> attributes (
-            <code className="font-mono">checkbox</code>,{" "}
-            <code className="font-mono">checkbox-indicator</code>) for targeting
-            in tests and parent selectors. Use the same{" "}
-            <code className="font-mono">indeterminate</code> and{" "}
-            <code className="font-mono">pending</code> props on Base UI,
-            React Aria, and Radix.
+            <strong className="text-foreground">Note:</strong> Parts render <Code>data-slot</Code>{" "}
+            attributes (<Code>checkbox</Code>, <Code>checkbox-indicator</Code>) for targeting in
+            tests and parent selectors. Use the same props on Base UI, React Aria, and Radix.
           </p>
         </div>
 

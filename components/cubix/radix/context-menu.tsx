@@ -5,10 +5,7 @@ import { CheckIcon, ChevronRightIcon } from "lucide-react"
 import { ContextMenu as ContextMenuPrimitive } from "radix-ui"
 
 import { Checkbox } from "@/components/cubix/radix/checkbox"
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/cubix/radix/radio-group"
+import { RadioGroup, RadioGroupItem } from "@/components/cubix/radix/radio-group"
 import { DirectionProvider } from "@/components/cubix/radix/direction"
 import { cn } from "@/lib/utils"
 
@@ -29,9 +26,7 @@ function useContextMenuLocale() {
   return React.useContext(ContextMenuLocaleContext)
 }
 
-function toTextDirection(
-  value: string | null | undefined
-): TextDirection | undefined {
+function toTextDirection(value: string | null | undefined): TextDirection | undefined {
   return value === "rtl" || value === "ltr" ? value : undefined
 }
 
@@ -45,9 +40,7 @@ function resolveClosestLang(node: Element | null): string | undefined {
 
 type ContextMenuStore = Map<string, unknown>
 
-const ContextMenuStoreContext = React.createContext<ContextMenuStore | null>(
-  null
-)
+const ContextMenuStoreContext = React.createContext<ContextMenuStore | null>(null)
 
 function textContent(node: React.ReactNode): string {
   if (node == null || typeof node === "boolean") return ""
@@ -62,10 +55,7 @@ function textContent(node: React.ReactNode): string {
 function radioGroupKey(children: React.ReactNode) {
   const values: string[] = []
   React.Children.forEach(children, (child) => {
-    if (
-      React.isValidElement<{ value?: unknown }>(child) &&
-      child.props.value !== undefined
-    ) {
+    if (React.isValidElement<{ value?: unknown }>(child) && child.props.value !== undefined) {
       values.push(String(child.props.value))
     }
   })
@@ -90,6 +80,18 @@ function usePersistentState<T>(key: string, initial: T) {
     [store, key]
   )
   return [value, update] as const
+}
+
+/*
+  Checkbox and radio items keep the menu open by default so several options
+  can be changed in one go, matching the Base UI and React Aria menus. Pass
+  closeOnClick to close the menu after a change.
+*/
+function keepOpenOnSelect(closeOnClick: boolean, onSelect?: (event: Event) => void) {
+  return (event: Event) => {
+    onSelect?.(event)
+    if (!closeOnClick) event.preventDefault()
+  }
 }
 
 function localeDomProps(locale: ContextMenuLocale) {
@@ -128,11 +130,7 @@ function ContextMenu({
       <ContextMenuLocaleResolverContext.Provider value={setResolved}>
         <ContextMenuLocaleContext.Provider value={locale}>
           <DirectionProvider dir={locale.dir ?? "ltr"}>
-            <ContextMenuPrimitive.Root
-              data-slot="context-menu"
-              dir={locale.dir}
-              {...props}
-            />
+            <ContextMenuPrimitive.Root data-slot="context-menu" dir={locale.dir} {...props} />
           </DirectionProvider>
         </ContextMenuLocaleContext.Provider>
       </ContextMenuLocaleResolverContext.Provider>
@@ -181,27 +179,17 @@ function ContextMenuTrigger({
   )
 }
 
-function ContextMenuGroup({
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Group>) {
-  return (
-    <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />
-  )
+function ContextMenuGroup({ ...props }: React.ComponentProps<typeof ContextMenuPrimitive.Group>) {
+  return <ContextMenuPrimitive.Group data-slot="context-menu-group" {...props} />
 }
 
-function ContextMenuPortal({
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Portal>) {
-  return (
-    <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
-  )
+function ContextMenuPortal({ ...props }: React.ComponentProps<typeof ContextMenuPrimitive.Portal>) {
+  return <ContextMenuPrimitive.Portal data-slot="context-menu-portal" {...props} />
 }
 
 type ContextMenuIndicator = "check" | "control"
 
-const ContextMenuIndicatorContext = React.createContext<
-  ContextMenuIndicator | undefined
->(undefined)
+const ContextMenuIndicatorContext = React.createContext<ContextMenuIndicator | undefined>(undefined)
 
 function ContextMenuCheckIndicator({ checked }: { checked: boolean }) {
   return (
@@ -209,16 +197,12 @@ function ContextMenuCheckIndicator({ checked }: { checked: boolean }) {
       aria-hidden
       className="pointer-events-none absolute end-2 flex size-4 items-center justify-center"
     >
-      {checked ? (
-        <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" />
-      ) : null}
+      {checked ? <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" /> : null}
     </span>
   )
 }
 
-const ContextMenuRadioValueContext = React.createContext<string | undefined>(
-  undefined
-)
+const ContextMenuRadioValueContext = React.createContext<string | undefined>(undefined)
 
 function ContextMenuRadioGroup({
   value,
@@ -231,9 +215,10 @@ function ContextMenuRadioGroup({
   defaultValue?: string
   indicator?: ContextMenuIndicator
 }) {
-  const [uncontrolledValue, setUncontrolledValue] = usePersistentState<
-    string | undefined
-  >(radioGroupKey(children), defaultValue)
+  const [uncontrolledValue, setUncontrolledValue] = usePersistentState<string | undefined>(
+    radioGroupKey(children),
+    defaultValue
+  )
   const currentValue = value ?? uncontrolledValue
 
   return (
@@ -280,7 +265,7 @@ function ContextMenuContent({
       <ContextMenuPrimitive.Content
         data-slot="context-menu-content"
         className={cn(
-          "z-50 w-max min-w-[150px] origin-(--radix-context-menu-content-transform-origin) overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95",
+          "z-50 w-max min-w-[150px] origin-(--radix-context-menu-content-transform-origin) overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:overflow-hidden data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
           className
         )}
         {...localeDomProps(contentLocale)}
@@ -319,13 +304,16 @@ function ContextMenuCheckboxItem({
   checked,
   defaultChecked,
   onCheckedChange,
+  onSelect,
   inset,
   indicator = "control",
+  closeOnClick = false,
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.CheckboxItem> & {
   inset?: boolean
   defaultChecked?: boolean
   indicator?: ContextMenuIndicator
+  closeOnClick?: boolean
 }) {
   const [uncontrolledChecked, setUncontrolledChecked] = usePersistentState(
     `checkbox:${textContent(children)}`,
@@ -346,13 +334,21 @@ function ContextMenuCheckboxItem({
         if (checked === undefined) setUncontrolledChecked(value)
         onCheckedChange?.(value)
       }}
+      onSelect={keepOpenOnSelect(closeOnClick, onSelect)}
       {...props}
     >
       {indicator === "check" ? (
         <ContextMenuCheckIndicator checked={isChecked === true} />
       ) : (
-        <span aria-hidden className="pointer-events-none absolute end-2 flex items-center justify-center">
-          <Checkbox className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5" checked={isChecked === true} tabIndex={-1} />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute end-2 flex items-center justify-center"
+        >
+          <Checkbox
+            className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5"
+            checked={isChecked === true}
+            tabIndex={-1}
+          />
         </span>
       )}
       {children}
@@ -362,12 +358,12 @@ function ContextMenuCheckboxItem({
 
 function ContextMenuRadioIndicator({ checked }: { checked: boolean }) {
   return (
-    <span
-      inert
-      className="pointer-events-none absolute end-2 flex items-center justify-center"
-    >
+    <span inert className="pointer-events-none absolute end-2 flex items-center justify-center">
       <RadioGroup value={checked ? "on" : ""} className="flex">
-        <RadioGroupItem value="on" className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5" />
+        <RadioGroupItem
+          value="on"
+          className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5"
+        />
       </RadioGroup>
     </span>
   )
@@ -379,10 +375,13 @@ function ContextMenuRadioItem({
   inset,
   value,
   indicator,
+  onSelect,
+  closeOnClick = false,
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.RadioItem> & {
   inset?: boolean
   indicator?: ContextMenuIndicator
+  closeOnClick?: boolean
 }) {
   const groupValue = React.useContext(ContextMenuRadioValueContext)
   const groupIndicator = React.useContext(ContextMenuIndicatorContext)
@@ -398,6 +397,7 @@ function ContextMenuRadioItem({
         "relative flex w-full cursor-default items-center gap-1.5 rounded-sm py-1.75 ps-2 pe-10 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
+      onSelect={keepOpenOnSelect(closeOnClick, onSelect)}
       {...props}
     >
       {resolvedIndicator === "check" ? (
@@ -443,10 +443,7 @@ function ContextMenuSeparator({
   )
 }
 
-function ContextMenuShortcut({
-  className,
-  ...props
-}: React.ComponentProps<"span">) {
+function ContextMenuShortcut({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
       data-slot="context-menu-shortcut"
@@ -459,9 +456,7 @@ function ContextMenuShortcut({
   )
 }
 
-function ContextMenuSub({
-  ...props
-}: React.ComponentProps<typeof ContextMenuPrimitive.Sub>) {
+function ContextMenuSub({ ...props }: React.ComponentProps<typeof ContextMenuPrimitive.Sub>) {
   return <ContextMenuPrimitive.Sub data-slot="context-menu-sub" {...props} />
 }
 
@@ -478,7 +473,7 @@ function ContextMenuSubTrigger({
       data-slot="context-menu-sub-trigger"
       data-inset={inset}
       className={cn(
-        "flex w-full cursor-default items-center gap-1.5 rounded-sm px-2 py-1.75 text-label whitespace-nowrap tracking-normal outline-none select-none focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-open:bg-accent data-open:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground [&>svg:not([class*='size-'])]:size-4.5",
+        "flex w-full cursor-default items-center gap-1.5 rounded-sm px-2 py-1.75 text-label whitespace-nowrap tracking-normal outline-none select-none focus:bg-accent focus:text-accent-foreground data-inset:ps-8 data-[state=open]:bg-accent data-[state=open]:text-accent-foreground [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
       {...props}
@@ -510,7 +505,7 @@ function ContextMenuSubContent({
       <ContextMenuPrimitive.SubContent
         data-slot="context-menu-sub-content"
         className={cn(
-          "z-50 w-max min-w-[150px] origin-(--radix-context-menu-content-transform-origin) overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95",
+          "z-50 w-max min-w-[150px] origin-(--radix-context-menu-content-transform-origin) overflow-x-visible rounded-lg bg-popover p-1 text-start text-popover-foreground shadow-lg ring-1 ring-foreground/[0.06] duration-100 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
           className
         )}
         {...localeDomProps(contentLocale)}

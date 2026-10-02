@@ -1,5 +1,6 @@
 "use client"
 
+import { markCubixFieldInput } from "@/lib/aria-field-value"
 import type { ComponentProps, ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
@@ -40,10 +41,7 @@ type PasswordFieldToggleProps = {
   "aria-label"?: string
 }
 
-type PasswordFieldInputProps = Omit<
-  ComponentProps<"input">,
-  "size" | "type" | "spellCheck"
-> & {
+type PasswordFieldInputProps = Omit<ComponentProps<"input">, "size" | "type" | "spellCheck"> & {
   size?: PasswordFieldSize
 }
 
@@ -82,6 +80,7 @@ function PasswordField({
         size={size}
         disabled={disabled}
         invalid={invalid}
+        name={name}
         visible={visible}
         defaultVisible={defaultVisible}
         onVisibleChange={onVisibleChange}
@@ -150,11 +149,7 @@ function PasswordFieldLabel({ className, children }: PasswordFieldLabelProps) {
   )
 }
 
-function PasswordFieldControl({
-  className,
-  size,
-  children,
-}: PasswordFieldControlProps) {
+function PasswordFieldControl({ className, size, children }: PasswordFieldControlProps) {
   const base = usePasswordFieldBase()
 
   if (base === "radix") {
@@ -180,11 +175,7 @@ function PasswordFieldControl({
   )
 }
 
-function PasswordFieldToggle({
-  className,
-  showLabel,
-  hideLabel,
-}: PasswordFieldToggleProps) {
+function PasswordFieldToggle({ className, showLabel, hideLabel }: PasswordFieldToggleProps) {
   const base = usePasswordFieldBase()
 
   if (base === "radix") {
@@ -230,10 +221,7 @@ function PasswordFieldInput(props: PasswordFieldInputProps) {
   return <BasePasswordField.PasswordFieldInput {...props} />
 }
 
-function PasswordFieldDescription({
-  className,
-  children,
-}: PasswordFieldDescriptionProps) {
+function PasswordFieldDescription({ className, children }: PasswordFieldDescriptionProps) {
   const base = usePasswordFieldBase()
 
   if (base === "radix") {
@@ -285,12 +273,14 @@ function PasswordFieldError({ className, children }: PasswordFieldErrorProps) {
   )
 }
 
+const PasswordFieldInputMarked = markCubixFieldInput(PasswordFieldInput)
+
 export {
   PasswordField,
   PasswordFieldLabel,
   PasswordFieldControl,
   PasswordFieldToggle,
-  PasswordFieldInput,
+  PasswordFieldInputMarked as PasswordFieldInput,
   PasswordFieldDescription,
   PasswordFieldError,
 }

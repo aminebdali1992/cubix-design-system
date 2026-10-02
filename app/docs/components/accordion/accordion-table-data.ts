@@ -31,20 +31,17 @@ export const accordionPropRows = [
   {
     prop: "dir",
     type: '"ltr" | "rtl"',
-    description:
-      "Text direction of the accordion. Defaults to the closest dir on the page.",
+    description: "Text direction of the accordion. Defaults to the closest dir on the page.",
   },
   {
     prop: "lang",
     type: "string",
-    description:
-      "Language of the accordion. Defaults to the closest lang on the page.",
+    description: "Language of the accordion. Defaults to the closest lang on the page.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the root styles (last one wins).",
+    description: "Additional Tailwind classes merged with the root styles (last one wins).",
   },
 ]
 
@@ -52,8 +49,7 @@ export const accordionItemPropRows = [
   {
     prop: "value",
     type: "string",
-    description:
-      "Unique value used in value, defaultValue and onValueChange. Required.",
+    description: "Unique value used in value, defaultValue and onValueChange. Required.",
   },
   {
     prop: "disabled",
@@ -65,8 +61,7 @@ export const accordionItemPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the item styles (last one wins).",
+    description: "Additional Tailwind classes merged with the item styles (last one wins).",
   },
 ]
 
@@ -96,12 +91,6 @@ export const accordionContentPropRows = [
     prop: "children",
     type: "ReactNode",
     description: "Content revealed when the item opens.",
-  },
-  {
-    prop: "icon",
-    type: "ReactNode",
-    description:
-      "Icon rendered at the inline start, before the heading text, and hidden from assistive technology. SVGs default to 24px unless they set their own size- class.",
   },
   {
     prop: "className",

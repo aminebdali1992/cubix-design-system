@@ -14,9 +14,7 @@ function usePageDir(dir?: "ltr" | "rtl") {
   const [pageDir, setPageDir] = React.useState<"ltr" | "rtl">("rtl")
 
   React.useLayoutEffect(() => {
-    const closest = ref.current?.parentElement
-      ?.closest("[dir]")
-      ?.getAttribute("dir")
+    const closest = ref.current?.parentElement?.closest("[dir]")?.getAttribute("dir")
     if (closest === "ltr" || closest === "rtl") {
       setPageDir(closest)
     }
@@ -39,10 +37,7 @@ function Tabs({
       data-slot="tabs"
       data-orientation={orientation}
       orientation={orientation}
-      className={cn(
-        "group/tabs flex gap-2 data-horizontal:flex-col",
-        className
-      )}
+      className={cn("group/tabs flex gap-2 data-horizontal:flex-col", className)}
       {...props}
     />
   )
@@ -66,8 +61,7 @@ function TabsList({
   className,
   variant = "line",
   ...props
-}: React.ComponentProps<typeof TabsPrimitive.List> &
-  VariantProps<typeof tabsListVariants>) {
+}: React.ComponentProps<typeof TabsPrimitive.List> & VariantProps<typeof tabsListVariants>) {
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
@@ -93,20 +87,41 @@ function TabsRemoveIcon({ className }: { className?: string }) {
 }
 
 /*
-  A tab is already a button, so the remove control is a span with
-  role="button" and no tab stop (nested buttons are invalid HTML). Keyboard
-  users remove the focused tab with Delete or Backspace.
+  Removing the focused tab would drop focus to the page body. Move it to the
+  next enabled tab first, or to the previous one when removing the last.
+*/
+function focusSiblingTab(tab: HTMLElement) {
+  const list = tab.closest("[data-slot=tabs-list]")
+  if (!list) return
+  const tabs = Array.from(
+    list.querySelectorAll<HTMLElement>(
+      "[data-slot=tabs-trigger]:not(:disabled):not([data-disabled]):not([aria-disabled=true])"
+    )
+  )
+  const index = tabs.indexOf(tab)
+  const sibling = tabs[index + 1] ?? tabs[index - 1]
+  sibling?.focus()
+}
+
+/*
+  A tab is already a button, and its children are presentational to
+  assistive technology, so the remove control is a pointer-only span hidden
+  from it. Keyboard and screen reader users remove the focused tab with
+  Delete or Backspace, announced through aria-keyshortcuts on the tab.
 */
 function TabsRemove({ onRemove }: { onRemove: () => void }) {
   return (
     <span
-      role="button"
-      aria-label="Remove"
+      aria-hidden="true"
       data-slot="tabs-remove"
       onPointerDown={(event) => event.stopPropagation()}
       onMouseDown={(event) => event.stopPropagation()}
       onClick={(event) => {
         event.stopPropagation()
+        const tab = event.currentTarget.closest<HTMLElement>("[data-slot=tabs-trigger]")
+        if (tab && tab === document.activeElement) {
+          focusSiblingTab(tab)
+        }
         onRemove()
       }}
       className="inline-flex size-5 shrink-0 cursor-default items-center justify-center rounded-full opacity-70 transition-opacity duration-200 ease-out hover:opacity-100"
@@ -135,13 +150,15 @@ function TabsTrigger({
         "after:absolute after:bg-primary after:opacity-0 after:transition-opacity group-data-horizontal/tabs:after:inset-x-0 group-data-horizontal/tabs:after:bottom-[-5px] group-data-horizontal/tabs:after:h-0.5 group-data-vertical/tabs:after:inset-y-0 group-data-vertical/tabs:after:-start-1 group-data-vertical/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-[state=active]:after:opacity-100",
         className
       )}
+      aria-keyshortcuts={onRemove ? "Delete Backspace" : undefined}
       {...props}
       onKeyDown={(event) => {
-        onKeyDown?.(event as never)
-        if (onRemove && (event.key === "Delete" || event.key === "Backspace")) {
-          event.preventDefault()
-          onRemove()
-        }
+        onKeyDown?.(event)
+        if (!onRemove || event.defaultPrevented) return
+        if (event.key !== "Delete" && event.key !== "Backspace") return
+        event.preventDefault()
+        focusSiblingTab(event.currentTarget)
+        onRemove()
       }}
     >
       {children}
@@ -150,10 +167,7 @@ function TabsTrigger({
   )
 }
 
-function TabsContent({
-  className,
-  ...props
-}: React.ComponentProps<typeof TabsPrimitive.Content>) {
+function TabsContent({ className, ...props }: React.ComponentProps<typeof TabsPrimitive.Content>) {
   return (
     <TabsPrimitive.Content
       data-slot="tabs-content"

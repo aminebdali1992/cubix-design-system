@@ -1,5 +1,6 @@
 "use client"
 
+import { markCubixFieldInput } from "@/lib/aria-field-value"
 import type { ComponentProps, ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
@@ -59,14 +60,7 @@ function useNumberFieldBase() {
   return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
 }
 
-function NumberField({
-  className,
-  size,
-  disabled,
-  invalid,
-  name,
-  children,
-}: NumberFieldProps) {
+function NumberField({ className, size, disabled, invalid, name, children }: NumberFieldProps) {
   const base = useNumberFieldBase()
 
   if (base === "radix") {
@@ -76,6 +70,7 @@ function NumberField({
         size={size}
         disabled={disabled}
         invalid={invalid}
+        name={name}
       >
         {children}
       </RadixNumberField.NumberField>
@@ -135,11 +130,7 @@ function NumberFieldLabel({ className, children }: NumberFieldLabelProps) {
   )
 }
 
-function NumberFieldControl({
-  className,
-  size,
-  children,
-}: NumberFieldControlProps) {
+function NumberFieldControl({ className, size, children }: NumberFieldControlProps) {
   const base = useNumberFieldBase()
 
   if (base === "radix") {
@@ -219,10 +210,7 @@ function NumberFieldInput(props: NumberFieldInputProps) {
   return <BaseNumberField.NumberFieldInput {...props} />
 }
 
-function NumberFieldDescription({
-  className,
-  children,
-}: NumberFieldDescriptionProps) {
+function NumberFieldDescription({ className, children }: NumberFieldDescriptionProps) {
   const base = useNumberFieldBase()
 
   if (base === "radix") {
@@ -274,12 +262,14 @@ function NumberFieldError({ className, children }: NumberFieldErrorProps) {
   )
 }
 
+const NumberFieldInputMarked = markCubixFieldInput(NumberFieldInput)
+
 export {
   NumberField,
   NumberFieldLabel,
   NumberFieldControl,
   NumberFieldStepper,
-  NumberFieldInput,
+  NumberFieldInputMarked as NumberFieldInput,
   NumberFieldDescription,
   NumberFieldError,
 }

@@ -17,12 +17,14 @@ type TabsProps = {
   dir?: "ltr" | "rtl"
   children?: ReactNode
 }
+
 type TabsListProps = {
   className?: string
-  variant?: "default" | "line"
+  variant?: "line"
   "aria-label"?: string
   children?: ReactNode
 }
+
 type TabsTriggerProps = {
   className?: string
   value: string
@@ -30,34 +32,43 @@ type TabsTriggerProps = {
   onRemove?: () => void
   children?: ReactNode
 }
+
 type TabsContentProps = {
   className?: string
   value: string
   children?: ReactNode
 }
 
-function useTabsModule() {
-  const base = parseComponentPath(usePathname())?.base ?? DEFAULT_BASE
-  if (base === "radix") return RadixTabs
-  if (base === "aria") return AriaTabs
-  return BaseTabs
+function useTabsBase() {
+  return parseComponentPath(usePathname())?.base ?? DEFAULT_BASE
 }
 
 function Tabs(props: TabsProps) {
-  const M = useTabsModule()
-  return <M.Tabs {...(props as object)} />
+  const base = useTabsBase()
+  if (base === "radix") return <RadixTabs.Tabs {...props} />
+  if (base === "aria") return <AriaTabs.Tabs {...props} />
+  return <BaseTabs.Tabs {...props} />
 }
+
 function TabsList(props: TabsListProps) {
-  const M = useTabsModule()
-  return <M.TabsList {...(props as object)} />
+  const base = useTabsBase()
+  if (base === "radix") return <RadixTabs.TabsList {...props} />
+  if (base === "aria") return <AriaTabs.TabsList {...props} />
+  return <BaseTabs.TabsList {...props} />
 }
+
 function TabsTrigger(props: TabsTriggerProps) {
-  const M = useTabsModule()
-  return <M.TabsTrigger {...(props as TabsTriggerProps)} />
+  const base = useTabsBase()
+  if (base === "radix") return <RadixTabs.TabsTrigger {...props} />
+  if (base === "aria") return <AriaTabs.TabsTrigger {...props} />
+  return <BaseTabs.TabsTrigger {...props} />
 }
+
 function TabsContent(props: TabsContentProps) {
-  const M = useTabsModule()
-  return <M.TabsContent {...(props as TabsContentProps)} />
+  const base = useTabsBase()
+  if (base === "radix") return <RadixTabs.TabsContent {...props} />
+  if (base === "aria") return <AriaTabs.TabsContent {...props} />
+  return <BaseTabs.TabsContent {...props} />
 }
 
 export { Tabs, TabsContent, TabsList, TabsTrigger }

@@ -24,10 +24,7 @@ import {
 } from "react-aria-components"
 
 import { Checkbox } from "@/components/cubix/aria/checkbox"
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/cubix/aria/radio-group"
+import { RadioGroup, RadioGroupItem } from "@/components/cubix/aria/radio-group"
 import { cn } from "@/lib/utils"
 
 const itemStyles =
@@ -49,9 +46,7 @@ function useMenubarLocale() {
   return React.useContext(MenubarLocaleContext)
 }
 
-function toTextDirection(
-  value: string | null | undefined
-): TextDirection | undefined {
+function toTextDirection(value: string | null | undefined): TextDirection | undefined {
   return value === "rtl" || value === "ltr" ? value : undefined
 }
 
@@ -82,6 +77,50 @@ function localeDomProps(locale: MenubarLocale) {
   }
 }
 
+type MenubarStore = Map<string, unknown>
+
+const MenubarStoreContext = React.createContext<MenubarStore | null>(null)
+
+function textContent(node: React.ReactNode): string {
+  if (node == null || typeof node === "boolean") return ""
+  if (typeof node === "string" || typeof node === "number") return String(node)
+  if (Array.isArray(node)) return node.map(textContent).join("")
+  if (React.isValidElement<{ children?: React.ReactNode }>(node)) {
+    return textContent(node.props.children)
+  }
+  return ""
+}
+
+function radioGroupKey(children: React.ReactNode) {
+  const values: string[] = []
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement<{ value?: unknown }>(child) && child.props.value !== undefined) {
+      values.push(String(child.props.value))
+    }
+  })
+  return `radio:${values.join("|")}`
+}
+
+/*
+  Menu content unmounts when the menu closes, so uncontrolled checkbox and
+  radio state is kept on the menu (keyed by the item label or the group's
+  item values) and survives reopening it.
+*/
+function usePersistentState<T>(key: string, initial: T) {
+  const store = React.useContext(MenubarStoreContext)
+  const [value, setValue] = React.useState<T>(() =>
+    store?.has(key) ? (store.get(key) as T) : initial
+  )
+  const update = React.useCallback(
+    (next: T) => {
+      store?.set(key, next)
+      setValue(next)
+    },
+    [store, key]
+  )
+  return [value, update] as const
+}
+
 type MenubarIndicator = "check" | "control"
 
 function MenubarCheckIndicator({ checked }: { checked: boolean }) {
@@ -90,9 +129,7 @@ function MenubarCheckIndicator({ checked }: { checked: boolean }) {
       aria-hidden
       className="pointer-events-none absolute end-2 flex size-4 items-center justify-center"
     >
-      {checked ? (
-        <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" />
-      ) : null}
+      {checked ? <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" /> : null}
     </span>
   )
 }
@@ -103,15 +140,9 @@ type MenubarRadioContextValue = {
   indicator?: MenubarIndicator
 }
 
-const MenubarRadioContext =
-  React.createContext<MenubarRadioContextValue | null>(null)
+const MenubarRadioContext = React.createContext<MenubarRadioContextValue | null>(null)
 
-function Menubar({
-  className,
-  dir,
-  lang,
-  ...props
-}: React.ComponentProps<typeof Toolbar>) {
+function Menubar({ className, dir, lang, ...props }: React.ComponentProps<typeof Toolbar>) {
   const ref = React.useRef<HTMLDivElement>(null)
   const [locale, setLocale] = React.useState<MenubarLocale>({
     dir: toTextDirection(dir),
@@ -132,10 +163,7 @@ function Menubar({
           ref={ref}
           data-slot="menubar"
           aria-label={props["aria-label"] ?? "Menubar"}
-          className={cn(
-            "flex h-8 w-fit items-center gap-0.5 rounded-lg border p-[3px]",
-            className
-          )}
+          className={cn("flex h-8 w-fit items-center gap-0.5 rounded-lg border p-[3px]", className)}
           {...localeDomProps(locale)}
           {...props}
         />
@@ -145,30 +173,24 @@ function Menubar({
 }
 
 function MenubarMenu({ children }: { children: React.ReactNode }) {
-  return <MenuTrigger data-slot="menubar-menu">{children}</MenuTrigger>
+  const [store] = React.useState<MenubarStore>(() => new Map())
+
+  return (
+    <MenubarStoreContext.Provider value={store}>
+      <MenuTrigger data-slot="menubar-menu">{children}</MenuTrigger>
+    </MenubarStoreContext.Provider>
+  )
 }
 
-function MenubarGroup({
-  className,
-  ...props
-}: React.ComponentProps<typeof MenuSection>) {
-  return (
-    <MenuSection
-      data-slot="menubar-group"
-      className={cn(className)}
-      {...props}
-    />
-  )
+function MenubarGroup({ className, ...props }: React.ComponentProps<typeof MenuSection>) {
+  return <MenuSection data-slot="menubar-group" className={cn(className)} {...props} />
 }
 
 function MenubarPortal({ children }: { children?: React.ReactNode }) {
   return <>{children}</>
 }
 
-function MenubarTrigger({
-  className,
-  ...props
-}: React.ComponentProps<typeof Button>) {
+function MenubarTrigger({ className, ...props }: React.ComponentProps<typeof Button>) {
   return (
     <Button
       data-slot="menubar-trigger"
@@ -256,6 +278,11 @@ function MenubarItem({
   )
 }
 
+function applyCheckboxSemantics(node: HTMLElement, checked: boolean) {
+  node.setAttribute("role", "menuitemcheckbox")
+  node.setAttribute("aria-checked", checked ? "true" : "false")
+}
+
 function MenubarCheckboxItem({
   className,
   children,
@@ -264,38 +291,44 @@ function MenubarCheckboxItem({
   inset,
   onCheckedChange,
   indicator = "control",
+  closeOnClick = false,
   ref,
   ...props
-}: Omit<React.ComponentProps<typeof MenuItem>, "children"> & {
+}: Omit<React.ComponentProps<typeof MenuItem>, "children" | "shouldCloseOnSelect"> & {
   inset?: boolean
   indicator?: MenubarIndicator
   checked?: boolean
   defaultChecked?: boolean
   onCheckedChange?: (checked: boolean) => void
+  closeOnClick?: boolean
   children?: React.ReactNode
 }) {
-  const [uncontrolledChecked, setUncontrolledChecked] = React.useState(
+  const [uncontrolledChecked, setUncontrolledChecked] = usePersistentState(
+    `checkbox:${textContent(children)}`,
     defaultChecked ?? false
   )
   const isChecked = checked ?? uncontrolledChecked
 
   const itemRef = React.useRef<HTMLDivElement | null>(null)
+  const checkedRef = React.useRef(isChecked)
+  checkedRef.current = isChecked
+
+  // React Aria only exposes checkbox semantics inside a selectable section,
+  // so announce this standalone item's checked state directly. The real DOM
+  // node is mounted by the collection after this component renders, so apply
+  // the attributes from the ref callback as well as after each render.
   const setItemRef = React.useCallback(
     (node: HTMLDivElement | null) => {
       itemRef.current = node
+      if (node) applyCheckboxSemantics(node, checkedRef.current)
       if (typeof ref === "function") ref(node)
       else if (ref) ref.current = node
     },
     [ref]
   )
 
-  // React Aria only exposes checkbox semantics inside a selectable section,
-  // so announce this standalone item's checked state directly.
   React.useLayoutEffect(() => {
-    const node = itemRef.current
-    if (!node) return
-    node.setAttribute("role", "menuitemcheckbox")
-    node.setAttribute("aria-checked", isChecked ? "true" : "false")
+    if (itemRef.current) applyCheckboxSemantics(itemRef.current, isChecked)
   })
 
   return (
@@ -307,6 +340,7 @@ function MenubarCheckboxItem({
         "relative flex w-full cursor-default items-center gap-1.5 rounded-sm py-1.75 ps-2 pe-10 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground data-inset:ps-8 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5",
         className
       )}
+      shouldCloseOnSelect={closeOnClick}
       onAction={() => {
         const next = !isChecked
         if (checked === undefined) setUncontrolledChecked(next)
@@ -317,8 +351,15 @@ function MenubarCheckboxItem({
       {indicator === "check" ? (
         <MenubarCheckIndicator checked={isChecked} />
       ) : (
-        <span aria-hidden className="pointer-events-none absolute end-2 flex items-center justify-center">
-          <Checkbox className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5" checked={isChecked} excludeFromTabOrder />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute end-2 flex items-center justify-center"
+        >
+          <Checkbox
+            className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5"
+            checked={isChecked}
+            excludeFromTabOrder
+          />
         </span>
       )}
       {children}
@@ -339,7 +380,10 @@ function MenubarRadioGroup({
   onValueChange?: (value: string) => void
   indicator?: MenubarIndicator
 }) {
-  const [uncontrolled, setUncontrolled] = React.useState(defaultValue)
+  const [uncontrolled, setUncontrolled] = usePersistentState<string | undefined>(
+    radioGroupKey(typeof children === "function" ? null : children),
+    defaultValue
+  )
   const current = value ?? uncontrolled
 
   const handleValueChange = (next: string) => {
@@ -377,12 +421,13 @@ function MenubarRadioGroup({
 
 function MenubarRadioIndicator({ checked }: { checked: boolean }) {
   return (
-    <span
-      inert
-      className="pointer-events-none absolute end-2 flex items-center justify-center"
-    >
+    <span inert className="pointer-events-none absolute end-2 flex items-center justify-center">
       <RadioGroup value={checked ? "on" : ""} className="flex" aria-label="radio">
-        <RadioGroupItem value="on" className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5" aria-label="radio" />
+        <RadioGroupItem
+          value="on"
+          className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5"
+          aria-label="radio"
+        />
       </RadioGroup>
     </span>
   )
@@ -394,10 +439,12 @@ function MenubarRadioItem({
   inset,
   value,
   indicator,
+  closeOnClick = false,
   ...props
-}: Omit<React.ComponentProps<typeof MenuItem>, "id" | "children"> & {
+}: Omit<React.ComponentProps<typeof MenuItem>, "id" | "children" | "shouldCloseOnSelect"> & {
   inset?: boolean
   indicator?: MenubarIndicator
+  closeOnClick?: boolean
   value: string
   children?: React.ReactNode
 }) {
@@ -410,6 +457,7 @@ function MenubarRadioItem({
       id={value}
       data-slot="menubar-radio-item"
       data-inset={inset ? "" : undefined}
+      shouldCloseOnSelect={closeOnClick}
       className={cn(
         "relative flex w-full cursor-default items-center gap-1.5 rounded-sm py-1.75 ps-2 pe-10 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground data-inset:ps-8 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5",
         className
@@ -446,10 +494,7 @@ function MenubarLabel({
   )
 }
 
-function MenubarSeparator({
-  className,
-  ...props
-}: React.ComponentProps<typeof Separator>) {
+function MenubarSeparator({ className, ...props }: React.ComponentProps<typeof Separator>) {
   return (
     <Separator
       data-slot="menubar-separator"
@@ -459,10 +504,7 @@ function MenubarSeparator({
   )
 }
 
-function MenubarShortcut({
-  className,
-  ...props
-}: React.ComponentProps<typeof Keyboard>) {
+function MenubarShortcut({ className, ...props }: React.ComponentProps<typeof Keyboard>) {
   return (
     <Keyboard
       data-slot="menubar-shortcut"
@@ -478,11 +520,13 @@ function MenubarShortcut({
 function MenubarSub({ children }: { children?: React.ReactNode }) {
   return (
     <SubmenuTrigger data-slot="menubar-sub">
-      {React.Children.toArray(children) as [
-        React.ReactElement,
-        React.ReactElement,
-        ...React.ReactElement[],
-      ]}
+      {
+        React.Children.toArray(children) as [
+          React.ReactElement,
+          React.ReactElement,
+          ...React.ReactElement[],
+        ]
+      }
     </SubmenuTrigger>
   )
 }

@@ -26,14 +26,26 @@ export function readDocsExampleSource(
   const absolutePath = path.join(process.cwd(), relativePath)
   const source = fs.readFileSync(absolutePath, "utf8")
 
-  return source
-    .replace(/\r\n/g, "\n")
-    .replace(/from\s+["'](?:\.\.\/|\.\/)docs-[a-z0-9-]+["']/g, `from "${publicImport}"`)
-    .replace(
-      /from\s+["']@\/app\/docs\/components\/([a-z0-9-]+)\/docs-\1["']/g,
-      'from "@/components/cubix/$1"'
-    )
-    .replace(/\s+$/u, "\n")
+  return (
+    source
+      .replace(/\r\n/g, "\n")
+      .replace(/from\s+["'](?:\.\.\/|\.\/)docs-[a-z0-9-]+["']/g, `from "${publicImport}"`)
+      .replace(
+        /from\s+["']@\/app\/docs\/components\/([a-z0-9-]+)\/docs-\1["']/g,
+        'from "@/components/cubix/$1"'
+      )
+      /*
+      Preview uses the Cubix pixel-grid demo mark. The Code tab keeps a
+      generic <Icon /> placeholder so copied snippets stay paste-ready.
+    */
+      .replace(
+        /^import\s*\{\s*ButtonDemoIcon\s*\}\s*from\s*["']@\/components\/docs\/demo-icon["']\r?\n/m,
+        ""
+      )
+      .replace(/\bButtonDemoIcon\b/g, "Icon")
+      .replace(/\n{3,}/g, "\n\n")
+      .replace(/\s+$/u, "\n")
+  )
 }
 
 /**

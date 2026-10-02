@@ -9,14 +9,12 @@ export const avatarPropRows = [
     prop: "ring",
     type: "boolean",
     default: "false",
-    description:
-      "Draws a 1px gray ring around the avatar with a 2px gap from the circle.",
+    description: "Draws a 1px border-token ring around the avatar with a 2px gap from the circle.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -34,8 +32,7 @@ export const imagePropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -44,14 +41,12 @@ export const fallbackPropRows = [
     prop: "delay",
     type: "number",
     default: "0",
-    description:
-      "Milliseconds to wait before showing the fallback while the image loads.",
+    description: "Milliseconds to wait before showing the fallback while the image loads.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
@@ -70,8 +65,7 @@ export const badgePropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
@@ -89,8 +83,7 @@ export const groupPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",
@@ -108,8 +101,7 @@ export const groupCountPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "children",

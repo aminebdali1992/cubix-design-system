@@ -51,6 +51,9 @@ type ToastOptions = {
 
 type ToastItem = ToastOptions & { id: string; open: boolean }
 
+/** Matches the Base UI and React Aria toasters, which focus the stack on F6. */
+const VIEWPORT_HOTKEY = "F6"
+
 let items: ToastItem[] = []
 let counter = 0
 const listeners = new Set<() => void>()
@@ -86,10 +89,7 @@ function update(id: string, options: ToastOptions) {
   emit(items.map((entry) => (entry.id === id ? { ...entry, ...options } : entry)))
 }
 
-type PromiseValue<T> =
-  | string
-  | ToastOptions
-  | ((data: T) => string | ToastOptions)
+type PromiseValue<T> = string | ToastOptions | ((data: T) => string | ToastOptions)
 
 function toOptions(value: string | ToastOptions): ToastOptions {
   return typeof value === "string" ? { title: value } : value
@@ -135,10 +135,7 @@ function ToastViewport({
   )
 }
 
-function Toast({
-  className,
-  ...props
-}: React.ComponentProps<typeof ToastPrimitive.Root>) {
+function Toast({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Root>) {
   return (
     <ToastPrimitive.Root
       data-slot="toast"
@@ -154,10 +151,7 @@ function Toast({
   )
 }
 
-function ToastTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof ToastPrimitive.Title>) {
+function ToastTitle({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Title>) {
   return (
     <ToastPrimitive.Title
       data-slot="toast-title"
@@ -180,18 +174,11 @@ function ToastDescription({
   )
 }
 
-function ToastAction({
-  className,
-  ...props
-}: React.ComponentProps<typeof ToastPrimitive.Action>) {
+function ToastAction({ className, ...props }: React.ComponentProps<typeof ToastPrimitive.Action>) {
   return (
     <ToastPrimitive.Action
       data-slot="toast-action"
-      className={cn(
-        buttonVariants({ variant: "outline", size: "sm" }),
-        "shrink-0",
-        className
-      )}
+      className={cn(buttonVariants({ variant: "outline", size: "sm" }), "shrink-0", className)}
       {...props}
     />
   )
@@ -250,7 +237,11 @@ function ToastIcon({
 }
 
 function ToastList({ duration }: { duration: number }) {
-  const list = React.useSyncExternalStore(subscribe, () => items, () => EMPTY)
+  const list = React.useSyncExternalStore(
+    subscribe,
+    () => items,
+    () => EMPTY
+  )
 
   return list.map((item) => (
     <Toast
@@ -266,9 +257,7 @@ function ToastList({ duration }: { duration: number }) {
       <ToastIcon type={item.type} icon={item.data?.icon} />
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         {item.title ? <ToastTitle>{item.title}</ToastTitle> : null}
-        {item.description ? (
-          <ToastDescription>{item.description}</ToastDescription>
-        ) : null}
+        {item.description ? <ToastDescription>{item.description}</ToastDescription> : null}
         {item.data?.actions ? (
           <div data-slot="toast-actions" className="mt-2 flex flex-wrap gap-2">
             {item.data.actions}
@@ -301,6 +290,14 @@ function Toaster({
 }: Omit<React.ComponentProps<typeof ToastPrimitive.Provider>, "swipeDirection"> & {
   dir?: "ltr" | "rtl"
 }) {
+  React.useEffect(() => {
+    function keepFocusInPage(event: KeyboardEvent) {
+      if (event.key === VIEWPORT_HOTKEY) event.preventDefault()
+    }
+    document.addEventListener("keydown", keepFocusInPage)
+    return () => document.removeEventListener("keydown", keepFocusInPage)
+  }, [])
+
   return (
     <ToastPrimitive.Provider
       label="اعلان ({hotkey})"
@@ -310,7 +307,7 @@ function Toaster({
     >
       {children}
       <ToastList duration={duration} />
-      <ToastViewport dir={dir} lang={dir === "rtl" ? "fa" : undefined} />
+      <ToastViewport hotkey={[VIEWPORT_HOTKEY]} dir={dir} lang={dir === "rtl" ? "fa" : undefined} />
     </ToastPrimitive.Provider>
   )
 }

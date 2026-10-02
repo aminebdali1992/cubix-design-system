@@ -1,63 +1,53 @@
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
+import { CircleAlertIcon } from "lucide-react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
+import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  MenubarBasicDemo,
-  MenubarCheckboxDemo,
-  MenubarCheckboxIconsDemo,
-  MenubarDemo,
-  MenubarIconsDemo,
-  MenubarIndicatorDemo,
-  MenubarRadioDemo,
-  MenubarSidesDemo,
-  MenubarSubmenuDemo,
-} from "@/components/examples/menubar-examples"
-
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { MenubarBasicDemo } from "./examples/menubar-basic-demo"
+import { MenubarCheckboxDemo } from "./examples/menubar-checkbox-demo"
+import { MenubarCheckboxIconsDemo } from "./examples/menubar-checkbox-icons-demo"
+import { MenubarDemo } from "./examples/menubar-demo"
+import { MenubarIconsDemo } from "./examples/menubar-icons-demo"
+import { MenubarIndicatorDemo } from "./examples/menubar-indicator-demo"
+import { MenubarRadioDemo } from "./examples/menubar-radio-demo"
+import { MenubarSidesDemo } from "./examples/menubar-sides-demo"
+import { MenubarSubmenuDemo } from "./examples/menubar-submenu-demo"
 import {
   checkboxItemPropRows,
   contentPropRows,
   itemPropRows,
+  menubarKeyboardRows,
   menubarPropRows,
   radioGroupPropRows,
   radioItemPropRows,
   triggerPropRows,
 } from "./menubar-table-data"
 
-const description =
-  "A visually persistent menu common in desktop applications."
+const description = "A visually persistent menu common in desktop applications."
 
 export const metadata: Metadata = {
   title: "Menubar",
   description,
 }
 
-const usageImport = `import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarSeparator,
-  MenubarTrigger,
-} from "@/components/cubix/menubar"`
+const PUBLIC_IMPORT = "@/components/cubix/menubar"
+const EXAMPLES_DIR = "app/docs/components/menubar/examples"
 
-const usageSnippet = `<Menubar dir="rtl" lang="fa">
-  <MenubarMenu>
-    <MenubarTrigger>پرونده</MenubarTrigger>
-    <MenubarContent>
-      <MenubarItem>
-        زبانه جدید
-      </MenubarItem>
-      <MenubarItem>پنجره جدید</MenubarItem>
-      <MenubarSeparator />
-      <MenubarItem>اشتراک‌گذاری</MenubarItem>
-    </MenubarContent>
-  </MenubarMenu>
-</Menubar>`
+function loadMenubarExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `Menubar
 ├── MenubarMenu
@@ -75,195 +65,10 @@ const compositionSnippet = `Menubar
     ├── MenubarTrigger
     └── MenubarContent`
 
-const demoSnippet = `<Menubar dir="rtl" lang="fa">
-  <MenubarMenu>
-    <MenubarTrigger>پرونده</MenubarTrigger>
-    <MenubarContent>
-      <MenubarItem>
-        زبانه جدید
-      </MenubarItem>
-      <MenubarItem>
-        پنجره جدید
-      </MenubarItem>
-      <MenubarItem disabled>پنجره ناشناس</MenubarItem>
-      <MenubarSeparator />
-      <MenubarSub>
-        <MenubarSubTrigger>اشتراک‌گذاری</MenubarSubTrigger>
-        <MenubarSubContent>
-          <MenubarItem>لینک ایمیل</MenubarItem>
-          <MenubarItem>پیام‌ها</MenubarItem>
-          <MenubarItem>یادداشت‌ها</MenubarItem>
-        </MenubarSubContent>
-      </MenubarSub>
-      <MenubarSeparator />
-      <MenubarItem>
-        چاپ
-      </MenubarItem>
-    </MenubarContent>
-  </MenubarMenu>
-  <MenubarMenu>
-    <MenubarTrigger>ویرایش</MenubarTrigger>
-    <MenubarContent>...</MenubarContent>
-  </MenubarMenu>
-  <MenubarMenu>
-    <MenubarTrigger>نمایش</MenubarTrigger>
-    <MenubarContent>...</MenubarContent>
-  </MenubarMenu>
-  <MenubarMenu>
-    <MenubarTrigger>پروفایل‌ها</MenubarTrigger>
-    <MenubarContent>...</MenubarContent>
-  </MenubarMenu>
-</Menubar>`
-
-const basicSnippet = `<Menubar dir="rtl" lang="fa">
-  <MenubarMenu>
-    <MenubarTrigger>پرونده</MenubarTrigger>
-    <MenubarContent>
-      <MenubarItem>
-        زبانه جدید
-      </MenubarItem>
-      <MenubarItem>
-        پنجره جدید
-      </MenubarItem>
-      <MenubarItem disabled>پنجره ناشناس</MenubarItem>
-      <MenubarSeparator />
-      <MenubarItem>
-        چاپ
-      </MenubarItem>
-    </MenubarContent>
-  </MenubarMenu>
-  <MenubarMenu>
-    <MenubarTrigger>ویرایش</MenubarTrigger>
-    <MenubarContent>
-      <MenubarItem>
-        واگرد
-      </MenubarItem>
-      <MenubarItem>
-        بازگردانی
-      </MenubarItem>
-      <MenubarSeparator />
-      <MenubarItem>برش</MenubarItem>
-      <MenubarItem>کپی</MenubarItem>
-      <MenubarItem>جای‌گذاری</MenubarItem>
-    </MenubarContent>
-  </MenubarMenu>
-</Menubar>`
-
-const iconsSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
-
-<MenubarMenu>
-  <MenubarTrigger>پرونده</MenubarTrigger>
-  <MenubarContent>
-    <MenubarItem>
-      <ButtonDemoIcon />
-      زبانه جدید
-    </MenubarItem>
-    <MenubarItem>
-      <ButtonDemoIcon />
-      پنجره جدید
-    </MenubarItem>
-    <MenubarSeparator />
-    <MenubarSub>
-      <MenubarSubTrigger>
-        <ButtonDemoIcon />
-        اشتراک‌گذاری
-      </MenubarSubTrigger>
-      <MenubarSubContent>
-        <MenubarItem>
-          <ButtonDemoIcon />
-          لینک ایمیل
-        </MenubarItem>
-      </MenubarSubContent>
-    </MenubarSub>
-  </MenubarContent>
-</MenubarMenu>`
-const submenuSnippet = `<MenubarMenu>
-  <MenubarTrigger>پرونده</MenubarTrigger>
-  <MenubarContent>
-    <MenubarSub>
-      <MenubarSubTrigger>اشتراک‌گذاری</MenubarSubTrigger>
-      <MenubarSubContent>
-        <MenubarItem>لینک ایمیل</MenubarItem>
-        <MenubarItem>پیام‌ها</MenubarItem>
-        <MenubarItem>یادداشت‌ها</MenubarItem>
-      </MenubarSubContent>
-    </MenubarSub>
-  </MenubarContent>
-</MenubarMenu>`
-
-const checkboxSnippet = `<MenubarMenu>
-  <MenubarTrigger>نمایش</MenubarTrigger>
-  <MenubarContent>
-    <MenubarCheckboxItem>نوار ابزار</MenubarCheckboxItem>
-    <MenubarCheckboxItem defaultChecked>
-      نوار وضعیت
-    </MenubarCheckboxItem>
-    <MenubarSeparator />
-    <MenubarItem>
-      بارگذاری مجدد
-    </MenubarItem>
-  </MenubarContent>
-</MenubarMenu>`
-
-const checkboxIconsSnippet = `import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
-
-<MenubarMenu>
-  <MenubarTrigger>نمایش</MenubarTrigger>
-  <MenubarContent>
-    <MenubarCheckboxItem>
-      <ButtonDemoIcon />
-      نوار ابزار
-    </MenubarCheckboxItem>
-    <MenubarCheckboxItem defaultChecked>
-      <ButtonDemoIcon />
-      نوار وضعیت
-    </MenubarCheckboxItem>
-  </MenubarContent>
-</MenubarMenu>`
-
-const radioSnippet = `const [user, setUser] = React.useState("sara")
-
-<MenubarMenu>
-  <MenubarTrigger>پروفایل‌ها</MenubarTrigger>
-  <MenubarContent>
-    <MenubarRadioGroup value={user} onValueChange={setUser}>
-      <MenubarRadioItem value="amin">امین</MenubarRadioItem>
-      <MenubarRadioItem value="sara">سارا</MenubarRadioItem>
-      <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
-    </MenubarRadioGroup>
-  </MenubarContent>
-</MenubarMenu>`
-
-const indicatorSnippet = `<MenubarMenu>
-  <MenubarTrigger>نمایش</MenubarTrigger>
-  <MenubarContent>
-    <MenubarCheckboxItem indicator="check">نوار ابزار</MenubarCheckboxItem>
-    <MenubarCheckboxItem indicator="check" defaultChecked>
-      نوار وضعیت
-    </MenubarCheckboxItem>
-  </MenubarContent>
-</MenubarMenu>
-
-<MenubarMenu>
-  <MenubarTrigger>پروفایل‌ها</MenubarTrigger>
-  <MenubarContent>
-    <MenubarRadioGroup indicator="check" value={user} onValueChange={setUser}>
-      <MenubarRadioItem value="amin">امین</MenubarRadioItem>
-      <MenubarRadioItem value="sara">سارا</MenubarRadioItem>
-      <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
-    </MenubarRadioGroup>
-  </MenubarContent>
-</MenubarMenu>`
-
-const sidesSnippet = `<Menubar dir="rtl" lang="fa">
-  <MenubarMenu>
-    <MenubarTrigger>بالا</MenubarTrigger>
-    <MenubarContent side="top">
-      <MenubarItem>زبانه جدید</MenubarItem>
-    </MenubarContent>
-  </MenubarMenu>
-</Menubar>`
-
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
     <div dir="rtl" lang="fa" className="flex w-full justify-center">
@@ -272,16 +77,50 @@ function PreviewShell({ children }: { children: ReactNode }) {
   )
 }
 
-export default function MenubarDocsPage() {
+function ExampleSection({
+  title,
+  description,
+  code,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName="min-h-48">
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
+export default function MenubarPage() {
+  const demoSource = loadMenubarExample("menubar-demo.tsx")
+  const basicSource = loadMenubarExample("menubar-basic-demo.tsx")
+  const iconsSource = loadMenubarExample("menubar-icons-demo.tsx")
+  const submenuSource = loadMenubarExample("menubar-submenu-demo.tsx")
+  const checkboxSource = loadMenubarExample("menubar-checkbox-demo.tsx")
+  const checkboxIconsSource = loadMenubarExample("menubar-checkbox-icons-demo.tsx")
+  const radioSource = loadMenubarExample("menubar-radio-demo.tsx")
+  const indicatorSource = loadMenubarExample("menubar-indicator-demo.tsx")
+  const sidesSource = loadMenubarExample("menubar-sides-demo.tsx")
+  const usageImport = extractDemoImports(basicSource)
+  const usageSnippet = extractDemoJsx(basicSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Menubar"
-        description={description}
-        slug="menubar"
-      />
+      <ComponentDocsHeader title="Menubar" description={description} slug="menubar" />
 
-      <ComponentPreview code={demoSnippet} previewClassName="min-h-48">
+      <ComponentPreview code={demoSource} previewClassName="min-h-48">
         <PreviewShell>
           <MenubarDemo />
         </PreviewShell>
@@ -296,166 +135,174 @@ export default function MenubarDocsPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the following composition to build a{" "}
-          <code className="font-mono text-sm">Menubar</code>:
+          Each <Code>MenubarMenu</Code> pairs a trigger with its content. The bar reads{" "}
+          <Code>dir</Code> and <Code>lang</Code> from the closest ancestor, lays out triggers from
+          the start edge (the right in RTL), and carries the locale into the portaled menus.
         </p>
-        <CodeBlock code={compositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Basic</h2>
-        <ComponentPreview code={basicSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <MenubarBasicDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Icons</h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Place an icon before the label inside{" "}
-          <code className="font-mono text-sm">MenubarItem</code> or{" "}
-          <code className="font-mono text-sm">MenubarSubTrigger</code>. It sits
-          at the start of the item (the right side in RTL).
+          The bar is a <Code>menubar</Code> with roving focus between triggers. Each trigger exposes{" "}
+          <Code>aria-haspopup</Code> and <Code>aria-expanded</Code>, each content is a{" "}
+          <Code>menu</Code>, and checkbox and radio items announce their checked state.
         </p>
-        <ComponentPreview code={iconsSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <MenubarIconsDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Submenu</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Nest menus with{" "}
-          <code className="font-mono text-sm">MenubarSub</code>,{" "}
-          <code className="font-mono text-sm">MenubarSubTrigger</code>, and{" "}
-          <code className="font-mono text-sm">MenubarSubContent</code>.
-        </p>
-        <ComponentPreview code={submenuSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <MenubarSubmenuDemo />
-          </PreviewShell>
-        </ComponentPreview>
+        <KeyboardTable data={menubarKeyboardRows} />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Checkboxes
-        </h2>
-        <ComponentPreview code={checkboxSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <MenubarCheckboxDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+      <section className="space-y-6">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Checkboxes with icons
-        </h2>
-        <ComponentPreview code={checkboxIconsSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <MenubarCheckboxIconsDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+        <ExampleSection
+          title="Basic"
+          description={
+            <>
+              Split sections with <Code>MenubarSeparator</Code>. Set <Code>disabled</Code> on an
+              item to lock it.
+            </>
+          }
+          code={basicSource}
+        >
+          <MenubarBasicDemo />
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Radio</h2>
-        <ComponentPreview code={radioSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <MenubarRadioDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+        <ExampleSection
+          title="Icons"
+          description={
+            <>
+              Place an icon before the label inside <Code>MenubarItem</Code> or{" "}
+              <Code>MenubarSubTrigger</Code>. It sits at the start of the item (the right side in
+              RTL).
+            </>
+          }
+          code={iconsSource}
+        >
+          <MenubarIconsDemo />
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Tick indicator
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Set indicator=&quot;check&quot; to show a plain tick instead of the
-          Cubix Checkbox or Radio. The default is &quot;control&quot;. On a
-          radio group it applies to every item in the group.
-        </p>
-        <ComponentPreview code={indicatorSnippet} previewClassName="min-h-40">
-          <PreviewShell>
-            <MenubarIndicatorDemo />
-          </PreviewShell>
-        </ComponentPreview>
-      </section>
+        <ExampleSection
+          title="Submenu"
+          description={
+            <>
+              Nest menus with <Code>MenubarSub</Code>, <Code>MenubarSubTrigger</Code>, and{" "}
+              <Code>MenubarSubContent</Code>. In RTL the submenu opens to the left and ArrowLeft
+              opens it from the keyboard.
+            </>
+          }
+          code={submenuSource}
+        >
+          <MenubarSubmenuDemo />
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Sides</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use the <code className="font-mono text-sm">side</code> prop on{" "}
-          <code className="font-mono text-sm">MenubarContent</code> to control
-          placement.
-        </p>
-        <ComponentPreview code={sidesSnippet} previewClassName="min-h-48">
-          <PreviewShell>
-            <MenubarSidesDemo />
-          </PreviewShell>
-        </ComponentPreview>
+        <ExampleSection
+          title="Checkboxes"
+          description={
+            <>
+              Use <Code>MenubarCheckboxItem</Code> for options that turn on and off. The menu stays
+              open while toggling.
+            </>
+          }
+          code={checkboxSource}
+        >
+          <MenubarCheckboxDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Checkboxes with icons"
+          description={
+            <>Icons sit before the label; the checkbox control stays at the end of the item.</>
+          }
+          code={checkboxIconsSource}
+        >
+          <MenubarCheckboxIconsDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Radio"
+          description={
+            <>
+              Use <Code>MenubarRadioGroup</Code> with <Code>MenubarRadioItem</Code> for exclusive
+              choices.
+            </>
+          }
+          code={radioSource}
+        >
+          <MenubarRadioDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Tick indicator"
+          description={
+            <>
+              Set <Code>indicator=&quot;check&quot;</Code> to show a plain tick instead of the Cubix
+              Checkbox or Radio. The default is <Code>&quot;control&quot;</Code>. On a radio group
+              it applies to every item in the group.
+            </>
+          }
+          code={indicatorSource}
+        >
+          <MenubarIndicatorDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Sides"
+          description={
+            <>
+              Use the <Code>side</Code> prop on <Code>MenubarContent</Code> to control placement.
+            </>
+          }
+          code={sidesSource}
+        >
+          <MenubarSidesDemo />
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
-
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Menubar</h3>
-          <PropsTable data={menubarPropRows} />
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
+        <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
+          <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
+          <p className="leading-relaxed text-muted-foreground">
+            <strong className="text-foreground">Note:</strong> Parts render{" "}
+            <code className="font-mono">data-slot</code> attributes (
+            <code className="font-mono">menubar</code>,{" "}
+            <code className="font-mono">menubar-menu</code>,{" "}
+            <code className="font-mono">menubar-trigger</code>,{" "}
+            <code className="font-mono">menubar-content</code>,{" "}
+            <code className="font-mono">menubar-item</code>,{" "}
+            <code className="font-mono">menubar-checkbox-item</code>,{" "}
+            <code className="font-mono">menubar-radio-group</code>,{" "}
+            <code className="font-mono">menubar-radio-item</code>,{" "}
+            <code className="font-mono">menubar-separator</code>,{" "}
+            <code className="font-mono">menubar-sub-trigger</code>,{" "}
+            <code className="font-mono">menubar-sub-content</code>) for targeting in tests and
+            parent selectors. Use the same props on Base UI, React Aria, and Radix.
+          </p>
         </div>
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            MenubarTrigger
-          </h3>
-          <PropsTable data={triggerPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Menubar</h3>
+        <PropsTable data={menubarPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            MenubarContent
-          </h3>
-          <PropsTable data={contentPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">MenubarTrigger</h3>
+        <PropsTable data={triggerPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            MenubarItem
-          </h3>
-          <PropsTable data={itemPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">MenubarContent</h3>
+        <PropsTable data={contentPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            MenubarCheckboxItem
-          </h3>
-          <PropsTable data={checkboxItemPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">MenubarItem</h3>
+        <PropsTable data={itemPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            MenubarRadioGroup
-          </h3>
-          <PropsTable data={radioGroupPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">MenubarCheckboxItem</h3>
+        <PropsTable data={checkboxItemPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            MenubarRadioItem
-          </h3>
-          <PropsTable data={radioItemPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">MenubarRadioGroup</h3>
+        <PropsTable data={radioGroupPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">MenubarRadioItem</h3>
+        <PropsTable data={radioItemPropRows} />
       </section>
     </article>
   )

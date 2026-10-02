@@ -47,16 +47,12 @@ function TextareaControl({ className, children }: TextareaControlProps) {
 
   if (base === "aria") {
     return (
-      <AriaTextarea.TextareaControl className={className}>
-        {children}
-      </AriaTextarea.TextareaControl>
+      <AriaTextarea.TextareaControl className={className}>{children}</AriaTextarea.TextareaControl>
     )
   }
 
   return (
-    <BaseTextarea.TextareaControl className={className}>
-      {children}
-    </BaseTextarea.TextareaControl>
+    <BaseTextarea.TextareaControl className={className}>{children}</BaseTextarea.TextareaControl>
   )
 }
 

@@ -28,8 +28,7 @@
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF,
-    U+FE70-FEFF;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
   ascent-override: 107%;
   descent-override: 43%;
   line-gap-override: 0%;
@@ -78,28 +77,23 @@
 
 @utility cn-rtl-flip {
   :where([dir="rtl"], [dir="rtl"] *) & {
-    transform: rotate(180deg);
+    rotate: 180deg;
   }
 }
 
 @utility shimmer {
   --_spread: var(--shimmer-spread, calc(3ch + 40px));
   --_base: currentColor;
-  --_highlight: var(
-    --shimmer-color,
-    oklch(from currentColor l c h / calc(alpha * 0.2))
-  );
+  --_highlight: var(--shimmer-color, oklch(from currentColor l c h / calc(alpha* 0.2)));
 
   background-image: var(
     --shimmer-image,
     linear-gradient(
       calc(90deg + var(--shimmer-angle)),
       var(--_base) calc(50% - var(--_spread)),
-      color-mix(in oklch, var(--_highlight), var(--_base) 50%)
-        calc(50% - var(--_spread) * 0.5),
+      color-mix(in oklch, var(--_highlight), var(--_base) 50%) calc(50% - var(--_spread) * 0.5),
       var(--_highlight) 50%,
-      color-mix(in oklch, var(--_highlight), var(--_base) 50%)
-        calc(50% + var(--_spread) * 0.5),
+      color-mix(in oklch, var(--_highlight), var(--_base) 50%) calc(50% + var(--_spread) * 0.5),
       var(--_base) calc(50% + var(--_spread))
     )
   );
@@ -442,7 +436,9 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-arab), var(--font-sans), ui-sans-serif, sans-serif;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
   }
@@ -643,7 +639,9 @@
     margin-block-start: 0;
   }
 
-  .typeset :where(p, ul, ol, pre, table, blockquote, hr) + :where(p, ul, ol, pre, table, blockquote, hr) {
+  .typeset
+    :where(p, ul, ol, pre, table, blockquote, hr)
+    + :where(p, ul, ol, pre, table, blockquote, hr) {
     margin-block-start: var(--typeset-flow);
   }
 
@@ -659,13 +657,14 @@
     max-width: none;
   }
 
-  .typeset :where(.not-typeset) :where(h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, pre, code, table) {
+  .typeset
+    :where(.not-typeset)
+    :where(h1, h2, h3, h4, h5, h6, p, ul, ol, li, blockquote, pre, code, table) {
     all: revert-layer;
   }
 
   [lang="fa"] .typeset {
-    --typeset-font-body: var(--font-arab), var(--font-sans), ui-sans-serif,
-      sans-serif;
+    --typeset-font-body: var(--font-arab), var(--font-sans), ui-sans-serif, sans-serif;
     --typeset-leading: 1.75;
     --typeset-flow: 1.45em;
     --typeset-after-heading: 0.75em;
@@ -849,8 +848,7 @@ html.cubix-scrollbar,
 .docs-code,
 .cubix-code-block {
   scrollbar-width: thin;
-  scrollbar-color: color-mix(in oklab, var(--foreground) 28%, transparent)
-    transparent;
+  scrollbar-color: color-mix(in oklab, var(--foreground) 28%, transparent) transparent;
 }
 
 html.cubix-scrollbar::-webkit-scrollbar,
@@ -968,8 +966,8 @@ html.cubix-scrollbar::-webkit-scrollbar-button:single-button,
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF,
-    U+FE70-FEFF, U+0020;
+  unicode-range:
+    U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0020;
   ascent-override: 103%;
   descent-override: 47%;
   line-gap-override: 0%;
@@ -988,8 +986,8 @@ html.cubix-scrollbar::-webkit-scrollbar-button:single-button,
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF,
-    U+FE70-FEFF, U+0020;
+  unicode-range:
+    U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+0020;
   ascent-override: 109%;
   descent-override: 41%;
   line-gap-override: 0%;

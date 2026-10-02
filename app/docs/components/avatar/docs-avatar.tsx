@@ -1,11 +1,6 @@
 "use client"
 
-import {
-  cloneElement,
-  isValidElement,
-  type ReactElement,
-  type ReactNode,
-} from "react"
+import { cloneElement, isValidElement, type ReactElement, type ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
 import * as AriaAvatar from "@/components/cubix/aria/avatar"
@@ -96,11 +91,7 @@ function AvatarBadge({ render, className, children, ...props }: BadgeProps) {
 
   if (base === "aria") {
     return (
-      <AriaAvatar.AvatarBadge
-        className={className}
-        render={render}
-        {...props}
-      >
+      <AriaAvatar.AvatarBadge className={className} render={render} {...props}>
         {children}
       </AriaAvatar.AvatarBadge>
     )
@@ -127,11 +118,4 @@ function AvatarGroupCount(props: SlotProps) {
   return <BaseAvatar.AvatarGroupCount {...props} />
 }
 
-export {
-  Avatar,
-  AvatarBadge,
-  AvatarFallback,
-  AvatarGroup,
-  AvatarGroupCount,
-  AvatarImage,
-}
+export { Avatar, AvatarBadge, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarImage }

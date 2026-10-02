@@ -129,7 +129,7 @@ function ComboboxClearIcon({ className }: { className?: string }) {
 }
 
 const popupStyles =
-  "cn-menu-target cn-menu-translucent cursor-default group/combobox-content z-50 flex w-max min-w-[max(150px,var(--trigger-width))] origin-(--trigger-anchor-point) flex-col overflow-hidden rounded-lg bg-popover text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] duration-100 outline-none data-[placement=bottom]:slide-in-from-top-2 data-[placement=left]:slide-in-from-right-2 data-[placement=right]:slide-in-from-left-2 data-[placement=top]:slide-in-from-bottom-2 data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-95 data-exiting:animate-out data-exiting:fade-out-0 data-exiting:zoom-out-95 **:data-[slot=input-group]:m-1 **:data-[slot=input-group]:mb-0 **:data-[slot=input-group]:w-auto **:data-[slot=input-group]:shrink-0"
+  "cn-menu-target cn-menu-translucent cursor-default group/combobox-content relative z-50 flex w-max min-w-[max(150px,var(--trigger-width))] origin-(--trigger-anchor-point) flex-col overflow-hidden rounded-lg bg-popover text-start text-popover-foreground shadow-md ring-1 ring-foreground/[0.06] duration-100 outline-none data-[placement=bottom]:slide-in-from-top-2 data-[placement=left]:slide-in-from-right-2 data-[placement=right]:slide-in-from-left-2 data-[placement=top]:slide-in-from-bottom-2 data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-95 data-exiting:animate-out data-exiting:fade-out-0 data-exiting:zoom-out-95 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:w-auto *:data-[slot=input-group]:shrink-0"
 
 // React Aria sets the popover's max-height inline (the available space), so
 // the 20rem cap of the Base UI popup sits on the scrolling list here.
@@ -140,7 +140,7 @@ const itemStyles =
   "relative flex w-full cursor-default items-center gap-1.5 rounded-sm py-1.75 ps-2 pe-10 text-label whitespace-nowrap tracking-normal outline-hidden select-none data-focused:bg-accent data-focused:text-accent-foreground data-disabled:pointer-events-none data-disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5"
 
 const emptyStyles =
-  "w-full px-3 py-2.75 text-center text-label tracking-normal text-muted-foreground"
+  "w-full px-3 py-2.75 text-center text-label tracking-normal text-muted-foreground empty:p-0"
 
 type TextDirection = "ltr" | "rtl"
 
@@ -158,9 +158,7 @@ const ComboboxLocaleResolverContext = React.createContext<
 /* True inside ComboboxContent (the search input of a button-triggered popup). */
 const ComboboxContentContext = React.createContext(false)
 
-function toTextDirection(
-  value: string | null | undefined
-): TextDirection | undefined {
+function toTextDirection(value: string | null | undefined): TextDirection | undefined {
   return value === "rtl" || value === "ltr" ? value : undefined
 }
 
@@ -195,9 +193,7 @@ function localeDomProps(locale: ComboboxLocale) {
   page. React Aria also renders the parts once in a hidden tree to build the
   collection; nodes there are not DOM elements and are skipped.
 */
-function useLocaleReporter<T extends HTMLElement>(
-  ref?: React.Ref<T> | undefined
-) {
+function useLocaleReporter<T extends HTMLElement>(ref?: React.Ref<T> | undefined) {
   const report = React.useContext(ComboboxLocaleResolverContext)
   const inContent = React.useContext(ComboboxContentContext)
   const nodeRef = React.useRef<T | null>(null)
@@ -240,8 +236,7 @@ function useComboboxContext() {
 
 type EmptyContent = { className?: string; children?: React.ReactNode }
 
-const ComboboxEmptyContext =
-  React.createContext<React.RefObject<EmptyContent | null> | null>(null)
+const ComboboxEmptyContext = React.createContext<React.RefObject<EmptyContent | null> | null>(null)
 
 const ComboboxGroupItemsContext = React.createContext<readonly unknown[]>([])
 
@@ -257,16 +252,12 @@ function textContent(node: React.ReactNode): string {
 
 function isGroupItem(item: unknown): item is { items: readonly unknown[] } {
   return (
-    typeof item === "object" &&
-    item !== null &&
-    Array.isArray((item as { items?: unknown }).items)
+    typeof item === "object" && item !== null && Array.isArray((item as { items?: unknown }).items)
   )
 }
 
 function flattenItems(items: readonly unknown[]): unknown[] {
-  return items.flatMap((item) =>
-    isGroupItem(item) ? flattenItems(item.items) : [item]
-  )
+  return items.flatMap((item) => (isGroupItem(item) ? flattenItems(item.items) : [item]))
 }
 
 function toValueArray(value: unknown): unknown[] {
@@ -320,14 +311,11 @@ function findPlaceholder(node: React.ReactNode): string | undefined {
   return found
 }
 
-type ComboboxValueType<Value, Multiple extends boolean | undefined> =
-  Multiple extends true ? Value[] : Value
+type ComboboxValueType<Value, Multiple extends boolean | undefined> = Multiple extends true
+  ? Value[]
+  : Value
 
-type ComboboxProps<
-  Value,
-  Multiple extends boolean | undefined = false,
-  Item = Value,
-> = {
+type ComboboxProps<Value, Multiple extends boolean | undefined = false, Item = Value> = {
   items?: readonly Item[]
   value?: ComboboxValueType<Value, Multiple> | null
   defaultValue?: ComboboxValueType<Value, Multiple> | null
@@ -388,7 +376,6 @@ function ComboboxAutoHighlight() {
   return null
 }
 
-
 /*
   ComboboxInput reports its own disabled prop to the root, so the popup stays
   closed even when only the input (not the root) is marked disabled.
@@ -398,8 +385,7 @@ type ComboboxDisabledState = {
   report: (disabled: boolean) => void
 }
 
-const ComboboxDisabledContext =
-  React.createContext<ComboboxDisabledState | null>(null)
+const ComboboxDisabledContext = React.createContext<ComboboxDisabledState | null>(null)
 
 function useInputDisabled(disabled: boolean, inContent: boolean) {
   const state = React.useContext(ComboboxDisabledContext)
@@ -412,11 +398,7 @@ function useInputDisabled(disabled: boolean, inContent: boolean) {
   return disabled || Boolean(state?.disabled)
 }
 
-function Combobox<
-  Value,
-  Multiple extends boolean | undefined = false,
-  Item = Value,
->({
+function Combobox<Value, Multiple extends boolean | undefined = false, Item = Value>({
   items = [],
   value: valueProp,
   defaultValue,
@@ -446,9 +428,7 @@ function Combobox<
   const isMultiple = multiple === true
   const [resolved, setResolved] = React.useState<ComboboxLocale>({})
   const report = React.useCallback((next: ComboboxLocale) => {
-    setResolved((prev) =>
-      prev.dir === next.dir && prev.lang === next.lang ? prev : next
-    )
+    setResolved((prev) => (prev.dir === next.dir && prev.lang === next.lang ? prev : next))
   }, [])
   const resolvedDir = resolved.dir
   const resolvedLang = resolved.lang
@@ -513,10 +493,7 @@ function Combobox<
     (next: unknown[]) => {
       if (!isControlled) setUncontrolled(next)
       onValueChange?.(
-        (isMultiple ? next : (next[0] ?? null)) as ComboboxValueType<
-          Value,
-          Multiple
-        > | null
+        (isMultiple ? next : (next[0] ?? null)) as ComboboxValueType<Value, Multiple> | null
       )
     },
     [isControlled, isMultiple, onValueChange]
@@ -526,9 +503,7 @@ function Combobox<
 
   const mode = hasStandaloneTrigger(children) ? "select" : "combobox"
   const label =
-    ariaLabel ??
-    findPlaceholder(children) ??
-    (locale.lang?.startsWith("fa") ? "انتخاب" : "Select")
+    ariaLabel ?? findPlaceholder(children) ?? (locale.lang?.startsWith("fa") ? "انتخاب" : "Select")
 
   const context: ComboboxContextValue = {
     mode,
@@ -556,9 +531,7 @@ function Combobox<
     inputValue,
     defaultInputValue,
     onInputChange: onInputValueChange,
-    onOpenChange: onOpenChange
-      ? (isOpen: boolean) => onOpenChange(isOpen)
-      : undefined,
+    onOpenChange: onOpenChange ? (isOpen: boolean) => onOpenChange(isOpen) : undefined,
   }
   const content = (
     <>
@@ -624,9 +597,7 @@ function ComboboxValue({
   placeholder?: React.ReactNode
 }) {
   const context = useComboboxContext()
-  const current = context.multiple
-    ? context.values
-    : (context.values[0] ?? null)
+  const current = context.multiple ? context.values : (context.values[0] ?? null)
   if (typeof children === "function") return <>{children(current)}</>
   if (children !== undefined) return <>{children}</>
   if (context.values.length === 0) return <>{placeholder}</>
@@ -643,15 +614,7 @@ type TriggerRenderProps = {
     | "outline"
     | "ghost"
     | "link"
-  size?:
-    | "default"
-    | "xs"
-    | "sm"
-    | "lg"
-    | "icon"
-    | "icon-xs"
-    | "icon-sm"
-    | "icon-lg"
+  size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
   className?: string
   "aria-label"?: string
 }
@@ -706,13 +669,7 @@ ComboboxTrigger.displayName = "ComboboxTrigger"
   The clear button must not take the ComboBox button context (it would open
   the list), so it is rendered with that context cleared.
 */
-function ComboboxClear({
-  className,
-  disabled,
-}: {
-  className?: string
-  disabled?: boolean
-}) {
+function ComboboxClear({ className, disabled }: { className?: string; disabled?: boolean }) {
   const context = useComboboxContext()
   return (
     <ButtonContext.Provider value={null}>
@@ -755,7 +712,9 @@ function ComboboxInput({
   const hasValue = !context.multiple && context.values.length > 0
   const groupClassName = cn(
     "w-auto cursor-default [&>[data-slot=input-group-addon]]:cursor-default has-disabled:cursor-not-allowed has-disabled:[&>[data-slot=input-group-addon]]:cursor-not-allowed",
-    inContent ? "rounded-sm has-[[data-slot=input-group-control]:focus-visible]:border-input has-[[data-slot=input-group-control]:focus-visible]:ring-0" : cn(comboboxFieldStyles, comboboxFieldSizes[size]),
+    inContent
+      ? "rounded-sm has-[[data-slot=input-group-control]:focus-visible]:border-input has-[[data-slot=input-group-control]:focus-visible]:ring-0"
+      : cn(comboboxFieldStyles, comboboxFieldSizes[size]),
     className
   )
 
@@ -819,8 +778,7 @@ type Align = "start" | "center" | "end"
 type Placement = NonNullable<PopoverProps["placement"]>
 
 function toPlacement(side: Side, align: Align): Placement {
-  const logicalSide =
-    side === "inline-start" ? "start" : side === "inline-end" ? "end" : side
+  const logicalSide = side === "inline-start" ? "start" : side === "inline-end" ? "end" : side
   if (align === "center") return logicalSide
   if (logicalSide === "top" || logicalSide === "bottom") {
     return `${logicalSide} ${align}` as Placement
@@ -862,10 +820,7 @@ function ComboboxContent({
   dir,
   lang,
   ...props
-}: Omit<
-  PopoverProps,
-  "placement" | "offset" | "crossOffset" | "className" | "children"
-> & {
+}: Omit<PopoverProps, "placement" | "offset" | "crossOffset" | "className" | "children"> & {
   className?: string
   children?: React.ReactNode
   side?: Side
@@ -918,10 +873,7 @@ function ComboboxList({
   className,
   children,
   ...props
-}: Omit<
-  ListBoxProps<object>,
-  "className" | "children" | "items" | "renderEmptyState"
-> & {
+}: Omit<ListBoxProps<object>, "className" | "children" | "items" | "renderEmptyState"> & {
   className?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   children?: React.ReactNode | ((item: any, index: number) => React.ReactNode)
@@ -941,10 +893,7 @@ function ComboboxList({
         const empty = emptyRef?.current
         if (!empty?.children) return null
         return (
-          <div
-            data-slot="combobox-empty"
-            className={cn(emptyStyles, empty.className)}
-          >
+          <div data-slot="combobox-empty" className={cn(emptyStyles, empty.className)}>
             {empty.children}
           </div>
         )
@@ -963,10 +912,7 @@ function ComboboxItem({
   disabled,
   textValue,
   ...props
-}: Omit<
-  ListBoxItemProps<object>,
-  "className" | "children" | "id" | "value" | "isDisabled"
-> & {
+}: Omit<ListBoxItemProps<object>, "className" | "children" | "id" | "value" | "isDisabled"> & {
   className?: string
   children?: React.ReactNode
   value: unknown
@@ -993,11 +939,7 @@ function ComboboxItem({
               aria-hidden
               className="pointer-events-none absolute end-2 flex size-4 items-center justify-center"
             >
-              <CheckIcon
-                absoluteStrokeWidth
-                strokeWidth={1.6}
-                className="size-4"
-              />
+              <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" />
             </span>
           ) : null}
         </>
@@ -1018,11 +960,7 @@ function ComboboxGroup({
 }) {
   return (
     <ComboboxGroupItemsContext.Provider value={items ?? []}>
-      <ListBoxSection
-        data-slot="combobox-group"
-        className={cn(className)}
-        {...props}
-      >
+      <ListBoxSection data-slot="combobox-group" className={cn(className)} {...props}>
         {children}
       </ListBoxSection>
     </ComboboxGroupItemsContext.Provider>
@@ -1121,10 +1059,7 @@ function ComboboxChips({
               size="icon-xs"
               variant="ghost"
               data-slot="input-group-button"
-              className={cn(
-                comboboxChipsTriggerStyles,
-                comboboxChipsTriggerSizes[size]
-              )}
+              className={cn(comboboxChipsTriggerStyles, comboboxChipsTriggerSizes[size])}
             >
               <ChevronDownIcon className="pointer-events-none size-4 text-muted-foreground" />
             </InputGroupButton>
@@ -1146,9 +1081,7 @@ function ComboboxChip({
   const context = useComboboxContext()
   const text = textContent(children)
   const remove = () => {
-    const index = context.values.findIndex(
-      (value) => context.labelOf(value) === text
-    )
+    const index = context.values.findIndex((value) => context.labelOf(value) === text)
     if (index >= 0) {
       context.setValues(context.values.filter((_, i) => i !== index))
     }

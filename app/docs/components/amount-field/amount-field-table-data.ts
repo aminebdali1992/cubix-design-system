@@ -17,20 +17,18 @@ export const amountFieldPropRows = [
     prop: "invalid",
     type: "boolean",
     default: "false",
-    description:
-      "Marks the field as invalid and shows AmountFieldError when present.",
+    description: "Marks the field as invalid and shows AmountFieldError when present.",
   },
   {
     prop: "name",
     type: "string",
     description:
-      "Identifies the field when a form is submitted (Base UI root; use the input name on Radix).",
+      "Identifies the field when a form is submitted. Forwarded to the input on every base.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the root styles (last one wins).",
+    description: "Additional Tailwind classes merged with the root styles (last one wins).",
   },
 ]
 
@@ -52,8 +50,7 @@ export const amountFieldInputPropRows = [
     prop: "inputMode",
     type: '"numeric"',
     default: '"numeric"',
-    description:
-      "Locked to numeric so mobile keyboards show a number pad.",
+    description: "Locked to numeric so mobile keyboards show a number pad.",
   },
   {
     prop: "placeholder",
@@ -63,8 +60,7 @@ export const amountFieldInputPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the input styles (last one wins).",
+    description: "Additional Tailwind classes merged with the input styles (last one wins).",
   },
   {
     prop: "...props",
@@ -90,8 +86,7 @@ export const amountFieldControlPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the control styles (last one wins).",
+    description: "Additional Tailwind classes merged with the control styles (last one wins).",
   },
 ]
 
@@ -99,14 +94,12 @@ export const amountFieldCurrencyPropRows = [
   {
     prop: "unit",
     type: '"تومان" | "ریال"',
-    description:
-      "Currency label beside the amount. Only تومان or ریال.",
+    description: "Currency label beside the amount. Only تومان or ریال.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the currency styles (last one wins).",
+    description: "Additional Tailwind classes merged with the currency styles (last one wins).",
   },
 ]
 
@@ -121,8 +114,7 @@ export const amountFieldPartPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the part styles (last one wins).",
+    description: "Additional Tailwind classes merged with the part styles (last one wins).",
   },
   {
     prop: "...props",

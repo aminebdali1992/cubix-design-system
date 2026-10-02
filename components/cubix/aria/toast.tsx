@@ -11,11 +11,13 @@
 import * as React from "react"
 import {
   Button as AriaButton,
+  I18nProvider,
   Text as AriaText,
   UNSTABLE_Toast as AriaToast,
   UNSTABLE_ToastContent as AriaToastContent,
   UNSTABLE_ToastQueue as ToastQueue,
   UNSTABLE_ToastRegion as AriaToastRegion,
+  type QueuedToast,
 } from "react-aria-components"
 import {
   CircleCheckIcon,
@@ -70,10 +72,7 @@ function close(id: string) {
   queue.close(id)
 }
 
-type PromiseValue<T> =
-  | string
-  | ToastOptions
-  | ((data: T) => string | ToastOptions)
+type PromiseValue<T> = string | ToastOptions | ((data: T) => string | ToastOptions)
 
 function toOptions(value: string | ToastOptions): ToastOptions {
   return typeof value === "string" ? { title: value } : value
@@ -108,14 +107,17 @@ const toast = { add, close, promise }
 function ToastRegion({
   className,
   ...props
-}: Omit<React.ComponentProps<typeof AriaToastRegion<ToastOptions>>, "queue" | "children">) {
+}: Omit<
+  React.ComponentProps<typeof AriaToastRegion<ToastOptions>>,
+  "queue" | "children" | "className"
+> & { className?: string }) {
   return (
     <AriaToastRegion<ToastOptions>
       data-slot="toast-viewport"
       queue={queue}
       className={cn(
         "pointer-events-none fixed start-4 end-4 bottom-4 z-50 mx-auto flex w-auto max-w-sm flex-col gap-2 outline-none sm:start-auto sm:end-4 sm:mx-0 sm:w-full",
-        className as string
+        className
       )}
       {...props}
     >
@@ -155,12 +157,27 @@ function ToastIcon({
   )
 }
 
-function ToastItem({ item }: { item: { key: string; content: ToastOptions } }) {
+function ToastItem({ item }: { item: QueuedToast<ToastOptions> }) {
   const { content } = item
+  const closeOnEscape = React.useCallback(
+    (node: HTMLDivElement | null) => {
+      if (!node) return
+      function handleKeyDown(event: KeyboardEvent) {
+        if (event.key !== "Escape") return
+        event.preventDefault()
+        queue.close(item.key)
+      }
+      node.addEventListener("keydown", handleKeyDown)
+      return () => node.removeEventListener("keydown", handleKeyDown)
+    },
+    [item.key]
+  )
+
   return (
     <AriaToast
+      ref={closeOnEscape}
       data-slot="toast"
-      toast={item as never}
+      toast={item}
       className={cn(
         "pointer-events-auto relative flex w-full items-center gap-3 rounded-2xl border bg-popover p-4 text-popover-foreground shadow-lg outline-none select-none",
         "data-[focus-visible]:border-ring data-[focus-visible]:ring-[3px] data-[focus-visible]:ring-ring/50",
@@ -170,13 +187,12 @@ function ToastItem({ item }: { item: { key: string; content: ToastOptions } }) {
       )}
     >
       <ToastIcon type={content.type} icon={content.data?.icon} />
-      <AriaToastContent className="flex min-w-0 flex-1 flex-col gap-1">
+      <AriaToastContent
+        role={content.priority === "high" ? "alert" : "status"}
+        className="flex min-w-0 flex-1 flex-col gap-1"
+      >
         {content.title ? (
-          <AriaText
-            slot="title"
-            data-slot="toast-title"
-            className="text-label"
-          >
+          <AriaText slot="title" data-slot="toast-title" className="text-label">
             {content.title}
           </AriaText>
         ) : null}
@@ -223,17 +239,39 @@ function ToastItem({ item }: { item: { key: string; content: ToastOptions } }) {
   )
 }
 
-function Toaster({
-  children,
-  dir = "rtl",
-}: {
-  children?: React.ReactNode
-  dir?: "ltr" | "rtl"
-}) {
+function subscribeToQueue(onChange: () => void) {
+  return queue.subscribe(onChange)
+}
+
+function getVisibleToastCount() {
+  return queue.visibleToasts.length
+}
+
+function getServerToastCount() {
+  return 0
+}
+
+function Toaster({ children, dir = "rtl" }: { children?: React.ReactNode; dir?: "ltr" | "rtl" }) {
+  /*
+    The region only mounts while toasts are visible, and React Aria registers
+    it for F6 landmark navigation only when its label changes. Keeping the
+    count in the label re-registers the region every time it mounts.
+  */
+  const count = React.useSyncExternalStore(
+    subscribeToQueue,
+    getVisibleToastCount,
+    getServerToastCount
+  )
+
   return (
     <>
       {children}
-      <ToastRegion style={{ direction: dir }} aria-label="اعلان‌ها" />
+      <I18nProvider locale={dir === "rtl" ? "fa-IR" : "en-US"}>
+        <ToastRegion
+          lang={dir === "rtl" ? "fa" : undefined}
+          aria-label={`${count.toLocaleString("fa-IR")} اعلان`}
+        />
+      </I18nProvider>
     </>
   )
 }

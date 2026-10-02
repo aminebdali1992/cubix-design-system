@@ -1,0 +1,41 @@
+"use client"
+
+import * as React from "react"
+
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "../docs-context-menu"
+
+const triggerClassName =
+  "flex h-36 w-full max-w-xs items-center justify-center rounded-lg border border-dashed px-4 text-center text-caption text-muted-foreground"
+
+export function ContextMenuIndicatorDemo() {
+  const [user, setUser] = React.useState("sara")
+
+  return (
+    <ContextMenu dir="rtl" lang="fa">
+      <ContextMenuTrigger className={triggerClassName}>
+        <span className="pointer-coarse:hidden">برای باز کردن منو کلیک راست کنید</span>
+        <span className="hidden pointer-coarse:inline">برای باز کردن منو لمس کنید و نگه دارید</span>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuCheckboxItem indicator="check">نوار ابزار</ContextMenuCheckboxItem>
+        <ContextMenuCheckboxItem indicator="check" defaultChecked>
+          نوار وضعیت
+        </ContextMenuCheckboxItem>
+        <ContextMenuSeparator />
+        <ContextMenuRadioGroup indicator="check" value={user} onValueChange={setUser}>
+          <ContextMenuRadioItem value="amin">امین</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="sara">سارا</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="reza">رضا</ContextMenuRadioItem>
+        </ContextMenuRadioGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}

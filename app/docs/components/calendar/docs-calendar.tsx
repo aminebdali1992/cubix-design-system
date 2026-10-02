@@ -29,9 +29,7 @@ function Calendar(props: CalendarProps) {
   return <BaseCalendar.Calendar {...props} />
 }
 
-function CalendarDayButton(
-  props: ComponentProps<typeof BaseCalendar.CalendarDayButton>
-) {
+function CalendarDayButton(props: ComponentProps<typeof BaseCalendar.CalendarDayButton>) {
   const base = useCalendarBase()
 
   if (base === "radix") {

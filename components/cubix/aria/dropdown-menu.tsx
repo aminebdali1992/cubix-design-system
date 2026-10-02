@@ -27,10 +27,7 @@ import {
 
 import { buttonVariants } from "@/components/cubix/base/button"
 import { Checkbox } from "@/components/cubix/aria/checkbox"
-import {
-  RadioGroup,
-  RadioGroupItem,
-} from "@/components/cubix/aria/radio-group"
+import { RadioGroup, RadioGroupItem } from "@/components/cubix/aria/radio-group"
 import { cn } from "@/lib/utils"
 
 const itemStyles =
@@ -40,7 +37,7 @@ const selectableItemStyles =
   "relative flex w-full cursor-default items-center gap-1.5 rounded-sm py-1.75 ps-2 pe-10 text-label whitespace-nowrap tracking-normal outline-hidden select-none focus:bg-accent focus:text-accent-foreground data-[focused]:bg-accent data-[focused]:text-accent-foreground data-inset:ps-8 data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&>svg:not([class*='size-'])]:size-4.5"
 
 const contentStyles =
-  "z-50 max-h-(--visual-viewport-height) w-max min-w-[150px] overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground ring-1 ring-foreground/[0.06] outline-none"
+  "z-50 max-h-(--visual-viewport-height) w-max min-w-[150px] origin-(--trigger-anchor-point) overflow-x-visible overflow-y-auto rounded-lg bg-popover p-1 text-start text-popover-foreground ring-1 ring-foreground/[0.06] duration-100 outline-none data-[placement=bottom]:slide-in-from-top-2 data-[placement=left]:slide-in-from-right-2 data-[placement=right]:slide-in-from-left-2 data-[placement=top]:slide-in-from-bottom-2 data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-95 data-exiting:animate-out data-exiting:overflow-hidden data-exiting:fade-out-0 data-exiting:zoom-out-95"
 
 type TextDirection = "ltr" | "rtl"
 
@@ -59,9 +56,7 @@ function useDropdownMenuLocale() {
   return React.useContext(DropdownMenuLocaleContext)
 }
 
-function toTextDirection(
-  value: string | null | undefined
-): TextDirection | undefined {
+function toTextDirection(value: string | null | undefined): TextDirection | undefined {
   return value === "rtl" || value === "ltr" ? value : undefined
 }
 
@@ -88,9 +83,7 @@ function resolveAriaLocale(locale: DropdownMenuLocale): string | undefined {
 
 type DropdownMenuStore = Map<string, unknown>
 
-const DropdownMenuStoreContext = React.createContext<DropdownMenuStore | null>(
-  null
-)
+const DropdownMenuStoreContext = React.createContext<DropdownMenuStore | null>(null)
 
 function textContent(node: React.ReactNode): string {
   if (node == null || typeof node === "boolean") return ""
@@ -105,10 +98,7 @@ function textContent(node: React.ReactNode): string {
 function radioGroupKey(children: React.ReactNode) {
   const values: string[] = []
   React.Children.forEach(children, (child) => {
-    if (
-      React.isValidElement<{ value?: unknown }>(child) &&
-      child.props.value !== undefined
-    ) {
+    if (React.isValidElement<{ value?: unknown }>(child) && child.props.value !== undefined) {
       values.push(String(child.props.value))
     }
   })
@@ -150,9 +140,7 @@ function DropdownMenuCheckIndicator({ checked }: { checked: boolean }) {
       aria-hidden
       className="pointer-events-none absolute end-2 flex size-4 items-center justify-center"
     >
-      {checked ? (
-        <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" />
-      ) : null}
+      {checked ? <CheckIcon absoluteStrokeWidth strokeWidth={1.6} className="size-4" /> : null}
     </span>
   )
 }
@@ -162,8 +150,7 @@ type DropdownMenuRadioContextValue = {
   indicator?: DropdownMenuIndicator
 }
 
-const DropdownMenuRadioContext =
-  React.createContext<DropdownMenuRadioContextValue | null>(null)
+const DropdownMenuRadioContext = React.createContext<DropdownMenuRadioContextValue | null>(null)
 
 /*
   The root renders no element, so the trigger reports the closest dir / lang
@@ -232,15 +219,7 @@ type TriggerRenderProps = {
     | "outline"
     | "ghost"
     | "link"
-  size?:
-    | "default"
-    | "xs"
-    | "sm"
-    | "lg"
-    | "icon"
-    | "icon-xs"
-    | "icon-sm"
-    | "icon-lg"
+  size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
   className?: string
   "aria-label"?: string
 }
@@ -304,17 +283,8 @@ function DropdownMenuTrigger({
   )
 }
 
-function DropdownMenuGroup({
-  className,
-  ...props
-}: React.ComponentProps<typeof MenuSection>) {
-  return (
-    <MenuSection
-      data-slot="dropdown-menu-group"
-      className={cn(className)}
-      {...props}
-    />
-  )
+function DropdownMenuGroup({ className, ...props }: React.ComponentProps<typeof MenuSection>) {
+  return <MenuSection data-slot="dropdown-menu-group" className={cn(className)} {...props} />
 }
 
 function DropdownMenuPortal({ children }: { children?: React.ReactNode }) {
@@ -361,10 +331,7 @@ function DropdownMenuContent({
   dir,
   lang,
   ...props
-}: Omit<
-  React.ComponentProps<typeof Popover>,
-  "placement" | "offset" | "crossOffset"
-> & {
+}: Omit<React.ComponentProps<typeof Popover>, "placement" | "offset" | "crossOffset"> & {
   align?: Align
   alignOffset?: number
   sideOffset?: number
@@ -430,15 +397,17 @@ function DropdownMenuCheckboxItem({
   indicator = "control",
   disabled,
   isDisabled,
+  closeOnClick = false,
   ref,
   ...props
-}: Omit<React.ComponentProps<typeof MenuItem>, "children"> & {
+}: Omit<React.ComponentProps<typeof MenuItem>, "children" | "shouldCloseOnSelect"> & {
   inset?: boolean
   indicator?: DropdownMenuIndicator
   disabled?: boolean
   checked?: boolean
   defaultChecked?: boolean
   onCheckedChange?: (checked: boolean) => void
+  closeOnClick?: boolean
   children?: React.ReactNode
 }) {
   const [uncontrolledChecked, setUncontrolledChecked] = usePersistentState(
@@ -476,6 +445,7 @@ function DropdownMenuCheckboxItem({
       data-inset={inset ? "" : undefined}
       className={cn(selectableItemStyles, className)}
       isDisabled={isDisabled ?? disabled}
+      shouldCloseOnSelect={closeOnClick}
       onAction={() => {
         const next = !isChecked
         if (checked === undefined) setUncontrolledChecked(next)
@@ -486,8 +456,15 @@ function DropdownMenuCheckboxItem({
       {indicator === "check" ? (
         <DropdownMenuCheckIndicator checked={isChecked} />
       ) : (
-        <span aria-hidden className="pointer-events-none absolute end-2 flex items-center justify-center">
-          <Checkbox className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5" checked={isChecked} excludeFromTabOrder />
+        <span
+          aria-hidden
+          className="pointer-events-none absolute end-2 flex items-center justify-center"
+        >
+          <Checkbox
+            className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5"
+            checked={isChecked}
+            excludeFromTabOrder
+          />
         </span>
       )}
       {children}
@@ -508,9 +485,10 @@ function DropdownMenuRadioGroup({
   onValueChange?: (value: string) => void
   indicator?: DropdownMenuIndicator
 }) {
-  const [uncontrolled, setUncontrolled] = usePersistentState<
-    string | undefined
-  >(radioGroupKey(typeof children === "function" ? null : children), defaultValue)
+  const [uncontrolled, setUncontrolled] = usePersistentState<string | undefined>(
+    radioGroupKey(typeof children === "function" ? null : children),
+    defaultValue
+  )
   const current = value ?? uncontrolled
 
   return (
@@ -538,12 +516,13 @@ function DropdownMenuRadioGroup({
 
 function DropdownMenuRadioIndicator({ checked }: { checked: boolean }) {
   return (
-    <span
-      inert
-      className="pointer-events-none absolute end-2 flex items-center justify-center"
-    >
+    <span inert className="pointer-events-none absolute end-2 flex items-center justify-center">
       <RadioGroup value={checked ? "on" : ""} className="flex" aria-label="radio">
-        <RadioGroupItem value="on" className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5" aria-label="radio" />
+        <RadioGroupItem
+          value="on"
+          className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5"
+          aria-label="radio"
+        />
       </RadioGroup>
     </span>
   )
@@ -557,11 +536,13 @@ function DropdownMenuRadioItem({
   indicator,
   disabled,
   isDisabled,
+  closeOnClick = false,
   ...props
-}: Omit<React.ComponentProps<typeof MenuItem>, "id" | "children"> & {
+}: Omit<React.ComponentProps<typeof MenuItem>, "id" | "children" | "shouldCloseOnSelect"> & {
   inset?: boolean
   indicator?: DropdownMenuIndicator
   disabled?: boolean
+  closeOnClick?: boolean
   value: string
   children?: React.ReactNode
 }) {
@@ -576,6 +557,7 @@ function DropdownMenuRadioItem({
       data-inset={inset ? "" : undefined}
       className={cn(selectableItemStyles, className)}
       isDisabled={isDisabled ?? disabled}
+      shouldCloseOnSelect={closeOnClick}
       {...props}
     >
       {resolvedIndicator === "check" ? (
@@ -608,10 +590,7 @@ function DropdownMenuLabel({
   )
 }
 
-function DropdownMenuSeparator({
-  className,
-  ...props
-}: React.ComponentProps<typeof Separator>) {
+function DropdownMenuSeparator({ className, ...props }: React.ComponentProps<typeof Separator>) {
   return (
     <Separator
       data-slot="dropdown-menu-separator"
@@ -647,14 +626,18 @@ function DropdownMenuShortcut({
   )
 }
 
+/*
+  React Aria's SubmenuTrigger takes exactly a trigger item and a popover, so
+  the sub trigger and sub content are picked from the children in order.
+*/
 function DropdownMenuSub({ children }: { children?: React.ReactNode }) {
+  const [trigger, content] = React.Children.toArray(children).filter(React.isValidElement)
+  if (!trigger || !content) return null
+
   return (
     <SubmenuTrigger data-slot="dropdown-menu-sub">
-      {React.Children.toArray(children) as [
-        React.ReactElement,
-        React.ReactElement,
-        ...React.ReactElement[],
-      ]}
+      {trigger}
+      {content}
     </SubmenuTrigger>
   )
 }

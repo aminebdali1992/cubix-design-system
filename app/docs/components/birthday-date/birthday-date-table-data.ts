@@ -17,8 +17,7 @@ export const birthdayDatePropRows = [
     prop: "invalid",
     type: "boolean",
     default: "false",
-    description:
-      "Marks the field as invalid and shows BirthdayDateError when present.",
+    description: "Marks the field as invalid and shows BirthdayDateError when present.",
   },
   {
     prop: "name",
@@ -29,8 +28,7 @@ export const birthdayDatePropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the root styles (last one wins).",
+    description: "Additional Tailwind classes merged with the root styles (last one wins).",
   },
 ]
 
@@ -38,8 +36,7 @@ export const birthdayDateControlPropRows = [
   {
     prop: "size",
     type: '"default" | "lg"',
-    description:
-      "Overrides the size from BirthdayDate. Height matches the default and lg sizes.",
+    description: "Overrides the size from BirthdayDate. Height matches the default and lg sizes.",
   },
   {
     prop: "children",
@@ -50,8 +47,7 @@ export const birthdayDateControlPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the control styles (last one wins).",
+    description: "Additional Tailwind classes merged with the control styles (last one wins).",
   },
 ]
 
@@ -72,14 +68,12 @@ export const birthdayDateSegmentPropRows = [
     prop: "inputMode",
     type: '"numeric"',
     default: '"numeric"',
-    description:
-      "Locked to numeric so mobile keyboards show a number pad.",
+    description: "Locked to numeric so mobile keyboards show a number pad.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the segment styles (last one wins).",
+    description: "Additional Tailwind classes merged with the segment styles (last one wins).",
   },
   {
     prop: "...props",
@@ -99,8 +93,7 @@ export const birthdayDateSeparatorPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the separator styles (last one wins).",
+    description: "Additional Tailwind classes merged with the separator styles (last one wins).",
   },
 ]
 
@@ -108,8 +101,7 @@ export const birthdayDatePartPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the part styles (last one wins).",
+    description: "Additional Tailwind classes merged with the part styles (last one wins).",
   },
   {
     prop: "...props",

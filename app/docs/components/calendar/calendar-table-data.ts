@@ -48,8 +48,7 @@ export const calendarPropRows = [
   {
     prop: "locale",
     type: "Locale",
-    description:
-      "Locale from react-day-picker/locale for weekday labels and formatting.",
+    description: "Locale from react-day-picker/locale for weekday labels and formatting.",
   },
   {
     prop: "dir",
@@ -60,8 +59,7 @@ export const calendarPropRows = [
     prop: "numerals",
     type: '"latn" | "arab" | "arabext" | string',
     default: '"latn"',
-    description:
-      "Numbering system for day and year digits. Use arabext for Persian digits.",
+    description: "Numbering system for day and year digits. Use arabext for Persian digits.",
   },
   {
     prop: "timeZone",
@@ -72,7 +70,6 @@ export const calendarPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]

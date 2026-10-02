@@ -52,14 +52,12 @@ export const comboboxPropRows = [
   {
     prop: "dir",
     type: '"ltr" | "rtl"',
-    description:
-      "Text direction of the popup. Defaults to the closest dir on the page.",
+    description: "Text direction of the popup. Defaults to the closest dir on the page.",
   },
   {
     prop: "lang",
     type: "string",
-    description:
-      "Language of the popup. Defaults to the closest lang on the page.",
+    description: "Language of the popup. Defaults to the closest lang on the page.",
   },
 ]
 
@@ -97,14 +95,13 @@ export const inputPropRows = [
   },
   {
     prop: "aria-invalid",
-    type: "boolean | \"true\" | \"false\"",
+    type: 'boolean | "true" | "false"',
     description: "Show the invalid state.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the input group styles (last one wins).",
+    description: "Additional Tailwind classes merged with the input group styles (last one wins).",
   },
 ]
 
@@ -152,5 +149,29 @@ export const itemPropRows = [
     type: "boolean",
     default: "false",
     description: "Keep the item visible but not selectable.",
+  },
+]
+
+export const comboboxKeyboardRows = [
+  {
+    key: "ArrowDown",
+    action: "Opens the list if closed, then moves highlight to the next item.",
+  },
+  {
+    key: "ArrowUp",
+    action: "Opens the list if closed, then moves highlight to the previous item.",
+  },
+  {
+    key: "Enter",
+    action: "Selects the highlighted item. With autoHighlight, selects the first match.",
+  },
+  {
+    key: "Escape",
+    action: "Closes the list and clears the highlight.",
+  },
+  {
+    key: "Home / End",
+    action:
+      "Moves the caret in the input, or the highlight to the first or last item when the list is open.",
   },
 ]

@@ -32,10 +32,7 @@ function Avatar({
   ring?: boolean
 }) {
   const [status, setStatus] = React.useState<ImageLoadingStatus>("idle")
-  const value = React.useMemo(
-    () => ({ status, setStatus }),
-    [status]
-  )
+  const value = React.useMemo(() => ({ status, setStatus }), [status])
 
   return (
     <AvatarContext.Provider value={value}>
@@ -79,10 +76,7 @@ function AvatarImage({
       {...props}
       data-slot="avatar-image"
       hidden={status !== "loaded"}
-      className={cn(
-        "aspect-square size-full rounded-full object-cover",
-        className
-      )}
+      className={cn("aspect-square size-full rounded-full object-cover", className)}
       onLoad={(event) => {
         if (event.currentTarget.naturalWidth > 0) {
           setStatus("loaded")
@@ -160,8 +154,8 @@ function AvatarBadge({
     "empty:group-data-[size=sm]/avatar:size-1.5 group-data-[size=sm]/avatar:size-2 group-data-[size=sm]/avatar:[&>svg]:hidden",
     "empty:group-data-[size=default]/avatar:size-2 group-data-[size=default]/avatar:size-2.5 group-data-[size=default]/avatar:[&>svg]:size-2",
     "empty:group-data-[size=lg]/avatar:size-2.5 group-data-[size=lg]/avatar:size-3 group-data-[size=lg]/avatar:[&>svg]:size-2",
-          "empty:group-data-[size=xl]/avatar:size-2.5 empty:group-data-[size=xl]/avatar:end-0.5 empty:group-data-[size=xl]/avatar:bottom-0.5 group-data-[size=xl]/avatar:size-3.5 group-data-[size=xl]/avatar:[&>svg]:size-2.5",
-          "empty:group-data-[size=2xl]/avatar:size-3 empty:group-data-[size=2xl]/avatar:end-[3.5px] empty:group-data-[size=2xl]/avatar:bottom-[3.5px] not-empty:group-data-[size=2xl]/avatar:end-[1.5px] not-empty:group-data-[size=2xl]/avatar:bottom-[1.5px] group-data-[size=2xl]/avatar:size-4 group-data-[size=2xl]/avatar:[&>svg]:size-3",
+    "empty:group-data-[size=xl]/avatar:size-2.5 empty:group-data-[size=xl]/avatar:end-0.5 empty:group-data-[size=xl]/avatar:bottom-0.5 group-data-[size=xl]/avatar:size-3.5 group-data-[size=xl]/avatar:[&>svg]:size-2.5",
+    "empty:group-data-[size=2xl]/avatar:size-3 empty:group-data-[size=2xl]/avatar:end-[3.5px] empty:group-data-[size=2xl]/avatar:bottom-[3.5px] not-empty:group-data-[size=2xl]/avatar:end-[1.5px] not-empty:group-data-[size=2xl]/avatar:bottom-[1.5px] group-data-[size=2xl]/avatar:size-4 group-data-[size=2xl]/avatar:[&>svg]:size-3",
     className
   )
 
@@ -187,7 +181,7 @@ function AvatarGroup({ className, ...props }: ComponentProps<"div">) {
       data-slot="avatar-group"
       role="group"
       className={cn(
-        "group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
+        "group/avatar-group flex -space-x-2 rtl:space-x-reverse *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
         className
       )}
       {...props}
@@ -208,11 +202,4 @@ function AvatarGroupCount({ className, ...props }: ComponentProps<"div">) {
   )
 }
 
-export {
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
-  AvatarGroup,
-  AvatarGroupCount,
-  AvatarBadge,
-}
+export { Avatar, AvatarImage, AvatarFallback, AvatarGroup, AvatarGroupCount, AvatarBadge }

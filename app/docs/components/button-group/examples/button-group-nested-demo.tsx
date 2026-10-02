@@ -1,7 +1,6 @@
 "use client"
 
-import { PlusIcon } from "lucide-react"
-
+import { ButtonDemoIcon } from "@/components/docs/demo-icon"
 import { Button } from "@/app/docs/components/button/docs-button"
 import { ButtonGroup } from "../docs-button-group"
 
@@ -10,7 +9,7 @@ export function ButtonGroupNestedDemo() {
     <ButtonGroup aria-label="مدیریت پیام">
       <ButtonGroup>
         <Button variant="outline" size="icon-sm" aria-label="پیام جدید">
-          <PlusIcon />
+          <ButtonDemoIcon />
         </Button>
       </ButtonGroup>
       <ButtonGroup>

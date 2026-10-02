@@ -38,7 +38,12 @@ const componentLinks: DocsNavLink[] = components
     href: item.href,
     ready: item.ready,
   }))
-  .sort((a, b) => a.title.localeCompare(b.title));
+  .sort((a, b) => {
+    const aReady = a.ready !== false
+    const bReady = b.ready !== false
+    if (aReady !== bReady) return aReady ? -1 : 1
+    return a.title.localeCompare(b.title)
+  })
 
 const groups: { title: string; links: DocsNavLink[] }[] = [
   {
@@ -88,9 +93,12 @@ function DocsNav({
                   {disabled ? (
                     <span
                       aria-disabled="true"
-                      className="flex cursor-not-allowed items-center gap-2 border-l-2 border-transparent py-1 pl-3 text-xs leading-5 text-muted-foreground/50 no-underline"
+                      className="flex w-full cursor-not-allowed items-center gap-2 border-l-2 border-transparent py-1 pl-3 text-xs leading-5 text-muted-foreground/50 no-underline"
                     >
-                      <span>{link.title}</span>
+                      <span className="min-w-0 truncate">{link.title}</span>
+                      <span className="ms-auto shrink-0 rounded-md border border-border/60 px-1.5 py-0.5 text-[10px] font-medium leading-none tracking-wide text-muted-foreground/70">
+                        Coming soon
+                      </span>
                     </span>
                   ) : (
                     <Link

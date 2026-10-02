@@ -14,8 +14,7 @@ export const checkboxPropRows = [
   {
     prop: "onCheckedChange",
     type: "(checked: boolean) => void",
-    description:
-      "Called with the next boolean value whenever the checkbox is toggled.",
+    description: "Called with the next boolean value whenever the checkbox is toggled.",
   },
   {
     prop: "indeterminate",
@@ -57,21 +56,19 @@ export const checkboxPropRows = [
   {
     prop: "id",
     type: "string",
-    description:
-      "Associates the control with a Label through htmlFor for accessible naming.",
+    description: "Associates the control with a Label through htmlFor for accessible naming.",
   },
   {
     prop: "aria-invalid",
     type: "boolean",
     default: "false",
     description:
-      "Marks the control as invalid for assistive tech. Pair with error text for visual feedback.",
+      "Marks the control as invalid. Adds a destructive border and ring; link the error text with aria-describedby.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the control styles (last one wins).",
+    description: "Additional Tailwind classes merged with the control styles (last one wins).",
   },
 ]
 
@@ -89,22 +86,16 @@ export const checkboxStateRows = [
   {
     prop: "disabled",
     type: "-",
-    description:
-      "Unchecked stays full opacity; checked or indeterminate use reduced opacity.",
+    description: "Unchecked stays full opacity; checked or indeterminate use reduced opacity.",
   },
   {
     prop: "pending",
     type: "-",
-    description:
-      "Borderless control with a spinning loader; interaction is blocked.",
+    description: "Borderless control with a spinning loader; interaction is blocked.",
   },
   {
     prop: "aria-invalid",
     type: "-",
-    description: "Expose with aria-invalid; show error copy below the control.",
+    description: "Destructive border and ring. Show error copy below the control.",
   },
 ]
-
-// Back-compat aliases for any older imports
-export const propRows = checkboxPropRows
-export const variantRows = checkboxStateRows

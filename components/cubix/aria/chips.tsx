@@ -7,10 +7,13 @@
   on React Aria's ToggleButtonGroup + ToggleButton. Single mode keeps one
   chip selected and lets the selected chip deselect itself; multiple mode
   keeps any number selected. Both modes take string arrays for value and
-  defaultValue, matching Cubix Accordion.
+  defaultValue, matching Cubix Accordion. Arrow keys follow the reading
+  direction, so they are mirrored in RTL. Backspace or Delete removes a
+  focused removable chip.
 */
 import * as React from "react"
 import {
+  I18nProvider,
   ToggleButton,
   ToggleButtonGroup,
   type Selection,
@@ -28,10 +31,30 @@ type ChipsProps = Omit<
   value?: string[]
   defaultValue?: string[]
   onValueChange?: (value: string[]) => void
+  dir?: "ltr" | "rtl"
 }
 
 function toKeySet(value?: string[]) {
   return value === undefined ? undefined : new Set(value)
+}
+
+/*
+  Cubix is Persian-first, so the row starts right-to-left and then follows
+  the closest dir on the page. An explicit dir prop wins. React Aria reads
+  arrow key direction from its locale, so the resolved dir picks the locale.
+*/
+function usePageDir(dir: ChipsProps["dir"]) {
+  const nodeRef = React.useRef<HTMLDivElement | null>(null)
+  const [pageDir, setPageDir] = React.useState<"ltr" | "rtl">("rtl")
+
+  React.useLayoutEffect(() => {
+    const closest = nodeRef.current?.parentElement?.closest("[dir]")?.getAttribute("dir")
+    if (closest === "ltr" || closest === "rtl") {
+      setPageDir(closest)
+    }
+  }, [])
+
+  return { nodeRef, resolvedDir: dir ?? pageDir }
 }
 
 function Chips({
@@ -40,27 +63,47 @@ function Chips({
   value,
   defaultValue,
   onValueChange,
+  dir,
   ...props
 }: ChipsProps) {
+  const { nodeRef, resolvedDir } = usePageDir(dir)
+
   return (
-    <ToggleButtonGroup
-      data-slot="chips"
-      selectionMode={multiple ? "multiple" : "single"}
-      selectedKeys={toKeySet(value)}
-      defaultSelectedKeys={toKeySet(defaultValue)}
-      onSelectionChange={
-        onValueChange
-          ? (keys: Selection) => {
-              onValueChange(
-                keys === "all" ? [] : Array.from(keys, (key) => String(key))
-              )
-            }
-          : undefined
-      }
-      className={cn("flex w-full flex-wrap items-center gap-2", className)}
-      {...props}
-    />
+    <I18nProvider locale={resolvedDir === "rtl" ? "fa-IR" : "en-US"}>
+      <ToggleButtonGroup
+        ref={nodeRef}
+        data-slot="chips"
+        dir={resolvedDir}
+        selectionMode={multiple ? "multiple" : "single"}
+        selectedKeys={toKeySet(value)}
+        defaultSelectedKeys={toKeySet(defaultValue)}
+        onSelectionChange={
+          onValueChange
+            ? (keys: Selection) => {
+                onValueChange(keys === "all" ? [] : Array.from(keys, (key) => String(key)))
+              }
+            : undefined
+        }
+        className={cn("flex w-full flex-wrap items-center gap-2", className)}
+        {...props}
+      />
+    </I18nProvider>
   )
+}
+
+/*
+  Removing the focused chip would drop focus to the page body. Move it to
+  the next enabled chip first, or to the previous one when removing the last.
+*/
+function focusSiblingChip(chip: HTMLElement) {
+  const group = chip.closest("[data-slot=chips]")
+  if (!group) return
+  const chips = Array.from(
+    group.querySelectorAll<HTMLElement>("[data-slot=chip]:not(:disabled):not([data-disabled])")
+  )
+  const index = chips.indexOf(chip)
+  const sibling = chips[index + 1] ?? chips[index - 1]
+  sibling?.focus()
 }
 
 /*
@@ -145,7 +188,8 @@ type ChipProps = Omit<ToggleButtonProps, "id" | "children"> & {
   variant?: ChipVariant
   size?: ChipSize
   children?: React.ReactNode
-  onRemove?: (event: React.MouseEvent<HTMLButtonElement>) => void
+  removeLabel?: string
+  onRemove?: () => void
 }
 
 function Chip({
@@ -156,13 +200,29 @@ function Chip({
   value,
   icon,
   avatar,
+  removeLabel = "حذف",
   onRemove,
+  onKeyDown,
   ...props
 }: ChipProps) {
   const chip = (
     <ToggleButton
       id={value}
       data-slot="chip"
+      onKeyDown={(event) => {
+        onKeyDown?.(event)
+        if (!onRemove) {
+          event.continuePropagation()
+          return
+        }
+        if (event.key !== "Backspace" && event.key !== "Delete") {
+          event.continuePropagation()
+          return
+        }
+        event.preventDefault()
+        focusSiblingChip(event.currentTarget)
+        onRemove()
+      }}
       className={cn(
         "peer/chip inline-flex shrink-0 items-center rounded-full has-data-[slot=chip-avatar]:ps-[3px] border border-border bg-background font-normal whitespace-nowrap text-foreground outline-none transition-colors hover:bg-muted group-hover/chip:bg-muted focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0",
         chipSizes[size].chip,
@@ -203,22 +263,26 @@ function Chip({
   /*
     The remove button sits beside the chip instead of inside it, because
     HTML does not allow a button inside another button. It is positioned
-    over the chip's end padding so it looks the same.
+    over the chip's end padding so it looks the same. It stays out of the
+    tab order; keyboard users remove the focused chip with Backspace or
+    Delete.
   */
   return (
-    <span
-      data-slot="chip-root"
-      className="group/chip relative inline-flex shrink-0"
-    >
+    <span data-slot="chip-root" className="group/chip relative inline-flex shrink-0">
       {chip}
       <button
         type="button"
         data-slot="chip-remove"
-        aria-label="Remove"
+        aria-label={removeLabel}
         tabIndex={-1}
         onClick={(event) => {
           event.stopPropagation()
-          onRemove(event)
+          const root = event.currentTarget.parentElement
+          const chipElement = root?.querySelector<HTMLElement>("[data-slot=chip]")
+          if (chipElement && root?.contains(document.activeElement)) {
+            focusSiblingChip(chipElement)
+          }
+          onRemove()
         }}
         className={cn(
           "absolute top-1/2 inline-flex size-5 -translate-y-1/2 cursor-default items-center justify-center rounded-full text-foreground opacity-70 outline-none transition-opacity duration-200 ease-out hover:opacity-100 focus-visible:opacity-100 peer-disabled/chip:pointer-events-none peer-disabled/chip:opacity-35 peer-data-disabled/chip:pointer-events-none peer-data-disabled/chip:opacity-35 [&_svg]:pointer-events-none",
@@ -232,11 +296,4 @@ function Chip({
   )
 }
 
-export {
-  Chips,
-  Chip,
-  type ChipsProps,
-  type ChipProps,
-  type ChipVariant,
-  type ChipSize,
-}
+export { Chips, Chip, type ChipsProps, type ChipProps, type ChipVariant, type ChipSize }

@@ -17,6 +17,11 @@ import {
   Text as AriaText,
 } from "react-aria-components"
 
+import {
+  liftAriaFieldInputValue,
+  markCubixFieldInput,
+  mergeAriaFieldValueProps,
+} from "@/lib/aria-field-value"
 import { cn } from "@/lib/utils"
 
 /*
@@ -60,9 +65,7 @@ const phoneFieldInputVariants = cva(
   }
 )
 
-type PhoneFieldSize = NonNullable<
-  VariantProps<typeof phoneFieldInputVariants>["size"]
->
+type PhoneFieldSize = NonNullable<VariantProps<typeof phoneFieldInputVariants>["size"]>
 
 const PhoneFieldSizeContext = React.createContext<PhoneFieldSize>("default")
 const PhoneFieldControlContext = React.createContext(false)
@@ -74,18 +77,22 @@ function PhoneField({
   invalid,
   isDisabled,
   isInvalid,
+  children,
   ...props
 }: Omit<
   React.ComponentProps<typeof AriaPhoneField>,
-  "className" | "isDisabled" | "isInvalid"
+  "className" | "isDisabled" | "isInvalid" | "children"
 > & {
   className?: string
+  children?: React.ReactNode
   size?: PhoneFieldSize
   disabled?: boolean
   invalid?: boolean
   isDisabled?: boolean
   isInvalid?: boolean
 }) {
+  const { children: fieldChildren, lifted } = liftAriaFieldInputValue(children)
+  const fieldProps = mergeAriaFieldValueProps(props, lifted)
   return (
     <PhoneFieldSizeContext.Provider value={size}>
       <AriaPhoneField
@@ -97,16 +104,15 @@ function PhoneField({
           "group/phone-field flex w-full flex-col gap-2 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-70",
           className
         )}
-        {...props}
-      />
+        {...fieldProps}
+      >
+        {fieldChildren}
+      </AriaPhoneField>
     </PhoneFieldSizeContext.Provider>
   )
 }
 
-function PhoneFieldLabel({
-  className,
-  ...props
-}: React.ComponentProps<typeof AriaLabel>) {
+function PhoneFieldLabel({ className, ...props }: React.ComponentProps<typeof AriaLabel>) {
   return (
     <AriaLabel
       data-slot="phone-field-label"
@@ -158,7 +164,10 @@ function PhoneFieldInput({
   size: sizeProp,
   autoComplete = "tel",
   ...props
-}: Omit<React.ComponentProps<typeof AriaInput>, "size" | "type" | "className" | "inputMode" | "spellCheck"> & {
+}: Omit<
+  React.ComponentProps<typeof AriaInput>,
+  "size" | "type" | "className" | "inputMode" | "spellCheck"
+> & {
   className?: string
   size?: PhoneFieldSize
 }) {
@@ -169,10 +178,7 @@ function PhoneFieldInput({
     <AriaInput
       data-slot="phone-field-input"
       data-size={size}
-      className={cn(
-        phoneFieldInputVariants({ size, inControl }),
-        className
-      )}
+      className={cn(phoneFieldInputVariants({ size, inControl }), className)}
       {...props}
       type="tel"
       inputMode="tel"
@@ -183,10 +189,7 @@ function PhoneFieldInput({
 }
 
 function clearPhoneFieldInput(input: HTMLInputElement) {
-  const descriptor = Object.getOwnPropertyDescriptor(
-    HTMLInputElement.prototype,
-    "value"
-  )
+  const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value")
   descriptor?.set?.call(input, "")
   input.dispatchEvent(new Event("input", { bubbles: true }))
   input.dispatchEvent(new Event("change", { bubbles: true }))
@@ -217,9 +220,7 @@ function PhoneFieldClear({
 
   React.useLayoutEffect(() => {
     const control = ref.current?.closest("[data-slot=phone-field-control]")
-    const input = control?.querySelector<HTMLInputElement>(
-      "[data-slot=phone-field-input]"
-    )
+    const input = control?.querySelector<HTMLInputElement>("[data-slot=phone-field-input]")
     if (!input) return
 
     const sync = () => {
@@ -293,20 +294,19 @@ function PhoneFieldError({
   return (
     <AriaFieldError
       data-slot="phone-field-error"
-      className={cn(
-        "m-0 text-caption font-normal text-destructive",
-        className
-      )}
+      className={cn("m-0 text-caption font-normal text-destructive", className)}
       {...props}
     />
   )
 }
 
+const PhoneFieldInputMarked = markCubixFieldInput(PhoneFieldInput)
+
 export {
   PhoneField,
   PhoneFieldLabel,
   PhoneFieldControl,
-  PhoneFieldInput,
+  PhoneFieldInputMarked as PhoneFieldInput,
   PhoneFieldClear,
   PhoneFieldDescription,
   PhoneFieldError,

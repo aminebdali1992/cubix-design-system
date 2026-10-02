@@ -195,8 +195,9 @@ export default function ButtonPage() {
           title="Loading"
           description={
             <>
-              Disable the control and show a Cubix <Code>Spinner</Code> while an async action runs.
-              Click the button to try it.
+              Disable the control and show a spinning icon while an async action runs. Set{" "}
+              <Code>aria-busy</Code> so assistive technology knows the action is in progress. Click
+              the button to try it.
             </>
           }
           code={buttonLoadingSource}

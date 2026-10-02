@@ -1,30 +1,17 @@
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
-import Link from "next/link"
 import { CircleAlertIcon } from "lucide-react"
 
-import {
-  Breadcrumb,
-  BreadcrumbEllipsis,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "./docs-breadcrumb"
-import { ButtonDemoIcon } from "@/components/examples/button-demo-icon"
-import { Button } from "@/components/cubix/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/cubix/dropdown-menu"
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import {
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
 import {
   breadcrumbPropRows,
   ellipsisPropRows,
@@ -34,37 +21,28 @@ import {
   pagePropRows,
   separatorPropRows,
 } from "./breadcrumb-table-data"
+import { BreadcrumbCollapsedDemo } from "./examples/breadcrumb-collapsed-demo"
+import { BreadcrumbDemo } from "./examples/breadcrumb-demo"
+import { BreadcrumbDropdownDemo } from "./examples/breadcrumb-dropdown-demo"
+import { BreadcrumbIconDemo } from "./examples/breadcrumb-icon-demo"
+import { BreadcrumbLinkDemo } from "./examples/breadcrumb-link-demo"
+import { BreadcrumbSeparatorDemo } from "./examples/breadcrumb-separator-demo"
+
+const description = "Displays the path to the current resource using a hierarchy of links."
 
 export const metadata: Metadata = {
   title: "Breadcrumb",
-  description:
-    "Displays the path to the current resource using a hierarchy of links.",
+  description,
 }
 
-const usageImport = `import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/cubix/breadcrumb"`
+const PUBLIC_IMPORT = "@/components/cubix/breadcrumb"
+const EXAMPLES_DIR = "app/docs/components/breadcrumb/examples"
 
-const usageSnippet = `<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink href="/">خانه</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbLink href="/docs/components">کامپوننت‌ها</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbPage>مسیر</BreadcrumbPage>
-    </BreadcrumbItem>
-  </BreadcrumbList>
-</Breadcrumb>`
+function loadBreadcrumbExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `Breadcrumb
 └── BreadcrumbList
@@ -77,154 +55,61 @@ const compositionSnippet = `Breadcrumb
     └── BreadcrumbItem
         └── BreadcrumbPage`
 
-const iconSnippet = `<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink href="#">
-        <ButtonDemoIcon />
-        خانه
-      </BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbPage>مسیر</BreadcrumbPage>
-    </BreadcrumbItem>
-  </BreadcrumbList>
-</Breadcrumb>`
-
-const separatorSnippet = `<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink href="#">خانه</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator>
-      /
-    </BreadcrumbSeparator>
-    <BreadcrumbItem>
-      <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator>
-      /
-    </BreadcrumbSeparator>
-    <BreadcrumbItem>
-      <BreadcrumbPage>مسیر</BreadcrumbPage>
-    </BreadcrumbItem>
-  </BreadcrumbList>
-</Breadcrumb>`
-
-const dropdownSnippet = `<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink href="#">خانه</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <DropdownMenu>
-        <DropdownMenuTrigger
-          render={<Button size="icon-sm" variant="ghost" aria-label="بیشتر" />}
-        >
-          <BreadcrumbEllipsis />
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="start">
-          <DropdownMenuItem>مستندات</DropdownMenuItem>
-          <DropdownMenuItem>تم‌ها</DropdownMenuItem>
-          <DropdownMenuItem>گیت‌هاب</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbPage>مسیر</BreadcrumbPage>
-    </BreadcrumbItem>
-  </BreadcrumbList>
-</Breadcrumb>`
-
-const collapsedSnippet = `<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink href="#">خانه</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbEllipsis />
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbPage>مسیر</BreadcrumbPage>
-    </BreadcrumbItem>
-  </BreadcrumbList>
-</Breadcrumb>`
-
-const linkSnippet = `<Breadcrumb>
-  <BreadcrumbList>
-    <BreadcrumbItem>
-      <BreadcrumbLink render={<Link href="/" />}>خانه</BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbLink render={<Link href="/docs/components" />}>
-        کامپوننت‌ها
-      </BreadcrumbLink>
-    </BreadcrumbItem>
-    <BreadcrumbSeparator />
-    <BreadcrumbItem>
-      <BreadcrumbPage>مسیر</BreadcrumbPage>
-    </BreadcrumbItem>
-  </BreadcrumbList>
-</Breadcrumb>`
-
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
-    <div
-      dir="rtl"
-      lang="fa"
-      className="flex min-h-32 w-full items-center justify-center"
-    >
+    <div dir="rtl" lang="fa" className="flex w-full justify-center">
       {children}
     </div>
   )
 }
 
-export default function BreadcrumbDocsPage() {
+function ExampleSection({
+  title,
+  description,
+  code,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
+export default function BreadcrumbPage() {
+  const demoSource = loadBreadcrumbExample("breadcrumb-demo.tsx")
+  const iconSource = loadBreadcrumbExample("breadcrumb-icon-demo.tsx")
+  const separatorSource = loadBreadcrumbExample("breadcrumb-separator-demo.tsx")
+  const collapsedSource = loadBreadcrumbExample("breadcrumb-collapsed-demo.tsx")
+  const dropdownSource = loadBreadcrumbExample("breadcrumb-dropdown-demo.tsx")
+  const linkSource = loadBreadcrumbExample("breadcrumb-link-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Breadcrumb"
-        description="Displays the path to the current resource using a hierarchy of links."
-        slug="breadcrumb"
-      />
+      <ComponentDocsHeader title="Breadcrumb" description={description} slug="breadcrumb" />
 
-      <ComponentPreview code={usageSnippet}>
+      <ComponentPreview code={demoSource}>
         <PreviewShell>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/">خانه</BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/docs/components">
-                  کامپوننت‌ها
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>مسیر</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+          <BreadcrumbDemo />
         </PreviewShell>
       </ComponentPreview>
 
@@ -237,299 +122,126 @@ export default function BreadcrumbDocsPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the following composition to build a{" "}
-          <code className="font-mono text-sm">Breadcrumb</code>:
+          Keep the last item as <Code>BreadcrumbPage</Code> so the current page is announced
+          correctly. The default chevron flips in RTL.
         </p>
-        <CodeBlock code={compositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
       </section>
 
-      <section className="space-y-8">
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          The root is a navigation landmark named <Code>مسیر</Code> by default. Override{" "}
+          <Code>aria-label</Code> when the trail needs a more specific name. Separators are hidden
+          from assistive technology, and the current page uses{" "}
+          <Code>aria-current=&quot;page&quot;</Code>.
+        </p>
+      </section>
+
+      <section className="space-y-6">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Basic</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            A basic breadcrumb with a home link and a components link.
-          </p>
-          <ComponentPreview code={usageSnippet}>
-            <PreviewShell>
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/">خانه</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="/docs/components">
-                      کامپوننت‌ها
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>مسیر</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="With icon"
+          description={
+            <>
+              Place an icon inside <Code>BreadcrumbLink</Code> before the text. It is sized to 20px
+              and spaced from the label automatically.
+            </>
+          }
+          code={iconSource}
+        >
+          <BreadcrumbIconDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            With icon
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Place an icon inside{" "}
-            <code className="font-mono text-sm">BreadcrumbLink</code> before the
-            text. It is sized to 20px and spaced from the label automatically.
-          </p>
-          <ComponentPreview code={iconSnippet}>
-            <PreviewShell>
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="#">
-                      <ButtonDemoIcon />
-                      خانه
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>مسیر</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Separator"
+          description={
+            <>
+              Pass a custom child to <Code>BreadcrumbSeparator</Code> to replace the default
+              chevron.
+            </>
+          }
+          code={separatorSource}
+        >
+          <BreadcrumbSeparatorDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Separator
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Pass a custom child to{" "}
-            <code className="font-mono text-sm">BreadcrumbSeparator</code> to
-            replace the default chevron.
-          </p>
-          <ComponentPreview code={separatorSnippet}>
-            <PreviewShell>
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="#">خانه</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    /
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator>
-                    /
-                  </BreadcrumbSeparator>
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>مسیر</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Collapsed"
+          description={
+            <>
+              Use <Code>BreadcrumbEllipsis</Code> to show a collapsed middle when the path is too
+              long.
+            </>
+          }
+          code={collapsedSource}
+        >
+          <BreadcrumbCollapsedDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Dropdown</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Compose{" "}
-            <code className="font-mono text-sm">BreadcrumbEllipsis</code> with a{" "}
-            <code className="font-mono text-sm">DropdownMenu</code> when the
-            path is too long.
-          </p>
-          <ComponentPreview code={dropdownSnippet}>
-            <PreviewShell>
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="#">خانه</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger
-                        render={
-                          <Button
-                            size="icon-sm"
-                            variant="ghost"
-                            aria-label="بیشتر"
-                          />
-                        }
-                      >
-                        <BreadcrumbEllipsis />
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start">
-                        <DropdownMenuItem>مستندات</DropdownMenuItem>
-                        <DropdownMenuItem>تم‌ها</DropdownMenuItem>
-                        <DropdownMenuItem>گیت‌هاب</DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>مسیر</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Dropdown"
+          description={
+            <>
+              Compose <Code>BreadcrumbEllipsis</Code> with a <Code>DropdownMenu</Code> when the
+              hidden segments should still be reachable.
+            </>
+          }
+          code={dropdownSource}
+        >
+          <BreadcrumbDropdownDemo />
+        </ExampleSection>
 
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Collapsed</h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Use{" "}
-            <code className="font-mono text-sm">BreadcrumbEllipsis</code> to
-            show a collapsed state when the breadcrumb is too long.
-          </p>
-          <ComponentPreview code={collapsedSnippet}>
-            <PreviewShell>
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="#">خانه</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbEllipsis />
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbLink href="#">کامپوننت‌ها</BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>مسیر</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Link component
-          </h3>
-          <p className="leading-relaxed text-muted-foreground">
-            Use the <code className="font-mono text-sm">render</code> prop
-            (Base UI / React Aria) or{" "}
-            <code className="font-mono text-sm">asChild</code> (Radix) on{" "}
-            <code className="font-mono text-sm">BreadcrumbLink</code> to use a
-            custom link from your routing library.
-          </p>
-          <ComponentPreview code={linkSnippet}>
-            <PreviewShell>
-              <Breadcrumb>
-                <BreadcrumbList>
-                  <BreadcrumbItem>
-                    <BreadcrumbLink render={<Link href="/" />}>
-                      خانه
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbLink render={<Link href="/docs/components" />}>
-                      کامپوننت‌ها
-                    </BreadcrumbLink>
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                  <BreadcrumbItem>
-                    <BreadcrumbPage>مسیر</BreadcrumbPage>
-                  </BreadcrumbItem>
-                </BreadcrumbList>
-              </Breadcrumb>
-            </PreviewShell>
-          </ComponentPreview>
-        </div>
+        <ExampleSection
+          title="Link component"
+          description={
+            <>
+              Pass <Code>render=&#123;&lt;Link /&gt;&#125;</Code> to use your routing library&apos;s
+              link. The docs adapter maps this to <Code>asChild</Code> on Radix.
+            </>
+          }
+          code={linkSource}
+        >
+          <BreadcrumbLinkDemo />
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Keep the last
-            item as{" "}
-            <code className="font-mono">BreadcrumbPage</code> so the current
-            page is announced correctly.
+            <strong className="text-foreground">Note:</strong> Parts render <Code>data-slot</Code>{" "}
+            attributes (<Code>breadcrumb</Code>, <Code>breadcrumb-list</Code>,{" "}
+            <Code>breadcrumb-item</Code>, <Code>breadcrumb-link</Code>, <Code>breadcrumb-page</Code>
+            , <Code>breadcrumb-separator</Code>, <Code>breadcrumb-ellipsis</Code>) for targeting in
+            tests and parent selectors. Keep the last item as <Code>BreadcrumbPage</Code>. Use the
+            same props on Base UI, React Aria, and Radix.
           </p>
         </div>
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">Breadcrumb</h3>
-        <p className="leading-relaxed text-muted-foreground">
-          The root navigation element that wraps all breadcrumb parts.
-        </p>
         <PropsTable data={breadcrumbPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          BreadcrumbList
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          The ordered list of breadcrumb items.
-        </p>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">BreadcrumbList</h3>
         <PropsTable data={listPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          BreadcrumbItem
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          Wraps an individual breadcrumb item.
-        </p>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">BreadcrumbItem</h3>
         <PropsTable data={itemPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          BreadcrumbLink
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          A clickable link in the breadcrumb.
-        </p>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">BreadcrumbLink</h3>
         <PropsTable data={linkPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          BreadcrumbPage
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          The current page in the breadcrumb. Not a link.
-        </p>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">BreadcrumbPage</h3>
         <PropsTable data={pagePropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          BreadcrumbSeparator
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          Separator between items. Pass children to override the default icon.
-        </p>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">BreadcrumbSeparator</h3>
         <PropsTable data={separatorPropRows} />
 
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          BreadcrumbEllipsis
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          An ellipsis indicator for collapsed breadcrumb items.
-        </p>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">BreadcrumbEllipsis</h3>
         <PropsTable data={ellipsisPropRows} />
       </section>
     </article>
