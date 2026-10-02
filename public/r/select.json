@@ -3,9 +3,9 @@
   "name": "select",
   "type": "registry:ui",
   "title": "Select",
-  "description": "Displays a native select control with Cubix styling.",
-  "dependencies": ["lucide-react"],
-  "registryDependencies": [],
+  "description": "Displays a list of options for the user to pick from, triggered by a button.",
+  "dependencies": ["@base-ui/react", "class-variance-authority", "lucide-react"],
+  "registryDependencies": ["direction"],
   "files": [
     {
       "path": "components/cubix/select.tsx",

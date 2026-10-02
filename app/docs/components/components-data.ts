@@ -128,7 +128,7 @@ export const components = [
     description:
       "Displays a list of options for the user to pick from, triggered by a button.",
     href: "/docs/components/select",
-    ready: false,
+    ready: true,
   },
   {
     name: "Tabs",

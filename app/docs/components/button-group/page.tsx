@@ -17,6 +17,7 @@ import { ButtonGroupDemo } from "./examples/button-group-demo"
 import { ButtonGroupInputDemo } from "./examples/button-group-input-demo"
 import { ButtonGroupNestedDemo } from "./examples/button-group-nested-demo"
 import { ButtonGroupOrientationDemo } from "./examples/button-group-orientation-demo"
+import { ButtonGroupSelectDemo } from "./examples/button-group-select-demo"
 import { ButtonGroupSeparatorDemo } from "./examples/button-group-separator-demo"
 import { ButtonGroupSizeDemo } from "./examples/button-group-size-demo"
 import { ButtonGroupSplitDemo } from "./examples/button-group-split-demo"
@@ -33,7 +34,7 @@ const PUBLIC_IMPORT = "@/components/cubix/button-group"
 const EXAMPLES_DIR = "app/docs/components/button-group/examples"
 
 const compositionSnippet = `ButtonGroup
-├── Button or TextFieldInput
+├── Button, TextFieldInput or Select
 ├── ButtonGroupSeparator
 ├── ButtonGroupText
 └── ButtonGroup (nested)`
@@ -92,6 +93,7 @@ export default function ButtonGroupPage() {
   const splitSource = loadButtonGroupExample("button-group-split-demo.tsx")
   const inputSource = loadButtonGroupExample("button-group-input-demo.tsx")
   const textSource = loadButtonGroupExample("button-group-text-demo.tsx")
+  const selectSource = loadButtonGroupExample("button-group-select-demo.tsx")
   const usageImport = extractDemoImports(demoSource)
   const usageSnippet = extractDemoJsx(demoSource)
 
@@ -230,6 +232,19 @@ export default function ButtonGroupPage() {
           code={textSource}
         >
           <ButtonGroupTextDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Select"
+          description={
+            <>
+              Pair a <Code>Select</Code> with a <Code>TextFieldInput</Code> and a button. All three
+              default to 40px, so the joined edges line up.
+            </>
+          }
+          code={selectSource}
+        >
+          <ButtonGroupSelectDemo />
         </ExampleSection>
       </section>
 

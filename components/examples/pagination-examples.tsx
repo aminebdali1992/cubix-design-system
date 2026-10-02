@@ -80,7 +80,7 @@ export function PaginationIconsOnlyDemo() {
       <Field orientation="horizontal" className="w-fit">
         <FieldLabel htmlFor="select-rows-per-page">Rows per page</FieldLabel>
         <Select defaultValue="25">
-          <SelectTrigger className="w-20" id="select-rows-per-page">
+          <SelectTrigger size="sm" className="w-20" id="select-rows-per-page">
             <SelectValue />
           </SelectTrigger>
           <SelectContent align="start">

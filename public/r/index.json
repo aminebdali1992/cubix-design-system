@@ -434,7 +434,7 @@
       "name": "select",
       "type": "registry:ui",
       "title": "Select",
-      "description": "Displays a native select control with Cubix styling.",
+      "description": "Displays a list of options for the user to pick from, triggered by a button.",
       "files": [{ "path": "public/r/select.json", "type": "registry:ui" }]
     },
     {

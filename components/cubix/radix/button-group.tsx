@@ -8,14 +8,14 @@ import { Separator } from "@/components/cubix/radix/separator"
 import { cn } from "@/lib/utils"
 
 const buttonGroupVariants = cva(
-  "group/button-group flex w-fit items-stretch *:focus-visible:relative *:focus-visible:z-10 has-[>[data-slot=button-group]]:gap-2 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-e-lg [&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1",
+  "group/button-group flex w-fit items-stretch *:focus-visible:relative *:focus-visible:z-10 [&>[data-slot=select]>[data-slot=select-trigger]:focus-visible]:relative [&>[data-slot=select]>[data-slot=select-trigger]:focus-visible]:z-10 has-[>[data-slot=button-group]]:gap-2 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-e-lg [&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1",
   {
     variants: {
       orientation: {
         horizontal:
-          "*:data-slot:rounded-e-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-e-lg! [&>[data-slot]~[data-slot]]:rounded-s-none [&>[data-slot]~[data-slot]]:border-s-0",
+          "*:data-slot:rounded-e-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-e-lg! [&>[data-slot]~[data-slot]]:rounded-s-none [&>[data-slot]~[data-slot]]:border-s-0 [&>[data-slot=select]:has(~[data-slot])>[data-slot=select-trigger]]:rounded-e-none [&>[data-slot]~[data-slot=select]>[data-slot=select-trigger]]:rounded-s-none [&>[data-slot]~[data-slot=select]>[data-slot=select-trigger]]:border-s-0",
         vertical:
-          "flex-col *:data-slot:rounded-b-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-lg! [&>[data-slot]~[data-slot]]:rounded-t-none [&>[data-slot]~[data-slot]]:border-t-0",
+          "flex-col *:data-slot:rounded-b-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-lg! [&>[data-slot]~[data-slot]]:rounded-t-none [&>[data-slot]~[data-slot]]:border-t-0 [&>[data-slot=select]:has(~[data-slot])>[data-slot=select-trigger]]:rounded-b-none [&>[data-slot]~[data-slot=select]>[data-slot=select-trigger]]:rounded-t-none [&>[data-slot]~[data-slot=select]>[data-slot=select-trigger]]:border-t-0",
       },
     },
     defaultVariants: {
