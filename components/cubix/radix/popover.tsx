@@ -45,7 +45,22 @@ function Popover({
   )
 }
 
-function PopoverTrigger({ ref, ...props }: React.ComponentProps<typeof PopoverPrimitive.Trigger>) {
+/*
+  render={<Button variant="outline" />} composes the trigger or close with
+  another element, the same API as the Base UI and React Aria versions.
+  asChild works as well.
+*/
+type ComposableProps = {
+  render?: React.ReactElement<Record<string, unknown>>
+}
+
+function PopoverTrigger({
+  ref,
+  render,
+  asChild,
+  children,
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Trigger> & ComposableProps) {
   const { report } = React.useContext(PopoverDirContext)
   const nodeRef = React.useRef<HTMLElement | null>(null)
   const setRef = React.useCallback(
@@ -64,7 +79,16 @@ function PopoverTrigger({ ref, ...props }: React.ComponentProps<typeof PopoverPr
     if (closest === "ltr" || closest === "rtl") report(closest, lang)
   }, [report])
 
-  return <PopoverPrimitive.Trigger ref={setRef} data-slot="popover-trigger" {...props} />
+  return (
+    <PopoverPrimitive.Trigger
+      ref={setRef}
+      data-slot="popover-trigger"
+      asChild={asChild || render !== undefined}
+      {...props}
+    >
+      {render ? React.cloneElement(render, undefined, children) : children}
+    </PopoverPrimitive.Trigger>
+  )
 }
 
 function PopoverContent({
@@ -100,8 +124,21 @@ function PopoverContent({
   )
 }
 
-function PopoverClose({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Close>) {
-  return <PopoverPrimitive.Close data-slot="popover-close" {...props} />
+function PopoverClose({
+  render,
+  asChild,
+  children,
+  ...props
+}: React.ComponentProps<typeof PopoverPrimitive.Close> & ComposableProps) {
+  return (
+    <PopoverPrimitive.Close
+      data-slot="popover-close"
+      asChild={asChild || render !== undefined}
+      {...props}
+    >
+      {render ? React.cloneElement(render, undefined, children) : children}
+    </PopoverPrimitive.Close>
+  )
 }
 
 function PopoverAnchor({ ...props }: React.ComponentProps<typeof PopoverPrimitive.Anchor>) {

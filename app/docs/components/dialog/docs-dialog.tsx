@@ -2,24 +2,16 @@
 
 /*
   Dialog docs switcher. Mirrors docs-popover: demo code stays identical while
-  the active base (base / radix / aria) resolves from the URL. Trigger and
-  Close `render` map to render / asChild / AriaButton styling per library.
+  the active base (base / radix / aria) resolves from the URL. All three bases
+  share the same props, including render.
 */
-import { cloneElement, isValidElement, type ReactElement, type ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
 import * as AriaDialog from "@/components/cubix/aria/dialog"
 import * as BaseDialog from "@/components/cubix/base/dialog"
 import * as RadixDialog from "@/components/cubix/radix/dialog"
 import { DEFAULT_BASE, parseComponentPath } from "@/lib/bases"
-
-type TriggerRenderProps = {
-  children?: ReactNode
-  variant?: string
-  size?: string
-  className?: string
-  type?: "button" | "submit" | "reset"
-}
 
 type DialogProps = {
   open?: boolean
@@ -29,13 +21,13 @@ type DialogProps = {
 }
 
 type DialogTriggerProps = {
-  render?: ReactElement<TriggerRenderProps>
+  render?: ComponentProps<typeof AriaDialog.DialogTrigger>["render"]
   className?: string
   children?: ReactNode
 }
 
 type DialogCloseProps = {
-  render?: ReactElement<TriggerRenderProps>
+  render?: ComponentProps<typeof AriaDialog.DialogClose>["render"]
   className?: string
   children?: ReactNode
 }
@@ -90,64 +82,18 @@ function Dialog({ open, defaultOpen, onOpenChange, children }: DialogProps) {
   )
 }
 
-function DialogTrigger({ render, className, children }: DialogTriggerProps) {
+function DialogTrigger(props: DialogTriggerProps) {
   const base = useDialogBase()
-
-  if (base === "radix") {
-    if (isValidElement(render)) {
-      return (
-        <RadixDialog.DialogTrigger asChild className={className}>
-          {cloneElement(render, undefined, children)}
-        </RadixDialog.DialogTrigger>
-      )
-    }
-
-    return <RadixDialog.DialogTrigger className={className}>{children}</RadixDialog.DialogTrigger>
-  }
-
-  if (base === "aria") {
-    return (
-      <AriaDialog.DialogTrigger className={className} render={render as never}>
-        {children}
-      </AriaDialog.DialogTrigger>
-    )
-  }
-
-  return (
-    <BaseDialog.DialogTrigger render={render} className={className}>
-      {children}
-    </BaseDialog.DialogTrigger>
-  )
+  if (base === "radix") return <RadixDialog.DialogTrigger {...props} />
+  if (base === "aria") return <AriaDialog.DialogTrigger {...props} />
+  return <BaseDialog.DialogTrigger {...props} />
 }
 
-function DialogClose({ render, className, children }: DialogCloseProps) {
+function DialogClose(props: DialogCloseProps) {
   const base = useDialogBase()
-
-  if (base === "radix") {
-    if (isValidElement(render)) {
-      return (
-        <RadixDialog.DialogClose asChild className={className}>
-          {cloneElement(render, undefined, children)}
-        </RadixDialog.DialogClose>
-      )
-    }
-
-    return <RadixDialog.DialogClose className={className}>{children}</RadixDialog.DialogClose>
-  }
-
-  if (base === "aria") {
-    return (
-      <AriaDialog.DialogClose className={className} render={render as never}>
-        {children}
-      </AriaDialog.DialogClose>
-    )
-  }
-
-  return (
-    <BaseDialog.DialogClose render={render} className={className}>
-      {children}
-    </BaseDialog.DialogClose>
-  )
+  if (base === "radix") return <RadixDialog.DialogClose {...props} />
+  if (base === "aria") return <AriaDialog.DialogClose {...props} />
+  return <BaseDialog.DialogClose {...props} />
 }
 
 function DialogContent(props: DialogContentProps) {

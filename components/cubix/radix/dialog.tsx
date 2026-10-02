@@ -14,28 +14,55 @@ import { Dialog as DialogPrimitive } from "radix-ui"
 import { Button } from "@/components/cubix/radix/button"
 import { cn } from "@/lib/utils"
 
-function Dialog({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Root>) {
+function Dialog({ ...props }: React.ComponentProps<typeof DialogPrimitive.Root>) {
   return <DialogPrimitive.Root data-slot="dialog" {...props} />
 }
 
-function DialogTrigger({
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Trigger>) {
-  return <DialogPrimitive.Trigger data-slot="dialog-trigger" {...props} />
+/*
+  render={<Button variant="outline" />} composes the trigger or close with
+  another element, the same API as the Base UI and React Aria versions.
+  asChild works as well.
+*/
+type ComposableProps = {
+  render?: React.ReactElement<Record<string, unknown>>
 }
 
-function DialogPortal({
+function DialogTrigger({
+  render,
+  asChild,
+  children,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Portal>) {
+}: React.ComponentProps<typeof DialogPrimitive.Trigger> & ComposableProps) {
+  return (
+    <DialogPrimitive.Trigger
+      data-slot="dialog-trigger"
+      asChild={asChild || render !== undefined}
+      {...props}
+    >
+      {render ? React.cloneElement(render, undefined, children) : children}
+    </DialogPrimitive.Trigger>
+  )
+}
+
+function DialogPortal({ ...props }: React.ComponentProps<typeof DialogPrimitive.Portal>) {
   return <DialogPrimitive.Portal data-slot="dialog-portal" {...props} />
 }
 
 function DialogClose({
+  render,
+  asChild,
+  children,
   ...props
-}: React.ComponentProps<typeof DialogPrimitive.Close>) {
-  return <DialogPrimitive.Close data-slot="dialog-close" {...props} />
+}: React.ComponentProps<typeof DialogPrimitive.Close> & ComposableProps) {
+  return (
+    <DialogPrimitive.Close
+      data-slot="dialog-close"
+      asChild={asChild || render !== undefined}
+      {...props}
+    >
+      {render ? React.cloneElement(render, undefined, children) : children}
+    </DialogPrimitive.Close>
+  )
 }
 
 function DialogOverlay({
@@ -83,11 +110,7 @@ function DialogContent({
         {children}
         {showCloseButton ? (
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
-            <Button
-              variant="ghost"
-              className="absolute top-2 end-2"
-              size="icon-sm"
-            >
+            <Button variant="ghost" className="absolute top-2 end-2" size="icon-sm">
               <XIcon />
               <span className="sr-only">Close</span>
             </Button>
@@ -158,10 +181,7 @@ function DialogFooter({
   )
 }
 
-function DialogTitle({
-  className,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Title>) {
+function DialogTitle({ className, ...props }: React.ComponentProps<typeof DialogPrimitive.Title>) {
   return (
     <DialogPrimitive.Title
       data-slot="dialog-title"

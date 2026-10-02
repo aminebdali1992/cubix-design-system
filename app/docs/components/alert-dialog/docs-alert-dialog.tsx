@@ -4,20 +4,13 @@
   Alert Dialog docs switcher. Mirrors docs-dialog: demo code stays identical
   while the active base (base / radix / aria) resolves from the URL.
 */
-import { cloneElement, isValidElement, type ReactElement, type ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
 import * as AriaAlertDialog from "@/components/cubix/aria/alert-dialog"
 import * as BaseAlertDialog from "@/components/cubix/base/alert-dialog"
 import * as RadixAlertDialog from "@/components/cubix/radix/alert-dialog"
 import { DEFAULT_BASE, parseComponentPath } from "@/lib/bases"
-
-type TriggerRenderProps = {
-  children?: ReactNode
-  variant?: string
-  size?: string
-  className?: string
-}
 
 type AlertDialogProps = {
   open?: boolean
@@ -27,7 +20,7 @@ type AlertDialogProps = {
 }
 
 type AlertDialogTriggerProps = {
-  render?: ReactElement<TriggerRenderProps>
+  render?: ComponentProps<typeof AriaAlertDialog.AlertDialogTrigger>["render"]
   className?: string
   children?: ReactNode
 }
@@ -99,38 +92,11 @@ function AlertDialog({ open, defaultOpen, onOpenChange, children }: AlertDialogP
   )
 }
 
-function AlertDialogTrigger({ render, className, children }: AlertDialogTriggerProps) {
+function AlertDialogTrigger(props: AlertDialogTriggerProps) {
   const base = useAlertDialogBase()
-
-  if (base === "radix") {
-    if (isValidElement(render)) {
-      return (
-        <RadixAlertDialog.AlertDialogTrigger asChild className={className}>
-          {cloneElement(render, undefined, children)}
-        </RadixAlertDialog.AlertDialogTrigger>
-      )
-    }
-
-    return (
-      <RadixAlertDialog.AlertDialogTrigger className={className}>
-        {children}
-      </RadixAlertDialog.AlertDialogTrigger>
-    )
-  }
-
-  if (base === "aria") {
-    return (
-      <AriaAlertDialog.AlertDialogTrigger className={className} render={render as never}>
-        {children}
-      </AriaAlertDialog.AlertDialogTrigger>
-    )
-  }
-
-  return (
-    <BaseAlertDialog.AlertDialogTrigger render={render} className={className}>
-      {children}
-    </BaseAlertDialog.AlertDialogTrigger>
-  )
+  if (base === "radix") return <RadixAlertDialog.AlertDialogTrigger {...props} />
+  if (base === "aria") return <AriaAlertDialog.AlertDialogTrigger {...props} />
+  return <BaseAlertDialog.AlertDialogTrigger {...props} />
 }
 
 function AlertDialogContent(props: AlertDialogContentProps) {

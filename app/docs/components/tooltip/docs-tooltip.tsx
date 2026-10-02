@@ -1,6 +1,6 @@
 "use client"
 
-import { cloneElement, type ComponentProps, type ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
 import * as AriaTooltip from "@/components/cubix/aria/tooltip"
@@ -52,30 +52,11 @@ function Tooltip(props: TooltipProps) {
   return <BaseTooltip.Tooltip {...props} />
 }
 
-function TooltipTrigger({ render, children, ...props }: TooltipTriggerProps) {
+function TooltipTrigger(props: TooltipTriggerProps) {
   const base = useTooltipBase()
-  if (base === "radix") {
-    if (render) {
-      return (
-        <RadixTooltip.TooltipTrigger asChild {...props}>
-          {cloneElement(render, undefined, children)}
-        </RadixTooltip.TooltipTrigger>
-      )
-    }
-    return <RadixTooltip.TooltipTrigger {...props}>{children}</RadixTooltip.TooltipTrigger>
-  }
-  if (base === "aria") {
-    return (
-      <AriaTooltip.TooltipTrigger render={render} {...props}>
-        {children}
-      </AriaTooltip.TooltipTrigger>
-    )
-  }
-  return (
-    <BaseTooltip.TooltipTrigger render={render} {...props}>
-      {children}
-    </BaseTooltip.TooltipTrigger>
-  )
+  if (base === "radix") return <RadixTooltip.TooltipTrigger {...props} />
+  if (base === "aria") return <AriaTooltip.TooltipTrigger {...props} />
+  return <BaseTooltip.TooltipTrigger {...props} />
 }
 
 function TooltipContent(props: TooltipContentProps) {

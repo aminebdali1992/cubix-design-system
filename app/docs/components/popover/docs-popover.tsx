@@ -3,10 +3,9 @@
 /*
   Popover docs switcher. Mirrors docs-dialog: the demo code stays
   identical while the active base (base / radix / aria) resolves from
-  the URL. Trigger `render` and Content `side`/`align` are normalized
-  per library (render prop / asChild / AriaButton render + placement).
+  the URL. All three bases share the same props, including render.
 */
-import { cloneElement, isValidElement, type ReactElement, type ReactNode } from "react"
+import type { ComponentProps, ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
 import * as AriaPopover from "@/components/cubix/aria/popover"
@@ -15,13 +14,6 @@ import * as RadixPopover from "@/components/cubix/radix/popover"
 import { DEFAULT_BASE, parseComponentPath } from "@/lib/bases"
 
 type Dir = "ltr" | "rtl"
-
-type TriggerRenderProps = {
-  children?: ReactNode
-  variant?: string
-  size?: string
-  className?: string
-}
 
 type PopoverProps = {
   dir?: Dir
@@ -32,13 +24,13 @@ type PopoverProps = {
 }
 
 type PopoverTriggerProps = {
-  render?: ReactElement<TriggerRenderProps>
+  render?: ComponentProps<typeof AriaPopover.PopoverTrigger>["render"]
   className?: string
   children?: ReactNode
 }
 
 type PopoverCloseProps = {
-  render?: ReactElement<TriggerRenderProps>
+  render?: ComponentProps<typeof AriaPopover.PopoverClose>["render"]
   className?: string
   children?: ReactNode
 }
@@ -103,66 +95,18 @@ function Popover({ dir, open, defaultOpen, onOpenChange, children }: PopoverProp
   )
 }
 
-function PopoverTrigger({ render, className, children }: PopoverTriggerProps) {
+function PopoverTrigger(props: PopoverTriggerProps) {
   const base = usePopoverBase()
-
-  if (base === "radix") {
-    if (isValidElement(render)) {
-      return (
-        <RadixPopover.PopoverTrigger asChild className={className}>
-          {cloneElement(render, undefined, children)}
-        </RadixPopover.PopoverTrigger>
-      )
-    }
-
-    return (
-      <RadixPopover.PopoverTrigger className={className}>{children}</RadixPopover.PopoverTrigger>
-    )
-  }
-
-  if (base === "aria") {
-    return (
-      <AriaPopover.PopoverTrigger className={className} render={render as never}>
-        {children}
-      </AriaPopover.PopoverTrigger>
-    )
-  }
-
-  return (
-    <BasePopover.PopoverTrigger render={render} className={className}>
-      {children}
-    </BasePopover.PopoverTrigger>
-  )
+  if (base === "radix") return <RadixPopover.PopoverTrigger {...props} />
+  if (base === "aria") return <AriaPopover.PopoverTrigger {...props} />
+  return <BasePopover.PopoverTrigger {...props} />
 }
 
-function PopoverClose({ render, className, children }: PopoverCloseProps) {
+function PopoverClose(props: PopoverCloseProps) {
   const base = usePopoverBase()
-
-  if (base === "radix") {
-    if (isValidElement(render)) {
-      return (
-        <RadixPopover.PopoverClose asChild className={className}>
-          {cloneElement(render, undefined, children)}
-        </RadixPopover.PopoverClose>
-      )
-    }
-
-    return <RadixPopover.PopoverClose className={className}>{children}</RadixPopover.PopoverClose>
-  }
-
-  if (base === "aria") {
-    return (
-      <AriaPopover.PopoverClose className={className} render={render as never}>
-        {children}
-      </AriaPopover.PopoverClose>
-    )
-  }
-
-  return (
-    <BasePopover.PopoverClose render={render} className={className}>
-      {children}
-    </BasePopover.PopoverClose>
-  )
+  if (base === "radix") return <RadixPopover.PopoverClose {...props} />
+  if (base === "aria") return <AriaPopover.PopoverClose {...props} />
+  return <BasePopover.PopoverClose {...props} />
 }
 
 function PopoverContent({

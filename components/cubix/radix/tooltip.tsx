@@ -75,7 +75,20 @@ function Tooltip({
   )
 }
 
-function TooltipTrigger({ ref, ...props }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
+/*
+  render={<Button variant="outline" />} composes the trigger with another
+  element, the same API as the Base UI and React Aria versions. asChild works
+  as well.
+*/
+function TooltipTrigger({
+  ref,
+  render,
+  asChild,
+  children,
+  ...props
+}: React.ComponentProps<typeof TooltipPrimitive.Trigger> & {
+  render?: React.ReactElement<Record<string, unknown>>
+}) {
   const { report } = React.useContext(TooltipDirContext)
   const nodeRef = React.useRef<HTMLElement | null>(null)
   const setRef = React.useCallback(
@@ -94,7 +107,16 @@ function TooltipTrigger({ ref, ...props }: React.ComponentProps<typeof TooltipPr
     if (closest === "ltr" || closest === "rtl") report(closest, lang)
   }, [report])
 
-  return <TooltipPrimitive.Trigger ref={setRef} data-slot="tooltip-trigger" {...props} />
+  return (
+    <TooltipPrimitive.Trigger
+      ref={setRef}
+      data-slot="tooltip-trigger"
+      asChild={asChild || render !== undefined}
+      {...props}
+    >
+      {render ? React.cloneElement(render, undefined, children) : children}
+    </TooltipPrimitive.Trigger>
+  )
 }
 
 function toPhysicalSide(side: Side, dir: Dir): PhysicalSide {
