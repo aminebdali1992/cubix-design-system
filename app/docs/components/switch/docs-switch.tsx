@@ -1,6 +1,5 @@
 "use client"
 
-import type { ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
 import * as AriaSwitch from "@/components/cubix/aria/switch"
@@ -18,53 +17,21 @@ type SwitchProps = {
   defaultChecked?: boolean
   disabled?: boolean
   required?: boolean
-  invalid?: boolean
   "aria-invalid"?: boolean
   "aria-label"?: string
   onCheckedChange?: (checked: boolean) => void
-  children?: ReactNode
 }
 
 function useSwitchBase() {
-  const pathname = usePathname()
-  return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
+  return parseComponentPath(usePathname())?.base ?? DEFAULT_BASE
 }
 
-function Switch({
-  invalid,
-  "aria-invalid": ariaInvalid,
-  required,
-  ...props
-}: SwitchProps) {
+function Switch({ required, ...props }: SwitchProps) {
   const base = useSwitchBase()
-
-  if (base === "radix") {
-    return (
-      <RadixSwitch.Switch
-        required={required}
-        aria-invalid={invalid ?? ariaInvalid}
-        {...props}
-      />
-    )
-  }
-
-  if (base === "aria") {
-    return (
-      <AriaSwitch.Switch
-        invalid={invalid}
-        aria-invalid={ariaInvalid}
-        {...props}
-      />
-    )
-  }
-
-  return (
-    <BaseSwitch.Switch
-      required={required}
-      aria-invalid={invalid ?? ariaInvalid}
-      {...props}
-    />
-  )
+  // React Aria Switch omits isRequired; Base UI and Radix accept required.
+  if (base === "radix") return <RadixSwitch.Switch required={required} {...props} />
+  if (base === "aria") return <AriaSwitch.Switch {...props} />
+  return <BaseSwitch.Switch required={required} {...props} />
 }
 
 export { Switch }

@@ -7,7 +7,8 @@
   pills; Latin letter-spacing and medium weight look heavy on Arab script.
   Icon inset uses logical inline-start / inline-end for RTL.
 */
-import { type ComponentProps } from "react"
+import * as React from "react"
+import { type ComponentProps, type ReactElement } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 import { Slot } from "radix-ui"
@@ -29,8 +30,7 @@ const buttonVariants = cva(
           "bg-primary text-primary-foreground hover:bg-[color-mix(in_oklch,var(--primary),black_10%)] focus-visible:ring-primary/20",
         secondary:
           "bg-primary/10 text-primary hover:bg-primary/20 aria-expanded:bg-primary/10 aria-expanded:text-primary focus-visible:ring-primary/20 dark:bg-primary/20 dark:hover:bg-primary/30",
-        gray:
-          "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+        gray: "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-[color-mix(in_oklch,var(--destructive),black_10%)] focus-visible:ring-destructive/20",
         "destructive-secondary":
@@ -62,17 +62,29 @@ const buttonVariants = cva(
   }
 )
 
+/*
+  render={<Link href="..." />} composes the button with another element, the
+  same API as the Base UI and React Aria versions. asChild works as well.
+  nativeButton is accepted for paste-ready parity with Base UI and is ignored
+  here (Radix slots onto the child either way).
+*/
 function Button({
   className,
   variant = "default",
   size = "default",
   asChild = false,
+  render,
+  nativeButton: _nativeButton,
+  children,
   ...props
 }: ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     asChild?: boolean
+    render?: ReactElement
+    nativeButton?: boolean
   }) {
-  const Comp = asChild ? Slot.Root : "button"
+  const composed = asChild || render !== undefined
+  const Comp = composed ? Slot.Root : "button"
 
   return (
     <Comp
@@ -80,9 +92,15 @@ function Button({
       data-variant={variant}
       data-size={size}
       className={cn(buttonVariants({ variant, size }), className)}
-      {...(!asChild ? { type: "button" as const } : {})}
+      {...(!composed ? { type: "button" as const } : {})}
       {...props}
-    />
+    >
+      {render
+        ? children === undefined
+          ? render
+          : React.cloneElement(render, undefined, children)
+        : children}
+    </Comp>
   )
 }
 

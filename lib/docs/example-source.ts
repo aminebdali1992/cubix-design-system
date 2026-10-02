@@ -5,7 +5,9 @@ type ReadDocsExampleOptions = {
   /**
    * Public module path seniors paste into their apps.
    * Relative docs adapter imports (../docs-popover, ./docs-dialog, …)
-   * are rewritten to this specifier in the displayed source.
+   * are rewritten to this specifier in the displayed source. Adapters of
+   * other components (@/app/docs/components/button/docs-button) are
+   * rewritten to their own public path (@/components/cubix/button).
    */
   publicImport: string
 }
@@ -27,6 +29,10 @@ export function readDocsExampleSource(
   return source
     .replace(/\r\n/g, "\n")
     .replace(/from\s+["'](?:\.\.\/|\.\/)docs-[a-z0-9-]+["']/g, `from "${publicImport}"`)
+    .replace(
+      /from\s+["']@\/app\/docs\/components\/([a-z0-9-]+)\/docs-\1["']/g,
+      'from "@/components/cubix/$1"'
+    )
     .replace(/\s+$/u, "\n")
 }
 

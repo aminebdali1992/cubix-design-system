@@ -15,21 +15,16 @@ const badgeVariants = cva(
       },
       variant: {
         default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
-        secondary:
-          "bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80",
+        secondary: "bg-secondary text-secondary-foreground [a]:hover:bg-secondary/80",
         destructive:
           "bg-destructive/10 text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:focus-visible:ring-destructive/40 [a]:hover:bg-destructive/20",
-        outline:
-          "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
-        ghost:
-          "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
+        outline: "border-border text-foreground [a]:hover:bg-muted [a]:hover:text-muted-foreground",
+        ghost: "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
         link: "text-primary underline-offset-[6px] hover:underline hover:decoration-dotted hover:decoration-1",
         dot: "size-2 min-w-0 gap-0 rounded-full bg-primary p-0 text-transparent",
       },
     },
-    compoundVariants: [
-      { variant: "dot", size: "lg", className: "size-3" },
-    ],
+    compoundVariants: [{ variant: "dot", size: "lg", className: "size-3" }],
     defaultVariants: {
       size: "default",
       variant: "default",
@@ -37,15 +32,24 @@ const badgeVariants = cva(
   }
 )
 
+/*
+  render={<a href="..." />} renders the badge as another element, the same
+  API as the Base UI and React Aria versions. asChild works as well.
+*/
 function Badge({
   className,
   variant = "default",
   size = "default",
   asChild = false,
+  render,
+  children,
   ...props
 }: React.ComponentProps<"span"> &
-  VariantProps<typeof badgeVariants> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot.Root : "span"
+  VariantProps<typeof badgeVariants> & {
+    asChild?: boolean
+    render?: React.ReactElement
+  }) {
+  const Comp = asChild || render ? Slot.Root : "span"
 
   return (
     <Comp
@@ -54,7 +58,13 @@ function Badge({
       data-size={size}
       className={cn(badgeVariants({ variant, size }), className)}
       {...props}
-    />
+    >
+      {render
+        ? children === undefined
+          ? render
+          : React.cloneElement(render, undefined, children)
+        : children}
+    </Comp>
   )
 }
 

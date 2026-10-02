@@ -40,14 +40,21 @@ function ButtonGroup({
   )
 }
 
+/*
+  render={<label htmlFor="..." />} renders the text slot as another element,
+  the same API as the Base UI and React Aria versions. asChild works as well.
+*/
 function ButtonGroupText({
   className,
   asChild = false,
+  render,
+  children,
   ...props
 }: React.ComponentProps<"div"> & {
   asChild?: boolean
+  render?: React.ReactElement
 }) {
-  const Comp = asChild ? Slot.Root : "div"
+  const Comp = asChild || render ? Slot.Root : "div"
 
   return (
     <Comp
@@ -57,7 +64,13 @@ function ButtonGroupText({
         className
       )}
       {...props}
-    />
+    >
+      {render
+        ? children === undefined
+          ? render
+          : React.cloneElement(render, undefined, children)
+        : children}
+    </Comp>
   )
 }
 
@@ -79,9 +92,4 @@ function ButtonGroupSeparator({
   )
 }
 
-export {
-  ButtonGroup,
-  ButtonGroupSeparator,
-  ButtonGroupText,
-  buttonGroupVariants,
-}
+export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText, buttonGroupVariants }

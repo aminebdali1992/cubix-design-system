@@ -5,7 +5,7 @@
   "title": "Switch",
   "description": "A control that allows the user to toggle between checked and not checked.",
   "dependencies": ["@base-ui/react"],
-  "registryDependencies": [],
+  "registryDependencies": ["label"],
   "files": [
     {
       "path": "components/cubix/switch.tsx",

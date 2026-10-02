@@ -1,20 +1,26 @@
 import type { Metadata } from "next"
 import type { ReactNode } from "react"
-import {
-  ArrowLeftIcon,
-  ArrowUpLeftIcon,
-  BadgeCheckIcon,
-  CircleAlertIcon,
-  LoaderIcon,
-} from "lucide-react"
+import { CircleAlertIcon } from "lucide-react"
 
-import { Badge } from "./docs-badge"
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import {
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
 import { badgePropRows } from "./badge-table-data"
+import { BadgeCustomDemo } from "./examples/badge-custom-demo"
+import { BadgeDemo } from "./examples/badge-demo"
+import { BadgeDotDemo } from "./examples/badge-dot-demo"
+import { BadgeIconDemo } from "./examples/badge-icon-demo"
+import { BadgeLinkDemo } from "./examples/badge-link-demo"
+import { BadgeSizesDemo } from "./examples/badge-sizes-demo"
+import { BadgeSpinnerDemo } from "./examples/badge-spinner-demo"
+import { BadgeVariantsDemo } from "./examples/badge-variants-demo"
 
 const description = "Displays a badge or a component that looks like a badge."
 
@@ -23,92 +29,25 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import { Badge } from "@/components/cubix/badge"`
+const PUBLIC_IMPORT = "@/components/cubix/badge"
+const EXAMPLES_DIR = "app/docs/components/badge/examples"
 
-const usageSnippet = `<Badge variant="default | secondary | destructive | outline | ghost | link | dot">
-  نشان
-</Badge>`
+function loadBadgeExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
-const heroSnippet = `<Badge>نشان</Badge>
-<Badge variant="secondary">ثانویه</Badge>
-<Badge variant="destructive">مخرب</Badge>
-<Badge variant="outline">حاشیه‌دار</Badge>`
-
-const variantsSnippet = `<Badge>پیش‌فرض</Badge>
-<Badge variant="secondary">ثانویه</Badge>
-<Badge variant="destructive">مخرب</Badge>
-<Badge variant="outline">حاشیه‌دار</Badge>
-<Badge variant="ghost">شفاف</Badge>
-<Badge variant="link">پیوند</Badge>`
-
-const sizesSnippet = `<Badge>پیش‌فرض</Badge>
-<Badge size="lg">بزرگ</Badge>
-<Badge variant="secondary">پیش‌فرض</Badge>
-<Badge variant="secondary" size="lg">بزرگ</Badge>`
-
-const dotSnippet = `<Badge variant="dot" />
-<Badge variant="dot" size="lg" />
-<Badge variant="dot" className="bg-green-500" />
-<Badge variant="dot" className="bg-amber-500" />
-<Badge variant="dot" className="bg-red-500" />`
-
-const iconSnippet = `<Badge>
-  <BadgeCheckIcon data-icon="inline-start" />
-  تأیید شده
-</Badge>
-<Badge variant="secondary">
-  ادامه
-  <ArrowLeftIcon data-icon="inline-end" />
-</Badge>`
-
-const spinnerSnippet = `<Badge variant="destructive">
-  <LoaderIcon data-icon="inline-start" className="animate-spin" />
-  در حال حذف
-</Badge>
-<Badge variant="secondary">
-  در حال ساخت
-  <LoaderIcon data-icon="inline-end" className="animate-spin" />
-</Badge>`
-
-const linkSnippet = `<Badge
-  render={
-    <a href="#">
-      پیوند
-      <ArrowUpLeftIcon data-icon="inline-end" />
-    </a>
-  }
-/>`
-
-const colorsSnippet = `<Badge className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
-  آبی
-</Badge>
-<Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
-  سبز
-</Badge>
-<Badge className="bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300">
-  آسمانی
-</Badge>
-<Badge className="bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300">
-  بنفش
-</Badge>
-<Badge className="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300">
-  قرمز
-</Badge>`
-
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply.
+  Docs chrome only - not part of the paste-ready example source.
+*/
 function PreviewShell({ children }: { children: ReactNode }) {
   return (
-    <div
-      dir="rtl"
-      lang="fa"
-      className="flex w-full flex-wrap items-center justify-center gap-2"
-    >
+    <div dir="rtl" lang="fa" className="flex items-center justify-center">
       {children}
     </div>
   )
-}
-
-function Code({ children }: { children: ReactNode }) {
-  return <code className="font-mono text-sm">{children}</code>
 }
 
 function ExampleSection({
@@ -133,17 +72,29 @@ function ExampleSection({
   )
 }
 
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
 export default function BadgePage() {
+  const badgeDemoSource = loadBadgeExample("badge-demo.tsx")
+  const badgeVariantsSource = loadBadgeExample("badge-variants-demo.tsx")
+  const badgeSizesSource = loadBadgeExample("badge-sizes-demo.tsx")
+  const badgeDotSource = loadBadgeExample("badge-dot-demo.tsx")
+  const badgeIconSource = loadBadgeExample("badge-icon-demo.tsx")
+  const badgeSpinnerSource = loadBadgeExample("badge-spinner-demo.tsx")
+  const badgeLinkSource = loadBadgeExample("badge-link-demo.tsx")
+  const badgeCustomSource = loadBadgeExample("badge-custom-demo.tsx")
+  const usageImport = extractDemoImports(badgeDemoSource)
+  const usageSnippet = extractDemoJsx(badgeDemoSource)
+
   return (
     <article className="space-y-10">
       <ComponentDocsHeader title="Badge" description={description} slug="badge" />
 
-      <ComponentPreview code={heroSnippet}>
+      <ComponentPreview code={badgeDemoSource}>
         <PreviewShell>
-          <Badge>نشان</Badge>
-          <Badge variant="secondary">ثانویه</Badge>
-          <Badge variant="destructive">مخرب</Badge>
-          <Badge variant="outline">حاشیه‌دار</Badge>
+          <BadgeDemo />
         </PreviewShell>
       </ComponentPreview>
 
@@ -155,7 +106,7 @@ export default function BadgePage() {
         <CodeBlock code={usageSnippet} title="Example" />
       </section>
 
-      <section className="space-y-8">
+      <section className="space-y-6">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
         <ExampleSection
@@ -165,162 +116,107 @@ export default function BadgePage() {
               Use the <Code>variant</Code> prop to change the look of the badge.
             </>
           }
-          code={variantsSnippet}
+          code={badgeVariantsSource}
         >
-          <Badge>پیش‌فرض</Badge>
-          <Badge variant="secondary">ثانویه</Badge>
-          <Badge variant="destructive">مخرب</Badge>
-          <Badge variant="outline">حاشیه‌دار</Badge>
-          <Badge variant="ghost">شفاف</Badge>
-          <Badge variant="link">پیوند</Badge>
+          <BadgeVariantsDemo />
         </ExampleSection>
 
         <ExampleSection
           title="Sizes"
           description={
             <>
-              Use the <Code>size</Code> prop to pick <Code>default</Code> (20px)
-              or <Code>lg</Code> (24px).
+              Use the <Code>size</Code> prop to pick <Code>default</Code> (20px) or <Code>lg</Code>{" "}
+              (24px).
             </>
           }
-          code={sizesSnippet}
+          code={badgeSizesSource}
         >
-          <Badge>پیش‌فرض</Badge>
-          <Badge size="lg">بزرگ</Badge>
-          <Badge variant="secondary">پیش‌فرض</Badge>
-          <Badge variant="secondary" size="lg">
-            بزرگ
-          </Badge>
+          <BadgeSizesDemo />
         </ExampleSection>
 
         <ExampleSection
           title="Dot"
           description={
             <>
-              Use <Code>variant=&quot;dot&quot;</Code> for a small round status
-              indicator with no label. It is 8px by default and 12px with{" "}
-              <Code>size=&quot;lg&quot;</Code>. Change its color with a{" "}
-              <Code>bg-*</Code> class.
+              Use <Code>variant=&quot;dot&quot;</Code> for a small round status indicator with no
+              visible label. It is 8px by default and 12px with <Code>size=&quot;lg&quot;</Code>.
+              Give it <Code>role=&quot;img&quot;</Code> and an <Code>aria-label</Code> so screen
+              readers announce the status, and change its color with a token class such as{" "}
+              <Code>bg-destructive</Code>.
             </>
           }
-          code={dotSnippet}
+          code={badgeDotSource}
         >
-          <Badge variant="dot" aria-label="پیش‌فرض" />
-          <Badge variant="dot" size="lg" aria-label="بزرگ" />
-          <Badge variant="dot" className="bg-green-500" aria-label="فعال" />
-          <Badge variant="dot" className="bg-amber-500" aria-label="در انتظار" />
-          <Badge variant="dot" className="bg-red-500" aria-label="خطا" />
+          <BadgeDotDemo />
         </ExampleSection>
 
         <ExampleSection
-          title="With Icon"
+          title="With icon"
           description={
             <>
-              Render an icon inside the badge. Use{" "}
-              <Code>data-icon=&quot;inline-start&quot;</Code> and{" "}
-              <Code>data-icon=&quot;inline-end&quot;</Code> so padding follows
-              the reading direction. In RTL, inline-end is the left side, so
-              use a left-pointing arrow.
+              Render an icon inside the badge. Use <Code>data-icon=&quot;inline-start&quot;</Code>{" "}
+              and <Code>data-icon=&quot;inline-end&quot;</Code> so padding follows the reading
+              direction. In RTL, inline-end is the left side, so use a left-pointing arrow.
             </>
           }
-          code={iconSnippet}
+          code={badgeIconSource}
         >
-          <Badge>
-            <BadgeCheckIcon data-icon="inline-start" />
-            تأیید شده
-          </Badge>
-          <Badge variant="secondary">
-            ادامه
-            <ArrowLeftIcon data-icon="inline-end" />
-          </Badge>
+          <BadgeIconDemo />
         </ExampleSection>
 
         <ExampleSection
-          title="With Spinner"
+          title="With spinner"
           description={
             <>
-              Render a spinner inside the badge. Add <Code>data-icon</Code> so
+              Put a Cubix <Code>Spinner</Code> inside the badge. Add <Code>data-icon</Code> so
               padding matches the icon examples.
             </>
           }
-          code={spinnerSnippet}
+          code={badgeSpinnerSource}
         >
-          <Badge variant="destructive">
-            <LoaderIcon data-icon="inline-start" className="animate-spin" />
-            در حال حذف
-          </Badge>
-          <Badge variant="secondary">
-            در حال ساخت
-            <LoaderIcon data-icon="inline-end" className="animate-spin" />
-          </Badge>
+          <BadgeSpinnerDemo />
         </ExampleSection>
 
         <ExampleSection
           title="Link"
           description={
             <>
-              Use the <Code>render</Code> prop (Base UI / React Aria) or{" "}
-              <Code>asChild</Code> (Radix) to render a link as a badge.
+              Use the <Code>render</Code> prop to render the badge as a link. It works the same on
+              Base UI, React Aria, and Radix.
             </>
           }
-          code={linkSnippet}
+          code={badgeLinkSource}
         >
-          <Badge
-            render={
-              <a href="#">
-                پیوند
-                <ArrowUpLeftIcon data-icon="inline-end" />
-              </a>
-            }
-          />
+          <BadgeLinkDemo />
         </ExampleSection>
 
         <ExampleSection
           title="Custom styling"
           description={
             <>
-              Badge accepts a <Code>className</Code> merged with the shipped{" "}
-              <Code>cn</Code> helper, so override colors with classes such as{" "}
-              <Code>bg-green-50 dark:bg-green-950</Code>.
+              Badge accepts a <Code>className</Code> merged with the shipped <Code>cn</Code> helper,
+              so override colors with classes such as <Code>bg-green-50 dark:bg-green-950</Code>.
             </>
           }
-          code={colorsSnippet}
+          code={badgeCustomSource}
         >
-          <Badge className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
-            آبی
-          </Badge>
-          <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
-            سبز
-          </Badge>
-          <Badge className="bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300">
-            آسمانی
-          </Badge>
-          <Badge className="bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300">
-            بنفش
-          </Badge>
-          <Badge className="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300">
-            قرمز
-          </Badge>
+          <BadgeCustomDemo />
         </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Put icons and
-            spinners inside the badge and mark them with{" "}
-            <code className="font-mono">data-icon</code> so spacing stays
-            correct in both directions.
+            <strong className="text-foreground">Note:</strong> Put icons and spinners inside the
+            badge and mark them with <Code>data-icon</Code> so spacing stays correct in both
+            directions.
           </p>
         </div>
         <h3 className="scroll-m-20 font-semibold tracking-tight">Badge</h3>
         <p className="leading-relaxed text-muted-foreground">
-          The control that displays a badge or a component that looks like a
-          badge.
+          Displays a badge or a component that looks like a badge.
         </p>
         <PropsTable data={badgePropRows} />
       </section>

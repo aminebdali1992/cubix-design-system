@@ -7,12 +7,7 @@
   pills; Latin letter-spacing and medium weight look heavy on Arab script.
   Icon inset uses logical inline-start / inline-end for RTL.
 */
-import {
-  cloneElement,
-  isValidElement,
-  type ComponentProps,
-  type ReactElement,
-} from "react"
+import { cloneElement, isValidElement, type ComponentProps, type ReactElement } from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
@@ -33,8 +28,7 @@ const buttonVariants = cva(
           "bg-primary text-primary-foreground hover:bg-[color-mix(in_oklch,var(--primary),black_10%)] focus-visible:ring-primary/20",
         secondary:
           "bg-primary/10 text-primary hover:bg-primary/20 aria-expanded:bg-primary/10 aria-expanded:text-primary focus-visible:ring-primary/20 dark:bg-primary/20 dark:hover:bg-primary/30",
-        gray:
-          "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+        gray: "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-[color-mix(in_oklch,var(--destructive),black_10%)] focus-visible:ring-destructive/20",
         "destructive-secondary":
@@ -77,11 +71,14 @@ function Button({
   variant = "default",
   size = "default",
   render,
+  nativeButton: _nativeButton,
   children,
   ...props
 }: ComponentProps<"button"> &
   VariantProps<typeof buttonVariants> & {
     render?: ReactElement<ButtonHostProps>
+    /** Accepted for paste-ready parity with Base UI. Ignored on React Aria. */
+    nativeButton?: boolean
   }) {
   const buttonClassName = cn(buttonVariants({ variant, size }), className)
 

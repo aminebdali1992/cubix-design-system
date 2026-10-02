@@ -16,12 +16,7 @@ import { cn } from "@/lib/utils"
 
 type CubixSwitchProps = Omit<
   React.ComponentProps<typeof AriaSwitch>,
-  | "className"
-  | "isSelected"
-  | "defaultSelected"
-  | "isDisabled"
-  | "onChange"
-  | "children"
+  "className" | "isSelected" | "defaultSelected" | "isDisabled" | "onChange" | "children"
 > & {
   className?: string
   size?: "sm" | "default"

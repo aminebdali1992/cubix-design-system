@@ -15,20 +15,14 @@ export const propRows = [
     prop: "render",
     type: "React.ReactElement",
     description:
-      "Base UI / React Aria: render the button as another element, such as a Next.js Link. Pass nativeButton={false} on Base UI when that element is not a native button.",
-  },
-  {
-    prop: "asChild",
-    type: "boolean",
-    description:
-      "Radix: merge props onto the child element instead of rendering a button.",
+      "Render the button as another element, such as a Next.js Link. The button children are passed to it.",
   },
   {
     prop: "nativeButton",
     type: "boolean",
     default: "true",
     description:
-      "Base UI: set to false when render points at a non-button host such as an anchor or Link.",
+      "Base UI: set to false when render points at a non-button host such as a Link. Accepted and ignored on React Aria and Radix so paste-ready code stays shared.",
   },
   {
     prop: "disabled",
@@ -40,14 +34,12 @@ export const propRows = [
     prop: "type",
     type: '"button" | "submit" | "reset"',
     default: '"button"',
-    description:
-      "Native button type. Defaults to button so it does not submit enclosing forms.",
+    description: "Native button type. Defaults to button so it does not submit enclosing forms.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -60,8 +52,7 @@ export const variantRows = [
   {
     prop: "secondary",
     type: "-",
-    description:
-      "Soft primary tint for secondary actions that stay on-brand.",
+    description: "Soft primary tint for secondary actions that stay on-brand.",
   },
   {
     prop: "gray",
@@ -81,8 +72,7 @@ export const variantRows = [
   {
     prop: "outline",
     type: "-",
-    description:
-      "Bordered button that pairs well with gray or ghost buttons.",
+    description: "Bordered button that pairs well with gray or ghost buttons.",
   },
   {
     prop: "ghost",

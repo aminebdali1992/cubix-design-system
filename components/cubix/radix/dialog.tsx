@@ -39,7 +39,11 @@ function DialogTrigger({
       asChild={asChild || render !== undefined}
       {...props}
     >
-      {render ? React.cloneElement(render, undefined, children) : children}
+      {render
+        ? children === undefined
+          ? render
+          : React.cloneElement(render, undefined, children)
+        : children}
     </DialogPrimitive.Trigger>
   )
 }
@@ -60,7 +64,11 @@ function DialogClose({
       asChild={asChild || render !== undefined}
       {...props}
     >
-      {render ? React.cloneElement(render, undefined, children) : children}
+      {render
+        ? children === undefined
+          ? render
+          : React.cloneElement(render, undefined, children)
+        : children}
     </DialogPrimitive.Close>
   )
 }

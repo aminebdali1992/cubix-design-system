@@ -114,7 +114,11 @@ function TooltipTrigger({
       asChild={asChild || render !== undefined}
       {...props}
     >
-      {render ? React.cloneElement(render, undefined, children) : children}
+      {render
+        ? children === undefined
+          ? render
+          : React.cloneElement(render, undefined, children)
+        : children}
     </TooltipPrimitive.Trigger>
   )
 }

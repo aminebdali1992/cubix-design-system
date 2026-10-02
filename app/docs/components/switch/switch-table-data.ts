@@ -3,8 +3,7 @@ export const propRows = [
     prop: "checked",
     type: "boolean",
     default: "false",
-    description:
-      "Controlled checked state of the switch. Use with `onCheckedChange`.",
+    description: "Controlled checked state of the switch. Use with onCheckedChange.",
   },
   {
     prop: "defaultChecked",
@@ -15,14 +14,13 @@ export const propRows = [
   {
     prop: "onCheckedChange",
     type: "(checked: boolean) => void",
-    description:
-      "Called with the next checked value whenever the switch is toggled.",
+    description: "Called with the next checked value whenever the switch is toggled.",
   },
   {
     prop: "size",
     type: '"default" | "sm"',
     default: '"default"',
-    description: "The size of the switch. `sm` is 28x16px, `default` is 36x20px.",
+    description: "The size of the switch. sm is 28x16px, default is 36x20px.",
   },
   {
     prop: "disabled",
@@ -45,28 +43,21 @@ export const propRows = [
     prop: "aria-invalid",
     type: "boolean",
     default: "false",
-    description: "When true, marks the switch invalid for assistive technology. The switch itself looks unchanged; show the error in helper text.",
+    description:
+      "When true, marks the switch invalid for assistive technology. The switch itself looks unchanged; show the error in helper text.",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
-  {
-    prop: "...props",
-    type: "React.ComponentProps<'input'>",
-    description:
-      "All native input attributes (id, form, tabindex, aria-*, ...) are forwarded to the rendered element.",
-  },
-];
+]
 
 export const stateRows = [
   {
     prop: "on",
     type: "-",
-    description:
-      "The track uses the primary color and the thumb sits at the inline end.",
+    description: "The track uses the primary color and the thumb sits at the inline end.",
   },
   {
     prop: "off",
@@ -83,4 +74,4 @@ export const stateRows = [
     type: "-",
     description: "Exposed to assistive technology only. Show the error message in helper text.",
   },
-];
+]
