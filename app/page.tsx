@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link"
 import {
   ArrowUpRightIcon,
   BookOpenIcon,
@@ -7,10 +7,11 @@ import {
   PuzzleIcon,
   TerminalIcon,
   TypeIcon,
-} from "lucide-react";
+} from "lucide-react"
 
-import { Button } from "@/components/cubix/button";
-import { SiteFrame } from "@/components/site-frame";
+import { Button } from "@/components/cubix/button"
+import { CursorAgentInstall } from "@/components/landing/cursor-agent-install"
+import { SiteFrame } from "@/components/site-frame"
 
 const resources = [
   {
@@ -24,8 +25,7 @@ const resources = [
     href: "/docs/components",
     icon: PuzzleIcon,
     title: "Component library",
-    description:
-      "Buttons, forms, overlays, and layout primitives - copy-paste ready React.",
+    description: "Buttons, forms, overlays, and layout primitives - copy-paste ready React.",
   },
   {
     href: "/docs/theming",
@@ -45,17 +45,15 @@ const resources = [
     href: "/docs",
     icon: TerminalIcon,
     title: "CLI & registry",
-    description:
-      "Install with npx cubix@latest add, or copy the JSON registry from public/r.",
+    description: "Install with npx cubix@latest add, or copy the JSON registry from public/r.",
   },
   {
     href: "/docs/components",
     icon: BoxesIcon,
     title: "Own the source",
-    description:
-      "Components live in your repo. No lock-in, no hidden runtime - extend every line.",
+    description: "Components live in your repo. No lock-in, no hidden runtime - extend every line.",
   },
-];
+]
 
 export default function HomePage() {
   return (
@@ -74,16 +72,60 @@ export default function HomePage() {
                       Beautifully designed components you can copy and paste.
                     </h1>
                     <p className="text-base text-muted-foreground md:text-lg">
-                      Cubix is a complete design system for building modern
-                      products. Accessible, customizable and open source - built
-                      on React and Tailwind CSS, with first-class Next.js
-                      support.
+                      Cubix is a complete design system for building modern products. Accessible,
+                      customizable and open source - built on React and Tailwind CSS, with
+                      first-class Next.js support.
                     </p>
                   </div>
                   <div className="flex flex-row items-center gap-3">
-                    <Button size="lg" className="h-10 rounded-full px-4" nativeButton={false} render={<Link href="/docs" />}>Get Started</Button>
-                    <Button size="lg" variant="outline" className="h-10 rounded-full px-4" nativeButton={false} render={<Link href="/docs/components" />}>Browse Components</Button>
+                    <Button
+                      size="lg"
+                      className="h-10 rounded-full px-4"
+                      nativeButton={false}
+                      render={<Link href="/docs" />}
+                    >
+                      Get Started
+                    </Button>
+                    <Button
+                      size="lg"
+                      variant="outline"
+                      className="h-10 rounded-full px-4"
+                      nativeButton={false}
+                      render={<Link href="/docs/components" />}
+                    >
+                      Browse Components
+                    </Button>
                   </div>
+                </div>
+              </div>
+            </div>
+          </SiteFrame>
+        </div>
+      </section>
+
+      <section className="w-full bg-background">
+        <div className="border-b border-border">
+          <SiteFrame>
+            <div className="flex flex-col items-center justify-center gap-10 border-x border-border py-12 md:gap-12 md:py-16">
+              <div className="flex flex-col px-5 md:px-12">
+                <div className="mx-auto flex max-w-2xl flex-col items-center justify-center gap-6 text-center">
+                  <div className="flex flex-col gap-3 lg:gap-4">
+                    <div className="text-center font-mono text-xs leading-4 font-medium tracking-wider text-muted-foreground uppercase">
+                      Agent-ready
+                    </div>
+                    <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
+                      Install Cubix MCP in Cursor
+                    </h2>
+                    <p className="text-base text-muted-foreground md:text-lg">
+                      Ask the agent to connect the Cubix MCP server. It writes your Cursor config so
+                      component lookups stay accurate.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full px-5 md:px-12">
+                <div className="mx-auto w-full max-w-4xl">
+                  <CursorAgentInstall />
                 </div>
               </div>
             </div>
@@ -105,9 +147,8 @@ export default function HomePage() {
                       Design and ship Cubix projects faster
                     </h2>
                     <p className="text-base text-muted-foreground md:text-lg">
-                      An extensive collection of React resources to help
-                      designers, developers, and teams deliver Cubix projects
-                      efficiently.
+                      An extensive collection of React resources to help designers, developers, and
+                      teams deliver Cubix projects efficiently.
                     </p>
                   </div>
                 </div>
@@ -126,9 +167,7 @@ export default function HomePage() {
                     <h3 className="mt-6 text-xl leading-tight font-semibold tracking-tight text-foreground">
                       {resource.title}
                     </h3>
-                    <p className="mt-3 text-muted-foreground">
-                      {resource.description}
-                    </p>
+                    <p className="mt-3 text-muted-foreground">{resource.description}</p>
                   </Link>
                 ))}
               </div>
@@ -146,5 +185,5 @@ export default function HomePage() {
         </SiteFrame>
       </footer>
     </main>
-  );
+  )
 }
