@@ -1,11 +1,10 @@
 "use client"
 
-import {
-  cloneElement,
-  isValidElement,
-  type ReactElement,
-  type ReactNode,
-} from "react"
+/*
+  Alert Dialog docs switcher. Mirrors docs-dialog: demo code stays identical
+  while the active base (base / radix / aria) resolves from the URL.
+*/
+import { cloneElement, isValidElement, type ReactElement, type ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
 import * as AriaAlertDialog from "@/components/cubix/aria/alert-dialog"
@@ -14,6 +13,16 @@ import * as RadixAlertDialog from "@/components/cubix/radix/alert-dialog"
 import { DEFAULT_BASE, parseComponentPath } from "@/lib/bases"
 
 type TriggerRenderProps = {
+  children?: ReactNode
+  variant?: string
+  size?: string
+  className?: string
+}
+
+type AlertDialogProps = {
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
   children?: ReactNode
 }
 
@@ -33,7 +42,15 @@ type AlertDialogContentProps = {
 
 type AlertDialogActionProps = {
   className?: string
-  variant?: "default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"
+  variant?:
+    | "default"
+    | "secondary"
+    | "gray"
+    | "destructive"
+    | "destructive-secondary"
+    | "outline"
+    | "ghost"
+    | "link"
   size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
   children?: ReactNode
 }
@@ -48,25 +65,41 @@ function useAlertDialogBase() {
   return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
 }
 
-function AlertDialog({ children }: { children?: ReactNode }) {
+function AlertDialog({ open, defaultOpen, onOpenChange, children }: AlertDialogProps) {
   const base = useAlertDialogBase()
 
   if (base === "aria") {
-    return <AriaAlertDialog.AlertDialog>{children}</AriaAlertDialog.AlertDialog>
+    return (
+      <AriaAlertDialog.AlertDialog
+        open={open}
+        defaultOpen={defaultOpen}
+        onOpenChange={onOpenChange}
+      >
+        {children}
+      </AriaAlertDialog.AlertDialog>
+    )
   }
 
   if (base === "radix") {
-    return <RadixAlertDialog.AlertDialog>{children}</RadixAlertDialog.AlertDialog>
+    return (
+      <RadixAlertDialog.AlertDialog
+        open={open}
+        defaultOpen={defaultOpen}
+        onOpenChange={onOpenChange}
+      >
+        {children}
+      </RadixAlertDialog.AlertDialog>
+    )
   }
 
-  return <BaseAlertDialog.AlertDialog>{children}</BaseAlertDialog.AlertDialog>
+  return (
+    <BaseAlertDialog.AlertDialog open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
+      {children}
+    </BaseAlertDialog.AlertDialog>
+  )
 }
 
-function AlertDialogTrigger({
-  render,
-  className,
-  children,
-}: AlertDialogTriggerProps) {
+function AlertDialogTrigger({ render, className, children }: AlertDialogTriggerProps) {
   const base = useAlertDialogBase()
 
   if (base === "radix") {
@@ -87,7 +120,7 @@ function AlertDialogTrigger({
 
   if (base === "aria") {
     return (
-      <AriaAlertDialog.AlertDialogTrigger className={className}>
+      <AriaAlertDialog.AlertDialogTrigger className={className} render={render as never}>
         {children}
       </AriaAlertDialog.AlertDialogTrigger>
     )

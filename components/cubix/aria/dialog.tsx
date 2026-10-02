@@ -30,9 +30,26 @@ import {
 import { buttonVariants } from "@/components/cubix/base/button"
 import { cn } from "@/lib/utils"
 
-function CubixDialog({ children, ...props }: DialogTriggerProps) {
+function CubixDialog({
+  children,
+  open,
+  defaultOpen,
+  onOpenChange,
+  ...props
+}: Omit<DialogTriggerProps, "isOpen" | "defaultOpen" | "onOpenChange"> & {
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  children?: ReactNode
+}) {
   return (
-    <DialogTrigger data-slot="dialog" {...props}>
+    <DialogTrigger
+      data-slot="dialog"
+      isOpen={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
+      {...props}
+    >
       {children}
     </DialogTrigger>
   )
@@ -48,33 +65,17 @@ type TriggerRenderProps = {
     | "outline"
     | "ghost"
     | "link"
-  size?:
-    | "default"
-    | "xs"
-    | "sm"
-    | "lg"
-    | "icon"
-    | "icon-xs"
-    | "icon-sm"
-    | "icon-lg"
+  size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
   className?: string
 }
 
-type DialogTriggerButtonProps = Omit<
-  ButtonProps,
-  "children" | "className" | "render"
-> & {
+type DialogTriggerButtonProps = Omit<ButtonProps, "children" | "className" | "render"> & {
   render?: ReactElement<TriggerRenderProps>
   className?: string
   children?: ReactNode
 }
 
-function CubixDialogTrigger({
-  render,
-  className,
-  children,
-  ...props
-}: DialogTriggerButtonProps) {
+function CubixDialogTrigger({ render, className, children, ...props }: DialogTriggerButtonProps) {
   return (
     <AriaButton
       data-slot="dialog-trigger"
@@ -225,21 +226,13 @@ function DialogFooter({
   )
 }
 
-type DialogCloseProps = Omit<
-  ButtonProps,
-  "className" | "children" | "slot" | "render"
-> & {
+type DialogCloseProps = Omit<ButtonProps, "className" | "children" | "slot" | "render"> & {
   render?: ReactElement<TriggerRenderProps>
   className?: string
   children?: ReactNode
 }
 
-function DialogClose({
-  render,
-  className,
-  children,
-  ...props
-}: DialogCloseProps) {
+function DialogClose({ render, className, children, ...props }: DialogCloseProps) {
   return (
     <AriaButton
       slot="close"
@@ -259,10 +252,7 @@ function DialogClose({
   )
 }
 
-function DialogTitle({
-  className,
-  ...props
-}: ComponentProps<typeof Heading>) {
+function DialogTitle({ className, ...props }: ComponentProps<typeof Heading>) {
   return (
     <Heading
       slot="title"
@@ -273,10 +263,7 @@ function DialogTitle({
   )
 }
 
-function DialogDescription({
-  className,
-  ...props
-}: ComponentProps<"p">) {
+function DialogDescription({ className, ...props }: ComponentProps<"p">) {
   return (
     <p
       data-slot="dialog-description"

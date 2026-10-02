@@ -1,9 +1,24 @@
 export const dialogPropRows = [
   {
+    prop: "open",
+    type: "boolean",
+    description: "Controlled open state. Omit to use uncontrolled mode.",
+  },
+  {
+    prop: "defaultOpen",
+    type: "boolean",
+    default: "false",
+    description: "Initial open state when uncontrolled.",
+  },
+  {
+    prop: "onOpenChange",
+    type: "(open: boolean) => void",
+    description: "Called when the open state changes.",
+  },
+  {
     prop: "children",
     type: "React.ReactNode",
-    description:
-      "The trigger and content elements. State is managed internally (uncontrolled).",
+    description: "The trigger and content elements.",
   },
 ]
 
@@ -11,14 +26,12 @@ export const triggerClosePropRows = [
   {
     prop: "render",
     type: "React.ReactElement",
-    description:
-      "Render the trigger or close control as another element (e.g. a Button).",
+    description: "Render the trigger or close control as another Cubix element (e.g. a Button).",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -33,21 +46,18 @@ export const contentPropRows = [
     prop: "dir",
     type: '"ltr" | "rtl"',
     default: '"rtl"',
-    description:
-      "Text direction of the portaled panel. Defaults to RTL for Persian-first layouts.",
+    description: "Text direction of the portaled panel. Defaults to RTL for Persian-first layouts.",
   },
   {
     prop: "lang",
     type: "string",
     default: '"fa"',
-    description:
-      'Language attribute applied when dir is "rtl". Pass dir="ltr" to omit it.',
+    description: 'Language attribute applied when dir is "rtl". Pass dir="ltr" to omit it.',
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -61,8 +71,7 @@ export const footerPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -70,7 +79,6 @@ export const subcomponentRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]

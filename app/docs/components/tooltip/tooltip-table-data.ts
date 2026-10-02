@@ -25,8 +25,8 @@ export const tooltipPropRows = [
   {
     prop: "delay",
     type: "number",
-    description:
-      "Delay in ms before showing. Overrides TooltipProvider when set (Base UI reads the delay from TooltipProvider).",
+    default: "TooltipProvider delay, else 0",
+    description: "Delay in milliseconds before this tooltip opens. Overrides TooltipProvider.",
   },
   {
     prop: "children",
@@ -41,7 +41,7 @@ export const providerPropRows = [
     type: "number",
     default: "0",
     description:
-      "Default delay in milliseconds before any tooltip in the tree opens.",
+      "Default delay in milliseconds before any tooltip in the tree opens. Without a provider, tooltips open immediately.",
   },
   {
     prop: "children",
@@ -54,14 +54,12 @@ export const triggerPropRows = [
   {
     prop: "render",
     type: "React.ReactElement",
-    description:
-      "Render the trigger as another element (for example a Button).",
+    description: "Render the trigger as another element (for example a Button).",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -93,7 +91,6 @@ export const contentPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]

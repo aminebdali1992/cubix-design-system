@@ -1,10 +1,6 @@
 "use client"
 
-import {
-  cloneElement,
-  type ReactElement,
-  type ReactNode,
-} from "react"
+import { cloneElement, type ComponentProps, type ReactNode } from "react"
 import { usePathname } from "next/navigation"
 
 import * as AriaTooltip from "@/components/cubix/aria/tooltip"
@@ -14,7 +10,7 @@ import { DEFAULT_BASE, parseComponentPath } from "@/lib/bases"
 
 type TooltipProviderProps = {
   delay?: number
-  children?: ReactNode
+  children: ReactNode
 }
 type TooltipProps = {
   dir?: "ltr" | "rtl"
@@ -26,7 +22,7 @@ type TooltipProps = {
 }
 type TooltipTriggerProps = {
   className?: string
-  render?: ReactElement<{ children?: ReactNode }>
+  render?: ComponentProps<typeof AriaTooltip.TooltipTrigger>["render"]
   children?: ReactNode
 }
 type TooltipContentProps = {
@@ -42,60 +38,18 @@ function useTooltipBase() {
   return parseComponentPath(usePathname())?.base ?? DEFAULT_BASE
 }
 
-function TooltipProvider({ delay = 0, children }: TooltipProviderProps) {
+function TooltipProvider(props: TooltipProviderProps) {
   const base = useTooltipBase()
-  if (base === "radix") {
-    return (
-      <RadixTooltip.TooltipProvider delayDuration={delay}>
-        {children}
-      </RadixTooltip.TooltipProvider>
-    )
-  }
-  if (base === "aria") {
-    return (
-      <AriaTooltip.TooltipProvider delay={delay}>
-        {children}
-      </AriaTooltip.TooltipProvider>
-    )
-  }
-  return (
-    <BaseTooltip.TooltipProvider delay={delay}>
-      {children}
-    </BaseTooltip.TooltipProvider>
-  )
+  if (base === "radix") return <RadixTooltip.TooltipProvider {...props} />
+  if (base === "aria") return <AriaTooltip.TooltipProvider {...props} />
+  return <BaseTooltip.TooltipProvider {...props} />
 }
 
-function Tooltip({ delay, children, ...props }: TooltipProps) {
+function Tooltip(props: TooltipProps) {
   const base = useTooltipBase()
-  if (base === "radix") {
-    const content = (
-      <RadixTooltip.Tooltip {...props}>{children}</RadixTooltip.Tooltip>
-    )
-    return delay === undefined ? (
-      content
-    ) : (
-      <RadixTooltip.TooltipProvider delayDuration={delay}>
-        {content}
-      </RadixTooltip.TooltipProvider>
-    )
-  }
-  if (base === "aria") {
-    return (
-      <AriaTooltip.Tooltip delay={delay} {...props}>
-        {children}
-      </AriaTooltip.Tooltip>
-    )
-  }
-  const content = (
-    <BaseTooltip.Tooltip {...props}>{children}</BaseTooltip.Tooltip>
-  )
-  return delay === undefined ? (
-    content
-  ) : (
-    <BaseTooltip.TooltipProvider delay={delay}>
-      {content}
-    </BaseTooltip.TooltipProvider>
-  )
+  if (base === "radix") return <RadixTooltip.Tooltip {...props} />
+  if (base === "aria") return <AriaTooltip.Tooltip {...props} />
+  return <BaseTooltip.Tooltip {...props} />
 }
 
 function TooltipTrigger({ render, children, ...props }: TooltipTriggerProps) {
@@ -108,18 +62,11 @@ function TooltipTrigger({ render, children, ...props }: TooltipTriggerProps) {
         </RadixTooltip.TooltipTrigger>
       )
     }
-    return (
-      <RadixTooltip.TooltipTrigger {...props}>
-        {children}
-      </RadixTooltip.TooltipTrigger>
-    )
+    return <RadixTooltip.TooltipTrigger {...props}>{children}</RadixTooltip.TooltipTrigger>
   }
   if (base === "aria") {
     return (
-      <AriaTooltip.TooltipTrigger
-        render={render as never}
-        {...props}
-      >
+      <AriaTooltip.TooltipTrigger render={render} {...props}>
         {children}
       </AriaTooltip.TooltipTrigger>
     )

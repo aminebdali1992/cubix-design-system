@@ -20,20 +20,23 @@ const TooltipDirContext = React.createContext<{
   report: (dir: Dir, lang?: string) => void
 }>({ dir: "rtl", report: () => {} })
 
+/*
+  Open delay in ms. TooltipProvider sets it for the tree and Tooltip can
+  override it. The prop is named delay, the same as the Base UI and React Aria
+  versions, and maps to Radix delayDuration.
+*/
 const TooltipDelayContext = React.createContext(0)
 
 function TooltipProvider({
-  delayDuration = 0,
+  delay = 0,
   children,
   ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Provider>) {
+}: Omit<React.ComponentProps<typeof TooltipPrimitive.Provider>, "delayDuration"> & {
+  delay?: number
+}) {
   return (
-    <TooltipDelayContext.Provider value={delayDuration}>
-      <TooltipPrimitive.Provider
-        data-slot="tooltip-provider"
-        delayDuration={delayDuration}
-        {...props}
-      >
+    <TooltipDelayContext.Provider value={delay}>
+      <TooltipPrimitive.Provider data-slot="tooltip-provider" delayDuration={delay} {...props}>
         {children}
       </TooltipPrimitive.Provider>
     </TooltipDelayContext.Provider>
@@ -42,9 +45,13 @@ function TooltipProvider({
 
 function Tooltip({
   dir,
+  delay,
   ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Root> & { dir?: Dir }) {
-  const delay = React.useContext(TooltipDelayContext)
+}: Omit<React.ComponentProps<typeof TooltipPrimitive.Root>, "delayDuration"> & {
+  dir?: Dir
+  delay?: number
+}) {
+  const providerDelay = React.useContext(TooltipDelayContext)
   const [pageDir, setPageDir] = React.useState<Dir>("rtl")
   const [pageLang, setPageLang] = React.useState<string | undefined>()
   const report = React.useCallback((d: Dir, l?: string) => {
@@ -60,7 +67,7 @@ function Tooltip({
   return (
     <TooltipDirContext.Provider value={value}>
       <Direction.Provider dir={resolved}>
-        <TooltipPrimitive.Provider delayDuration={delay}>
+        <TooltipPrimitive.Provider delayDuration={delay ?? providerDelay}>
           <TooltipPrimitive.Root data-slot="tooltip" {...props} />
         </TooltipPrimitive.Provider>
       </Direction.Provider>
@@ -68,10 +75,7 @@ function Tooltip({
   )
 }
 
-function TooltipTrigger({
-  ref,
-  ...props
-}: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
+function TooltipTrigger({ ref, ...props }: React.ComponentProps<typeof TooltipPrimitive.Trigger>) {
   const { report } = React.useContext(TooltipDirContext)
   const nodeRef = React.useRef<HTMLElement | null>(null)
   const setRef = React.useCallback(
@@ -90,13 +94,7 @@ function TooltipTrigger({
     if (closest === "ltr" || closest === "rtl") report(closest, lang)
   }, [report])
 
-  return (
-    <TooltipPrimitive.Trigger
-      ref={setRef}
-      data-slot="tooltip-trigger"
-      {...props}
-    />
-  )
+  return <TooltipPrimitive.Trigger ref={setRef} data-slot="tooltip-trigger" {...props} />
 }
 
 function toPhysicalSide(side: Side, dir: Dir): PhysicalSide {
@@ -119,11 +117,7 @@ function TooltipContent({
   const physicalSide = toPhysicalSide(side, dir)
   const vertical = physicalSide === "top" || physicalSide === "bottom"
   const physicalAlign =
-    vertical && dir === "rtl" && align !== "center"
-      ? align === "start"
-        ? "end"
-        : "start"
-      : align
+    vertical && dir === "rtl" && align !== "center" ? (align === "start" ? "end" : "start") : align
 
   return (
     <TooltipPrimitive.Portal>

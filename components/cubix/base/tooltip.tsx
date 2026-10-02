@@ -18,23 +18,27 @@ const TooltipDirContext = React.createContext<{
   report: (dir: Dir, lang?: string) => void
 }>({ dir: "rtl", report: () => {} })
 
-function TooltipProvider({
-  delay = 0,
-  ...props
-}: TooltipPrimitive.Provider.Props) {
+/*
+  Open delay in ms. TooltipProvider sets it for the tree and Tooltip can
+  override it, so a tooltip opens immediately even without a provider, the
+  same as the React Aria and Radix versions.
+*/
+const TooltipDelayContext = React.createContext(0)
+
+function TooltipProvider({ delay = 0, ...props }: TooltipPrimitive.Provider.Props) {
   return (
-    <TooltipPrimitive.Provider
-      data-slot="tooltip-provider"
-      delay={delay}
-      {...props}
-    />
+    <TooltipDelayContext.Provider value={delay}>
+      <TooltipPrimitive.Provider data-slot="tooltip-provider" delay={delay} {...props} />
+    </TooltipDelayContext.Provider>
   )
 }
 
 function Tooltip({
   dir,
+  delay,
   ...props
-}: TooltipPrimitive.Root.Props & { dir?: Dir }) {
+}: TooltipPrimitive.Root.Props & { dir?: Dir; delay?: number }) {
+  const providerDelay = React.useContext(TooltipDelayContext)
   const [pageDir, setPageDir] = React.useState<Dir>("rtl")
   const [pageLang, setPageLang] = React.useState<string | undefined>()
   const report = React.useCallback((d: Dir, l?: string) => {
@@ -49,18 +53,18 @@ function Tooltip({
 
   return (
     <TooltipDirContext.Provider value={value}>
-      <DirectionProvider direction={resolved}>
-        <TooltipPrimitive.Root data-slot="tooltip" {...props} />
-      </DirectionProvider>
+      <TooltipDelayContext.Provider value={delay ?? providerDelay}>
+        <DirectionProvider direction={resolved}>
+          <TooltipPrimitive.Root data-slot="tooltip" {...props} />
+        </DirectionProvider>
+      </TooltipDelayContext.Provider>
     </TooltipDirContext.Provider>
   )
 }
 
-function TooltipTrigger({
-  ref,
-  ...props
-}: TooltipPrimitive.Trigger.Props) {
+function TooltipTrigger({ ref, delay, ...props }: TooltipPrimitive.Trigger.Props) {
   const { report } = React.useContext(TooltipDirContext)
+  const tooltipDelay = React.useContext(TooltipDelayContext)
   const nodeRef = React.useRef<HTMLElement | null>(null)
   const setRef = React.useCallback(
     (node: HTMLButtonElement | null) => {
@@ -82,6 +86,7 @@ function TooltipTrigger({
     <TooltipPrimitive.Trigger
       ref={setRef}
       data-slot="tooltip-trigger"
+      delay={delay ?? tooltipDelay}
       {...props}
     />
   )
@@ -96,10 +101,7 @@ function TooltipContent({
   children,
   ...props
 }: TooltipPrimitive.Popup.Props &
-  Pick<
-    TooltipPrimitive.Positioner.Props,
-    "align" | "alignOffset" | "side" | "sideOffset"
-  >) {
+  Pick<TooltipPrimitive.Positioner.Props, "align" | "alignOffset" | "side" | "sideOffset">) {
   const { dir, lang } = React.useContext(TooltipDirContext)
 
   return (

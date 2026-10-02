@@ -33,18 +33,8 @@ const TooltipDirContext = React.createContext<{
 
 const TooltipDelayContext = React.createContext(0)
 
-function TooltipProvider({
-  delay = 0,
-  children,
-}: {
-  delay?: number
-  children?: React.ReactNode
-}) {
-  return (
-    <TooltipDelayContext.Provider value={delay}>
-      {children}
-    </TooltipDelayContext.Provider>
-  )
+function TooltipProvider({ delay = 0, children }: { delay?: number; children?: React.ReactNode }) {
+  return <TooltipDelayContext.Provider value={delay}>{children}</TooltipDelayContext.Provider>
 }
 
 function Tooltip({
@@ -105,15 +95,7 @@ type TriggerRenderProps = {
     | "outline"
     | "ghost"
     | "link"
-  size?:
-    | "default"
-    | "xs"
-    | "sm"
-    | "lg"
-    | "icon"
-    | "icon-xs"
-    | "icon-sm"
-    | "icon-lg"
+  size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
   className?: string
   "aria-label"?: string
 }
@@ -134,7 +116,7 @@ function TooltipTrigger({
   className?: string
   children?: React.ReactNode
   ref?: React.Ref<HTMLElement>
-} & Omit<React.ComponentProps<typeof AriaButton>, "className" | "children" | "ref">) {
+} & Omit<React.ComponentProps<typeof AriaButton>, "className" | "children" | "ref" | "render">) {
   const { report } = React.useContext(TooltipDirContext)
   const nodeRef = React.useRef<HTMLElement | null>(null)
   const setRef = React.useCallback(
@@ -200,8 +182,7 @@ function TooltipTrigger({
 type Placement = NonNullable<React.ComponentProps<typeof AriaTooltip>["placement"]>
 
 function toPlacement(side: Side, align: Align): Placement {
-  const base =
-    side === "inline-start" ? "start" : side === "inline-end" ? "end" : side
+  const base = side === "inline-start" ? "start" : side === "inline-end" ? "end" : side
   if (align === "center") return base as Placement
   if (base === "top" || base === "bottom") return `${base} ${align}` as Placement
   // Sides run along the vertical axis, so start / end alignment maps to top / bottom.

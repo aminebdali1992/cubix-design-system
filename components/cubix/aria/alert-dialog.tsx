@@ -29,16 +29,41 @@ import {
 import { buttonVariants } from "@/components/cubix/base/button"
 import { cn } from "@/lib/utils"
 
-function AlertDialog({ children, ...props }: DialogTriggerProps) {
+function AlertDialog({
+  children,
+  open,
+  defaultOpen,
+  onOpenChange,
+  ...props
+}: Omit<DialogTriggerProps, "isOpen" | "defaultOpen" | "onOpenChange"> & {
+  open?: boolean
+  defaultOpen?: boolean
+  onOpenChange?: (open: boolean) => void
+  children?: ReactNode
+}) {
   return (
-    <DialogTrigger data-slot="alert-dialog" {...props}>
+    <DialogTrigger
+      data-slot="alert-dialog"
+      isOpen={open}
+      defaultOpen={defaultOpen}
+      onOpenChange={onOpenChange}
+      {...props}
+    >
       {children}
     </DialogTrigger>
   )
 }
 
 type TriggerRenderProps = {
-  variant?: "default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"
+  variant?:
+    | "default"
+    | "secondary"
+    | "gray"
+    | "destructive"
+    | "destructive-secondary"
+    | "outline"
+    | "ghost"
+    | "link"
   size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
   className?: string
 }
@@ -49,12 +74,7 @@ type AlertDialogTriggerProps = Omit<ButtonProps, "children" | "className" | "ren
   children?: ReactNode
 }
 
-function AlertDialogTrigger({
-  render,
-  className,
-  children,
-  ...props
-}: AlertDialogTriggerProps) {
+function AlertDialogTrigger({ render, className, children, ...props }: AlertDialogTriggerProps) {
   return (
     <AriaButton
       data-slot="alert-dialog-trigger"
@@ -129,10 +149,7 @@ function AlertDialogContent({
   )
 }
 
-function AlertDialogHeader({
-  className,
-  ...props
-}: ComponentProps<"div">) {
+function AlertDialogHeader({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-dialog-header"
@@ -145,10 +162,7 @@ function AlertDialogHeader({
   )
 }
 
-function AlertDialogFooter({
-  className,
-  ...props
-}: ComponentProps<"div">) {
+function AlertDialogFooter({ className, ...props }: ComponentProps<"div">) {
   const ref = useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
@@ -184,10 +198,7 @@ function AlertDialogFooter({
   )
 }
 
-function AlertDialogMedia({
-  className,
-  ...props
-}: ComponentProps<"div">) {
+function AlertDialogMedia({ className, ...props }: ComponentProps<"div">) {
   return (
     <div
       data-slot="alert-dialog-media"
@@ -200,10 +211,7 @@ function AlertDialogMedia({
   )
 }
 
-function AlertDialogTitle({
-  className,
-  ...props
-}: ComponentProps<typeof Heading>) {
+function AlertDialogTitle({ className, ...props }: ComponentProps<typeof Heading>) {
   return (
     <Heading
       slot="title"
@@ -217,10 +225,7 @@ function AlertDialogTitle({
   )
 }
 
-function AlertDialogDescription({
-  className,
-  ...props
-}: ComponentProps<"p">) {
+function AlertDialogDescription({ className, ...props }: ComponentProps<"p">) {
   return (
     <p
       data-slot="alert-dialog-description"

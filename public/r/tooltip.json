@@ -4,7 +4,7 @@
   "type": "registry:ui",
   "title": "Tooltip",
   "description": "A popup that displays information related to an element when it receives keyboard focus or hover.",
-  "dependencies": ["@base-ui/react", "radix-ui", "react-aria-components"],
+  "dependencies": ["@base-ui/react"],
   "registryDependencies": [],
   "files": [
     {

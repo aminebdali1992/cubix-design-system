@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 /*
   Cubix Alert - React Aria version.
 
-  Plain ARIA roles (role="alert") — Alert is a purely presentational callout,
+  Plain ARIA roles (role="alert") - Alert is a purely presentational callout,
   so the implementation matches the Base UI and Radix versions one-to-one.
   Persian-first: logical properties (ps/pe, start/end) keep the layout and the
   AlertAction slot mirrored in RTL.
