@@ -1,6 +1,19 @@
 "use client"
 
-import type { ComponentProps, ReactElement, ReactNode } from "react"
+/*
+  Cubix Alert Dialog - React Aria version.
+
+  Persian-first: the portaled panel defaults to dir="rtl" lang="fa" so the
+  dialog follows Persian regardless of the portal position. Pass dir="ltr"
+  on AlertDialogContent to switch.
+*/
+import {
+  useLayoutEffect,
+  useRef,
+  type ComponentProps,
+  type ReactElement,
+  type ReactNode,
+} from "react"
 import {
   Button as AriaButton,
   Dialog,
@@ -84,11 +97,15 @@ function AlertDialogOverlay({
 function AlertDialogContent({
   className,
   size = "default",
+  dir = "rtl",
+  lang = "fa",
   children,
   ...props
 }: Omit<ModalOverlayProps, "className" | "children"> & {
   className?: string
   size?: "default" | "sm"
+  dir?: "ltr" | "rtl"
+  lang?: string
   children?: ReactNode
 }) {
   return (
@@ -96,6 +113,8 @@ function AlertDialogContent({
       <Modal
         data-slot="alert-dialog-content"
         data-size={size}
+        dir={dir}
+        lang={dir === "rtl" ? lang : undefined}
         className={cn(
           "group/alert-dialog-content fixed top-1/2 left-1/2 z-50 grid w-full -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none data-[size=default]:max-w-xs data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-sm data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-95 data-exiting:animate-out data-exiting:fade-out-0 data-exiting:zoom-out-95",
           className
@@ -130,11 +149,34 @@ function AlertDialogFooter({
   className,
   ...props
 }: ComponentProps<"div">) {
+  const ref = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    const row = ref.current
+    if (!row) return
+
+    const equalize = () => {
+      if (!row.isConnected) return
+      const controls = Array.from(row.children) as HTMLElement[]
+      if (controls.length < 2) return
+      controls.forEach((el) => el.style.removeProperty("min-width"))
+      const max = Math.max(...controls.map((el) => el.offsetWidth))
+      controls.forEach((el) => el.style.setProperty("min-width", `${max}px`))
+    }
+
+    equalize()
+    document.fonts?.ready.then(equalize)
+    const observer = new ResizeObserver(equalize)
+    observer.observe(row)
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div
+      ref={ref}
       data-slot="alert-dialog-footer"
       className={cn(
-        "-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 p-4 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end",
+        "-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 px-4 py-3 group-data-[size=sm]/alert-dialog-content:grid group-data-[size=sm]/alert-dialog-content:grid-cols-2 sm:flex-row sm:justify-end",
         className
       )}
       {...props}
@@ -167,7 +209,7 @@ function AlertDialogTitle({
       slot="title"
       data-slot="alert-dialog-title"
       className={cn(
-        "cn-font-heading text-body font-medium sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2",
+        "cn-font-heading text-label font-medium sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2",
         className
       )}
       {...props}
@@ -183,7 +225,7 @@ function AlertDialogDescription({
     <p
       data-slot="alert-dialog-description"
       className={cn(
-        "text-description text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
+        "text-label text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
         className
       )}
       {...props}
@@ -201,7 +243,7 @@ type AlertDialogButtonProps = Omit<ButtonProps, "className" | "children" | "slot
 function AlertDialogAction({
   className,
   variant = "default",
-  size = "default",
+  size = "sm",
   children,
   ...props
 }: AlertDialogButtonProps) {
@@ -220,7 +262,7 @@ function AlertDialogAction({
 function AlertDialogCancel({
   className,
   variant = "outline",
-  size = "default",
+  size = "sm",
   children,
   ...props
 }: AlertDialogButtonProps) {

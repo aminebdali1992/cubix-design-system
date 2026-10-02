@@ -3,9 +3,9 @@
   "name": "dialog",
   "type": "registry:ui",
   "title": "Dialog",
-  "description": "A modal window that overlays the page.",
+  "description": "A modal window overlaid on the primary content for focused tasks, forms, and secondary flows.",
   "dependencies": ["@base-ui/react", "lucide-react"],
-  "registryDependencies": [],
+  "registryDependencies": ["button"],
   "files": [
     {
       "path": "components/cubix/dialog.tsx",

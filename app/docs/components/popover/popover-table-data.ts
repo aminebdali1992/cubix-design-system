@@ -16,26 +16,31 @@ export const popoverPropRows = [
     description: "Called when the open state changes.",
   },
   {
+    prop: "dir",
+    type: '"ltr" | "rtl"',
+    default: '"rtl"',
+    description:
+      "Text direction for the popover. Defaults to RTL. When omitted, follows the closest dir on the page.",
+  },
+  {
     prop: "children",
     type: "React.ReactNode",
     description: "The trigger and content elements.",
   },
-];
+]
 
 export const triggerClosePropRows = [
   {
     prop: "render",
     type: "React.ReactElement",
-    description:
-      "Render the trigger as another element (e.g. a Button).",
+    description: "Render the trigger or close control as another Cubix element (e.g. a Button).",
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
-];
+]
 
 export const contentPropRows = [
   {
@@ -48,12 +53,12 @@ export const contentPropRows = [
     prop: "align",
     type: '"start" | "center" | "end"',
     default: '"center"',
-    description: "Alignment along the opposite axis of `side`.",
+    description: "Logical alignment along the opposite axis of side (ابتدا / انتها in RTL).",
   },
   {
     prop: "sideOffset",
     type: "number",
-    default: "8",
+    default: "4",
     description: "Distance in pixels between the trigger and the popover.",
   },
   {
@@ -65,21 +70,19 @@ export const contentPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
   {
     prop: "...props",
     type: "React.ComponentProps<'div'>",
     description: "All native div attributes are forwarded to the popover panel.",
   },
-];
+]
 
 export const subcomponentRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
-];
+]

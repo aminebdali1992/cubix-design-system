@@ -45,6 +45,12 @@ export const actionPropRows = [
     description: "Visual style of the confirm button.",
   },
   {
+    prop: "size",
+    type: '"default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"',
+    default: '"sm"',
+    description: "Size of the confirm button.",
+  },
+  {
     prop: "className",
     type: "string",
     description:
@@ -58,6 +64,12 @@ export const cancelPropRows = [
     type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"outline"',
     description: "Visual style of the cancel button.",
+  },
+  {
+    prop: "size",
+    type: '"default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"',
+    default: '"sm"',
+    description: "Size of the cancel button.",
   },
   {
     prop: "className",

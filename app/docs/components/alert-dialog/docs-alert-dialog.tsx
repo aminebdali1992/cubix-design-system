@@ -26,7 +26,7 @@ type AlertDialogTriggerProps = {
 type AlertDialogContentProps = {
   className?: string
   size?: "default" | "sm"
-  dir?: string
+  dir?: "ltr" | "rtl"
   lang?: string
   children?: ReactNode
 }

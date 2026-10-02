@@ -5,7 +5,7 @@ export const dialogPropRows = [
     description:
       "The trigger and content elements. State is managed internally (uncontrolled).",
   },
-];
+]
 
 export const triggerClosePropRows = [
   {
@@ -20,14 +20,28 @@ export const triggerClosePropRows = [
     description:
       "Additional Tailwind classes merged with the component styles (last one wins).",
   },
-];
+]
 
 export const contentPropRows = [
   {
     prop: "showCloseButton",
     type: "boolean",
     default: "true",
-    description: "Show the built-in close (X) button in the top-right corner.",
+    description: "Show the built-in close (X) button in the top end corner.",
+  },
+  {
+    prop: "dir",
+    type: '"ltr" | "rtl"',
+    default: '"rtl"',
+    description:
+      "Text direction of the portaled panel. Defaults to RTL for Persian-first layouts.",
+  },
+  {
+    prop: "lang",
+    type: "string",
+    default: '"fa"',
+    description:
+      'Language attribute applied when dir is "rtl". Pass dir="ltr" to omit it.',
   },
   {
     prop: "className",
@@ -35,13 +49,22 @@ export const contentPropRows = [
     description:
       "Additional Tailwind classes merged with the component styles (last one wins).",
   },
+]
+
+export const footerPropRows = [
   {
-    prop: "...props",
-    type: "React.ComponentProps<'dialog'>",
-    description:
-      "All native dialog attributes are forwarded to the rendered element.",
+    prop: "showCloseButton",
+    type: "boolean",
+    default: "false",
+    description: "Append a default outline Close button in the footer.",
   },
-];
+  {
+    prop: "className",
+    type: "string",
+    description:
+      "Additional Tailwind classes merged with the component styles (last one wins).",
+  },
+]
 
 export const subcomponentRows = [
   {
@@ -50,4 +73,4 @@ export const subcomponentRows = [
     description:
       "Additional Tailwind classes merged with the component styles (last one wins).",
   },
-];
+]

@@ -87,7 +87,7 @@ export const components = [
     name: "Alert",
     description: "Displays a callout for user attention.",
     href: "/docs/components/alert",
-    ready: false,
+    ready: true,
   },
   {
     name: "Card",
@@ -111,9 +111,10 @@ export const components = [
   },
   {
     name: "Dialog",
-    description: "A modal window that overlays the page.",
+    description:
+      "A modal window overlaid on the primary content for focused tasks, forms, and secondary flows.",
     href: "/docs/components/dialog",
-    ready: false,
+    ready: true,
   },
   {
     name: "Direction",
@@ -169,7 +170,7 @@ export const components = [
     description:
       "Displays rich content in a portal, triggered by a button.",
     href: "/docs/components/popover",
-    ready: false,
+    ready: true,
   },
   {
     name: "Dropdown Menu",
@@ -183,13 +184,13 @@ export const components = [
     description:
       "A modal dialog that interrupts the user with important content and expects a response.",
     href: "/docs/components/alert-dialog",
-    ready: false,
+    ready: true,
   },
   {
     name: "Aspect Ratio",
     description: "Displays content within a desired ratio.",
     href: "/docs/components/aspect-ratio",
-    ready: false,
+    ready: true,
   },
   {
     name: "Attachment",

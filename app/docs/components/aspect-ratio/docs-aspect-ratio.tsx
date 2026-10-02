@@ -1,6 +1,6 @@
 "use client"
 
-import type { ReactNode } from "react"
+import type { ComponentProps } from "react"
 import { usePathname } from "next/navigation"
 
 import * as AriaAspectRatio from "@/components/cubix/aria/aspect-ratio"
@@ -8,10 +8,8 @@ import * as BaseAspectRatio from "@/components/cubix/base/aspect-ratio"
 import * as RadixAspectRatio from "@/components/cubix/radix/aspect-ratio"
 import { DEFAULT_BASE, parseComponentPath } from "@/lib/bases"
 
-type AspectRatioProps = {
+type AspectRatioProps = ComponentProps<"div"> & {
   ratio: number
-  className?: string
-  children?: ReactNode
 }
 
 function useAspectRatioBase() {

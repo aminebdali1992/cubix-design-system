@@ -39,12 +39,12 @@ const usageImport = `import {
 
 const usageSnippet = `<Alert>
   <InfoIcon />
-  <AlertTitle>Heads up!</AlertTitle>
+  <AlertTitle>خبر خوب!</AlertTitle>
   <AlertDescription>
-    You can add components and dependencies to your app using the CLI.
+    می‌توانید کامپوننت‌ها و وابستگی‌ها را با ابزار خط فرمان به پروژه اضافه کنید.
   </AlertDescription>
   <AlertAction>
-    <Button variant="outline">Enable</Button>
+    <Button variant="outline">فعال‌سازی</Button>
   </AlertAction>
 </Alert>`;
 
@@ -53,23 +53,6 @@ const compositionTree = `Alert
 ├── AlertTitle
 ├── AlertDescription
 └── AlertAction`;
-
-const heroCode = `<Alert>
-  <CircleCheckIcon />
-  <AlertTitle>Payment successful</AlertTitle>
-  <AlertDescription>
-    Your payment of $29.99 has been processed. A receipt has been sent to your
-    email address.
-  </AlertDescription>
-</Alert>
-
-<Alert>
-  <InfoIcon />
-  <AlertTitle>New feature available</AlertTitle>
-  <AlertDescription>
-    We've added dark mode support. You can enable it in your account settings.
-  </AlertDescription>
-</Alert>`;
 
 export default function AlertPage() {
   return (
@@ -81,22 +64,37 @@ export default function AlertPage() {
       />
 
       {/* Hero preview */}
-      <ComponentPreview code={heroCode}>
-        <div className="grid max-w-xl gap-4">
+      <ComponentPreview
+        code={`<Alert>
+  <CircleCheckIcon />
+  <AlertTitle>پرداخت موفق</AlertTitle>
+  <AlertDescription>
+    پرداخت ۲۹٫۹۹ دلاری شما انجام شد. رسید به نشانی ایمیل ارسال شده است.
+  </AlertDescription>
+</Alert>
+
+<Alert>
+  <InfoIcon />
+  <AlertTitle>قابلیت جدید در دسترس است</AlertTitle>
+  <AlertDescription>
+    حالت تاریک اضافه شده. می‌توانید آن را از تنظیمات حساب فعال کنید.
+  </AlertDescription>
+</Alert>`}
+      >
+        <div dir="rtl" lang="fa" className="grid w-full max-w-xl gap-4">
           <Alert className="w-full">
             <CircleCheckIcon />
-            <AlertTitle>Payment successful</AlertTitle>
+            <AlertTitle>پرداخت موفق</AlertTitle>
             <AlertDescription>
-              Your payment of $29.99 has been processed. A receipt has been
-              sent to your email address.
+              پرداخت ۲۹٫۹۹ دلاری شما انجام شد. رسید به نشانی ایمیل ارسال شده
+              است.
             </AlertDescription>
           </Alert>
           <Alert className="w-full">
             <InfoIcon />
-            <AlertTitle>New feature available</AlertTitle>
+            <AlertTitle>قابلیت جدید در دسترس است</AlertTitle>
             <AlertDescription>
-              We&apos;ve added dark mode support. You can enable it in your
-              account settings.
+              حالت تاریک اضافه شده. می‌توانید آن را از تنظیمات حساب فعال کنید.
             </AlertDescription>
           </Alert>
         </div>
@@ -106,9 +104,7 @@ export default function AlertPage() {
 
       {/* Usage */}
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Usage
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Usage</h2>
         <CodeBlock code={usageImport} title="Import" />
         <CodeBlock code={usageSnippet} title="Example" />
       </section>
@@ -127,30 +123,28 @@ export default function AlertPage() {
 
       {/* Basic */}
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Basic
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Basic</h2>
         <p className="leading-relaxed text-muted-foreground">
           A basic alert with an icon, title and description.
         </p>
         <ComponentPreview
           code={`<Alert>
   <CircleCheckIcon />
-  <AlertTitle>Account updated successfully</AlertTitle>
+  <AlertTitle>اطلاعات حساب به‌روزرسانی شد</AlertTitle>
   <AlertDescription>
-    Your profile information has been saved. Changes will be reflected
-    immediately.
+    اطلاعات پروفایل شما ذخیره شد. تغییرات بلافاصله اعمال می‌شوند.
   </AlertDescription>
 </Alert>`}
         >
-          <Alert className="w-full max-w-md">
-            <CircleCheckIcon />
-            <AlertTitle>Account updated successfully</AlertTitle>
-            <AlertDescription>
-              Your profile information has been saved. Changes will be
-              reflected immediately.
-            </AlertDescription>
-          </Alert>
+          <div dir="rtl" lang="fa" className="w-full max-w-md">
+            <Alert className="w-full">
+              <CircleCheckIcon />
+              <AlertTitle>اطلاعات حساب به‌روزرسانی شد</AlertTitle>
+              <AlertDescription>
+                اطلاعات پروفایل شما ذخیره شد. تغییرات بلافاصله اعمال می‌شوند.
+              </AlertDescription>
+            </Alert>
+          </div>
         </ComponentPreview>
       </section>
 
@@ -164,59 +158,63 @@ export default function AlertPage() {
           to create a destructive alert.
         </p>
         <ComponentPreview
-          code={`<Alert variant="destructive">
+          code={`<Alert variant="destructive" className="border-destructive/20 bg-destructive/10 text-red-900 dark:text-red-400">
   <CircleAlertIcon />
-  <AlertTitle>Payment failed</AlertTitle>
-  <AlertDescription>
-    Your payment could not be processed. Please check your payment method
-    and try again.
+  <AlertTitle>پرداخت ناموفق بود</AlertTitle>
+  <AlertDescription className="text-red-900/80 dark:text-red-400/80">
+    پرداخت شما انجام نشد. لطفاً روش پرداخت را بررسی کنید و دوباره تلاش کنید.
   </AlertDescription>
 </Alert>`}
         >
-          <Alert variant="destructive" className="w-full max-w-md">
-            <CircleAlertIcon />
-            <AlertTitle>Payment failed</AlertTitle>
-            <AlertDescription>
-              Your payment could not be processed. Please check your payment
-              method and try again.
-            </AlertDescription>
-          </Alert>
+          <div dir="rtl" lang="fa" className="w-full max-w-md">
+            <Alert
+              variant="destructive"
+              className="w-full border-destructive/20 bg-destructive/10 text-red-900 dark:text-red-400"
+            >
+              <CircleAlertIcon />
+              <AlertTitle>پرداخت ناموفق بود</AlertTitle>
+              <AlertDescription className="text-red-900/80 dark:text-red-400/80">
+                پرداخت شما انجام نشد. لطفاً روش پرداخت را بررسی کنید و دوباره
+                تلاش کنید.
+              </AlertDescription>
+            </Alert>
+          </div>
         </ComponentPreview>
       </section>
 
       {/* Action */}
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Action
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Action</h2>
         <p className="leading-relaxed text-muted-foreground">
           Use <code className="font-mono text-sm">AlertAction</code> to add a
           button or other action element to the alert.
         </p>
         <ComponentPreview
-          code={`<Alert className="max-w-md">
-  <AlertTitle>Dark mode is now available</AlertTitle>
+          code={`<Alert>
+  <AlertTitle>حالت تاریک فعال شد</AlertTitle>
   <AlertDescription>
-    Enable it under your profile settings to get started.
+    برای شروع آن را از تنظیمات پروفایل شخصی‌سازی کنید.
   </AlertDescription>
   <AlertAction>
     <Button size="xs" variant="default">
-      Enable
+      تنظیمات
     </Button>
   </AlertAction>
 </Alert>`}
         >
-          <Alert className="w-full max-w-md">
-            <AlertTitle>Dark mode is now available</AlertTitle>
-            <AlertDescription>
-              Enable it under your profile settings to get started.
-            </AlertDescription>
-            <AlertAction>
-              <Button size="xs" variant="default">
-                Enable
-              </Button>
-            </AlertAction>
-          </Alert>
+          <div dir="rtl" lang="fa" className="w-full max-w-md">
+            <Alert className="w-full">
+              <AlertTitle>حالت تاریک فعال شد</AlertTitle>
+              <AlertDescription>
+                برای شروع آن را از تنظیمات پروفایل شخصی‌سازی کنید.
+              </AlertDescription>
+              <AlertAction>
+                <Button size="xs" variant="default">
+                  تنظیمات
+                </Button>
+              </AlertAction>
+            </Alert>
+          </div>
         </ComponentPreview>
       </section>
 
@@ -231,69 +229,21 @@ export default function AlertPage() {
           to the <code className="font-mono text-sm">Alert</code> component.
         </p>
         <ComponentPreview
-          code={`<Alert className="max-w-md border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
+          code={`<Alert className="border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/50 dark:text-amber-300">
   <TriangleAlertIcon />
-  <AlertTitle>Your subscription will expire in 3 days.</AlertTitle>
+  <AlertTitle>اشتراک شما تا ۳ روز دیگر منقضی می‌شود.</AlertTitle>
   <AlertDescription>
-    Renew now to avoid service interruption or upgrade to a paid plan to
-    continue using the service.
+    برای جلوگیری از قطع سرویس، همین حالا تمدید کنید یا به طرح پولی ارتقا دهید.
   </AlertDescription>
 </Alert>`}
         >
-          <Alert className="w-full max-w-md border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
-            <TriangleAlertIcon />
-            <AlertTitle>Your subscription will expire in 3 days.</AlertTitle>
-            <AlertDescription>
-              Renew now to avoid service interruption or upgrade to a paid
-              plan to continue using the service.
-            </AlertDescription>
-          </Alert>
-        </ComponentPreview>
-      </section>
-
-      {/* RTL */}
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Wrap the alert in{" "}
-          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code> and{" "}
-          <code className="font-mono text-sm">lang=&quot;fa&quot;</code> so
-          layout, action placement, and IRANSans XV follow Persian.
-        </p>
-        <ComponentPreview
-          code={`<div dir="rtl" lang="fa" className="grid max-w-xl gap-4">
-  <Alert>
-    <CircleCheckIcon />
-    <AlertTitle>پرداخت موفق</AlertTitle>
-    <AlertDescription>
-      پرداخت ۲۹٫۹۹ دلاری شما انجام شد. رسید به نشانی ایمیل ارسال شده است.
-    </AlertDescription>
-  </Alert>
-
-  <Alert>
-    <InfoIcon />
-    <AlertTitle>قابلیت جدید در دسترس است</AlertTitle>
-    <AlertDescription>
-      حالت تاریک اضافه شده. می‌توانید آن را از تنظیمات حساب فعال کنید.
-    </AlertDescription>
-  </Alert>
-</div>`}
-        >
-          <div dir="rtl" lang="fa" className="grid w-full max-w-xl gap-4">
-            <Alert className="w-full">
-              <CircleCheckIcon />
-              <AlertTitle>پرداخت موفق</AlertTitle>
+          <div dir="rtl" lang="fa" className="w-full max-w-md">
+            <Alert className="w-full border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900/50 dark:bg-amber-950/50 dark:text-amber-300">
+              <TriangleAlertIcon />
+              <AlertTitle>اشتراک شما تا ۳ روز دیگر منقضی می‌شود.</AlertTitle>
               <AlertDescription>
-                پرداخت ۲۹٫۹۹ دلاری شما انجام شد. رسید به نشانی ایمیل ارسال شده
-                است.
-              </AlertDescription>
-            </Alert>
-            <Alert className="w-full">
-              <InfoIcon />
-              <AlertTitle>قابلیت جدید در دسترس است</AlertTitle>
-              <AlertDescription>
-                حالت تاریک اضافه شده. می‌توانید آن را از تنظیمات حساب فعال
-                کنید.
+                برای جلوگیری از قطع سرویس، همین حالا تمدید کنید یا به طرح پولی
+                ارتقا دهید.
               </AlertDescription>
             </Alert>
           </div>

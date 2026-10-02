@@ -2,6 +2,15 @@ import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
+/*
+  Cubix Alert - React Aria version.
+
+  Plain ARIA roles (role="alert") — Alert is a purely presentational callout,
+  so the implementation matches the Base UI and Radix versions one-to-one.
+  Persian-first: logical properties (ps/pe, start/end) keep the layout and the
+  AlertAction slot mirrored in RTL.
+*/
+
 const alertVariants = cva(
   "group/alert relative grid w-full gap-(--typeset-stack) rounded-lg border px-2.5 py-2 text-start text-description has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pe-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4",
   {

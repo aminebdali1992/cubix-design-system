@@ -1,4 +1,5 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 import {
   BluetoothIcon,
   CircleAlertIcon,
@@ -39,6 +40,18 @@ export const metadata: Metadata = {
     "A modal dialog that interrupts the user with important content and expects a response.",
 }
 
+// Persian trigger buttons need lang="fa" so .group/button:lang(fa)
+// picks the "IRANSans Cubix Button D" face (with U+0020 + 103%/47%
+// baseline). Without it the trigger falls back to the generic face
+// and Geist sets the baseline, so Persian looks unloaded/misaligned.
+function PreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div dir="rtl" lang="fa" className="flex items-center justify-center">
+      {children}
+    </div>
+  )
+}
+
 const usageImport = `import {
   AlertDialog,
   AlertDialogAction,
@@ -52,20 +65,19 @@ const usageImport = `import {
 } from "@/components/cubix/alert-dialog"`
 
 const usageSnippet = `<AlertDialog>
-  <AlertDialogTrigger render={<Button variant="outline" />}>
-    Show Dialog
+  <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+    نمایش دیالوگ
   </AlertDialogTrigger>
   <AlertDialogContent>
     <AlertDialogHeader>
-      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogTitle>آیا کاملاً مطمئن هستید؟</AlertDialogTitle>
       <AlertDialogDescription>
-        This action cannot be undone. This will permanently delete your
-        account from our servers.
+        این کار قابل بازگشت نیست. حساب شما برای همیشه از سرورها حذف می‌شود.
       </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter>
-      <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction>Continue</AlertDialogAction>
+      <AlertDialogCancel>انصراف</AlertDialogCancel>
+      <AlertDialogAction>ادامه</AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>`
@@ -82,105 +94,102 @@ const compositionSnippet = `AlertDialog
         └── AlertDialogAction`
 
 const smallSnippet = `<AlertDialog>
-  <AlertDialogTrigger render={<Button variant="outline" />}>
-    Small dialog
+  <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+    دیالوگ کوچک
   </AlertDialogTrigger>
   <AlertDialogContent size="sm">
     <AlertDialogHeader>
-      <AlertDialogTitle>Share this document?</AlertDialogTitle>
+      <AlertDialogTitle>سند به اشتراک گذاشته شود؟</AlertDialogTitle>
       <AlertDialogDescription>
-        Anyone with the link will be able to view this file.
+        هر کسی لینک را داشته باشد می‌تواند این فایل را ببیند.
       </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter>
-      <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction>Share</AlertDialogAction>
+      <AlertDialogCancel>انصراف</AlertDialogCancel>
+      <AlertDialogAction>اشتراک‌گذاری</AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>`
 
 const mediaSnippet = `<AlertDialog>
-  <AlertDialogTrigger render={<Button variant="outline" />}>
-    With media
+  <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+    با آیکن
   </AlertDialogTrigger>
   <AlertDialogContent>
     <AlertDialogHeader>
       <AlertDialogMedia>
         <CircleFadingPlusIcon />
       </AlertDialogMedia>
-      <AlertDialogTitle>Enable extra features?</AlertDialogTitle>
+      <AlertDialogTitle>قابلیت‌های اضافه فعال شود؟</AlertDialogTitle>
       <AlertDialogDescription>
-        This adds optional tools to your workspace. You can turn them off
-        later.
+        این کار ابزارهای اختیاری به فضای کاری شما اضافه می‌کند. بعداً می‌توانید
+        خاموششان کنید.
       </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter>
-      <AlertDialogCancel>Not now</AlertDialogCancel>
-      <AlertDialogAction>Enable</AlertDialogAction>
+      <AlertDialogCancel>فعلاً نه</AlertDialogCancel>
+      <AlertDialogAction>فعال‌سازی</AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>`
 
 const smallWithMediaSnippet = `<AlertDialog>
-  <AlertDialogTrigger render={<Button variant="outline" />}>
-    Small with media
+  <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+    دیالوگ کوچک با آیکن
   </AlertDialogTrigger>
   <AlertDialogContent size="sm">
     <AlertDialogHeader>
       <AlertDialogMedia>
         <BluetoothIcon />
       </AlertDialogMedia>
-      <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
+      <AlertDialogTitle>اتصال دستگاه جانبی اجازه داده شود؟</AlertDialogTitle>
       <AlertDialogDescription>
-        Do you want to allow the USB accessory to connect to this device?
+        آیا می‌خواهید اجازه دهید دستگاه USB به این دستگاه متصل شود؟
       </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter>
-      <AlertDialogCancel>Don't allow</AlertDialogCancel>
-      <AlertDialogAction>Allow</AlertDialogAction>
+      <AlertDialogCancel>اجازه نده</AlertDialogCancel>
+      <AlertDialogAction>اجازه بده</AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>`
 
-const rtlSnippet = `<div dir="rtl" lang="fa">
-  <AlertDialog>
-    <AlertDialogTrigger render={<Button variant="outline" />}>
-      نمایش دیالوگ
-    </AlertDialogTrigger>
-    <AlertDialogContent dir="rtl" lang="fa">
-      <AlertDialogHeader>
-        <AlertDialogTitle>آیا کاملاً مطمئن هستید؟</AlertDialogTitle>
-        <AlertDialogDescription>
-          این کار قابل بازگشت نیست. حساب شما برای همیشه از سرورها حذف
-          می‌شود.
-        </AlertDialogDescription>
-      </AlertDialogHeader>
-      <AlertDialogFooter>
-        <AlertDialogCancel>انصراف</AlertDialogCancel>
-        <AlertDialogAction>ادامه</AlertDialogAction>
-      </AlertDialogFooter>
-    </AlertDialogContent>
-  </AlertDialog>
-</div>`
+const rtlSnippet = `<AlertDialog>
+  <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+    نمایش دیالوگ
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>آیا کاملاً مطمئن هستید؟</AlertDialogTitle>
+      <AlertDialogDescription>
+        این کار قابل بازگشت نیست. حساب شما برای همیشه از سرورها حذف می‌شود.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>انصراف</AlertDialogCancel>
+      <AlertDialogAction>ادامه</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>`
 
 const destructiveSnippet = `<AlertDialog>
-  <AlertDialogTrigger render={<Button variant="outline" />}>
-    Delete account
+  <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+    حذف حساب
   </AlertDialogTrigger>
   <AlertDialogContent>
     <AlertDialogHeader>
       <AlertDialogMedia className="bg-destructive/10 text-destructive">
         <Trash2Icon />
       </AlertDialogMedia>
-      <AlertDialogTitle>Delete your account?</AlertDialogTitle>
+      <AlertDialogTitle>حساب شما حذف شود؟</AlertDialogTitle>
       <AlertDialogDescription>
-        This action cannot be undone. This will permanently delete your
-        account and remove your data from our servers.
+        این کار قابل بازگشت نیست. حساب شما برای همیشه حذف و داده‌هایتان از
+        سرورها پاک می‌شود.
       </AlertDialogDescription>
     </AlertDialogHeader>
     <AlertDialogFooter>
-      <AlertDialogCancel>Cancel</AlertDialogCancel>
-      <AlertDialogAction variant="destructive">Delete</AlertDialogAction>
+      <AlertDialogCancel>انصراف</AlertDialogCancel>
+      <AlertDialogAction variant="destructive">حذف</AlertDialogAction>
     </AlertDialogFooter>
   </AlertDialogContent>
 </AlertDialog>`
@@ -195,24 +204,26 @@ export default function AlertDialogPage() {
       />
 
       <ComponentPreview code={usageSnippet}>
-        <AlertDialog>
-          <AlertDialogTrigger render={<Button variant="outline" />}>
-            Show Dialog
+        <PreviewShell>
+          <AlertDialog>
+          <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+            نمایش دیالوگ
           </AlertDialogTrigger>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogTitle>آیا کاملاً مطمئن هستید؟</AlertDialogTitle>
               <AlertDialogDescription>
-                This action cannot be undone. This will permanently delete
-                your account from our servers.
+                این کار قابل بازگشت نیست. حساب شما برای همیشه از سرورها حذف
+                می‌شود.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction>Continue</AlertDialogAction>
+              <AlertDialogCancel>انصراف</AlertDialogCancel>
+              <AlertDialogAction>ادامه</AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
-        </AlertDialog>
+          </AlertDialog>
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="alert-dialog" />
@@ -243,24 +254,26 @@ export default function AlertDialogPage() {
             continue buttons.
           </p>
           <ComponentPreview code={usageSnippet}>
-            <AlertDialog>
-              <AlertDialogTrigger render={<Button variant="outline" />}>
-                Show Dialog
+            <PreviewShell>
+          <AlertDialog>
+              <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+                نمایش دیالوگ
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogTitle>آیا کاملاً مطمئن هستید؟</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account from our servers.
+                    این کار قابل بازگشت نیست. حساب شما برای همیشه از سرورها حذف
+                    می‌شود.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Continue</AlertDialogAction>
+                  <AlertDialogCancel>انصراف</AlertDialogCancel>
+                  <AlertDialogAction>ادامه</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
+        </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -271,23 +284,25 @@ export default function AlertDialogPage() {
             prop to make the alert dialog smaller.
           </p>
           <ComponentPreview code={smallSnippet}>
-            <AlertDialog>
-              <AlertDialogTrigger render={<Button variant="outline" />}>
-                Small dialog
+            <PreviewShell>
+          <AlertDialog>
+              <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+                دیالوگ کوچک
               </AlertDialogTrigger>
               <AlertDialogContent size="sm">
                 <AlertDialogHeader>
-                  <AlertDialogTitle>Share this document?</AlertDialogTitle>
+                  <AlertDialogTitle>سند به اشتراک گذاشته شود؟</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Anyone with the link will be able to view this file.
+                    هر کسی لینک را داشته باشد می‌تواند این فایل را ببیند.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Share</AlertDialogAction>
+                  <AlertDialogCancel>انصراف</AlertDialogCancel>
+                  <AlertDialogAction>اشتراک‌گذاری</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
+        </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -298,27 +313,29 @@ export default function AlertDialogPage() {
             add an icon or image above the title.
           </p>
           <ComponentPreview code={mediaSnippet}>
-            <AlertDialog>
-              <AlertDialogTrigger render={<Button variant="outline" />}>
-                With media
+            <PreviewShell>
+          <AlertDialog>
+              <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+                با آیکن
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogMedia>
                     <CircleFadingPlusIcon />
                   </AlertDialogMedia>
-                  <AlertDialogTitle>Enable extra features?</AlertDialogTitle>
+                  <AlertDialogTitle>قابلیت‌های اضافه فعال شود؟</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This adds optional tools to your workspace. You can turn
-                    them off later.
+                    این کار ابزارهای اختیاری به فضای کاری شما اضافه می‌کند.
+                    بعداً می‌توانید خاموششان کنید.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Not now</AlertDialogCancel>
-                  <AlertDialogAction>Enable</AlertDialogAction>
+                  <AlertDialogCancel>فعلاً نه</AlertDialogCancel>
+                  <AlertDialogAction>فعال‌سازی</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
+        </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -333,9 +350,10 @@ export default function AlertDialogPage() {
             compact dialog with an icon.
           </p>
           <ComponentPreview code={smallWithMediaSnippet}>
-            <AlertDialog>
-              <AlertDialogTrigger render={<Button variant="outline" />}>
-                Small with media
+            <PreviewShell>
+          <AlertDialog>
+              <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+                دیالوگ کوچک با آیکن
               </AlertDialogTrigger>
               <AlertDialogContent size="sm">
                 <AlertDialogHeader>
@@ -343,19 +361,20 @@ export default function AlertDialogPage() {
                     <BluetoothIcon />
                   </AlertDialogMedia>
                   <AlertDialogTitle>
-                    Allow accessory to connect?
+                    اتصال دستگاه جانبی اجازه داده شود؟
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Do you want to allow the USB accessory to connect to this
-                    device?
+                    آیا می‌خواهید اجازه دهید دستگاه USB به این دستگاه متصل
+                    شود؟
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                  <AlertDialogCancel>Don't allow</AlertDialogCancel>
-                  <AlertDialogAction>Allow</AlertDialogAction>
+                  <AlertDialogCancel>اجازه نده</AlertDialogCancel>
+                  <AlertDialogAction>اجازه بده</AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
+        </PreviewShell>
           </ComponentPreview>
         </div>
 
@@ -368,66 +387,33 @@ export default function AlertDialogPage() {
             on the action when the confirm step cannot be undone.
           </p>
           <ComponentPreview code={destructiveSnippet}>
-            <AlertDialog>
-              <AlertDialogTrigger render={<Button variant="outline" />}>
-                Delete account
+            <PreviewShell>
+          <AlertDialog>
+              <AlertDialogTrigger render={<Button variant="outline" size="sm" />}>
+                حذف حساب
               </AlertDialogTrigger>
               <AlertDialogContent>
                 <AlertDialogHeader>
                   <AlertDialogMedia className="bg-destructive/10 text-destructive">
                     <Trash2Icon />
                   </AlertDialogMedia>
-                  <AlertDialogTitle>Delete your account?</AlertDialogTitle>
+                  <AlertDialogTitle>حساب شما حذف شود؟</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This action cannot be undone. This will permanently delete
-                    your account and remove your data from our servers.
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction variant="destructive">
-                    Delete
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
-          </ComponentPreview>
-        </div>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Set{" "}
-          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code> and{" "}
-          <code className="font-mono text-sm">lang=&quot;fa&quot;</code> on the
-          trigger wrapper and on{" "}
-          <code className="font-mono text-sm">AlertDialogContent</code> so
-          layout, actions, and IRANSans XV follow Persian. The panel is portaled,
-          so it needs those attributes too.
-        </p>
-        <ComponentPreview code={rtlSnippet}>
-          <div dir="rtl" lang="fa">
-            <AlertDialog>
-              <AlertDialogTrigger render={<Button variant="outline" />}>
-                نمایش دیالوگ
-              </AlertDialogTrigger>
-              <AlertDialogContent dir="rtl" lang="fa">
-                <AlertDialogHeader>
-                  <AlertDialogTitle>آیا کاملاً مطمئن هستید؟</AlertDialogTitle>
-                  <AlertDialogDescription>
-                    این کار قابل بازگشت نیست. حساب شما برای همیشه از سرورها حذف
-                    می‌شود.
+                    این کار قابل بازگشت نیست. حساب شما برای همیشه حذف و
+                    داده‌هایتان از سرورها پاک می‌شود.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>انصراف</AlertDialogCancel>
-                  <AlertDialogAction>ادامه</AlertDialogAction>
+                  <AlertDialogAction variant="destructive">
+                    حذف
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
-          </div>
-        </ComponentPreview>
+        </PreviewShell>
+          </ComponentPreview>
+        </div>
       </section>
 
       <section id="api-reference" className="space-y-4">
