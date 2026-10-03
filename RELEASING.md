@@ -8,18 +8,21 @@ The site and the registry at https://cubixflow.ir/r deploy automatically from `m
 
 Preferred path: npm Trusted Publishing from GitHub Actions (no long-lived npm token).
 
-1. On https://www.npmjs.com/package/cubix-ui → Access → Trusted Publisher, connect GitHub Actions:
-   - Repository: `aminebdali1992/cubix-design-system`
-   - Workflow: `release-cli.yml`
-2. Update `version` in `packages/cubix/package.json` following semantic versioning.
-3. Verify the package:
+1. On https://www.npmjs.com/package/cubix-ui/access → Trusted Publisher, connect GitHub Actions:
+   - Organization or user: `aminebdali1992`
+   - Repository: `cubix-design-system`
+   - Workflow filename: `release-cli.yml` (filename only, not a path)
+   - Allowed actions: enable **npm publish** (configs created after 2026-09-03 default to stage-only; direct `npm publish` will 404 without this)
+2. Do **not** add an `NPM_TOKEN` secret for this workflow. An empty `_authToken` from `actions/setup-node` `registry-url` blocks OIDC; the release workflow intentionally omits `registry-url`.
+3. Update `version` in `packages/cubix/package.json` following semantic versioning.
+4. Verify the package:
 
    ```bash
    npm run typecheck -w cubix-ui
    npm pack -w cubix-ui --dry-run
    ```
 
-4. Commit the version bump, then tag and push:
+5. Commit the version bump, then tag and push:
 
    ```bash
    git tag cubix-ui@<version>
@@ -27,7 +30,7 @@ Preferred path: npm Trusted Publishing from GitHub Actions (no long-lived npm to
    git push origin cubix-ui@<version>
    ```
 
-5. The `Release CLI` workflow publishes with OIDC. Confirm:
+6. The `Release CLI` workflow publishes with OIDC. Confirm:
 
    ```bash
    npx cubix-ui@latest --version
