@@ -1,6 +1,6 @@
 {
   "name": "cubix-ui",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Add Cubix components to your app. Initialize tokens, copy registry items, and scaffold frameworks.",
   "license": "MIT",
   "type": "module",
