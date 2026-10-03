@@ -12,22 +12,27 @@ permissions:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - uses: actions/checkout@v4
 
-      # Do not pass registry-url here. setup-node would write
-      # //registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN} into .npmrc.
-      # With no NPM_TOKEN secret that expands to an empty token, npm skips
-      # OIDC Trusted Publishing and fails with ENEEDAUTH or E404.
+      # Never set registry-url here. It writes an empty _authToken that
+      # blocks OIDC Trusted Publishing (ENEEDAUTH / E404).
       # See: https://github.com/actions/setup-node/issues/1551
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           cache: npm
 
-      # Trusted Publishing needs npm >= 11.5.1 and Node >= 22.14.
       - name: Ensure npm supports OIDC
-        run: npm install -g npm@latest
+        run: |
+          npm install -g npm@latest
+          npm --version
+          node --version
+          test -n "$ACTIONS_ID_TOKEN_REQUEST_URL"
+          test -n "$ACTIONS_ID_TOKEN_REQUEST_TOKEN"
 
       - run: npm ci
 
@@ -44,17 +49,29 @@ jobs:
           npm run typecheck -w cubix-ui
           npm run build -w cubix-ui
 
-      # Configure once on npmjs.com → cubix-ui → Access → Trusted Publisher:
-      #   Organization or user: aminebdali1992
-      #   Repository: cubix-design-system
-      #   Workflow filename: release-cli.yml
-      #   Allowed actions: enable "npm publish" (required for direct publish;
-      #   configs created after 2026-09-03 default to stage-only otherwise).
-      - name: Publish with Trusted Publishing
+      # Trusted Publisher on npmjs.com must allow "npm publish".
+      # Configs created after 2026-09-03 default to stage-only.
+      # Optional fallback: repo secret NPM_TOKEN (classic GAT path).
+      - name: Publish
+        working-directory: packages/cubix
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
-          for rc in "${NPM_CONFIG_USERCONFIG:-}" "$HOME/.npmrc" .npmrc; do
+          for rc in "${NPM_CONFIG_USERCONFIG:-}" "$HOME/.npmrc" ../../.npmrc .npmrc; do
             if [ -n "$rc" ] && [ -f "$rc" ]; then
               sed -i '/_authToken/d' "$rc"
             fi
           done
-          npm publish -w cubix-ui --access public --provenance
+
+          # Prefer classic GAT when present (same path used for 0.1.0).
+          # Otherwise use OIDC Trusted Publishing. After 2026-09-03 the
+          # Trusted Publisher must explicitly allow "npm publish".
+          if [ -n "${NPM_TOKEN:-}" ]; then
+            printf '%s\n' "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> "$HOME/.npmrc"
+            echo "Publishing with NPM_TOKEN secret"
+            npm publish --access public
+          else
+            unset NODE_AUTH_TOKEN || true
+            echo "Publishing with Trusted Publishing (OIDC)"
+            npm publish --access public --provenance
+          fi
