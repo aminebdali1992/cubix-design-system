@@ -6,29 +6,31 @@ The site and the registry at https://cubixflow.ir/r deploy automatically from `m
 
 ## cubix-ui CLI
 
-1. Update `version` in `packages/cubix/package.json` following semantic versioning.
-2. Verify the package:
+Preferred path: npm Trusted Publishing from GitHub Actions (no long-lived npm token).
+
+1. On https://www.npmjs.com/package/cubix-ui → Access → Trusted Publisher, connect GitHub Actions:
+   - Repository: `aminebdali1992/cubix-design-system`
+   - Workflow: `release-cli.yml`
+2. Update `version` in `packages/cubix/package.json` following semantic versioning.
+3. Verify the package:
 
    ```bash
    npm run typecheck -w cubix-ui
    npm pack -w cubix-ui --dry-run
    ```
 
-3. Publish. `prepublishOnly` typechecks and builds before the upload. npm requires two-factor authentication for the account, or a granular access token with publish rights for `cubix-ui`.
-
-   ```bash
-   npm publish -w cubix-ui
-   ```
-
-4. Tag the release and push the tag:
+4. Commit the version bump, then tag and push:
 
    ```bash
    git tag cubix-ui@<version>
+   git push origin main
    git push origin cubix-ui@<version>
    ```
 
-5. Confirm the published version runs:
+5. The `Release CLI` workflow publishes with OIDC. Confirm:
 
    ```bash
    npx cubix-ui@latest --version
    ```
+
+Manual publish is still possible with `npm publish -w cubix-ui` when you are logged in locally. Prefer Trusted Publishing for releases.
