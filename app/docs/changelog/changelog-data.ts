@@ -15,9 +15,9 @@ export const changelogEntries: ChangelogEntry[] = [
   {
     id: "2026-10-release",
     date: "October 2026",
-    title: "Public readiness contract and cubix-ui@0.1.2",
+    title: "Public readiness contract and cubix-ui@0.1.3",
     summary:
-      "Only three-base, documented, registered components are installable. The cubix-ui CLI is published on npm at 0.1.2 with CI, and empty block placeholders are no longer presented as finished templates.",
+      "Only three-base, documented, registered components are installable. The cubix-ui CLI ships on npm at 0.1.3 with a registry packaging fix so add works for Base UI, React Aria, and Radix.",
     sections: [
       {
         heading: "What shipped",
@@ -25,9 +25,10 @@ export const changelogEntries: ChangelogEntry[] = [
           "The site, registry, and CLI now share one readiness contract: a slug is public only with Base UI, React Aria, and Radix sources, docs, and a registry entry. Roadmap items stay Coming soon without a fake install path.",
         ],
         bullets: [
-          "cubix-ui@0.1.2 on npm - init, add, search, view, build, and info against https://cubixflow.ir/r.",
+          "cubix-ui@0.1.3 on npm - init, add, search, view, build, and info against https://cubixflow.ir/r.",
+          "Registry build rewrites base/aria/radix import paths, fills registryDependencies, resolves shared re-exports, and ships lib helpers such as aria-field-value.",
           "GitHub Actions CI verifies typecheck, readiness sync, docs build, and registry freshness on main.",
-          "Public registry at public/r lists ready components only (40 installable names).",
+          "Public registry lists ready components only (42 installable names, including direction and input).",
           "App Shells and Bento Grids block routes are honest Coming soon pages - no stub source files.",
         ],
         code: {

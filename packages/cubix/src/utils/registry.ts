@@ -52,7 +52,24 @@ export function getRegistryBaseUrl(config?: CubixConfig | null): string {
   );
 }
 
+function toLocalPath(url: string): string | null {
+  if (url.startsWith("file:")) {
+    return decodeURIComponent(
+      url.replace(/^file:\/\//, "").replace(/^\/([A-Za-z]:)/, "$1")
+    );
+  }
+  if (/^[A-Za-z]:[\\/]/.test(url) || url.startsWith("/")) {
+    return url;
+  }
+  return null;
+}
+
 async function fetchJson(url: string, label: string): Promise<unknown> {
+  const localPath = toLocalPath(url);
+  if (localPath && (await fs.pathExists(localPath))) {
+    return fs.readJson(localPath);
+  }
+
   let response: Response;
   try {
     response = await fetch(url);

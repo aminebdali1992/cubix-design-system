@@ -28,7 +28,7 @@ import {
   XIcon,
 } from "lucide-react"
 
-import { buttonVariants } from "@/components/cubix/base/button"
+import { buttonVariants } from "@/components/cubix/aria/button"
 import { cn } from "@/lib/utils"
 
 type ToastType = "success" | "info" | "warning" | "error" | "loading"

@@ -5,7 +5,10 @@
   "title": "Branch",
   "description": "Navigate alternate reply branches when regenerating or editing a turn.",
   "dependencies": [],
-  "registryDependencies": [],
+  "registryDependencies": [
+    "button",
+    "button-group"
+  ],
   "files": [
     {
       "path": "components/cubix/branch.tsx",

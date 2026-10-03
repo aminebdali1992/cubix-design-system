@@ -18,7 +18,7 @@ import {
   TooltipTrigger as AriaTooltipTrigger,
 } from "react-aria-components"
 
-import { buttonVariants } from "@/components/cubix/base/button"
+import { buttonVariants } from "@/components/cubix/aria/button"
 import { cn } from "@/lib/utils"
 
 type Dir = "ltr" | "rtl"

@@ -26,7 +26,7 @@ import {
   type ModalOverlayProps,
 } from "react-aria-components"
 
-import { buttonVariants } from "@/components/cubix/base/button"
+import { buttonVariants } from "@/components/cubix/aria/button"
 import { cn } from "@/lib/utils"
 
 function AlertDialog({

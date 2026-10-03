@@ -31,6 +31,8 @@ export type AddOptions = {
   dryRun?: boolean;
   path?: string;
   all?: boolean;
+  /** Internal: prevents recursive registryDependency cycles. */
+  seen?: Set<string>;
 };
 
 async function writeItem(
@@ -49,6 +51,7 @@ async function writeItem(
 
   const written: string[] = [];
   const deps = new Set<string>(item.dependencies ?? []);
+  const libDir = resolveAliasPath(options.cwd, config.aliases.lib, info.sourceRoot);
 
   for (const file of item.files) {
     const content = await resolveFileContent({
@@ -62,10 +65,10 @@ async function writeItem(
       deps.add(dep);
     }
 
-    const finalPath = path.join(
-      uiDir,
-      path.basename(file.target ?? `${item.name}.tsx`)
-    );
+    const target = (file.target ?? `${item.name}.tsx`).replace(/\\/g, "/");
+    const finalPath = target.startsWith("lib/")
+      ? path.join(libDir, path.basename(target))
+      : path.join(uiDir, path.basename(target));
 
     if ((await fs.pathExists(finalPath)) && !options.overwrite) {
       if (options.yes) continue;
@@ -90,6 +93,7 @@ async function writeItem(
   }
 
   for (const depName of item.registryDependencies ?? []) {
+    if (options.seen?.has(depName)) continue;
     await runAdd([depName], { ...options, yes: true });
   }
 
@@ -123,13 +127,18 @@ export async function runAdd(names: string[], options: AddOptions) {
     throw new Error("Specify one or more components, or pass --all.");
   }
 
+  const seen = options.seen ?? new Set<string>();
+  const nextOptions = { ...options, seen };
+
   for (const name of targets) {
+    if (seen.has(name)) continue;
+    seen.add(name);
     const spinner = options.silent
       ? null
       : ora(`Adding ${name}...`).start();
     try {
       const item = await fetchRegistryItem(name, config, { base });
-      const written = await writeItem(item, { ...options, base });
+      const written = await writeItem(item, { ...nextOptions, base });
       spinner?.succeed(
         `Added ${item.name}${written.length ? ` (${written.length} file${written.length === 1 ? "" : "s"})` : ""}`
       );

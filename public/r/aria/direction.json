@@ -1,0 +1,18 @@
+{
+  "$schema": "https://cubixflow.ir/schema/registry-item.json",
+  "name": "direction",
+  "type": "registry:ui",
+  "title": "Direction",
+  "description": "A provider component that sets the text direction for your application.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/direction.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/direction.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\ntype TextDirection = \"ltr\" | \"rtl\"\n\ntype DirectionContextValue = {\n  dir: TextDirection\n}\n\nconst DirectionContext = React.createContext<DirectionContextValue>({\n  dir: \"ltr\",\n})\n\nfunction DirectionProvider({\n  dir = \"ltr\",\n  direction,\n  children,\n}: {\n  dir?: TextDirection\n  direction?: TextDirection\n  children?: React.ReactNode\n}) {\n  const value = React.useMemo(\n    () => ({ dir: direction ?? dir }),\n    [direction, dir]\n  )\n\n  return (\n    <DirectionContext.Provider value={value}>\n      {children}\n    </DirectionContext.Provider>\n  )\n}\n\nfunction useDirection() {\n  return React.useContext(DirectionContext).dir\n}\n\nexport { DirectionProvider, useDirection }\n"
+    }
+  ]
+}
+

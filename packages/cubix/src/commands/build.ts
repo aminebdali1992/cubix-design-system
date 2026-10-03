@@ -53,6 +53,92 @@ async function writeJson(file: string, data: unknown) {
   await fs.appendFile(file, "\n");
 }
 
+/** CLI installs files flat under components/cubix/, so strip the base segment. */
+function rewriteCubixImports(content: string): string {
+  return content.replace(
+    /@\/components\/cubix\/(?:base|aria|radix)\/([a-z0-9-]+)/g,
+    "@/components/cubix/$1"
+  );
+}
+
+/**
+ * Some aria/radix files are thin re-exports of the base implementation
+ * (`export * from "../base/branch"`). Embed the real source so the published
+ * item does not point at a monorepo-only relative path.
+ */
+async function resolvePublishedSource(
+  cwd: string,
+  content: string
+): Promise<string> {
+  const trimmed = content.trim();
+  const match = trimmed.match(
+    /^export\s+\*\s+from\s+["']\.\.\/(base|aria|radix)\/([a-z0-9-]+)["'];?\s*$/
+  );
+  if (!match) return content;
+  const fromBase = match[1] as BaseName;
+  const name = match[2];
+  const sourceFile = resolveSourceFile(cwd, name, fromBase);
+  if (!sourceFile) {
+    throw new Error(
+      `Re-export target missing: ../${fromBase}/${name} (from a published registry item)`
+    );
+  }
+  return (await fs.readFile(sourceFile, "utf8")).replace(/\r\n/g, "\n");
+}
+
+/** Collect sibling Cubix imports so `add` can pull registryDependencies. */
+function registryDependenciesFromSource(
+  content: string,
+  selfName: string,
+  declared: string[] = []
+): string[] {
+  const names = new Set(declared);
+  // Normalize base/aria/radix paths first so we never treat "base" itself as a dep.
+  const normalized = rewriteCubixImports(content);
+  for (const match of normalized.matchAll(
+    /@\/components\/cubix\/([a-z0-9-]+)/g
+  )) {
+    const name = match[1];
+    if (name && name !== selfName) names.add(name);
+  }
+  return [...names].sort();
+}
+
+const SKIP_LIB_MODULES = new Set(["utils"]);
+
+/** Shared helpers under lib/ that must ship with the component (not only utils). */
+async function collectLibFiles(cwd: string, content: string) {
+  const files: { path: string; type: string; target: string; content: string }[] =
+    [];
+  const seen = new Set<string>();
+  for (const match of content.matchAll(/@\/lib\/([a-z0-9_-]+)/g)) {
+    const moduleName = match[1];
+    if (!moduleName || SKIP_LIB_MODULES.has(moduleName) || seen.has(moduleName)) {
+      continue;
+    }
+    seen.add(moduleName);
+    const candidates = [
+      path.join(cwd, "lib", `${moduleName}.ts`),
+      path.join(cwd, "lib", `${moduleName}.tsx`),
+    ];
+    const sourceFile = candidates.find((candidate) => fs.existsSync(candidate));
+    if (!sourceFile) {
+      throw new Error(
+        `Component imports @/lib/${moduleName} but ${moduleName}.ts was not found under lib/.`
+      );
+    }
+    const ext = path.extname(sourceFile);
+    const target = `lib/${moduleName}${ext}`;
+    files.push({
+      path: target,
+      type: "registry:lib",
+      target,
+      content: (await fs.readFile(sourceFile, "utf8")).replace(/\r\n/g, "\n"),
+    });
+  }
+  return files;
+}
+
 function itemOutputPath(outputDir: string, name: string, base: BaseName) {
   return base === "base"
     ? path.join(outputDir, `${name}.json`)
@@ -142,7 +228,7 @@ export const buildCommand = new Command()
         let title = item.title;
         let description = item.description;
         let dependencies = item.dependencies ?? [];
-        let registryDependencies = item.registryDependencies ?? [];
+        const registryDependencySet = new Set(item.registryDependencies ?? []);
 
         for (const base of basesToBuild) {
           const sourceFile = resolveSourceFile(cwd, item.name, base);
@@ -157,13 +243,23 @@ export const buildCommand = new Command()
             continue;
           }
 
-          const content = (await fs.readFile(sourceFile, "utf8")).replace(
+          const fileContent = (await fs.readFile(sourceFile, "utf8")).replace(
             /\r\n/g,
             "\n"
           );
+          const rawContent = await resolvePublishedSource(cwd, fileContent);
+          const itemRegistryDependencies = registryDependenciesFromSource(
+            rawContent,
+            item.name,
+            item.registryDependencies ?? []
+          );
+          for (const dep of itemRegistryDependencies) {
+            registryDependencySet.add(dep);
+          }
+          const content = rewriteCubixImports(rawContent);
           const target = `components/cubix/${item.name}.tsx`;
           dependencies = dependenciesFromSource(content, item.dependencies ?? []);
-          registryDependencies = item.registryDependencies ?? [];
+          const libFiles = await collectLibFiles(cwd, content);
           title = item.title ?? title;
           description = item.description ?? description;
 
@@ -174,14 +270,18 @@ export const buildCommand = new Command()
             title,
             description,
             dependencies,
-            registryDependencies,
-            files: [{ path: target, type: item.type, target, content }],
+            registryDependencies: itemRegistryDependencies,
+            files: [
+              { path: target, type: item.type, target, content },
+              ...libFiles,
+            ],
           });
           builtBases.push(base);
         }
 
         if (builtBases.length === 0) continue;
 
+        const registryDependencies = [...registryDependencySet].sort();
         indexItems.push({
           name: item.name,
           type: item.type,

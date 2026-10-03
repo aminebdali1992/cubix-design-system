@@ -11,7 +11,7 @@ export const components = [
     description:
       "Displays a form input field or a component that looks like an input field, with invalid and disabled states.",
     href: "/docs/components/input",
-    ready: false,
+    ready: true,
   },
   {
     name: "Text Field",
@@ -121,7 +121,7 @@ export const components = [
     description:
       "A provider component that sets the text direction for your application.",
     href: "/docs/components/direction",
-    ready: false,
+    ready: true,
   },
   {
     name: "Select",

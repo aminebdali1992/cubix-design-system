@@ -25,7 +25,7 @@ import {
   type ButtonProps,
 } from "react-aria-components"
 
-import { buttonVariants } from "@/components/cubix/base/button"
+import { buttonVariants } from "@/components/cubix/aria/button"
 import { Checkbox } from "@/components/cubix/aria/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/cubix/aria/radio-group"
 import { cn } from "@/lib/utils"

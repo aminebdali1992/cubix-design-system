@@ -1,0 +1,20 @@
+{
+  "$schema": "https://cubixflow.ir/schema/registry-item.json",
+  "name": "direction",
+  "type": "registry:ui",
+  "title": "Direction",
+  "description": "A provider component that sets the text direction for your application.",
+  "dependencies": [
+    "@base-ui/react"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/direction.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/direction.tsx",
+      "content": "\"use client\"\n\nexport {\n  DirectionProvider,\n  useDirection,\n} from \"@base-ui/react/direction-provider\"\n"
+    }
+  ]
+}
+

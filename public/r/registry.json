@@ -28,7 +28,9 @@
       "title": "Button Group",
       "description": "A container that groups related buttons together with consistent styling.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "separator"
+      ],
       "files": [
         {
           "path": "components/cubix/button-group.tsx",
@@ -49,7 +51,9 @@
       "dependencies": [
         "react-day-picker"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
         {
           "path": "components/cubix/calendar.tsx",
@@ -70,7 +74,9 @@
       "dependencies": [
         "embla-carousel-react"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
         {
           "path": "components/cubix/carousel.tsx",
@@ -91,7 +97,11 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button",
+        "direction",
+        "input-group"
+      ],
       "files": [
         {
           "path": "components/cubix/combobox.tsx",
@@ -112,7 +122,11 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "checkbox",
+        "direction",
+        "radio-group"
+      ],
       "files": [
         {
           "path": "components/cubix/context-menu.tsx",
@@ -133,10 +147,35 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button",
+        "input",
+        "textarea"
+      ],
       "files": [
         {
           "path": "components/cubix/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
+      "name": "input",
+      "type": "registry:ui",
+      "title": "Input",
+      "description": "Displays a form input field or a component that looks like an input field.",
+      "dependencies": [
+        "react-aria-components"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/cubix/input.tsx",
           "type": "registry:ui"
         }
       ],
@@ -194,7 +233,9 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
         {
           "path": "components/cubix/alert-dialog.tsx",
@@ -234,7 +275,9 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
         {
           "path": "components/cubix/attachment.tsx",
@@ -291,7 +334,10 @@
       "title": "Branch",
       "description": "Navigate alternate reply branches when regenerating or editing a turn.",
       "dependencies": [],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button",
+        "button-group"
+      ],
       "files": [
         {
           "path": "components/cubix/branch.tsx",
@@ -352,7 +398,9 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
         {
           "path": "components/cubix/toast.tsx",
@@ -434,10 +482,31 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
         {
           "path": "components/cubix/dialog.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
+      "name": "direction",
+      "type": "registry:ui",
+      "title": "Direction",
+      "description": "A provider component that sets the text direction for your application.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/cubix/direction.tsx",
           "type": "registry:ui"
         }
       ],
@@ -455,7 +524,12 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button",
+        "checkbox",
+        "direction",
+        "radio-group"
+      ],
       "files": [
         {
           "path": "components/cubix/dropdown-menu.tsx",
@@ -476,7 +550,12 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "checkbox",
+        "direction",
+        "dropdown-menu",
+        "radio-group"
+      ],
       "files": [
         {
           "path": "components/cubix/menubar.tsx",
@@ -497,7 +576,9 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
         {
           "path": "components/cubix/popover.tsx",
@@ -539,7 +620,9 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "direction"
+      ],
       "files": [
         {
           "path": "components/cubix/select.tsx",
@@ -804,7 +887,9 @@
       "dependencies": [
         "react-aria-components"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "button"
+      ],
       "files": [
         {
           "path": "components/cubix/tooltip.tsx",
