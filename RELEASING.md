@@ -6,34 +6,48 @@ The site and the registry at https://cubixflow.ir/r deploy automatically from `m
 
 ## cubix-ui CLI
 
-Preferred path: npm Trusted Publishing from GitHub Actions (no long-lived npm token).
+Releases are driven by git tags. The `Release CLI` workflow publishes `packages/cubix` to npm.
 
-1. On https://www.npmjs.com/package/cubix-ui/access → Trusted Publisher, connect GitHub Actions:
+### Auth
+
+Use one of these:
+
+1. **Repo secret `NPM_TOKEN`** (current working path): a granular access token with read/write on the package (and bypass 2FA while npm still allows it for direct publish).
+2. **Trusted Publishing (OIDC)**: on https://www.npmjs.com/package/cubix-ui/access connect GitHub Actions with:
    - Organization or user: `aminebdali1992`
    - Repository: `cubix-design-system`
-   - Workflow filename: `release-cli.yml` (filename only, not a path)
-   - Allowed actions: enable **npm publish** (configs created after 2026-09-03 default to stage-only; direct `npm publish` will 404 without this)
-2. Do **not** add an `NPM_TOKEN` secret for this workflow. An empty `_authToken` from `actions/setup-node` `registry-url` blocks OIDC; the release workflow intentionally omits `registry-url`.
-3. Update `version` in `packages/cubix/package.json` following semantic versioning.
-4. Verify the package:
+   - Workflow filename: `release-cli.yml`
+   - Allowed actions: enable **npm publish** (configs created after 2026-09-03 default to stage-only)
+
+Do not set `registry-url` on `actions/setup-node` for this workflow. An empty `_authToken` blocks OIDC.
+
+### Release steps
+
+1. Update `version` in `packages/cubix/package.json`.
+2. Verify:
 
    ```bash
    npm run typecheck -w cubix-ui
    npm pack -w cubix-ui --dry-run
+   npm run smoke:cli -- --cli local --base base
    ```
 
-5. Commit the version bump, then tag and push:
+3. Commit on `main`, then create and push the matching tag (do **not** publish locally first):
 
    ```bash
-   git tag cubix-ui@<version>
    git push origin main
+   git tag -a cubix-ui@<version> -m "cubix-ui@<version>"
    git push origin cubix-ui@<version>
    ```
 
-6. The `Release CLI` workflow publishes with OIDC. Confirm:
+4. Confirm the workflow and the published version:
 
    ```bash
-   npx cubix-ui@latest --version
+   npx cubix-ui@<version> --version
    ```
 
-Manual publish is still possible with `npm publish -w cubix-ui` when you are logged in locally. Prefer Trusted Publishing for releases.
+The workflow is idempotent: if `cubix-ui@<version>` is already on npm, it skips publish and succeeds. You can also re-run a tag from Actions → Release CLI → Run workflow.
+
+### Manual publish
+
+Use `npm publish -w cubix-ui --access public` only when you are logged in locally and you will **not** also push the same version tag, or accept that Actions will no-op after the version exists.
