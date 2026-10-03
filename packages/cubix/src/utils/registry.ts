@@ -74,36 +74,58 @@ export async function fetchRegistryIndex(
   return registryIndexSchema.parse(await fetchJson(url, "the registry index"));
 }
 
-export async function fetchRegistryItem(
+function registryItemUrl(
+  registryBaseUrl: string,
   nameOrUrl: string,
-  config?: CubixConfig | null
-): Promise<RegistryItem> {
-  const base = getRegistryBaseUrl(config);
-  const url =
+  primitiveBase: BaseName = "base"
+) {
+  if (
     nameOrUrl.startsWith("http://") ||
     nameOrUrl.startsWith("https://") ||
-    nameOrUrl.startsWith("file:")
-      ? nameOrUrl
-      : nameOrUrl.endsWith(".json")
-        ? nameOrUrl
-        : `${base}/${nameOrUrl}.json`;
-
-  if (url.startsWith("file:")) {
-    const filePath = url.replace("file:", "");
-    const raw = await fs.readJson(filePath);
-    return registryItemSchema.parse(raw);
+    nameOrUrl.startsWith("file:") ||
+    nameOrUrl.endsWith(".json")
+  ) {
+    return nameOrUrl;
   }
+  if (primitiveBase === "base") {
+    return `${registryBaseUrl}/${nameOrUrl}.json`;
+  }
+  return `${registryBaseUrl}/${primitiveBase}/${nameOrUrl}.json`;
+}
 
-  if (await fs.pathExists(url)) {
-    const raw = await fs.readJson(url);
+export async function fetchRegistryItem(
+  nameOrUrl: string,
+  config?: CubixConfig | null,
+  options?: { base?: BaseName }
+): Promise<RegistryItem> {
+  const registryBaseUrl = getRegistryBaseUrl(config);
+  const primitiveBase = options?.base ?? "base";
+  const url = registryItemUrl(registryBaseUrl, nameOrUrl, primitiveBase);
+
+  const localPath = url.startsWith("file:")
+    ? decodeURIComponent(url.replace(/^file:\/\//, "").replace(/^\/([A-Za-z]:)/, "$1"))
+    : url;
+
+  if (await fs.pathExists(localPath)) {
+    const raw = await fs.readJson(localPath);
     return registryItemSchema.parse(raw);
   }
 
   // Local registry dir (monorepo / offline): ./public/r/button.json
-  const localCandidate = path.resolve(url);
+  const localCandidate = path.resolve(localPath);
   if (await fs.pathExists(localCandidate)) {
     const raw = await fs.readJson(localCandidate);
     return registryItemSchema.parse(raw);
+  }
+
+  if (
+    localPath.includes("://") === false &&
+    !localPath.startsWith("http") &&
+    path.isAbsolute(localPath)
+  ) {
+    throw new Error(
+      `Registry item "${nameOrUrl}" was not found at ${localPath}. It may be on the roadmap and not published yet.`
+    );
   }
 
   return registryItemSchema.parse(
@@ -127,11 +149,7 @@ export async function resolveFileContent(options: {
   ].filter(Boolean) as string[];
 
   const name = options.item.name;
-  const candidates = [
-    `${options.base}/${name}.tsx`,
-    `base/${name}.tsx`,
-    `${name}.tsx`,
-  ];
+  const candidates = [`${options.base}/${name}.tsx`, `${name}.tsx`];
 
   for (const root of roots) {
     for (const relative of candidates) {
@@ -143,7 +161,7 @@ export async function resolveFileContent(options: {
   }
 
   throw new Error(
-    `Registry item "${options.item.name}" has no file content. Run \`${CLI_NAME} build\` in the Cubix monorepo to embed sources, or set CUBIX_COMPONENTS_DIR.`
+    `Registry item "${options.item.name}" has no "${options.base}" source. Public components require base, aria, and radix. Run \`${CLI_NAME} build\` in the Cubix monorepo, or set CUBIX_COMPONENTS_DIR.`
   );
 }
 

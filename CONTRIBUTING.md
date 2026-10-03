@@ -47,15 +47,19 @@ Point the CLI at your local documentation server to test registry changes before
 CUBIX_REGISTRY_URL=http://localhost:3000/r node packages/cubix/dist/index.js add button
 ```
 
-### Rebuilding the registry
+### Public readiness contract
 
-After changing a component or `registry.json`, regenerate the JSON in `public/r`:
+A component is public only when it has Base UI, React Aria, and Radix UI sources, a docs page, and a `registry.json` entry. Sync the catalog flags and rebuild the public registry with:
 
 ```bash
 npm run registry:build
 ```
 
-Commit the regenerated files together with the source change.
+That command refreshes `lib/ready-components.json`, sets `ready` in `components-data.ts`, embeds all three bases under `public/r`, and removes unpublished items from the public install surface.
+
+### Rebuilding the registry
+
+After changing a component or `registry.json`, run `npm run registry:build` and commit the regenerated `public/r` files, `lib/ready-components.json`, and any `components-data.ts` readiness updates together with the source change.
 
 ## Component standards
 

@@ -5,14 +5,9 @@
   "title": "Combobox",
   "description": "Autocomplete input and command palette with a list of suggestions.",
   "dependencies": [
-    "@base-ui/react",
-    "lucide-react"
+    "@base-ui/react"
   ],
-  "registryDependencies": [
-    "button",
-    "direction",
-    "input-group"
-  ],
+  "registryDependencies": [],
   "files": [
     {
       "path": "components/cubix/combobox.tsx",

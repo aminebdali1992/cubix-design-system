@@ -5,8 +5,7 @@
   "title": "Avatar",
   "description": "An image element with a fallback for representing the user.",
   "dependencies": [
-    "@base-ui/react",
-    "radix-ui"
+    "@base-ui/react"
   ],
   "registryDependencies": [],
   "files": [

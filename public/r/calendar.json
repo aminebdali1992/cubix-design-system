@@ -5,12 +5,9 @@
   "title": "Calendar",
   "description": "A date picker calendar for selecting a day, several days, or a range.",
   "dependencies": [
-    "date-fns",
     "react-day-picker"
   ],
-  "registryDependencies": [
-    "button"
-  ],
+  "registryDependencies": [],
   "files": [
     {
       "path": "components/cubix/calendar.tsx",

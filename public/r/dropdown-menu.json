@@ -5,8 +5,7 @@
   "title": "Dropdown Menu",
   "description": "Displays a menu of actions or links to the user, triggered by a button.",
   "dependencies": [
-    "@base-ui/react",
-    "@radix-ui/react-slot"
+    "@base-ui/react"
   ],
   "registryDependencies": [],
   "files": [

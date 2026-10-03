@@ -4,13 +4,8 @@
   "type": "registry:ui",
   "title": "Branch",
   "description": "Navigate alternate reply branches when regenerating or editing a turn.",
-  "dependencies": [
-    "lucide-react"
-  ],
-  "registryDependencies": [
-    "button",
-    "button-group"
-  ],
+  "dependencies": [],
+  "registryDependencies": [],
   "files": [
     {
       "path": "components/cubix/branch.tsx",

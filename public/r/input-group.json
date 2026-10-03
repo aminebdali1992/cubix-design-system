@@ -5,11 +5,7 @@
   "title": "Input Group",
   "description": "Display additional information or actions inside an input.",
   "dependencies": [],
-  "registryDependencies": [
-    "button",
-    "input",
-    "textarea"
-  ],
+  "registryDependencies": [],
   "files": [
     {
       "path": "components/cubix/input-group.tsx",

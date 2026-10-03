@@ -7,9 +7,7 @@
   "dependencies": [
     "@base-ui/react"
   ],
-  "registryDependencies": [
-    "label"
-  ],
+  "registryDependencies": [],
   "files": [
     {
       "path": "components/cubix/switch.tsx",

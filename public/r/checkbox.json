@@ -5,8 +5,7 @@
   "title": "Checkbox",
   "description": "A control that toggles between checked, unchecked, and indeterminate. Compose with Label via id and htmlFor.",
   "dependencies": [
-    "@base-ui/react",
-    "lucide-react"
+    "@base-ui/react"
   ],
   "registryDependencies": [],
   "files": [

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://cubixflow.ir/schema/registry-item.json",
+  "name": "radio-group",
+  "type": "registry:ui",
+  "title": "Radio Group",
+  "description": "A set of checkable buttons where only one can be checked at a time. Compose each option with Label via id and htmlFor.",
+  "dependencies": [
+    "radix-ui"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/radio-group.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/radio-group.tsx",
+      "content": "\"use client\"\n\n/*\n  Cubix Radio Group - single-select control set.\n\n  RadioGroupItem is the control only. Compose with Label via id / htmlFor.\n  Values and states use Cubix tokens. Arrow keys follow the reading\n  direction, so they are mirrored in RTL.\n*/\nimport * as React from \"react\"\nimport { RadioGroup as RadioGroupPrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/lib/utils\"\n\n/*\n  Radix RadioGroup reads arrow key direction from dir and falls back to ltr.\n  Cubix is Persian-first, so the group starts right-to-left and then follows\n  the closest dir on the page. An explicit dir prop wins.\n*/\nfunction usePageDir(dir?: \"ltr\" | \"rtl\") {\n  const nodeRef = React.useRef<HTMLDivElement | null>(null)\n  const [pageDir, setPageDir] = React.useState<\"ltr\" | \"rtl\">(\"rtl\")\n\n  React.useLayoutEffect(() => {\n    const closest = nodeRef.current?.parentElement?.closest(\"[dir]\")?.getAttribute(\"dir\")\n    if (closest === \"ltr\" || closest === \"rtl\") {\n      setPageDir(closest)\n    }\n  }, [])\n\n  return { nodeRef, resolvedDir: dir ?? pageDir }\n}\n\nfunction RadioGroup({\n  className,\n  dir,\n  ref,\n  ...props\n}: React.ComponentProps<typeof RadioGroupPrimitive.Root>) {\n  const { nodeRef, resolvedDir } = usePageDir(dir)\n  const setRef = (node: HTMLDivElement | null) => {\n    nodeRef.current = node\n    if (typeof ref === \"function\") {\n      ref(node)\n    } else if (ref) {\n      ref.current = node\n    }\n  }\n\n  return (\n    <RadioGroupPrimitive.Root\n      data-slot=\"radio-group\"\n      dir={resolvedDir}\n      ref={setRef}\n      className={cn(\"group/radio-group grid gap-3\", className)}\n      {...props}\n    />\n  )\n}\n\nfunction RadioGroupItem({\n  className,\n  ...props\n}: React.ComponentProps<typeof RadioGroupPrimitive.Item>) {\n  return (\n    <RadioGroupPrimitive.Item\n      data-slot=\"radio-group-item\"\n      className={cn(\n        \"group/radio-group-item peer relative flex aspect-square size-[18px] shrink-0 items-center justify-center rounded-full border border-input transition-[background-color,border-color,box-shadow] outline-none group-has-disabled/field:opacity-50 group-has-[:focus-visible]/field-label:ring-0 group-has-[:focus-visible]/field-label:not-data-[state=checked]:border-input after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 focus-visible:ring-secondary focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:data-[state=checked]:opacity-50 data-[disabled]:cursor-not-allowed data-[disabled]:data-[state=checked]:opacity-50 dark:bg-input/30 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground data-[state=checked]:focus-visible:ring-primary/20 group-has-[:focus-visible]/field-label:data-[state=checked]:border-primary dark:data-[state=checked]:bg-primary\",\n        className\n      )}\n      {...props}\n    >\n      <RadioGroupPrimitive.Indicator\n        data-slot=\"radio-group-indicator\"\n        className=\"pointer-events-none absolute top-1/2 left-1/2 block size-2 -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary-foreground\"\n      />\n    </RadioGroupPrimitive.Item>\n  )\n}\n\nexport { RadioGroup, RadioGroupItem }\n"
+    }
+  ]
+}
+

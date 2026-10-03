@@ -73,12 +73,12 @@ npx cubix-ui@latest add button`,
     date: "September 2026",
     title: "Agent UI primitives",
     summary:
-      "Dedicated building blocks for chat and agent products are on the Cubix roadmap - conversation shells, prompt input, thinking, tool calls, streaming text, and related surfaces.",
+      "Dedicated building blocks for chat and agent products are advancing under the same readiness contract as the rest of Cubix - three bases, docs, and registry before public install.",
     sections: [
       {
         heading: "In progress",
         body: [
-          "Agent surfaces follow the same ownership model as every other Cubix component: TypeScript source under components/cubix, three bases, and semantic tokens. They stay on the Components roadmap until each meets the production bar across Base UI, React Aria, and Radix.",
+          "Agent surfaces follow the same ownership model as every other Cubix component: TypeScript source under components/cubix, three bases, and semantic tokens. They stay on the Components roadmap - without public docs or install - until each meets the production bar across Base UI, React Aria, and Radix.",
         ],
         bullets: [
           "Conversation - stick-to-bottom chat shell with empty and scroll controls.",
@@ -91,7 +91,7 @@ npx cubix-ui@latest add button`,
       {
         heading: "Track readiness",
         body: [
-          "When a surface ships, it moves from On the roadmap to Available on the Components page and unlocks in the sidebar.",
+          "When a surface meets the contract, it moves from On the roadmap to Available on the Components page, unlocks in the sidebar, and appears in the public registry.",
         ],
       },
     ],

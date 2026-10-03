@@ -128,7 +128,7 @@ export async function runAdd(names: string[], options: AddOptions) {
       ? null
       : ora(`Adding ${name}...`).start();
     try {
-      const item = await fetchRegistryItem(name, config);
+      const item = await fetchRegistryItem(name, config, { base });
       const written = await writeItem(item, { ...options, base });
       spinner?.succeed(
         `Added ${item.name}${written.length ? ` (${written.length} file${written.length === 1 ? "" : "s"})` : ""}`

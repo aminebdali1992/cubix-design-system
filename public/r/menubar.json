@@ -5,12 +5,9 @@
   "title": "Menubar",
   "description": "A visually persistent menu common in desktop applications.",
   "dependencies": [
-    "@base-ui/react",
-    "lucide-react"
+    "@base-ui/react"
   ],
-  "registryDependencies": [
-    "dropdown-menu"
-  ],
+  "registryDependencies": [],
   "files": [
     {
       "path": "components/cubix/menubar.tsx",

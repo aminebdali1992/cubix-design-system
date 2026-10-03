@@ -1,0 +1,18 @@
+{
+  "$schema": "https://cubixflow.ir/schema/registry-item.json",
+  "name": "aspect-ratio",
+  "type": "registry:ui",
+  "title": "Aspect Ratio",
+  "description": "Displays content within a desired ratio.",
+  "dependencies": [],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/aspect-ratio.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/aspect-ratio.tsx",
+      "content": "/*\n  Cubix Aspect Ratio - a container that keeps a constant width-to-height ratio.\n\n  Children are usually positioned with absolute inset-0 so they fill the box.\n  The same visual API ships on Base UI, React Aria and Radix.\n*/\nimport type { CSSProperties, ComponentProps } from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\ntype AspectRatioProps = ComponentProps<\"div\"> & {\n  ratio: number\n}\n\nfunction AspectRatio({ ratio, className, style, ...props }: AspectRatioProps) {\n  const ratioStyle = {\n    ...style,\n    aspectRatio: ratio,\n  } satisfies CSSProperties\n\n  return (\n    <div\n      data-slot=\"aspect-ratio\"\n      style={ratioStyle}\n      className={cn(\"relative overflow-hidden\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { AspectRatio, type AspectRatioProps }\n"
+    }
+  ]
+}
+

@@ -2,6 +2,21 @@
 
 Cubix components are copy-paste source under `components/cubix`. Follow the same page and API shape across the catalog.
 
+## Public readiness contract
+
+A component is public (`ready: true`) only when all of the following are true:
+
+1. Source exists for Base UI, React Aria, and Radix UI
+2. Docs page exists at `app/docs/components/<slug>/page.tsx`
+3. An entry exists in the root `registry.json`
+
+Anything else stays on the roadmap: no public docs, no public registry install. Keep the catalog honest by running:
+
+```bash
+npm run readiness:sync
+npm run registry:build
+```
+
 ## Implementation
 
 - Small composable primitives with named exports

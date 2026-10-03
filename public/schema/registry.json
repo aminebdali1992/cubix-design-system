@@ -35,6 +35,13 @@
                 "type": { "type": "string" }
               }
             }
+          },
+          "bases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["base", "aria", "radix"]
+            }
           }
         }
       }

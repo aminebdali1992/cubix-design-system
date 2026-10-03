@@ -28,33 +28,73 @@ const sourceIndexSchema = z.object({
   ),
 });
 
-const existingItemSchema = z
-  .object({
-    title: z.string().optional(),
-    description: z.string().optional(),
-    dependencies: z.array(z.string()).optional(),
-    registryDependencies: z.array(z.string()).optional(),
-    files: z.array(z.object({ content: z.string().optional() })).optional(),
-  })
-  .passthrough();
+const readyListSchema = z.object({
+  slugs: z.array(z.string()),
+});
 
 function resolveSourceFile(cwd: string, name: string, base: BaseName) {
   const candidates = [
     path.join(cwd, "components/cubix", base, `${name}.tsx`),
-    path.join(cwd, "components/cubix/base", `${name}.tsx`),
     path.join(cwd, "components/cubix", `${name}.tsx`),
   ];
+  if (base === "base") {
+    candidates.splice(
+      1,
+      0,
+      path.join(cwd, "components/cubix/base", `${name}.tsx`)
+    );
+  }
   return candidates.find((candidate) => fs.existsSync(candidate)) ?? null;
 }
 
-async function readExistingItem(file: string) {
-  if (!(await fs.pathExists(file))) return null;
-  return existingItemSchema.parse(await fs.readJson(file));
-}
-
 async function writeJson(file: string, data: unknown) {
+  await fs.ensureDir(path.dirname(file));
   await fs.writeJson(file, data, { spaces: 2 });
   await fs.appendFile(file, "\n");
+}
+
+function itemOutputPath(outputDir: string, name: string, base: BaseName) {
+  return base === "base"
+    ? path.join(outputDir, `${name}.json`)
+    : path.join(outputDir, base, `${name}.json`);
+}
+
+async function loadReadySlugs(cwd: string): Promise<Set<string> | null> {
+  const readyPath = path.join(cwd, "lib/ready-components.json");
+  if (!(await fs.pathExists(readyPath))) return null;
+  const ready = readyListSchema.parse(await fs.readJson(readyPath));
+  return new Set(ready.slugs);
+}
+
+async function prunePublicRegistry(
+  outputDir: string,
+  keepNames: Set<string>
+) {
+  if (!(await fs.pathExists(outputDir))) return;
+
+  const rootFiles = await fs.readdir(outputDir);
+  for (const entry of rootFiles) {
+    const full = path.join(outputDir, entry);
+    const stat = await fs.stat(full);
+    if (stat.isDirectory()) {
+      if (entry === "aria" || entry === "radix") {
+        const nested = await fs.readdir(full);
+        for (const file of nested) {
+          if (!file.endsWith(".json")) continue;
+          const name = file.replace(/\.json$/, "");
+          if (!keepNames.has(name)) {
+            await fs.remove(path.join(full, file));
+          }
+        }
+      }
+      continue;
+    }
+    if (!entry.endsWith(".json") || entry === REGISTRY_INDEX_FILE) continue;
+    const name = entry.replace(/\.json$/, "");
+    if (!keepNames.has(name)) {
+      await fs.remove(full);
+    }
+  }
 }
 
 export const buildCommand = new Command()
@@ -63,17 +103,14 @@ export const buildCommand = new Command()
   .argument("[registry]", "path to the source registry.json", "./registry.json")
   .option("-o, --output <path>", "destination directory for JSON files", "./public/r")
   .option("-c, --cwd <cwd>", "the working directory", process.cwd())
-  .option("-b, --base <base>", "base variant source to embed", "base")
+  .option(
+    "-b, --base <base>",
+    "legacy single-base embed (ignored when ready-components.json is present)"
+  )
   .action(async (registryArg: string, opts) => {
     const cwd = path.resolve(opts.cwd);
     const outputDir = path.resolve(cwd, opts.output);
     const sourcePath = path.resolve(cwd, registryArg);
-    const base = String(opts.base) as BaseName;
-
-    if (!BASES.includes(base)) {
-      error(`Invalid base "${opts.base}". Use one of: ${BASES.join(", ")}`);
-      process.exit(1);
-    }
 
     const spinner = ora("Building registry items with embedded source...").start();
     try {
@@ -84,43 +121,66 @@ export const buildCommand = new Command()
       const source = sourceIndexSchema.parse(await fs.readJson(sourcePath));
       await fs.ensureDir(outputDir);
 
-      const indexItems = [];
-      for (const item of source.items) {
-        const itemPath = path.join(outputDir, `${item.name}.json`);
-        const existing = await readExistingItem(itemPath);
-        const sourceFile = resolveSourceFile(cwd, item.name, base);
-        const content = (
-          sourceFile
-            ? await fs.readFile(sourceFile, "utf8")
-            : existing?.files?.[0]?.content
-        )?.replace(/\r\n/g, "\n");
+      const readySlugs = await loadReadySlugs(cwd);
+      const items = readySlugs
+        ? source.items.filter((item) => readySlugs.has(item.name))
+        : source.items;
 
-        if (!content) {
-          spinner.warn(`Skipping ${item.name} (no source for base "${base}")`);
-          spinner.start();
-          continue;
+      if (readySlugs && items.length === 0) {
+        throw new Error(
+          "ready-components.json is present but matched no registry items. Run node scripts/sync-component-readiness.mjs first."
+        );
+      }
+
+      const basesToBuild: BaseName[] = readySlugs
+        ? [...BASES]
+        : [((opts.base as BaseName | undefined) ?? "base")];
+
+      const indexItems = [];
+      for (const item of items) {
+        const builtBases: BaseName[] = [];
+        let title = item.title;
+        let description = item.description;
+        let dependencies = item.dependencies ?? [];
+        let registryDependencies = item.registryDependencies ?? [];
+
+        for (const base of basesToBuild) {
+          const sourceFile = resolveSourceFile(cwd, item.name, base);
+          if (!sourceFile) {
+            if (readySlugs) {
+              throw new Error(
+                `Ready component "${item.name}" is missing ${base} source under components/cubix/${base}/.`
+              );
+            }
+            spinner.warn(`Skipping ${item.name} (no source for base "${base}")`);
+            spinner.start();
+            continue;
+          }
+
+          const content = (await fs.readFile(sourceFile, "utf8")).replace(
+            /\r\n/g,
+            "\n"
+          );
+          const target = `components/cubix/${item.name}.tsx`;
+          dependencies = dependenciesFromSource(content, item.dependencies ?? []);
+          registryDependencies = item.registryDependencies ?? [];
+          title = item.title ?? title;
+          description = item.description ?? description;
+
+          await writeJson(itemOutputPath(outputDir, item.name, base), {
+            $schema: REGISTRY_ITEM_SCHEMA_URL,
+            name: item.name,
+            type: item.type,
+            title,
+            description,
+            dependencies,
+            registryDependencies,
+            files: [{ path: target, type: item.type, target, content }],
+          });
+          builtBases.push(base);
         }
 
-        const target = `components/cubix/${item.name}.tsx`;
-        const title = item.title ?? existing?.title;
-        const description = item.description ?? existing?.description;
-        const dependencies = dependenciesFromSource(
-          content,
-          item.dependencies ?? existing?.dependencies ?? []
-        );
-        const registryDependencies =
-          item.registryDependencies ?? existing?.registryDependencies ?? [];
-
-        await writeJson(itemPath, {
-          $schema: REGISTRY_ITEM_SCHEMA_URL,
-          name: item.name,
-          type: item.type,
-          title,
-          description,
-          dependencies,
-          registryDependencies,
-          files: [{ path: target, type: item.type, target, content }],
-        });
+        if (builtBases.length === 0) continue;
 
         indexItems.push({
           name: item.name,
@@ -129,7 +189,8 @@ export const buildCommand = new Command()
           description,
           dependencies,
           registryDependencies,
-          files: [{ path: target, type: item.type }],
+          files: [{ path: `components/cubix/${item.name}.tsx`, type: item.type }],
+          bases: builtBases,
         });
       }
 
@@ -140,8 +201,12 @@ export const buildCommand = new Command()
         items: indexItems,
       });
 
+      if (readySlugs) {
+        await prunePublicRegistry(outputDir, new Set(indexItems.map((i) => i.name)));
+      }
+
       spinner.succeed(
-        `Built ${indexItems.length} registry items and ${REGISTRY_INDEX_FILE} into ${opts.output}`
+        `Built ${indexItems.length} registry items (${basesToBuild.join(", ")}) and ${REGISTRY_INDEX_FILE} into ${opts.output}`
       );
       success("Registry ready for CLI add.");
     } catch (err) {

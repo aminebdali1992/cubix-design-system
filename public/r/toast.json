@@ -5,14 +5,9 @@
   "title": "Toast",
   "description": "A succinct message that appears temporarily to provide feedback.",
   "dependencies": [
-    "@base-ui/react",
-    "lucide-react",
-    "radix-ui",
-    "react-aria-components"
+    "@base-ui/react"
   ],
-  "registryDependencies": [
-    "button"
-  ],
+  "registryDependencies": [],
   "files": [
     {
       "path": "components/cubix/toast.tsx",

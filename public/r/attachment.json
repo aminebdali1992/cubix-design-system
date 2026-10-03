@@ -5,12 +5,9 @@
   "title": "Attachment",
   "description": "Displays a file or image attachment with media, metadata, upload state, and actions.",
   "dependencies": [
-    "@base-ui/react",
-    "class-variance-authority"
+    "@base-ui/react"
   ],
-  "registryDependencies": [
-    "button"
-  ],
+  "registryDependencies": [],
   "files": [
     {
       "path": "components/cubix/attachment.tsx",

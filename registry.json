@@ -238,6 +238,12 @@
       "description": "A control that toggles between checked, unchecked, and indeterminate. Compose with Label via id and htmlFor."
     },
     {
+      "name": "chips",
+      "type": "registry:ui",
+      "title": "Chips",
+      "description": "A row of selectable pills for filtering, tagging, or picking one or more options."
+    },
+    {
       "name": "dialog",
       "type": "registry:ui",
       "title": "Dialog",

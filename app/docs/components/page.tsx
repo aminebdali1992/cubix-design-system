@@ -67,8 +67,9 @@ export default function ComponentsPage() {
           </span>
         </div>
         <p className="leading-relaxed text-muted-foreground">
-          Each ready component ships for Base UI, React Aria, and Radix UI with
-          the same visual API. Switch bases on the component page, or pass{" "}
+          A component is public only when it meets the readiness contract: Base
+          UI, React Aria, and Radix UI sources, a docs page, and a registry
+          entry. Switch bases on the component page, or pass{" "}
           <InlineCode>--base</InlineCode> when you install.
         </p>
         <CodeBlockCommand commands={addButtonCommands} />
@@ -106,9 +107,10 @@ export default function ComponentsPage() {
       <section className="space-y-4">
         <h2 className={sectionHeadingClassName}>On the roadmap</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Components stay here until they meet the Cubix production bar across
-          all three bases - including loading, empty, and error states. They
-          unlock in the sidebar as each one is ready. Track progress on the{" "}
+          Roadmap components are not installable and have no public docs until
+          they meet the readiness contract across all three bases - including
+          loading, empty, and error states. They unlock in the sidebar when
+          ready. Track progress on the{" "}
           <Link href="/docs/changelog" className={linkClassName}>
             Changelog
           </Link>

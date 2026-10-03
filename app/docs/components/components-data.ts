@@ -197,7 +197,7 @@ export const components = [
     description:
       "Displays a file or image attachment with media, metadata, upload state, and actions.",
     href: "/docs/components/attachment",
-    ready: false,
+    ready: true,
   },
   {
     name: "Avatar",
@@ -307,7 +307,7 @@ export const components = [
     name: "Input Group",
     description: "Display additional information or actions inside an input.",
     href: "/docs/components/input-group",
-    ready: false,
+    ready: true,
   },
   {
     name: "Kbd",
@@ -368,7 +368,7 @@ export const components = [
     name: "Separator",
     description: "Visually or semantically separates content.",
     href: "/docs/components/separator",
-    ready: false,
+    ready: true,
   },
   {
     name: "Sheet",
@@ -510,7 +510,7 @@ export const components = [
     description:
       "Navigate alternate reply branches when regenerating or editing a turn.",
     href: "/docs/components/branch",
-    ready: false,
+    ready: true,
   },
   {
     name: "Queue",

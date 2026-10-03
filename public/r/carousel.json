@@ -7,9 +7,7 @@
   "dependencies": [
     "embla-carousel-react"
   ],
-  "registryDependencies": [
-    "button"
-  ],
+  "registryDependencies": [],
   "files": [
     {
       "path": "components/cubix/carousel.tsx",

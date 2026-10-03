@@ -12,7 +12,8 @@
     "build:cli": "npm run build -w cubix-ui",
     "typecheck": "tsc --noEmit && npm run typecheck -w cubix-ui",
     "cubix": "npm run build -w cubix-ui && node packages/cubix/dist/index.js",
-    "registry:build": "npm run cubix -- build ./registry.json -o ./public/r -c .",
+    "readiness:sync": "node scripts/sync-component-readiness.mjs",
+    "registry:build": "npm run readiness:sync && npm run build:cli && npm run cubix -- build ./registry.json -o ./public/r -c .",
     "start": "next start",
     "lint": "next lint"
   },
