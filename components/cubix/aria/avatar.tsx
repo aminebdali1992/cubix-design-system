@@ -70,6 +70,8 @@ function AvatarImage({
   }, [setStatus, src])
 
   return (
+    // Cubix components run in any React host, so next/image is not assumed.
+    // eslint-disable-next-line @next/next/no-img-element
     <img
       alt={alt}
       src={src}

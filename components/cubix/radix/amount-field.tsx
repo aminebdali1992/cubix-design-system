@@ -333,10 +333,9 @@ function AmountFieldControl({
 }: React.ComponentProps<"div"> & {
   size?: AmountFieldSize
 }) {
-  const size =
-    sizeProp ??
-    React.useContext(AmountFieldContext)?.size ??
-    React.useContext(AmountFieldSizeContext)
+  const rootSize = React.useContext(AmountFieldContext)?.size
+  const contextSize = React.useContext(AmountFieldSizeContext)
+  const size = sizeProp ?? rootSize ?? contextSize
 
   return (
     <AmountFieldControlContext.Provider value={true}>

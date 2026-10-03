@@ -108,7 +108,8 @@ function TextFieldControl({
 }: React.ComponentProps<"div"> & {
   size?: TextFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(TextFieldSizeContext)
+  const contextSize = React.useContext(TextFieldSizeContext)
+  const size = sizeProp ?? contextSize
 
   return (
     <TextFieldControlContext.Provider value={true}>
@@ -141,7 +142,8 @@ function TextFieldInput({
 }: Omit<React.ComponentProps<typeof InputPrimitive>, "size"> & {
   size?: TextFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(TextFieldSizeContext)
+  const contextSize = React.useContext(TextFieldSizeContext)
+  const size = sizeProp ?? contextSize
   const inControl = React.useContext(TextFieldControlContext)
 
   return (

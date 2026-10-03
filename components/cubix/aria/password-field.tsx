@@ -176,7 +176,8 @@ function PasswordFieldControl({
 }: React.ComponentProps<"div"> & {
   size?: PasswordFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(PasswordFieldSizeContext)
+  const contextSize = React.useContext(PasswordFieldSizeContext)
+  const size = sizeProp ?? contextSize
 
   return (
     <PasswordFieldControlContext.Provider value={true}>
@@ -212,7 +213,8 @@ function PasswordFieldInput({
   className?: string
   size?: PasswordFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(PasswordFieldSizeContext)
+  const contextSize = React.useContext(PasswordFieldSizeContext)
+  const size = sizeProp ?? contextSize
   const inControl = React.useContext(PasswordFieldControlContext)
   const visible = React.useContext(PasswordFieldVisibilityContext)?.visible ?? false
 

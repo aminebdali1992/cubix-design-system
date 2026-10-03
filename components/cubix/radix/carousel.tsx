@@ -59,8 +59,6 @@ function Carousel({
 }: React.ComponentProps<"div"> & CarouselProps) {
   const rootRef = React.useRef<HTMLDivElement>(null)
   const [direction, setDirection] = React.useState<"ltr" | "rtl">(() => opts?.direction ?? "rtl")
-  const prevDirectionRef = React.useRef(direction)
-  const prevOrientationRef = React.useRef(orientation)
 
   const [carouselRef, api] = useEmblaCarousel(
     {
@@ -120,21 +118,6 @@ function Carousel({
     if (!api || !setApi) return
     setApi(api)
   }, [api, setApi])
-
-  React.useEffect(() => {
-    if (!api) return
-    const directionChanged = prevDirectionRef.current !== direction
-    const orientationChanged = prevOrientationRef.current !== orientation
-    prevDirectionRef.current = direction
-    prevOrientationRef.current = orientation
-    if (!directionChanged && !orientationChanged) return
-    api.reInit({
-      ...opts,
-      axis: orientation === "horizontal" ? "x" : "y",
-      direction,
-    })
-    onSelect(api)
-  }, [api, direction, onSelect, orientation])
 
   React.useEffect(() => {
     if (!api) return

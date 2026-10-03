@@ -297,7 +297,8 @@ function BirthdayDateControl({
 }: React.ComponentProps<"div"> & {
   size?: BirthdayDateSize
 }) {
-  const size = sizeProp ?? React.useContext(BirthdayDateSizeContext)
+  const contextSize = React.useContext(BirthdayDateSizeContext)
+  const size = sizeProp ?? contextSize
 
   return (
     <div
@@ -370,7 +371,8 @@ function BirthdayDateSegment({
   part: BirthdayDatePart
   size?: BirthdayDateSize
 }) {
-  const size = sizeProp ?? React.useContext(BirthdayDateSizeContext)
+  const contextSize = React.useContext(BirthdayDateSizeContext)
+  const size = sizeProp ?? contextSize
   const store = React.useContext(BirthdayDateStoreContext)
   const maxLength = MAX_LENGTH[part]
   const persianDefault =

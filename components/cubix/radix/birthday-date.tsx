@@ -329,10 +329,9 @@ function BirthdayDateControl({
 }: React.ComponentProps<"div"> & {
   size?: BirthdayDateSize
 }) {
-  const size =
-    sizeProp ??
-    React.useContext(BirthdayDateContext)?.size ??
-    React.useContext(BirthdayDateSizeContext)
+  const rootSize = React.useContext(BirthdayDateContext)?.size
+  const contextSize = React.useContext(BirthdayDateSizeContext)
+  const size = sizeProp ?? rootSize ?? contextSize
 
   return (
     <div
@@ -410,8 +409,8 @@ function BirthdayDateSegment({
   size?: BirthdayDateSize
 }) {
   const ctx = React.useContext(BirthdayDateContext)
-  const size =
-    sizeProp ?? ctx?.size ?? React.useContext(BirthdayDateSizeContext)
+  const contextSize = React.useContext(BirthdayDateSizeContext)
+  const size = sizeProp ?? ctx?.size ?? contextSize
   const store = React.useContext(BirthdayDateStoreContext)
   const isInvalid = ariaInvalid ?? ctx?.invalid
   const describedBy = [

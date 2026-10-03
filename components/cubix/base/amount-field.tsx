@@ -351,7 +351,8 @@ function AmountFieldControl({
 }: React.ComponentProps<"div"> & {
   size?: AmountFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(AmountFieldSizeContext)
+  const contextSize = React.useContext(AmountFieldSizeContext)
+  const size = sizeProp ?? contextSize
 
   return (
     <AmountFieldControlContext.Provider value={true}>
@@ -393,7 +394,8 @@ function AmountFieldInput({
 > & {
   size?: AmountFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(AmountFieldSizeContext)
+  const contextSize = React.useContext(AmountFieldSizeContext)
+  const size = sizeProp ?? contextSize
   const inControl = React.useContext(AmountFieldControlContext)
   const store = React.useContext(AmountFieldStoreContext)
   const persianDefault =

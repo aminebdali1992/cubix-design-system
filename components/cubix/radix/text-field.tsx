@@ -132,8 +132,9 @@ function TextFieldControl({
 }: React.ComponentProps<"div"> & {
   size?: TextFieldSize
 }) {
-  const size =
-    sizeProp ?? React.useContext(TextFieldContext)?.size ?? React.useContext(TextFieldSizeContext)
+  const rootSize = React.useContext(TextFieldContext)?.size
+  const contextSize = React.useContext(TextFieldSizeContext)
+  const size = sizeProp ?? rootSize ?? contextSize
 
   return (
     <TextFieldControlContext.Provider value={true}>

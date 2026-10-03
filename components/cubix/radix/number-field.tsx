@@ -141,10 +141,9 @@ function NumberFieldControl({
 }: React.ComponentProps<"div"> & {
   size?: NumberFieldSize
 }) {
-  const size =
-    sizeProp ??
-    React.useContext(NumberFieldContext)?.size ??
-    React.useContext(NumberFieldSizeContext)
+  const rootSize = React.useContext(NumberFieldContext)?.size
+  const contextSize = React.useContext(NumberFieldSizeContext)
+  const size = sizeProp ?? rootSize ?? contextSize
 
   return (
     <NumberFieldControlContext.Provider value={true}>

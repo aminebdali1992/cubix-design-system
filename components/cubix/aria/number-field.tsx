@@ -145,7 +145,8 @@ function NumberFieldControl({
 }: React.ComponentProps<"div"> & {
   size?: NumberFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(NumberFieldSizeContext)
+  const contextSize = React.useContext(NumberFieldSizeContext)
+  const size = sizeProp ?? contextSize
 
   return (
     <NumberFieldControlContext.Provider value={true}>
@@ -189,7 +190,8 @@ function NumberFieldInput({
   className?: string
   size?: NumberFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(NumberFieldSizeContext)
+  const contextSize = React.useContext(NumberFieldSizeContext)
+  const size = sizeProp ?? contextSize
   const inControl = React.useContext(NumberFieldControlContext)
   const persianDefault =
     defaultValue == null

@@ -408,8 +408,8 @@ function VerifyCodeControl({
   digitClassName?: string
 }) {
   const ctx = React.useContext(VerifyCodeContext)
-  const size =
-    sizeProp ?? ctx?.size ?? React.useContext(VerifyCodeSizeContext)
+  const contextSize = React.useContext(VerifyCodeSizeContext)
+  const size = sizeProp ?? ctx?.size ?? contextSize
   const length = ctx?.length ?? DEFAULT_LENGTH
   const groups = ctx?.groups ?? null
 
@@ -486,8 +486,8 @@ function VerifyCodeDigit({
   size?: VerifyCodeSize
 }) {
   const ctx = React.useContext(VerifyCodeContext)
-  const size =
-    sizeProp ?? ctx?.size ?? React.useContext(VerifyCodeSizeContext)
+  const contextSize = React.useContext(VerifyCodeSizeContext)
+  const size = sizeProp ?? ctx?.size ?? contextSize
   const store = React.useContext(VerifyCodeStoreContext)
   const isInvalid = ariaInvalid ?? ctx?.invalid
   const describedBy = [

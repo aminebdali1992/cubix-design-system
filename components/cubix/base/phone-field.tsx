@@ -108,7 +108,8 @@ function PhoneFieldControl({
 }: React.ComponentProps<"div"> & {
   size?: PhoneFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(PhoneFieldSizeContext)
+  const contextSize = React.useContext(PhoneFieldSizeContext)
+  const size = sizeProp ?? contextSize
 
   return (
     <PhoneFieldControlContext.Provider value={true}>
@@ -142,7 +143,8 @@ function PhoneFieldInput({
 }: Omit<React.ComponentProps<typeof InputPrimitive>, "size" | "type" | "inputMode" | "spellCheck"> & {
   size?: PhoneFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(PhoneFieldSizeContext)
+  const contextSize = React.useContext(PhoneFieldSizeContext)
+  const size = sizeProp ?? contextSize
   const inControl = React.useContext(PhoneFieldControlContext)
 
   return (

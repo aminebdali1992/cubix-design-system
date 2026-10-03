@@ -146,8 +146,9 @@ function EmailFieldControl({
 }: React.ComponentProps<"div"> & {
   size?: EmailFieldSize
 }) {
-  const size =
-    sizeProp ?? React.useContext(EmailFieldContext)?.size ?? React.useContext(EmailFieldSizeContext)
+  const rootSize = React.useContext(EmailFieldContext)?.size
+  const contextSize = React.useContext(EmailFieldSizeContext)
+  const size = sizeProp ?? rootSize ?? contextSize
 
   return (
     <EmailFieldControlContext.Provider value={true}>

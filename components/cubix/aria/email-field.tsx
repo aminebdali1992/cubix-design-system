@@ -139,7 +139,8 @@ function EmailFieldControl({
 }: React.ComponentProps<"div"> & {
   size?: EmailFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(EmailFieldSizeContext)
+  const contextSize = React.useContext(EmailFieldSizeContext)
+  const size = sizeProp ?? contextSize
 
   return (
     <EmailFieldControlContext.Provider value={true}>
@@ -178,7 +179,8 @@ function EmailFieldInput({
   className?: string
   size?: EmailFieldSize
 }) {
-  const size = sizeProp ?? React.useContext(EmailFieldSizeContext)
+  const contextSize = React.useContext(EmailFieldSizeContext)
+  const size = sizeProp ?? contextSize
   const inControl = React.useContext(EmailFieldControlContext)
 
   return (

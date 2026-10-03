@@ -140,8 +140,9 @@ function PhoneFieldControl({
 }: React.ComponentProps<"div"> & {
   size?: PhoneFieldSize
 }) {
-  const size =
-    sizeProp ?? React.useContext(PhoneFieldContext)?.size ?? React.useContext(PhoneFieldSizeContext)
+  const rootSize = React.useContext(PhoneFieldContext)?.size
+  const contextSize = React.useContext(PhoneFieldSizeContext)
+  const size = sizeProp ?? rootSize ?? contextSize
 
   return (
     <PhoneFieldControlContext.Provider value={true}>

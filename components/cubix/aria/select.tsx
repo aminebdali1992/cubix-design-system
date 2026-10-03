@@ -292,6 +292,8 @@ function SelectTrigger({
       data-size={size}
       aria-label={ariaLabel}
       className={cn(selectTriggerVariants({ size }), className)}
+      // Cubix keeps aria-invalid on the trigger button so forms can style invalid selects.
+      // eslint-disable-next-line jsx-a11y/role-supports-aria-props -- intentional on the native button trigger
       render={(domProps) => <button {...domProps} aria-invalid={invalid || undefined} />}
       {...localeDomProps(locale)}
       {...props}

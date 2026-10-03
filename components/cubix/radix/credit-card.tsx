@@ -396,10 +396,9 @@ function CreditCardControl({
 }: React.ComponentProps<"div"> & {
   size?: CreditCardSize
 }) {
-  const size =
-    sizeProp ??
-    React.useContext(CreditCardContext)?.size ??
-    React.useContext(CreditCardSizeContext)
+  const rootSize = React.useContext(CreditCardContext)?.size
+  const contextSize = React.useContext(CreditCardSizeContext)
+  const size = sizeProp ?? rootSize ?? contextSize
 
   return (
     <div
@@ -478,8 +477,8 @@ function CreditCardSegment({
   size?: CreditCardSize
 }) {
   const ctx = React.useContext(CreditCardContext)
-  const size =
-    sizeProp ?? ctx?.size ?? React.useContext(CreditCardSizeContext)
+  const contextSize = React.useContext(CreditCardSizeContext)
+  const size = sizeProp ?? ctx?.size ?? contextSize
   const store = React.useContext(CreditCardStoreContext)
   const isInvalid = ariaInvalid ?? ctx?.invalid
   const describedBy = [
