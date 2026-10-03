@@ -12,7 +12,7 @@ Cubix components are copy-paste source under `components/cubix`. Follow the same
 - Primitive backends: Base UI (default), React Aria, Radix UI
 - Do not add dependencies unless that backend needs them
 - Never use an em dash in copy
-- Do not add a Manual install step for `lib/utils.ts`. The `cn` helper is part of `cubix init`.
+- Do not add a Manual install step for `lib/utils.ts`. The `cn` helper is part of `cubix-ui init`.
 - Manual install: extra primitive packages, paste `components/cubix/<name>.tsx`, update import paths.
 
 ## Files
@@ -20,7 +20,7 @@ Cubix components are copy-paste source under `components/cubix`. Follow the same
 - `components/cubix/<name>.tsx`
 - `app/docs/components/<name>/page.tsx`
 - `app/docs/components/<name>/<name>-table-data.ts`
-- `public/r/<name>.json` plus `public/r/index.json`
+- An entry in the root `registry.json`, then `npm run registry:build` to regenerate `public/r/<name>.json` and `public/r/registry.json`
 - Sidebar, pager, and components list
 
 ## Docs page

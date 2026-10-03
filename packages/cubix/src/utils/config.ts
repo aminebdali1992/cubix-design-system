@@ -2,6 +2,8 @@ import fs from "fs-extra";
 import path from "node:path";
 import { z } from "zod";
 
+import { CONFIG_SCHEMA_URL } from "./constants";
+
 export const BASES = ["base", "radix", "aria"] as const;
 export type BaseName = (typeof BASES)[number];
 
@@ -32,7 +34,6 @@ export const cubixConfigSchema = z.object({
 export type CubixConfig = z.infer<typeof cubixConfigSchema>;
 
 export const CONFIG_FILE = "cubix.json";
-export const DEFAULT_REGISTRY = "https://cubix.design/r";
 
 export function defaultConfig(options: {
   base?: BaseName;
@@ -40,7 +41,7 @@ export function defaultConfig(options: {
   rsc?: boolean;
 }): CubixConfig {
   return cubixConfigSchema.parse({
-    $schema: "https://cubix.design/schema.json",
+    $schema: CONFIG_SCHEMA_URL,
     style: "cubix",
     base: options.base ?? "base",
     rsc: options.rsc ?? true,

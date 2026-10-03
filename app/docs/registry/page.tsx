@@ -8,6 +8,7 @@ import {
 
 import { CodeBlock } from "@/components/docs/code-block";
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
+import { siteConfig } from "@/lib/site";
 import {
   DocsNextSteps,
   DocsPageHeader,
@@ -33,45 +34,45 @@ export const metadata: Metadata = {
 };
 
 const buildCommands = {
-  pnpm: "pnpm dlx cubix@latest build",
-  npm: "npx cubix@latest build",
-  yarn: "yarn dlx cubix@latest build",
-  bun: "bunx --bun cubix@latest build",
+  pnpm: "pnpm dlx cubix-ui@latest build",
+  npm: "npx cubix-ui@latest build",
+  yarn: "yarn dlx cubix-ui@latest build",
+  bun: "bunx --bun cubix-ui@latest build",
 };
 
 const addUrlCommands = {
-  pnpm: "pnpm dlx cubix@latest add https://cubix.design/r/button.json",
-  npm: "npx cubix@latest add https://cubix.design/r/button.json",
-  yarn: "yarn dlx cubix@latest add https://cubix.design/r/button.json",
-  bun: "bunx --bun cubix@latest add https://cubix.design/r/button.json",
+  pnpm: `pnpm dlx cubix-ui@latest add ${siteConfig.registryUrl}/button.json`,
+  npm: `npx cubix-ui@latest add ${siteConfig.registryUrl}/button.json`,
+  yarn: `yarn dlx cubix-ui@latest add ${siteConfig.registryUrl}/button.json`,
+  bun: `bunx --bun cubix-ui@latest add ${siteConfig.registryUrl}/button.json`,
 };
 
 const addNameCommands = {
-  pnpm: "pnpm dlx cubix@latest add button",
-  npm: "npx cubix@latest add button",
-  yarn: "yarn dlx cubix@latest add button",
-  bun: "bunx --bun cubix@latest add button",
+  pnpm: "pnpm dlx cubix-ui@latest add button",
+  npm: "npx cubix-ui@latest add button",
+  yarn: "yarn dlx cubix-ui@latest add button",
+  bun: "bunx --bun cubix-ui@latest add button",
 };
 
 const addNamespaceCommands = {
-  pnpm: "pnpm dlx cubix@latest add @acme/button",
-  npm: "npx cubix@latest add @acme/button",
-  yarn: "yarn dlx cubix@latest add @acme/button",
-  bun: "bunx --bun cubix@latest add @acme/button",
+  pnpm: "pnpm dlx cubix-ui@latest add @acme/button",
+  npm: "npx cubix-ui@latest add @acme/button",
+  yarn: "yarn dlx cubix-ui@latest add @acme/button",
+  bun: "bunx --bun cubix-ui@latest add @acme/button",
 };
 
 const viewCommands = {
-  pnpm: "pnpm dlx cubix@latest view button",
-  npm: "npx cubix@latest view button",
-  yarn: "yarn dlx cubix@latest view button",
-  bun: "bunx --bun cubix@latest view button",
+  pnpm: "pnpm dlx cubix-ui@latest view button",
+  npm: "npx cubix-ui@latest view button",
+  yarn: "yarn dlx cubix-ui@latest view button",
+  bun: "bunx --bun cubix-ui@latest view button",
 };
 
 const searchCommands = {
-  pnpm: 'pnpm dlx cubix@latest search -q "dialog"',
-  npm: 'npx cubix@latest search -q "dialog"',
-  yarn: 'yarn dlx cubix@latest search -q "dialog"',
-  bun: 'bunx --bun cubix@latest search -q "dialog"',
+  pnpm: 'pnpm dlx cubix-ui@latest search -q "dialog"',
+  npm: 'npx cubix-ui@latest search -q "dialog"',
+  yarn: 'yarn dlx cubix-ui@latest search -q "dialog"',
+  bun: 'bunx --bun cubix-ui@latest search -q "dialog"',
 };
 
 export default function RegistryPage() {
@@ -92,8 +93,7 @@ export default function RegistryPage() {
         <ul className="list-disc space-y-2 ps-6 text-muted-foreground">
           <li>
             <strong className="text-foreground">Catalog</strong> -{" "}
-            <InlineCode>index.json</InlineCode> (or{" "}
-            <InlineCode>registry.json</InlineCode>) lists every item.
+            <InlineCode>registry.json</InlineCode> lists every item.
           </li>
           <li>
             <strong className="text-foreground">Items</strong> - one JSON file
@@ -101,7 +101,7 @@ export default function RegistryPage() {
           </li>
           <li>
             <strong className="text-foreground">CLI</strong> -{" "}
-            <InlineCode>cubix add</InlineCode>, <InlineCode>view</InlineCode>,{" "}
+            <InlineCode>cubix-ui add</InlineCode>, <InlineCode>view</InlineCode>,{" "}
             <InlineCode>search</InlineCode>, and{" "}
             <InlineCode>build</InlineCode> speak this format.
           </li>
@@ -112,19 +112,19 @@ export default function RegistryPage() {
         <h2 className={sectionHeadingClassName}>Catalog schema</h2>
         <p className="leading-relaxed text-muted-foreground">
           The catalog is the registry entry point. Cubix uses{" "}
-          <InlineCode>https://cubix.design/schema/registry.json</InlineCode>:
+          <InlineCode>{siteConfig.registrySchemaUrl}</InlineCode>:
         </p>
         <CodeBlock
           code={catalogSnippet}
-          title="public/r/index.json"
+          title="public/r/registry.json"
           lang="json"
           collapsible
         />
         <p className="leading-relaxed text-muted-foreground">
-          Required fields: <InlineCode>name</InlineCode>,{" "}
-          <InlineCode>homepage</InlineCode>, and <InlineCode>items</InlineCode>.
-          Each catalog entry points at the published item JSON the CLI will
-          fetch.
+          Required fields: <InlineCode>name</InlineCode> and{" "}
+          <InlineCode>items</InlineCode>. Each catalog entry summarizes one
+          item; the CLI fetches the full item, source included, from{" "}
+          <InlineCode>/r/[name].json</InlineCode>.
         </p>
       </section>
 
@@ -133,7 +133,7 @@ export default function RegistryPage() {
         <p className="leading-relaxed text-muted-foreground">
           Each component is a registry item. Schema:{" "}
           <InlineCode>
-            https://cubix.design/schema/registry-item.json
+            {siteConfig.registryItemSchemaUrl}
           </InlineCode>
           .
         </p>
@@ -176,7 +176,7 @@ export default function RegistryPage() {
         </p>
         <CodeBlock
           code={itemWithDepsSnippet}
-          title="public/r/date-picker.json"
+          title="public/r/calendar.json"
           lang="json"
           collapsible
         />
@@ -225,7 +225,7 @@ export default function RegistryPage() {
         <p className="leading-relaxed text-muted-foreground">
           On Next.js, those files are served as{" "}
           <InlineCode>/r/button.json</InlineCode>,{" "}
-          <InlineCode>/r/index.json</InlineCode>, and so on. Any host that
+          <InlineCode>/r/registry.json</InlineCode>, and so on. Any host that
           serves static JSON works the same way. Full{" "}
           <InlineCode>build</InlineCode> flags are on the{" "}
           <Link href="/docs/cli" className={linkClassName}>
@@ -304,12 +304,12 @@ export default function RegistryPage() {
           start={3}
         >
           <li>
-            Run <InlineCode>cubix build</InlineCode> and deploy the output
+            Run <InlineCode>cubix-ui build</InlineCode> and deploy the output
             directory.
           </li>
           <li>
             Share the namespace URL template so teams can{" "}
-            <InlineCode>cubix add @acme/button</InlineCode>.
+            <InlineCode>cubix-ui add @acme/button</InlineCode>.
           </li>
         </ol>
       </section>

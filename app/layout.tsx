@@ -6,6 +6,7 @@ import { Toaster } from "@/components/cubix/sonner";
 import { TooltipProvider } from "@/components/cubix/tooltip";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { SiteHeader } from "@/components/site-header";
+import { siteConfig } from "@/lib/site";
 
 import "./globals.css";
 
@@ -26,6 +27,7 @@ const fontMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: {
     default: "Cubix - Beautifully designed components",
     template: "%s - Cubix",

@@ -1,5 +1,5 @@
 {
-  "$schema": "https://cubix.design/schema.json",
+  "$schema": "https://cubixflow.ir/schema.json",
   "style": "cubix",
   "base": "base",
   "rsc": true,

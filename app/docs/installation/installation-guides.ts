@@ -1,4 +1,5 @@
 import type { PackageManager } from "@/lib/package-manager-commands";
+import { siteConfig } from "@/lib/site";
 import { frameworks } from "../frameworks";
 
 export type CommandMap = Record<PackageManager, string>;
@@ -62,16 +63,16 @@ function cmds(template: string): CommandMap {
   };
 }
 
-const initCommands = cmds("{runner} cubix@latest init");
-const initNextTemplateCommands = cmds("{runner} cubix@latest init -t next");
-const initViteTemplateCommands = cmds("{runner} cubix@latest init -t vite");
-const initStartTemplateCommands = cmds("{runner} cubix@latest init -t start");
+const initCommands = cmds("{runner} cubix-ui@latest init");
+const initNextTemplateCommands = cmds("{runner} cubix-ui@latest init -t next");
+const initViteTemplateCommands = cmds("{runner} cubix-ui@latest init -t vite");
+const initStartTemplateCommands = cmds("{runner} cubix-ui@latest init -t start");
 const initReactRouterTemplateCommands = cmds(
-  "{runner} cubix@latest init -t react-router"
+  "{runner} cubix-ui@latest init -t react-router"
 );
-const initAstroTemplateCommands = cmds("{runner} cubix@latest init -t astro");
-const addButtonCommands = cmds("{runner} cubix@latest add button");
-const addCardCommands = cmds("{runner} cubix@latest add card");
+const initAstroTemplateCommands = cmds("{runner} cubix-ui@latest init -t astro");
+const addButtonCommands = cmds("{runner} cubix-ui@latest add button");
+const addCardCommands = cmds("{runner} cubix-ui@latest add card");
 
 const nextUsage = `import { Button } from "@/components/cubix/button"
 
@@ -340,7 +341,7 @@ export function cn(...inputs: ClassValue[]) {
 }`;
 
 const cubixJsonSnippet = `{
-  "$schema": "https://cubix.design/schema.json",
+  "$schema": "${siteConfig.schemaUrl}",
   "style": "cubix",
   "base": "base",
   "rsc": true,
@@ -389,7 +390,7 @@ export const installationGuides: InstallationGuide[] = [
             {
               type: "text",
               content:
-                "Prefer a src/ directory? Pass --src-dir to create-next-app, or use `cubix init -t next --src-dir`.",
+                "Prefer a src/ directory? Pass --src-dir to create-next-app, or use `cubix-ui init -t next --src-dir`.",
             },
             {
               type: "commands",
@@ -708,7 +709,7 @@ export const installationGuides: InstallationGuide[] = [
         description: "Add Cubix to an existing React Router app.",
         steps: existingThenInitSteps({
           intro:
-            "React Router apps ship with a ~/* alias. cubix init adds @/* pointing at the same app/ folder, so both keep working.",
+            "React Router apps ship with a ~/* alias. cubix-ui init adds @/* pointing at the same app/ folder, so both keep working.",
           usageFile: "app/routes/home.tsx",
           usageCode: reactRouterUsage,
         }),
@@ -844,7 +845,7 @@ export const installationGuides: InstallationGuide[] = [
           {
             title: "Design tokens",
             description:
-              "Copy Cubix tokens into your global CSS entry. See Theming for the full map, or run cubix init in a scratch folder and copy the generated CSS.",
+              "Copy Cubix tokens into your global CSS entry. See Theming for the full map, or run cubix-ui init in a scratch folder and copy the generated CSS.",
             blocks: [
               {
                 type: "code",

@@ -6,14 +6,15 @@ import { infoCommand } from "./commands/info";
 import { initCommand } from "./commands/init";
 import { searchCommand } from "./commands/search";
 import { viewCommand } from "./commands/view";
+import { CLI_NAME, CLI_VERSION } from "./utils/constants";
 
 async function main() {
   const program = new Command()
-    .name("cubix")
+    .name(CLI_NAME)
     .description(
       "Cubix CLI - initialize projects, add registry components, and build registry JSON"
     )
-    .version("0.1.0");
+    .version(CLI_VERSION, "-v, --version", "display the version number");
 
   program
     .addCommand(initCommand)

@@ -1,0 +1,67 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Cubix project configuration (cubix.json)",
+  "type": "object",
+  "required": ["tailwind", "aliases"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "style": {
+      "type": "string",
+      "default": "cubix",
+      "description": "Visual style of the installed components."
+    },
+    "base": {
+      "type": "string",
+      "enum": ["base", "radix", "aria"],
+      "default": "base",
+      "description": "Primitive backend: Base UI, Radix UI, or React Aria."
+    },
+    "rsc": {
+      "type": "boolean",
+      "default": true,
+      "description": "Add the use client directive to client components (React Server Components)."
+    },
+    "tsx": {
+      "type": "boolean",
+      "default": true,
+      "description": "Write TypeScript (.tsx) component files."
+    },
+    "tailwind": {
+      "type": "object",
+      "required": ["css"],
+      "properties": {
+        "config": {
+          "type": "string",
+          "default": "",
+          "description": "Path to a Tailwind config file. Empty for Tailwind CSS v4."
+        },
+        "css": {
+          "type": "string",
+          "description": "Path to the global CSS file that holds the Cubix tokens."
+        },
+        "baseColor": { "type": "string", "default": "neutral" },
+        "cssVariables": { "type": "boolean", "default": true },
+        "prefix": { "type": "string", "default": "" }
+      },
+      "additionalProperties": false
+    },
+    "iconLibrary": { "type": "string", "default": "lucide" },
+    "aliases": {
+      "type": "object",
+      "properties": {
+        "components": { "type": "string", "default": "@/components" },
+        "utils": { "type": "string", "default": "@/lib/utils" },
+        "ui": { "type": "string", "default": "@/components/cubix" },
+        "lib": { "type": "string", "default": "@/lib" },
+        "hooks": { "type": "string", "default": "@/hooks" }
+      },
+      "additionalProperties": false
+    },
+    "registries": {
+      "type": "object",
+      "description": "Registry base URLs keyed by name. The cubix key overrides the default registry.",
+      "additionalProperties": { "type": "string" }
+    }
+  },
+  "additionalProperties": false
+}

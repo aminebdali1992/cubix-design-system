@@ -10,6 +10,7 @@ import {
 import { CodeBlock } from "@/components/docs/code-block";
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
 import { addComponentCommands } from "@/lib/package-manager-commands";
+import { siteConfig } from "@/lib/site";
 import {
   DocsNextSteps,
   DocsPageHeader,
@@ -25,54 +26,54 @@ export const metadata: Metadata = {
 };
 
 const initCommands = {
-  pnpm: "pnpm dlx cubix@latest init",
-  npm: "npx cubix@latest init",
-  yarn: "yarn dlx cubix@latest init",
-  bun: "bunx --bun cubix@latest init",
+  pnpm: "pnpm dlx cubix-ui@latest init",
+  npm: "npx cubix-ui@latest init",
+  yarn: "yarn dlx cubix-ui@latest init",
+  bun: "bunx --bun cubix-ui@latest init",
 };
 
 const addCommands = {
-  pnpm: "pnpm dlx cubix@latest add [component]",
-  npm: "npx cubix@latest add [component]",
-  yarn: "yarn dlx cubix@latest add [component]",
-  bun: "bunx --bun cubix@latest add [component]",
+  pnpm: "pnpm dlx cubix-ui@latest add [component]",
+  npm: "npx cubix-ui@latest add [component]",
+  yarn: "yarn dlx cubix-ui@latest add [component]",
+  bun: "bunx --bun cubix-ui@latest add [component]",
 };
 
 const addButtonCommands = addComponentCommands("button");
 const addMultiCommands = {
-  pnpm: "pnpm dlx cubix@latest add button card dialog",
-  npm: "npx cubix@latest add button card dialog",
-  yarn: "yarn dlx cubix@latest add button card dialog",
-  bun: "bunx --bun cubix@latest add button card dialog",
+  pnpm: "pnpm dlx cubix-ui@latest add button card dialog",
+  npm: "npx cubix-ui@latest add button card dialog",
+  yarn: "yarn dlx cubix-ui@latest add button card dialog",
+  bun: "bunx --bun cubix-ui@latest add button card dialog",
 };
 const addAriaCommands = addComponentCommands("button", "aria");
 
 const viewCommands = {
-  pnpm: "pnpm dlx cubix@latest view button",
-  npm: "npx cubix@latest view button",
-  yarn: "yarn dlx cubix@latest view button",
-  bun: "bunx --bun cubix@latest view button",
+  pnpm: "pnpm dlx cubix-ui@latest view button",
+  npm: "npx cubix-ui@latest view button",
+  yarn: "yarn dlx cubix-ui@latest view button",
+  bun: "bunx --bun cubix-ui@latest view button",
 };
 
 const searchCommands = {
-  pnpm: 'pnpm dlx cubix@latest search -q "button"',
-  npm: 'npx cubix@latest search -q "button"',
-  yarn: 'yarn dlx cubix@latest search -q "button"',
-  bun: 'bunx --bun cubix@latest search -q "button"',
+  pnpm: 'pnpm dlx cubix-ui@latest search -q "button"',
+  npm: 'npx cubix-ui@latest search -q "button"',
+  yarn: 'yarn dlx cubix-ui@latest search -q "button"',
+  bun: 'bunx --bun cubix-ui@latest search -q "button"',
 };
 
 const buildCommands = {
-  pnpm: "pnpm dlx cubix@latest build",
-  npm: "npx cubix@latest build",
-  yarn: "yarn dlx cubix@latest build",
-  bun: "bunx --bun cubix@latest build",
+  pnpm: "pnpm dlx cubix-ui@latest build",
+  npm: "npx cubix-ui@latest build",
+  yarn: "yarn dlx cubix-ui@latest build",
+  bun: "bunx --bun cubix-ui@latest build",
 };
 
 const infoCommands = {
-  pnpm: "pnpm dlx cubix@latest info",
-  npm: "npx cubix@latest info",
-  yarn: "yarn dlx cubix@latest info",
-  bun: "bunx --bun cubix@latest info",
+  pnpm: "pnpm dlx cubix-ui@latest info",
+  npm: "npx cubix-ui@latest info",
+  yarn: "yarn dlx cubix-ui@latest info",
+  bun: "bunx --bun cubix-ui@latest info",
 };
 
 const commandOverview = [
@@ -103,7 +104,7 @@ const commandOverview = [
   },
 ] as const;
 
-const initUsage = `Usage: cubix init [options] [components...]
+const initUsage = `Usage: cubix-ui init [options] [components...]
 
 initialize your project and install dependencies
 
@@ -118,7 +119,7 @@ Options:
   -s, --silent               mute output
   -h, --help                 display help for command`;
 
-const addUsage = `Usage: cubix add [options] [components...]
+const addUsage = `Usage: cubix-ui add [options] [components...]
 
 add a component to your project
 
@@ -136,7 +137,7 @@ Options:
   --dry-run           preview changes without writing files
   -h, --help          display help for command`;
 
-const viewUsage = `Usage: cubix view [options] <items...>
+const viewUsage = `Usage: cubix-ui view [options] <items...>
 
 view items from the registry before installing them
 
@@ -147,9 +148,9 @@ Options:
   -c, --cwd <cwd>     the working directory (default: current directory)
   -h, --help          display help for command`;
 
-const searchUsage = `Usage: cubix search|list [options] [registries...]
+const searchUsage = `Usage: cubix-ui search|list [options]
 
-search items from registries
+search items from the registry
 
 Options:
   -q, --query <query>    query string
@@ -158,7 +159,7 @@ Options:
   -c, --cwd <cwd>        the working directory (default: current directory)
   -h, --help             display help for command`;
 
-const buildUsage = `Usage: cubix build [options] [registry]
+const buildUsage = `Usage: cubix-ui build [options] [registry]
 
 build components for a Cubix registry
 
@@ -170,7 +171,7 @@ Options:
   -c, --cwd <cwd>      the working directory (default: current directory)
   -h, --help           display help for command`;
 
-const infoUsage = `Usage: cubix info [options]
+const infoUsage = `Usage: cubix-ui info [options]
 
 get information about your project
 
@@ -178,6 +179,8 @@ Options:
   -c, --cwd <cwd>  the working directory (default: current directory)
   --json           output as JSON
   -h, --help       display help for command`;
+
+const registryUrlExample = `CUBIX_REGISTRY_URL=http://localhost:3000/r npx cubix-ui@latest add button`;
 
 export default function CliPage() {
   return (
@@ -190,7 +193,7 @@ export default function CliPage() {
       <section className="space-y-4">
         <p className="leading-relaxed text-muted-foreground">
           Run every command with your package manager. Prefer{" "}
-          <InlineCode>npx cubix@latest</InlineCode> (or the pnpm / yarn / bun
+          <InlineCode>npx cubix-ui@latest</InlineCode> (or the pnpm / yarn / bun
           equivalent) so you always get the newest CLI.
         </p>
         <ul className="my-6 grid list-none gap-3 ps-0 sm:grid-cols-2">
@@ -230,10 +233,10 @@ export default function CliPage() {
         </p>
         <CodeBlockCommand
           commands={{
-            pnpm: "pnpm dlx cubix@latest init -t next",
-            npm: "npx cubix@latest init -t next",
-            yarn: "yarn dlx cubix@latest init -t next",
-            bun: "bunx --bun cubix@latest init -t next",
+            pnpm: "pnpm dlx cubix-ui@latest init -t next",
+            npm: "npx cubix-ui@latest init -t next",
+            yarn: "yarn dlx cubix-ui@latest init -t next",
+            bun: "bunx --bun cubix-ui@latest init -t next",
           }}
         />
         <p className="leading-relaxed text-muted-foreground">Options:</p>
@@ -289,10 +292,10 @@ export default function CliPage() {
         </p>
         <CodeBlockCommand
           commands={{
-            pnpm: "pnpm dlx cubix@latest view button card dialog",
-            npm: "npx cubix@latest view button card dialog",
-            yarn: "yarn dlx cubix@latest view button card dialog",
-            bun: "bunx --bun cubix@latest view button card dialog",
+            pnpm: "pnpm dlx cubix-ui@latest view button card dialog",
+            npm: "npx cubix-ui@latest view button card dialog",
+            yarn: "yarn dlx cubix-ui@latest view button card dialog",
+            bun: "bunx --bun cubix-ui@latest view button card dialog",
           }}
         />
         <p className="leading-relaxed text-muted-foreground">Options:</p>
@@ -328,10 +331,10 @@ export default function CliPage() {
         </p>
         <CodeBlockCommand
           commands={{
-            pnpm: "pnpm dlx cubix@latest build --output ./public/registry",
-            npm: "npx cubix@latest build --output ./public/registry",
-            yarn: "yarn dlx cubix@latest build --output ./public/registry",
-            bun: "bunx --bun cubix@latest build --output ./public/registry",
+            pnpm: "pnpm dlx cubix-ui@latest build --output ./public/registry",
+            npm: "npx cubix-ui@latest build --output ./public/registry",
+            yarn: "yarn dlx cubix-ui@latest build --output ./public/registry",
+            bun: "bunx --bun cubix-ui@latest build --output ./public/registry",
           }}
         />
         <p className="leading-relaxed text-muted-foreground">Options:</p>
@@ -360,6 +363,22 @@ export default function CliPage() {
         <CodeBlockCommand commands={infoCommands} />
         <p className="leading-relaxed text-muted-foreground">Options:</p>
         <CodeBlock code={infoUsage} title="Terminal" />
+      </section>
+
+      <section className="space-y-4">
+        <h2 id="registry-url" className={sectionHeadingClassName}>
+          Registry URL
+        </h2>
+        <p className="leading-relaxed text-muted-foreground">
+          By default the CLI reads the official catalog from{" "}
+          <InlineCode>{siteConfig.registryUrl}</InlineCode>. Point it at a mirror, a
+          staging deploy, or a local docs server with the{" "}
+          <InlineCode>CUBIX_REGISTRY_URL</InlineCode> environment variable, or
+          persist it per project under <InlineCode>registries.cubix</InlineCode>{" "}
+          in <InlineCode>cubix.json</InlineCode>. The environment variable wins
+          when both are set.
+        </p>
+        <CodeBlock code={registryUrlExample} title="Terminal" />
       </section>
 
       <section className="space-y-4">

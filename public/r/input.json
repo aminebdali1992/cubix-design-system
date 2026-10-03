@@ -1,10 +1,12 @@
 {
-  "$schema": "https://cubix.design/schema/registry-item.json",
+  "$schema": "https://cubixflow.ir/schema/registry-item.json",
   "name": "input",
   "type": "registry:ui",
   "title": "Input",
   "description": "Displays a form input field or a component that looks like an input field.",
-  "dependencies": [],
+  "dependencies": [
+    "@base-ui/react"
+  ],
   "registryDependencies": [],
   "files": [
     {

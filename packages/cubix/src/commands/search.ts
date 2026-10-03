@@ -3,38 +3,30 @@ import { Command } from "commander";
 
 import { readConfig } from "../utils/config";
 import { error } from "../utils/logger";
-import { getRegistryBaseUrl } from "../utils/registry";
+import { fetchRegistryIndex } from "../utils/registry";
 
 export const searchCommand = new Command()
   .name("search")
   .alias("list")
-  .description("search items from registries")
-  .argument("[registries...]", "optional registry names")
+  .description("search items from the registry")
   .option("-q, --query <query>", "query string")
   .option("-l, --limit <number>", "maximum number of items to display", "100")
   .option("-o, --offset <number>", "number of items to skip", "0")
   .option("-c, --cwd <cwd>", "the working directory", process.cwd())
-  .action(async (_registries: string[], opts) => {
+  .action(async (opts) => {
     const cwd = path.resolve(opts.cwd);
     try {
       const config = await readConfig(cwd);
-      const base = getRegistryBaseUrl(config);
-      const response = await fetch(`${base}/index.json`);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch registry index (${response.status})`);
-      }
-      const index = (await response.json()) as {
-        items: Array<{ name: string; title?: string; description?: string }>;
-      };
+      const index = await fetchRegistryIndex(config);
 
       const query = (opts.query as string | undefined)?.toLowerCase();
-      let items = index.items;
-      if (query) {
-        items = items.filter((item) => {
-          const hay = `${item.name} ${item.title ?? ""} ${item.description ?? ""}`.toLowerCase();
-          return hay.includes(query);
-        });
-      }
+      const items = query
+        ? index.items.filter((item) =>
+            `${item.name} ${item.title ?? ""} ${item.description ?? ""}`
+              .toLowerCase()
+              .includes(query)
+          )
+        : index.items;
 
       const offset = Number(opts.offset) || 0;
       const limit = Number(opts.limit) || 100;

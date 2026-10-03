@@ -1,10 +1,32 @@
 {
-  "name": "cubix",
+  "name": "cubix-ui",
   "version": "0.1.0",
   "description": "Add Cubix components to your app. Initialize tokens, copy registry items, and scaffold frameworks.",
   "license": "MIT",
   "type": "module",
+  "homepage": "https://cubixflow.ir/docs/cli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aminebdali1992/cubix-design-system.git",
+    "directory": "packages/cubix"
+  },
+  "bugs": {
+    "url": "https://github.com/aminebdali1992/cubix-design-system/issues"
+  },
+  "keywords": [
+    "cubix",
+    "components",
+    "design-system",
+    "registry",
+    "cli",
+    "react",
+    "tailwindcss",
+    "base-ui",
+    "react-aria",
+    "radix-ui"
+  ],
   "bin": {
+    "cubix-ui": "./dist/index.js",
     "cubix": "./dist/index.js"
   },
   "files": [
@@ -13,10 +35,11 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run build"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=18.18"
   },
   "dependencies": {
     "commander": "^13.1.0",
@@ -36,6 +59,7 @@
     "typescript": "^5.9.3"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   }
 }

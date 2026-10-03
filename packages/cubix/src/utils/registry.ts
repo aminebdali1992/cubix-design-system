@@ -3,7 +3,12 @@ import path from "node:path";
 import { z } from "zod";
 
 import type { BaseName, CubixConfig } from "./config";
-import { DEFAULT_REGISTRY } from "./config";
+import {
+  CLI_NAME,
+  DEFAULT_REGISTRY_URL,
+  REGISTRY_INDEX_FILE,
+  REGISTRY_URL_ENV,
+} from "./constants";
 
 const registryFileSchema = z.object({
   path: z.string(),
@@ -24,12 +29,49 @@ export const registryItemSchema = z.object({
 
 export type RegistryItem = z.infer<typeof registryItemSchema>;
 
+const registryIndexSchema = z.object({
+  name: z.string(),
+  homepage: z.string().optional(),
+  items: z.array(
+    z.object({
+      name: z.string(),
+      type: z.string(),
+      title: z.string().optional(),
+      description: z.string().optional(),
+    })
+  ),
+});
+
+export type RegistryIndex = z.infer<typeof registryIndexSchema>;
+
 export function getRegistryBaseUrl(config?: CubixConfig | null): string {
   return (
-    process.env.CUBIX_REGISTRY?.replace(/\/$/, "") ||
+    process.env[REGISTRY_URL_ENV]?.replace(/\/$/, "") ||
     config?.registries?.cubix?.replace(/\/$/, "") ||
-    DEFAULT_REGISTRY
+    DEFAULT_REGISTRY_URL
   );
+}
+
+async function fetchJson(url: string, label: string): Promise<unknown> {
+  let response: Response;
+  try {
+    response = await fetch(url);
+  } catch {
+    throw new Error(
+      `Could not reach the registry for ${label} at ${url}. Check your connection or set ${REGISTRY_URL_ENV}.`
+    );
+  }
+  if (!response.ok) {
+    throw new Error(`Failed to fetch ${label} from ${url} (${response.status}).`);
+  }
+  return response.json();
+}
+
+export async function fetchRegistryIndex(
+  config?: CubixConfig | null
+): Promise<RegistryIndex> {
+  const url = `${getRegistryBaseUrl(config)}/${REGISTRY_INDEX_FILE}`;
+  return registryIndexSchema.parse(await fetchJson(url, "the registry index"));
 }
 
 export async function fetchRegistryItem(
@@ -64,12 +106,9 @@ export async function fetchRegistryItem(
     return registryItemSchema.parse(raw);
   }
 
-  const response = await fetch(url);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch registry item ${nameOrUrl} (${response.status})`);
-  }
-  const raw = await response.json();
-  return registryItemSchema.parse(raw);
+  return registryItemSchema.parse(
+    await fetchJson(url, `registry item "${nameOrUrl}"`)
+  );
 }
 
 export async function resolveFileContent(options: {
@@ -104,7 +143,7 @@ export async function resolveFileContent(options: {
   }
 
   throw new Error(
-    `Registry item "${options.item.name}" has no file content. Run \`cubix build\` in the Cubix monorepo to embed sources, or set CUBIX_COMPONENTS_DIR.`
+    `Registry item "${options.item.name}" has no file content. Run \`${CLI_NAME} build\` in the Cubix monorepo to embed sources, or set CUBIX_COMPONENTS_DIR.`
   );
 }
 

@@ -37,6 +37,11 @@ const readyComponents = components
 
 const order = [...getStarted, ...readyComponents];
 
+const pagerLinkClassName = cn(
+  "inline-flex h-8 items-center gap-1.5 rounded-lg bg-muted px-3 text-sm font-medium text-foreground",
+  "transition-colors hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+);
+
 export function DocsPager() {
   const pathname = usePathname();
   const index = order.findIndex(
@@ -49,35 +54,30 @@ export function DocsPager() {
   const next = index < order.length - 1 ? order[index + 1] : null;
 
   return (
-    <nav aria-label="Pagination" className="mt-12 grid grid-cols-2 gap-4">
+    <nav
+      aria-label="Pagination"
+      className="mt-12 flex items-center justify-between gap-4"
+    >
       {prev ? (
         <Link
           href={prev.href}
-          className={cn(
-            "group rounded-lg border p-4 transition-colors hover:bg-accent/50"
-          )}
+          aria-label={`Previous: ${prev.title}`}
+          className={pagerLinkClassName}
         >
-          <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
-            <ArrowLeftIcon className="size-3.5 transition-transform group-hover:-translate-x-0.5" />
-            Previous
-          </span>
-          <span className="mt-1 block font-medium">{prev.title}</span>
+          <ArrowLeftIcon className="size-4 rtl:rotate-180" />
+          {prev.title}
         </Link>
       ) : (
-        <div />
+        <span />
       )}
       {next ? (
         <Link
           href={next.href}
-          className={cn(
-            "group rounded-lg border p-4 text-end transition-colors hover:bg-accent/50"
-          )}
+          aria-label={`Next: ${next.title}`}
+          className={cn(pagerLinkClassName, "ms-auto")}
         >
-          <span className="flex items-center justify-end gap-1.5 text-xs text-muted-foreground">
-            Next
-            <ArrowRightIcon className="size-3.5 transition-transform group-hover:translate-x-0.5" />
-          </span>
-          <span className="mt-1 block font-medium">{next.title}</span>
+          {next.title}
+          <ArrowRightIcon className="size-4 rtl:rotate-180" />
         </Link>
       ) : null}
     </nav>

@@ -78,7 +78,7 @@ async function loadSources(query: string) {
   return response.json()
 }`
 
-const shellSnippet = `npx cubix@latest add code-block
+const shellSnippet = `npx cubix-ui@latest add code-block
 npm run dev`
 
 const languages = [

@@ -17,7 +17,7 @@ export function detectPackageManager(cwd: string): PackageManager {
   return "npm";
 }
 
-/** The manager that launched the CLI (`pnpm dlx cubix` sets a pnpm user agent). */
+/** The manager that launched the CLI (`pnpm dlx cubix-ui` sets a pnpm user agent). */
 export function getInvokingPackageManager(cwd: string): PackageManager {
   const agent = process.env.npm_config_user_agent ?? "";
   if (agent.startsWith("pnpm")) return "pnpm";
@@ -38,6 +38,15 @@ function binaryCommand(pm: PackageManager, pkg: string, args: string[]) {
     default:
       return { bin: "npx", args: ["--yes", pkg, ...args] };
   }
+}
+
+export function formatPackageBinaryCommand(
+  pm: PackageManager,
+  pkg: string,
+  args: string[]
+) {
+  const runner = { npm: "npx", pnpm: "pnpm dlx", yarn: "yarn dlx", bun: "bunx" }[pm];
+  return [runner, pkg, ...args].join(" ");
 }
 
 export async function runPackageBinary(

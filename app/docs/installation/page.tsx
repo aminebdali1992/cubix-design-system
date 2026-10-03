@@ -39,10 +39,10 @@ export default function InstallationPage() {
         </p>
         <CodeBlockCommand
           commands={{
-            pnpm: "pnpm dlx cubix@latest init -t next",
-            npm: "npx cubix@latest init -t next",
-            yarn: "yarn dlx cubix@latest init -t next",
-            bun: "bunx --bun cubix@latest init -t next",
+            pnpm: "pnpm dlx cubix-ui@latest init -t next",
+            npm: "npx cubix-ui@latest init -t next",
+            yarn: "yarn dlx cubix-ui@latest init -t next",
+            bun: "bunx --bun cubix-ui@latest init -t next",
           }}
         />
       </section>
@@ -72,7 +72,7 @@ export default function InstallationPage() {
           />
           <p className="leading-relaxed text-muted-foreground">
             Cubix does not replace your framework scaffold. Create the app with
-            the framework tooling, then <InlineCode>cubix init</InlineCode>{" "}
+            the framework tooling, then <InlineCode>cubix-ui init</InlineCode>{" "}
             writes tokens, <InlineCode>lib/utils.ts</InlineCode>, and{" "}
             <InlineCode>cubix.json</InlineCode>. Default base is Base UI - pass{" "}
             <InlineCode>--base aria</InlineCode> or{" "}

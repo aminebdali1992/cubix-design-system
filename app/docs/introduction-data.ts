@@ -196,8 +196,8 @@ export const nextSteps: NextStep[] = [
 ];
 
 export const initCommands = {
-  pnpm: "pnpm dlx cubix@latest init",
-  npm: "npx cubix@latest init",
-  yarn: "yarn dlx cubix@latest init",
-  bun: "bunx --bun cubix@latest init",
+  pnpm: "pnpm dlx cubix-ui@latest init",
+  npm: "npx cubix-ui@latest init",
+  yarn: "yarn dlx cubix-ui@latest init",
+  bun: "bunx --bun cubix-ui@latest init",
 };

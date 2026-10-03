@@ -110,9 +110,9 @@ export default function DocsPage() {
             How do I pick up upstream updates?
           </summary>
           <div className="border-t px-4 py-3 text-sm leading-relaxed text-muted-foreground">
-            Run <InlineCode>cubix view &lt;name&gt;</InlineCode> to inspect the
+            Run <InlineCode>cubix-ui view &lt;name&gt;</InlineCode> to inspect the
             latest registry version, compare it with your local file, and merge
-            what you want. <InlineCode>cubix add</InlineCode> never replaces an
+            what you want. <InlineCode>cubix-ui add</InlineCode> never replaces an
             existing file unless you pass{" "}
             <InlineCode>--overwrite</InlineCode>, so your edits stay safe.
           </div>
@@ -267,7 +267,7 @@ export default function DocsPage() {
           Open source and a consistent API make Cubix easy for assistants to
           read and extend. Cubix goes further by giving them project context:{" "}
           <InlineCode>cubix.json</InlineCode> and{" "}
-          <InlineCode>cubix info</InlineCode> expose your framework, aliases,
+          <InlineCode>cubix-ui info</InlineCode> expose your framework, aliases,
           base, and installed components.
         </p>
         <p className="leading-relaxed text-muted-foreground">

@@ -45,7 +45,7 @@ const resources = [
     href: "/docs",
     icon: TerminalIcon,
     title: "CLI & registry",
-    description: "Install with npx cubix@latest add, or copy the JSON registry from public/r.",
+    description: "Install with npx cubix-ui@latest add, or copy the JSON registry from public/r.",
   },
   {
     href: "/docs/components",

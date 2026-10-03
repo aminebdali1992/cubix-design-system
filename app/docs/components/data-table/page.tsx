@@ -395,10 +395,10 @@ export default function DataTableDocsPage() {
         </p>
         <CodeBlockCommand
           commands={{
-            pnpm: "pnpm dlx cubix@latest add table",
-            npm: "npx cubix@latest add table",
-            yarn: "yarn dlx cubix@latest add table",
-            bun: "bunx --bun cubix@latest add table",
+            pnpm: "pnpm dlx cubix-ui@latest add table",
+            npm: "npx cubix-ui@latest add table",
+            yarn: "yarn dlx cubix-ui@latest add table",
+            bun: "bunx --bun cubix-ui@latest add table",
           }}
         />
         <p className="leading-relaxed text-muted-foreground">

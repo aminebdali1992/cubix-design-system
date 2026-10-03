@@ -1,11 +1,13 @@
-# cubix
+# cubix-ui
 
-Official Cubix CLI.
+Official Cubix CLI. Scaffold a project, configure Cubix tokens, and copy registry components into your app.
 
 ```bash
-npx cubix@latest init -t next
-npx cubix@latest add button
+npx cubix-ui@latest init -t next
+npx cubix-ui@latest add button
 ```
+
+Docs: https://cubixflow.ir/docs/cli
 
 ## Commands
 
@@ -15,7 +17,7 @@ npx cubix@latest add button
 | `add` | Copy components from the registry into your project |
 | `view` | Inspect registry items as JSON |
 | `search` / `list` | Search the registry index |
-| `build` | Embed component sources into `public/r/*.json` |
+| `build` | Generate `public/r/*.json` and `registry.json` from a source `registry.json` |
 | `info` | Print project + `cubix.json` details |
 
 ## Templates
@@ -29,12 +31,20 @@ npx cubix@latest add button
 | `astro` | `create-astro` `with-tailwindcss` + React integration |
 
 ```bash
-npx cubix@latest init -t next --src-dir
-npx cubix@latest init -t start --base radix
-npx cubix@latest init -t astro --name marketing -y
+npx cubix-ui@latest init -t next --src-dir
+npx cubix-ui@latest init -t start --base radix
+npx cubix-ui@latest init -t astro --name marketing -y
 ```
 
-`init -t` runs the official scaffolder, then writes `cubix.json`, design tokens, and `lib/utils.ts`, and ensures the `@/*` alias. Laravel has no template: create the app with `laravel new`, then run `cubix init` in it.
+`init -t` runs the official scaffolder, then writes `cubix.json`, design tokens, and `lib/utils.ts`, and ensures the `@/*` alias. Laravel has no template: create the app with `laravel new`, then run `cubix-ui init` in it.
+
+## Registry URL
+
+The CLI reads the official catalog from `https://cubixflow.ir/r`. Override it with the `CUBIX_REGISTRY_URL` environment variable, or per project with `registries.cubix` in `cubix.json`. The environment variable wins when both are set.
+
+```bash
+CUBIX_REGISTRY_URL=http://localhost:3000/r npx cubix-ui@latest add button
+```
 
 ## Local development
 
@@ -45,3 +55,11 @@ npm install
 npm run build:cli
 node packages/cubix/dist/index.js --help
 ```
+
+## Releasing
+
+Releases are published from GitHub Actions with npm provenance:
+
+1. Bump `version` in `packages/cubix/package.json` and commit.
+2. Tag the commit as `cubix-ui@<version>` and push the tag.
+3. The `Release CLI` workflow typechecks, builds, and runs `npm publish`. It needs an `NPM_TOKEN` repository secret with publish rights for `cubix-ui`.

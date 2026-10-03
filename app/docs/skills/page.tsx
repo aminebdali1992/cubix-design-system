@@ -45,7 +45,7 @@ const includedTopics = [
     body: (
       <>
         On relevant tasks, the skill resolves configuration from{" "}
-        <InlineCode>cubix.json</InlineCode> and <InlineCode>cubix info</InlineCode>
+        <InlineCode>cubix.json</InlineCode> and <InlineCode>cubix-ui info</InlineCode>
         : framework, Tailwind CSS entry, aliases, base library, icon library,
         and where components land under <InlineCode>components/cubix</InlineCode>
         .
@@ -104,7 +104,7 @@ const includedTopics = [
       <>
         How to shape <InlineCode>registry.json</InlineCode> items,
         dependencies, and <InlineCode>public/r/*.json</InlineCode> output from{" "}
-        <InlineCode>cubix build</InlineCode>. More in{" "}
+        <InlineCode>cubix-ui build</InlineCode>. More in{" "}
         <Link href="/docs/registry" className={linkClassName}>
           Registry
         </Link>
@@ -226,7 +226,7 @@ export default function SkillsPage() {
           <li>
             <strong className="text-foreground">Context injection</strong> - it
             reads project config (and prefers{" "}
-            <InlineCode>cubix info --json</InlineCode> when available) so
+            <InlineCode>cubix-ui info --json</InlineCode> when available) so
             aliases, base, and paths stay accurate.
           </li>
           <li>
@@ -237,8 +237,8 @@ export default function SkillsPage() {
           </li>
           <li>
             <strong className="text-foreground">Component discovery</strong> -
-            before generating UI, it uses <InlineCode>cubix search</InlineCode>
-            , <InlineCode>cubix view</InlineCode>, or the docs catalog under{" "}
+            before generating UI, it uses <InlineCode>cubix-ui search</InlineCode>
+            , <InlineCode>cubix-ui view</InlineCode>, or the docs catalog under{" "}
             <Link href="/docs/components" className={linkClassName}>
               Components
             </Link>{" "}
@@ -260,7 +260,7 @@ export default function SkillsPage() {
             instead of introducing one-off styles.
           </li>
           <li>
-            Ask it to run <InlineCode>cubix add</InlineCode> for missing
+            Ask it to run <InlineCode>cubix-ui add</InlineCode> for missing
             components rather than pasting incomplete stubs.
           </li>
           <li>

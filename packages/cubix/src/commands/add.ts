@@ -12,8 +12,10 @@ import {
 } from "../utils/config";
 import { installDependencies } from "../utils/package-manager";
 import { getProjectInfo } from "../utils/project";
+import { CLI_NAME } from "../utils/constants";
 import {
   dependenciesFromSource,
+  fetchRegistryIndex,
   fetchRegistryItem,
   resolveFileContent,
   type RegistryItem,
@@ -37,7 +39,7 @@ async function writeItem(
 ) {
   const config = await readConfig(options.cwd);
   if (!config) {
-    throw new Error("No cubix.json found. Run `cubix init` first.");
+    throw new Error(`No cubix.json found. Run \`${CLI_NAME} init\` first.`);
   }
 
   const info = await getProjectInfo(options.cwd);
@@ -103,7 +105,7 @@ async function writeItem(
 export async function runAdd(names: string[], options: AddOptions) {
   const config = await readConfig(options.cwd);
   if (!config && !options.dryRun) {
-    throw new Error("No cubix.json found. Run `cubix init` first.");
+    throw new Error(`No cubix.json found. Run \`${CLI_NAME} init\` first.`);
   }
 
   const base = (options.base ?? config?.base ?? "base") as BaseName;
@@ -113,14 +115,7 @@ export async function runAdd(names: string[], options: AddOptions) {
 
   let targets = names;
   if (options.all) {
-    const indexUrl = `${process.env.CUBIX_REGISTRY ?? "https://cubix.design/r"}/index.json`;
-    const response = await fetch(indexUrl);
-    if (!response.ok) {
-      throw new Error("Failed to fetch registry index for --all");
-    }
-    const index = (await response.json()) as {
-      items: Array<{ name: string }>;
-    };
+    const index = await fetchRegistryIndex(config);
     targets = index.items.map((item) => item.name);
   }
 

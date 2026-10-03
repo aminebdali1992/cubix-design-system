@@ -62,8 +62,8 @@ export const changelogEntries: ChangelogEntry[] = [
         code: {
           title: "Terminal",
           lang: "shell",
-          content: `npx cubix@latest init
-npx cubix@latest add button`,
+          content: `npx cubix-ui@latest init
+npx cubix-ui@latest add button`,
         },
       },
     ],
@@ -116,8 +116,8 @@ npx cubix@latest add button`,
         code: {
           title: "Terminal",
           lang: "shell",
-          content: `npx cubix@latest add dialog --base radix
-npx cubix@latest add dialog --base aria`,
+          content: `npx cubix-ui@latest add dialog --base radix
+npx cubix-ui@latest add dialog --base aria`,
         },
       },
     ],
@@ -137,7 +137,7 @@ npx cubix@latest add dialog --base aria`,
           "Radius scale derived from a single --radius token.",
           "Geist Sans, Geist Mono, and IRANSans XV for Persian / RTL.",
           "cubix-scrollbar utility applied consistently across the docs site.",
-          "Registry catalog at public/r with index.json and per-component items.",
+          "Registry catalog at public/r with registry.json and per-component items.",
         ],
       },
       {

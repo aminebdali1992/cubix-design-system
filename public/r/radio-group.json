@@ -1,5 +1,5 @@
 {
-  "$schema": "https://cubix.design/schema/registry-item.json",
+  "$schema": "https://cubixflow.ir/schema/registry-item.json",
   "name": "radio-group",
   "type": "registry:ui",
   "title": "Radio Group",

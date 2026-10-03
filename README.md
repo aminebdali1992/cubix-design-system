@@ -9,7 +9,7 @@ Cubix is a design system you copy into your repository. Instead of installing co
 - 🎨 **Token-based theming** - full oklch color palette (light + dark), radius and typography scales as CSS variables
 - ⚛️ **React 19 + Next.js App Router** first-class support; also works with Vite, Remix and Astro
 - ♿ **Accessible by default** - focus rings, ARIA states, keyboard support
-- 📦 **Registry distribution** - `public/r/*.json` powers the CLI (`npx cubix@latest add button`)
+- 📦 **Registry distribution** - `public/r/*.json` powers the CLI (`npx cubix-ui@latest add button`)
 - 🔤 **Geist typography** - Geist Sans + Geist Mono wired into Tailwind CSS v4
 
 ## Getting started
@@ -24,13 +24,15 @@ npm run dev
 
 Open http://localhost:3000
 
+Production docs and registry: https://cubixflow.ir
+
 ## Install a component (consumer flow)
 
 ```bash
-npx cubix@latest add button
+npx cubix-ui@latest add button
 ```
 
-This copies `components/cubix/button.tsx` into your project. You can also fetch it directly from the registry: [`public/r/button.json`](public/r/button.json).
+This copies `components/cubix/button.tsx` into your project. The CLI reads the catalog from `https://cubixflow.ir/r`.
 
 ## Project structure
 

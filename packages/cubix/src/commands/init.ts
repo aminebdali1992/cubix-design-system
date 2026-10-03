@@ -7,7 +7,11 @@ import type { TemplateDefinition } from "../templates/scaffold";
 import { BASES, type BaseName, readConfig } from "../utils/config";
 import { configureProject } from "../utils/configure";
 import { error, info, setSilent, success, warn, dim } from "../utils/logger";
-import { getInvokingPackageManager } from "../utils/package-manager";
+import { CLI_NAME } from "../utils/constants";
+import {
+  formatPackageBinaryCommand,
+  getInvokingPackageManager,
+} from "../utils/package-manager";
 import { getProjectInfo } from "../utils/project";
 import { runAdd } from "./add";
 
@@ -134,11 +138,13 @@ export const initCommand = new Command()
       }
 
       success("Cubix is ready.");
-      if (template) {
-        dim(`Next: cd ${path.relative(cwd, projectCwd) || "."} && npx cubix@latest add button`);
-      } else {
-        dim("Next: npx cubix@latest add button");
-      }
+      const addHint = formatPackageBinaryCommand(
+        getInvokingPackageManager(projectCwd),
+        `${CLI_NAME}@latest`,
+        ["add", "button"]
+      );
+      const relativeProject = path.relative(cwd, projectCwd);
+      dim(`Next: ${relativeProject ? `cd ${relativeProject} && ` : ""}${addHint}`);
     } catch (err) {
       error(err instanceof Error ? err.message : String(err));
       process.exit(1);

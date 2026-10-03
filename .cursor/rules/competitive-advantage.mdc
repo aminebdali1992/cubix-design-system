@@ -15,7 +15,7 @@ Public site copy, README, registry JSON, shipped comments, and UI strings still 
 2. **Agent / AI UI depth** - Conversation, Prompt Input, Thinking, Tool Call, Streaming Text, Message Scroller, agent blocks, and related primitives are a core differentiator. Prefer production-ready agent surfaces over yet another generic form control when priorities conflict.
 3. **Typeset for docs and chat** - Rhythm presets (`size` / `leading` / `flow`), streaming-stable prose, and docs/chat presets. Strengthen owned CSS typesetting rather than one-off page styles.
 4. **RTL and locale foundation** - IRANSans XV, `[lang=fa]`, logical properties, and bidirectional layouts are part of the system - not an afterthought bolted onto English-only demos.
-5. **Skills + registry quality** - Agent Skills, `cubix.json` / `cubix info` context, accurate registry schemas, and CLI flows that make assistants generate correct Cubix code. Prefer tooling that reduces wrong imports, wrong bases, and hardcoded colors.
+5. **Skills + registry quality** - Agent Skills, `cubix.json` / `cubix-ui info` context, accurate registry schemas, and CLI flows that make assistants generate correct Cubix code. Prefer tooling that reduces wrong imports, wrong bases, and hardcoded colors.
 6. **Production engineering bar** - Follow `engineering-standards.mdc`. Seniors leave shadcn-class tools for reliability and ownership clarity, not novelty.
 
 ## When choosing what to build

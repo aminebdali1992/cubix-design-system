@@ -1,4 +1,8 @@
+import { siteConfig } from "@/lib/site";
+
 export type PackageManager = "pnpm" | "npm" | "yarn" | "bun";
+
+const cli = `${siteConfig.packageName}@latest`;
 
 export function addComponentCommands(
   name: string,
@@ -6,10 +10,10 @@ export function addComponentCommands(
 ): Record<PackageManager, string> {
   const flag = base === "base" ? "" : ` --base ${base}`;
   return {
-    pnpm: `pnpm dlx cubix@latest add ${name}${flag}`,
-    npm: `npx cubix@latest add ${name}${flag}`,
-    yarn: `yarn dlx cubix@latest add ${name}${flag}`,
-    bun: `bunx --bun cubix@latest add ${name}${flag}`,
+    pnpm: `pnpm dlx ${cli} add ${name}${flag}`,
+    npm: `npx ${cli} add ${name}${flag}`,
+    yarn: `yarn dlx ${cli} add ${name}${flag}`,
+    bun: `bunx --bun ${cli} add ${name}${flag}`,
   };
 }
 

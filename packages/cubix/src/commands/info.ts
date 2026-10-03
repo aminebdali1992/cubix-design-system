@@ -2,6 +2,7 @@ import path from "node:path";
 import { Command } from "commander";
 
 import { readConfig } from "../utils/config";
+import { CLI_NAME } from "../utils/constants";
 import { getProjectInfo } from "../utils/project";
 import { error } from "../utils/logger";
 
@@ -33,7 +34,7 @@ export const infoCommand = new Command()
         console.log(`aliases.ui: ${config.aliases.ui}`);
         console.log(`tailwind.css: ${config.tailwind.css}`);
       } else {
-        console.log("cubix.json: (missing - run cubix init)");
+        console.log(`cubix.json: (missing - run ${CLI_NAME} init)`);
       }
     } catch (err) {
       error(err instanceof Error ? err.message : String(err));

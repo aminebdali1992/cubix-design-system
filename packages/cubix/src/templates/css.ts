@@ -1,4 +1,4 @@
-/** Consumer-facing Cubix token sheet appended/written by `cubix init`. */
+/** Consumer-facing Cubix token sheet appended/written by `init`. */
 export const CUBIX_CSS = `@custom-variant dark (&:is(.dark *));
 
 :root {

@@ -1,16 +1,20 @@
+import { siteConfig } from "@/lib/site";
+
 export const catalogSnippet = `{
-  "$schema": "https://cubix.design/schema/registry.json",
+  "$schema": "${siteConfig.registrySchemaUrl}",
   "name": "cubix",
-  "homepage": "https://cubix.design",
+  "homepage": "${siteConfig.url}",
   "items": [
     {
       "name": "button",
       "type": "registry:ui",
       "title": "Button",
       "description": "Displays a button or a component that looks like a button.",
+      "dependencies": ["@base-ui/react"],
+      "registryDependencies": [],
       "files": [
         {
-          "path": "public/r/button.json",
+          "path": "components/cubix/button.tsx",
           "type": "registry:ui"
         }
       ]
@@ -19,7 +23,7 @@ export const catalogSnippet = `{
 }`;
 
 export const itemSnippet = `{
-  "$schema": "https://cubix.design/schema/registry-item.json",
+  "$schema": "${siteConfig.registryItemSchemaUrl}",
   "name": "button",
   "type": "registry:ui",
   "title": "Button",
@@ -36,30 +40,24 @@ export const itemSnippet = `{
 }`;
 
 export const itemWithDepsSnippet = `{
-  "$schema": "https://cubix.design/schema/registry-item.json",
-  "name": "date-picker",
+  "$schema": "${siteConfig.registryItemSchemaUrl}",
+  "name": "calendar",
   "type": "registry:ui",
-  "title": "Date Picker",
-  "description": "A date picker component with range and presets.",
-  "dependencies": ["date-fns", "chrono-node"],
-  "registryDependencies": [
-    "button",
-    "calendar",
-    "popover",
-    "input",
-    "input-group"
-  ],
+  "title": "Calendar",
+  "description": "A date picker calendar for selecting a day, several days, or a range.",
+  "dependencies": ["date-fns", "react-day-picker"],
+  "registryDependencies": ["button"],
   "files": [
     {
-      "path": "components/cubix/date-picker.tsx",
+      "path": "components/cubix/calendar.tsx",
       "type": "registry:ui",
-      "target": "components/cubix/date-picker.tsx"
+      "target": "components/cubix/calendar.tsx"
     }
   ]
 }`;
 
 export const authorCatalogSnippet = `{
-  "$schema": "https://cubix.design/schema/registry.json",
+  "$schema": "${siteConfig.registrySchemaUrl}",
   "name": "acme",
   "homepage": "https://acme.com",
   "items": [
@@ -80,7 +78,7 @@ export const authorCatalogSnippet = `{
 
 export const namespaceCubixSnippet = `{
   "registries": {
-    "@cubix": "https://cubix.design/r/{name}.json"
+    "@cubix": "${siteConfig.registryUrl}/{name}.json"
   }
 }`;
 

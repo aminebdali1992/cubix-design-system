@@ -163,10 +163,10 @@ export default function DatePickerDocsPage() {
         </p>
         <CodeBlockCommand
           commands={{
-            pnpm: "pnpm dlx cubix@latest add calendar popover",
-            npm: "npx cubix@latest add calendar popover",
-            yarn: "yarn dlx cubix@latest add calendar popover",
-            bun: "bunx --bun cubix@latest add calendar popover",
+            pnpm: "pnpm dlx cubix-ui@latest add calendar popover",
+            npm: "npx cubix-ui@latest add calendar popover",
+            yarn: "yarn dlx cubix-ui@latest add calendar popover",
+            bun: "bunx --bun cubix-ui@latest add calendar popover",
           }}
         />
       </section>

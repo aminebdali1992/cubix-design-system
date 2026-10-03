@@ -50,7 +50,7 @@ export default function ComponentsPage() {
           <>
             Every Cubix component is accessible, themeable, and shipped as
             TypeScript source you own. Install one with{" "}
-            <InlineCode>npx cubix@latest add</InlineCode> followed by its name.
+            <InlineCode>npx cubix-ui@latest add</InlineCode> followed by its name.
           </>
         }
       />
