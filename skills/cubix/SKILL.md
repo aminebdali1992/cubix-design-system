@@ -7,6 +7,8 @@ description: Build UI with Cubix, the copy-paste React component registry. Use w
 
 Cubix components are source files the project owns. They are copied into the app by the `cubix-ui` CLI from the registry at `https://cubixflow.ir/r`, then edited like any other code. Never install Cubix components from npm and never hand-write a component that the registry already provides.
 
+Public readiness contract: a component is installable only when it has Base UI, React Aria, and Radix UI sources, docs, and a registry entry. If `cubix-ui search` does not list a name, or `add` returns 404, it is on the roadmap - do not invent a stub and do not paste unfinished source from the monorepo.
+
 ## 1. Read project context first
 
 Before generating UI, resolve the project configuration:
@@ -43,14 +45,16 @@ npx cubix-ui@latest search -q dialog
 npx cubix-ui@latest view dialog
 
 # Add components (dependencies and registry dependencies are resolved)
-npx cubix-ui@latest add button dialog field input
+npx cubix-ui@latest add button dialog select
+npx cubix-ui@latest add button --base aria
 npx cubix-ui@latest add button --dry-run
 npx cubix-ui@latest add button --overwrite
 ```
 
 Rules:
 
-- Search the registry before creating a new component. If an item exists, add it.
+- Search the registry before creating a new component. Only add names that search returns.
+- Prefer Text Field / Email Field / Phone Field over a generic Input when those are what the registry publishes.
 - Respect the package manager already used by the project (`pnpm dlx`, `yarn dlx`, `bunx --bun`, or `npx`).
 - Use `--base` only when the user explicitly wants a different base than `cubix.json`.
 - Use `--dry-run` to preview when files may already exist, and `--overwrite` only with the user's consent, because it replaces local edits.
@@ -102,15 +106,9 @@ Prefer logical properties (`ps-*`, `pe-*`, `ms-*`, `me-*`, `start-*`, `end-*`, `
 
 ## 5. Agent and chat interfaces
 
-For assistant and chat UI, compose the dedicated Cubix parts instead of building bespoke ones:
+Several agent surfaces are still on the roadmap. Before using any of them, confirm the name appears in `cubix-ui search`. Ready building blocks today include things like `attachment`, `branch`, and the standard form/overlay primitives. Do not hand-roll Conversation / Prompt Input / Thinking replacements from memory if search does not list them yet.
 
-- `conversation` and `message` for the transcript
-- `message-scroller` for scroll anchoring while content streams
-- `prompt-input` and `prompt-suggestion` for the composer
-- `thinking`, `tool-call`, and `streaming-text` for in-progress model output
-- `queue` for pending attachments or tasks
-
-Handle every state: empty conversation, streaming, error, and stopped generation, not only the happy path.
+When an agent surface is public, handle every state: empty conversation, streaming, error, and stopped generation, not only the happy path.
 
 ## 6. Authoring registry items
 

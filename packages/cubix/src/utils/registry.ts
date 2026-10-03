@@ -62,6 +62,11 @@ async function fetchJson(url: string, label: string): Promise<unknown> {
     );
   }
   if (!response.ok) {
+    if (response.status === 404) {
+      throw new Error(
+        `${label} was not found at ${url}. It may still be on the Cubix roadmap (not public until it has Base UI, React Aria, Radix UI, docs, and a registry entry). Run \`${CLI_NAME} search\` for available components.`
+      );
+    }
     throw new Error(`Failed to fetch ${label} from ${url} (${response.status}).`);
   }
   return response.json();

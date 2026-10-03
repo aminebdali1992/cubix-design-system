@@ -171,6 +171,6 @@ export const addCommand = new Command()
       });
     } catch (err) {
       error(err instanceof Error ? err.message : String(err));
-      process.exit(1);
+      process.exitCode = 1;
     }
   });
