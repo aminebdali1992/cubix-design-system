@@ -21,6 +21,9 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
 
+      # Trusted Publishing needs a recent npm with OIDC support.
+      - run: npm install -g npm@latest
+
       - run: npm ci
 
       - name: Tag matches package version
@@ -41,8 +44,6 @@ jobs:
       #   owner: aminebdali1992
       #   repo: cubix-design-system
       #   workflow: release-cli.yml
-      # No NPM_TOKEN secret is required when Trusted Publishing is connected.
+      # Do not set an empty NODE_AUTH_TOKEN - it blocks OIDC.
       - name: Publish
-        run: npm publish -w cubix-ui --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: npm publish -w cubix-ui --access public --provenance

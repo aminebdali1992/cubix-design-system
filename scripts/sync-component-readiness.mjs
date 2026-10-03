@@ -76,14 +76,31 @@ if (updated === src) {
   fs.writeFileSync(componentsDataPath, updated, "utf8");
 }
 
-const payload = {
-  $schemaComment:
-    "Public Cubix readiness contract. A slug is ready only with base+aria+radix sources, docs, and a registry.json entry.",
-  generatedAt: new Date().toISOString(),
-  slugs: readySlugs,
-};
+const schemaComment =
+  "Public Cubix readiness contract. A slug is ready only with base+aria+radix sources, docs, and a registry.json entry.";
 
-fs.writeFileSync(outPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+let previousSlugs = null;
+if (fs.existsSync(outPath)) {
+  try {
+    previousSlugs = JSON.parse(fs.readFileSync(outPath, "utf8")).slugs;
+  } catch {
+    previousSlugs = null;
+  }
+}
+
+const slugsUnchanged =
+  Array.isArray(previousSlugs) &&
+  previousSlugs.length === readySlugs.length &&
+  previousSlugs.every((slug, i) => slug === readySlugs[i]);
+
+if (!slugsUnchanged) {
+  const payload = {
+    $schemaComment: schemaComment,
+    generatedAt: new Date().toISOString(),
+    slugs: readySlugs,
+  };
+  fs.writeFileSync(outPath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+}
 
 const demoted = [...catalogSlugs].filter((s) => !readySet.has(s)).sort();
 const registryNotReady = [...registryNames]
