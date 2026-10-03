@@ -62,6 +62,33 @@ export async function runPackageBinary(
   });
 }
 
+function localBinaryCommand(pm: PackageManager, bin: string, args: string[]) {
+  switch (pm) {
+    case "pnpm":
+      return { bin: "pnpm", args: ["exec", bin, ...args] };
+    case "yarn":
+      return { bin: "yarn", args: [bin, ...args] };
+    case "bun":
+      return { bin: "bun", args: ["x", bin, ...args] };
+    default:
+      return { bin: "npm", args: ["exec", "--no", "--", bin, ...args] };
+  }
+}
+
+/** Runs a binary already installed in the project's node_modules. */
+export async function runLocalBinary(
+  pm: PackageManager,
+  bin: string,
+  args: string[],
+  options: { cwd: string; silent?: boolean }
+) {
+  const command = localBinaryCommand(pm, bin, args);
+  await execa(command.bin, command.args, {
+    cwd: options.cwd,
+    stdio: options.silent ? "ignore" : "inherit",
+  });
+}
+
 async function runInstall(
   pm: PackageManager,
   args: string[],

@@ -18,6 +18,7 @@ export const startTemplate: TemplateDefinition = {
           "--package-manager",
           options.packageManager,
           "--no-examples",
+          "--no-intent",
           ...(options.yes ? ["-y"] : []),
         ],
         { cwd: options.cwd, silent: options.silent }

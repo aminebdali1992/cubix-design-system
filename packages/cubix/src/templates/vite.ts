@@ -4,7 +4,7 @@ import path from "node:path";
 import { installDependencies, runPackageBinary } from "../utils/package-manager";
 import { resolveTarget, runStep, type TemplateDefinition } from "./scaffold";
 
-const VITE_CONFIG = `import path from "path"
+const VITE_CONFIG = `import { fileURLToPath, URL } from "node:url"
 import tailwindcss from "@tailwindcss/vite"
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
@@ -13,7 +13,7 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"),
+      "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
 })
