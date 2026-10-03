@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Typecheck CLI
+        run: npm run typecheck -w cubix-ui
+
+      - name: Build CLI
+        run: npm run build:cli
+
+      - name: Readiness contract is in sync
+        run: |
+          npm run readiness:sync
+          if [ -n "$(git status --porcelain -- lib/ready-components.json app/docs/components/components-data.ts)" ]; then
+            git status --porcelain -- lib/ready-components.json app/docs/components/components-data.ts
+            echo "Readiness data is stale. Run npm run readiness:sync and commit the result."
+            exit 1
+          fi
+
+      - name: Build docs site
+        run: npm run build
+
+      - name: Registry is up to date
+        run: |
+          npm run registry:build
+          if [ -n "$(git status --porcelain -- public/r lib/ready-components.json app/docs/components/components-data.ts)" ]; then
+            git status --porcelain -- public/r lib/ready-components.json app/docs/components/components-data.ts
+            echo "public/r or readiness data is stale. Run npm run registry:build and commit the result."
+            exit 1
+          fi

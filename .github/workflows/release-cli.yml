@@ -1,0 +1,48 @@
+name: Release CLI
+
+on:
+  push:
+    tags:
+      - "cubix-ui@*"
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          registry-url: https://registry.npmjs.org
+
+      - run: npm ci
+
+      - name: Tag matches package version
+        run: |
+          expected="cubix-ui@$(node -p "require('./packages/cubix/package.json').version")"
+          if [ "$GITHUB_REF_NAME" != "$expected" ]; then
+            echo "Tag $GITHUB_REF_NAME does not match $expected"
+            exit 1
+          fi
+
+      - name: Typecheck and build
+        run: |
+          npm run typecheck -w cubix-ui
+          npm run build -w cubix-ui
+
+      # Publishes with npm Trusted Publishing (OIDC). Configure the package on
+      # npmjs.com → Access → Trusted Publisher → GitHub Actions:
+      #   owner: aminebdali1992
+      #   repo: cubix-design-system
+      #   workflow: release-cli.yml
+      # No NPM_TOKEN secret is required when Trusted Publishing is connected.
+      - name: Publish
+        run: npm publish -w cubix-ui --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
