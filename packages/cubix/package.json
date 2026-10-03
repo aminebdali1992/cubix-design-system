@@ -26,10 +26,11 @@
     "radix-ui"
   ],
   "bin": {
-    "cubix-ui": "./dist/index.js",
-    "cubix": "./dist/index.js"
+    "cubix-ui": "bin/cubix-ui.js",
+    "cubix": "bin/cubix-ui.js"
   },
   "files": [
+    "bin",
     "dist"
   ],
   "scripts": {
@@ -59,7 +60,6 @@
     "typescript": "^5.9.3"
   },
   "publishConfig": {
-    "access": "public",
-    "provenance": true
+    "access": "public"
   }
 }
