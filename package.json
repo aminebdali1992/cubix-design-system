@@ -14,6 +14,7 @@
     "cubix": "npm run build -w cubix-ui && node packages/cubix/dist/index.js",
     "readiness:sync": "node scripts/sync-component-readiness.mjs",
     "registry:build": "npm run readiness:sync && npm run build:cli && npm run cubix -- build ./registry.json -o ./public/r -c .",
+    "test:registry": "node scripts/test-registry-packaging.mjs",
     "smoke:cli": "node scripts/smoke-cli.mjs",
     "start": "next start",
     "lint": "next lint"

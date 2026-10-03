@@ -48,3 +48,36 @@ jobs:
             echo "public/r or readiness data is stale. Run npm run registry:build and commit the result."
             exit 1
           fi
+
+      - name: Registry packaging contract
+        run: npm run test:registry
+
+  cli-smoke:
+    needs: verify
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        base: [base, aria, radix]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build CLI and registry
+        run: |
+          npm run build:cli
+          npm run cubix -- build ./registry.json -o ./public/r -c .
+
+      - name: Smoke CLI add --all (${{ matrix.base }})
+        run: >
+          npm run smoke:cli --
+          --cli local
+          --base ${{ matrix.base }}
+          --template vite
+          --dir ${{ runner.temp }}/cubix-smoke
