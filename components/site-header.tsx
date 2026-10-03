@@ -1,16 +1,21 @@
 "use client";
 
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BoxesIcon, GithubIcon } from "lucide-react";
+import { BoxesIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { defaultBlocksHref } from "@/app/blocks/blocks-data";
-import { Button } from "@/components/cubix/button";
 import { SiteFrame } from "@/components/site-frame";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-function HeaderBar({ className }: { className?: string }) {
+type SiteHeaderProps = {
+  className?: string;
+  githubLink: ReactNode;
+};
+
+function HeaderBar({ className, githubLink }: SiteHeaderProps) {
   return (
     <div
       className={cn(
@@ -62,25 +67,14 @@ function HeaderBar({ className }: { className?: string }) {
         </nav>
       </div>
       <div className="flex items-center gap-2">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="gap-1.5"
-          nativeButton={false}
-          render={
-            <a href="https://github.com" target="_blank" rel="noreferrer" />
-          }
-        >
-          <GithubIcon />
-          GitHub
-        </Button>
+        {githubLink}
         <ThemeToggle />
       </div>
     </div>
   );
 }
 
-export function SiteHeader({ className }: { className?: string }) {
+export function SiteHeader({ className, githubLink }: SiteHeaderProps) {
   const pathname = usePathname();
   const framed = pathname === "/";
 
@@ -93,10 +87,13 @@ export function SiteHeader({ className }: { className?: string }) {
     >
       {framed ? (
         <SiteFrame>
-          <HeaderBar className="border-x border-border px-5 lg:px-6" />
+          <HeaderBar
+            className="border-x border-border px-5 lg:px-6"
+            githubLink={githubLink}
+          />
         </SiteFrame>
       ) : (
-        <HeaderBar className="px-4 sm:px-6" />
+        <HeaderBar className="px-4 sm:px-6" githubLink={githubLink} />
       )}
     </header>
   );

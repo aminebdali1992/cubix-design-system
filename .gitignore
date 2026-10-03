@@ -40,3 +40,11 @@ Thumbs.db
 .vercel
 .turbo
 .eslintcache
+
+# local tool state
+Microsoft/
+.claude/
+.freebuff/
+
+# internal planning notes
+.cursor/rules/competitive-advantage.mdc

@@ -9,6 +9,7 @@ import {
 
 import { CodeBlock } from "@/components/docs/code-block";
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
+import { siteConfig } from "@/lib/site";
 import {
   DocsNextSteps,
   DocsPageHeader,
@@ -24,10 +25,10 @@ export const metadata: Metadata = {
 };
 
 const installCommands = {
-  pnpm: "pnpm dlx skills add cubix/ui",
-  npm: "npx skills add cubix/ui",
-  yarn: "yarn dlx skills add cubix/ui",
-  bun: "bunx --bun skills add cubix/ui",
+  pnpm: `pnpm dlx skills add ${siteConfig.githubRepo}`,
+  npm: `npx skills add ${siteConfig.githubRepo}`,
+  yarn: `yarn dlx skills add ${siteConfig.githubRepo}`,
+  bun: `bunx --bun skills add ${siteConfig.githubRepo}`,
 };
 
 const examplePrompts = [
@@ -163,7 +164,17 @@ export default function SkillsPage() {
       <section className="space-y-4">
         <h2 className={sectionHeadingClassName}>Install</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Install the Cubix skill into your project with the Skills CLI:
+          Install the Cubix skill into your project with the Skills CLI. The
+          source lives in{" "}
+          <a
+            href={`${siteConfig.links.github}/blob/main/skills/cubix/SKILL.md`}
+            target="_blank"
+            rel="noreferrer"
+            className={linkClassName}
+          >
+            skills/cubix/SKILL.md
+          </a>
+          .
         </p>
         <CodeBlockCommand commands={installCommands} />
         <p className="leading-relaxed text-muted-foreground">
@@ -220,8 +231,10 @@ export default function SkillsPage() {
         <ol className="list-decimal space-y-3 ps-6 text-muted-foreground">
           <li>
             <strong className="text-foreground">Project detection</strong> -
-            the skill activates when it finds{" "}
-            <InlineCode>cubix.json</InlineCode> in the workspace.
+            the assistant loads the skill when the workspace has a{" "}
+            <InlineCode>cubix.json</InlineCode>, imports from{" "}
+            <InlineCode>components/cubix</InlineCode>, or the task mentions
+            Cubix.
           </li>
           <li>
             <strong className="text-foreground">Context injection</strong> - it

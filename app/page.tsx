@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/cubix/button"
 import { CursorAgentInstall } from "@/components/landing/cursor-agent-install"
 import { SiteFrame } from "@/components/site-frame"
+import { siteConfig } from "@/lib/site"
 
 const resources = [
   {
@@ -42,10 +43,11 @@ const resources = [
       "Geist for UI, rhythm presets for docs and chat, and a Tailwind-aligned type scale.",
   },
   {
-    href: "/docs",
+    href: "/docs/cli",
     icon: TerminalIcon,
     title: "CLI & registry",
-    description: "Install with npx cubix-ui@latest add, or copy the JSON registry from public/r.",
+    description:
+      "Scaffold with npx cubix-ui@latest init, add components, or read the JSON registry directly.",
   },
   {
     href: "/docs/components",
@@ -114,11 +116,11 @@ export default function HomePage() {
                       Agent-ready
                     </div>
                     <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
-                      Install Cubix MCP in Cursor
+                      Let your agent set up Cubix
                     </h2>
                     <p className="text-base text-muted-foreground md:text-lg">
-                      Ask the agent to connect the Cubix MCP server. It writes your Cursor config so
-                      component lookups stay accurate.
+                      Coding agents run the same CLI you do. One prompt configures tokens, writes
+                      cubix.json, and pulls components straight from the registry.
                     </p>
                   </div>
                 </div>
@@ -179,8 +181,19 @@ export default function HomePage() {
       <footer className="border-b border-border">
         <SiteFrame>
           <div className="flex flex-col items-center justify-between gap-4 border-x border-border px-5 py-8 text-sm text-muted-foreground sm:flex-row lg:px-6">
-            <p>Built by Cubix. The source code is available on GitHub.</p>
-            <p>Open source. Owned by you.</p>
+            <p>
+              Built by Cubix. The source code is available on{" "}
+              <a
+                href={siteConfig.links.github}
+                target="_blank"
+                rel="noreferrer"
+                className="font-medium text-foreground underline underline-offset-4"
+              >
+                GitHub
+              </a>
+              .
+            </p>
+            <p>Open source under the MIT license.</p>
           </div>
         </SiteFrame>
       </footer>

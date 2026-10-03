@@ -180,7 +180,7 @@ Options:
   --json           output as JSON
   -h, --help       display help for command`;
 
-const registryUrlExample = `CUBIX_REGISTRY_URL=http://localhost:3000/r npx cubix-ui@latest add button`;
+const registryUrlExample = `CUBIX_REGISTRY_URL=https://registry.example.com/r npx cubix-ui@latest add button`;
 
 export default function CliPage() {
   return (

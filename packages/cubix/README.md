@@ -43,23 +43,13 @@ npx cubix-ui@latest init -t astro --name marketing -y
 The CLI reads the official catalog from `https://cubixflow.ir/r`. Override it with the `CUBIX_REGISTRY_URL` environment variable, or per project with `registries.cubix` in `cubix.json`. The environment variable wins when both are set.
 
 ```bash
-CUBIX_REGISTRY_URL=http://localhost:3000/r npx cubix-ui@latest add button
+CUBIX_REGISTRY_URL=https://registry.example.com/r npx cubix-ui@latest add button
 ```
 
-## Local development
+## Contributing
 
-From the Cubix monorepo root:
+Source, issues, and the contributing guide live at https://github.com/aminebdali1992/cubix-design-system.
 
-```bash
-npm install
-npm run build:cli
-node packages/cubix/dist/index.js --help
-```
+## License
 
-## Releasing
-
-Releases are published from GitHub Actions with npm provenance:
-
-1. Bump `version` in `packages/cubix/package.json` and commit.
-2. Tag the commit as `cubix-ui@<version>` and push the tag.
-3. The `Release CLI` workflow typechecks, builds, and runs `npm publish`. It needs an `NPM_TOKEN` repository secret with publish rights for `cubix-ui`.
+MIT

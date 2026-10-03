@@ -1,94 +1,47 @@
 # Cubix
 
-**Beautifully designed components that you can copy and paste into your apps. Accessible. Customizable. Open Source.**
+Accessible, customizable React components that you copy into your app and own. Built with Tailwind CSS on three interchangeable primitive bases: Base UI, React Aria, and Radix UI.
 
-Cubix is a design system you copy into your repository. Instead of installing components from `node_modules`, you own the source and can change every line.
+[![npm](https://img.shields.io/npm/v/cubix-ui?label=cubix-ui)](https://www.npmjs.com/package/cubix-ui)
+[![license](https://img.shields.io/github/license/aminebdali1992/cubix-design-system)](./LICENSE.md)
 
-## Features
+## Documentation
 
-- 🎨 **Token-based theming** - full oklch color palette (light + dark), radius and typography scales as CSS variables
-- ⚛️ **React 19 + Next.js App Router** first-class support; also works with Vite, Remix and Astro
-- ♿ **Accessible by default** - focus rings, ARIA states, keyboard support
-- 📦 **Registry distribution** - `public/r/*.json` powers the CLI (`npx cubix-ui@latest add button`)
-- 🔤 **Geist typography** - Geist Sans + Geist Mono wired into Tailwind CSS v4
+Visit https://cubixflow.ir/docs to view the documentation.
 
-## Getting started
+## Quick start
 
-```bash
-# 1. Install dependencies
-npm install
-
-# 2. Run the docs site
-npm run dev
-```
-
-Open http://localhost:3000
-
-Production docs and registry: https://cubixflow.ir
-
-## Install a component (consumer flow)
+Add Cubix to an existing React app:
 
 ```bash
+npx cubix-ui@latest init
 npx cubix-ui@latest add button
 ```
 
-This copies `components/cubix/button.tsx` into your project. The CLI reads the catalog from `https://cubixflow.ir/r`.
+Or scaffold a new project with Cubix already configured:
 
-## Project structure
-
-```
-├─ app/
-│  ├─ globals.css               # Cubix design tokens (colors, radius, typography)
-│  ├─ layout.tsx                # Root layout (fonts, theme provider)
-│  ├─ page.tsx                  # Landing page
-│  └─ docs/                     # Documentation
-│     ├─ page.tsx               # Introduction
-│     ├─ theming/page.tsx       # Color palette & tokens
-│     ├─ typography/page.tsx    # Type scale
-│     └─ components/button/     # Button docs page
-├─ components/
-│  ├─ cubix/                    # The design system (this is what ships)
-│  │  └─ button.tsx
-│  ├─ docs/                     # Docs-site chrome (preview, code block, tables)
-│  └─ examples/                 # Interactive examples
-├─ lib/utils.ts                 # cn() helper
-├─ cubix.json                   # Cubix CLI config
-└─ public/r/                    # Component registry
+```bash
+npx cubix-ui@latest init -t next
 ```
 
-## The Button component
+Templates: `next`, `vite`, `start`, `react-router`, and `astro`. Pick a primitive base with `--base base`, `--base aria`, or `--base radix`.
 
-Variants: `default` · `secondary` · `destructive` · `outline` · `ghost` · `link`
-Sizes: `default` · `sm` · `lg` · `icon` · `icon-sm` · `icon-lg`
-Props: `asChild` (render a `<Link>` as a button), `loading` (spinner + `aria-busy` + disabled), `className` merge, and all native `<button>` props.
+## Agent Skill
 
-```tsx
-import { Button } from "@/components/cubix/button";
+Teach your coding agent the Cubix CLI, bases, tokens, and composition rules:
 
-<Button variant="outline" size="lg">Get started</Button>
-<Button loading>Save changes</Button>
-<Button asChild><Link href="/docs">Docs</Link></Button>
+```bash
+npx skills add aminebdali1992/cubix-design-system
 ```
 
-## Theming
+## Contributing
 
-Override the CSS variables in `app/globals.css` to re-brand the whole system:
+Please read the [contributing guide](./CONTRIBUTING.md).
 
-```css
-:root {
-  --primary: oklch(0.55 0.2 262);
-  --primary-foreground: oklch(0.98 0 0);
-}
-```
+## Security
 
-## Scripts
-
-| Command | Description |
-| ------- | ----------- |
-| `npm run dev` | Start the docs site in development |
-| `npm run build` | Production build |
-| `npm run start` | Serve the production build |
+To report a vulnerability, follow the [security policy](./SECURITY.md).
 
 ## License
 
-MIT
+Licensed under the [MIT license](./LICENSE.md).

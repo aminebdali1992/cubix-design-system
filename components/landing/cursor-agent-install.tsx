@@ -21,9 +21,9 @@ import { cn } from "@/lib/utils"
 import {
   AGENT_INTRO,
   AGENT_SUCCESS,
+  CONFIG_JSON,
+  CONFIG_PATH,
   FILE_TREE,
-  MCP_JSON,
-  MCP_PATH,
   PHASE_AT,
   USER_PROMPT,
   type DemoPhase,
@@ -91,14 +91,14 @@ function ThinkingDots() {
   )
 }
 
-function McpFileCard({
+function ConfigFileCard({
   status,
   reduceMotion,
 }: {
   status: "open" | "writing" | "done"
   reduceMotion: boolean
 }) {
-  const lines = MCP_JSON.split("\n")
+  const lines = CONFIG_JSON.split("\n")
   const [visibleCount, setVisibleCount] = React.useState(
     status === "done" ? lines.length : status === "open" ? 2 : 1
   )
@@ -134,7 +134,7 @@ function McpFileCard({
           className="min-w-0 flex-1 truncate text-[12px] text-[#d4d4d8]"
           style={{ fontFamily: "var(--font-cursor-mono), ui-monospace, monospace" }}
         >
-          {MCP_PATH}
+          {CONFIG_PATH}
         </span>
         <span className="flex items-center gap-1.5 text-[11px] text-[#8b8b8b]">
           {status === "writing" ? (
@@ -175,7 +175,7 @@ function McpFileCard({
   )
 }
 
-function FileTree({ revealMcp }: { revealMcp: boolean }) {
+function FileTree({ revealConfig }: { revealConfig: boolean }) {
   return (
     <div className="hidden w-[200px] shrink-0 flex-col overflow-y-auto border-e border-[#2a2a2a] bg-[#141414] lg:flex">
       <div className="px-3 py-2.5 text-[11px] font-medium tracking-[0.04em] text-[#6f6f6f] uppercase">
@@ -183,14 +183,14 @@ function FileTree({ revealMcp }: { revealMcp: boolean }) {
       </div>
       <ul className="flex flex-col gap-px px-2 pb-3 text-[12.5px]">
         {FILE_TREE.map((entry) => {
-          const isMcp = Boolean(entry.highlight)
-          if (isMcp && !revealMcp) return null
+          const isConfig = Boolean(entry.highlight)
+          if (isConfig && !revealConfig) return null
           return (
             <li
               key={`${entry.depth}-${entry.name}`}
               className={cn(
                 "flex items-center gap-1.5 rounded-md px-1.5 py-[5px] text-[#9a9a9a]",
-                isMcp && "bg-[#1f1f1f] text-[#e8e8e8]"
+                isConfig && "bg-[#1f1f1f] text-[#e8e8e8]"
               )}
               style={{ paddingInlineStart: `${6 + entry.depth * 12}px` }}
             >
@@ -314,7 +314,7 @@ export function CursorAgentInstall() {
   const showAgent = atLeast(phase, "agent-intro")
   const showTool = atLeast(phase, "tool-open")
   const showSuccess = atLeast(phase, "success")
-  const revealMcp = atLeast(phase, "tool-done")
+  const revealConfig = atLeast(phase, "tool-done")
   const busy = atLeast(phase, "user-sent") && !atLeast(phase, "success")
 
   const toolStatus =
@@ -327,7 +327,7 @@ export function CursorAgentInstall() {
   return (
     <div
       role="img"
-      aria-label="Animated Cursor Agent demo installing the Cubix MCP server into .cursor/mcp.json."
+      aria-label="Animated Cursor Agent demo running npx cubix-ui@latest init, which writes cubix.json and adds Button."
       className={cn(
         cursorSans.className,
         cursorMono.variable,
@@ -348,7 +348,7 @@ export function CursorAgentInstall() {
               <TerminalIcon className="size-3.5 shrink-0 opacity-70" aria-hidden />
               <span className="truncate">Agent</span>
               <span className="text-[#525252]">/</span>
-              <span className="truncate text-[#d4d4d8]">Install Cubix MCP</span>
+              <span className="truncate text-[#d4d4d8]">Set up Cubix</span>
             </div>
           </div>
           <div className="w-[52px]" aria-hidden />
@@ -367,7 +367,7 @@ export function CursorAgentInstall() {
             <div className="size-6 rounded-full bg-[#2a2a2a]" />
           </div>
 
-          <FileTree revealMcp={revealMcp} />
+          <FileTree revealConfig={revealConfig} />
 
           <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-[#181818]">
             <div className="flex shrink-0 items-center gap-1.5 border-b border-[#2a2a2a] px-4 py-2.5 text-[13px]">
@@ -423,7 +423,7 @@ export function CursorAgentInstall() {
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ duration: 0.28 }}
                         >
-                          <McpFileCard status={toolStatus} reduceMotion={reduceMotion} />
+                          <ConfigFileCard status={toolStatus} reduceMotion={reduceMotion} />
                         </motion.div>
                       ) : null}
 
