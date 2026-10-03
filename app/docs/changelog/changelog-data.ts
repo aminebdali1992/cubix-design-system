@@ -13,6 +13,40 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    id: "2026-10-release",
+    date: "October 2026",
+    title: "Public readiness contract and cubix-ui@0.1.2",
+    summary:
+      "Only three-base, documented, registered components are installable. The cubix-ui CLI is published on npm at 0.1.2 with CI, and empty block placeholders are no longer presented as finished templates.",
+    sections: [
+      {
+        heading: "What shipped",
+        body: [
+          "The site, registry, and CLI now share one readiness contract: a slug is public only with Base UI, React Aria, and Radix sources, docs, and a registry entry. Roadmap items stay Coming soon without a fake install path.",
+        ],
+        bullets: [
+          "cubix-ui@0.1.2 on npm - init, add, search, view, build, and info against https://cubixflow.ir/r.",
+          "GitHub Actions CI verifies typecheck, readiness sync, docs build, and registry freshness on main.",
+          "Public registry at public/r lists ready components only (40 installable names).",
+          "App Shells and Bento Grids block routes are honest Coming soon pages - no stub source files.",
+        ],
+        code: {
+          title: "Terminal",
+          lang: "shell",
+          content: `npx cubix-ui@latest --version
+npx cubix-ui@latest init
+npx cubix-ui@latest add button`,
+        },
+      },
+      {
+        heading: "Still on the roadmap",
+        body: [
+          "Agent surfaces and other catalog items marked Coming soon stay off public install until each meets the same production bar. They are not stubbed in the registry.",
+        ],
+      },
+    ],
+  },
+  {
     id: "2026-10-docs",
     date: "October 2026",
     title: "Get started docs finalized",
