@@ -1,8 +1,13 @@
 import type { Metadata } from "next";
-import Link from "next/link";
+import { BlocksIcon, PackageIcon, TypeIcon } from "lucide-react";
 
 import { CodeBlock } from "@/components/docs/code-block";
-import { DocsMobileMenuTrigger } from "@/components/docs/docs-sidebar";
+import {
+  DocsNextSteps,
+  DocsPageHeader,
+  InlineCode,
+  sectionHeadingClassName,
+} from "../docs-shared";
 import {
   addTokenSnippet,
   addTokenUsageSnippet,
@@ -24,9 +29,6 @@ export const metadata: Metadata = {
     "Theme Cubix with CSS variables and oklch tokens. Override semantic colors, radius, and dark mode in app/globals.css.",
 };
 
-const linkClassName =
-  "font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80";
-
 function Swatch({ variable }: { variable: string }) {
   return (
     <span
@@ -39,78 +41,59 @@ function Swatch({ variable }: { variable: string }) {
 
 export default function ThemingPage() {
   return (
-    <article className="space-y-10">
-      <header className="space-y-4">
-        <div className="flex items-center gap-2">
-          <DocsMobileMenuTrigger />
-          <h1 className="scroll-m-24 text-3xl font-semibold tracking-tight">
-            Theming
-          </h1>
-        </div>
-        <p className="text-base text-muted-foreground">
-          Cubix is themed with CSS variables and semantic tokens. Override those
-          tokens in your CSS to restyle the product without rewriting component
-          classes.
-        </p>
-      </header>
+    <article className="space-y-12">
+      <DocsPageHeader
+        title="Theming"
+        description="Cubix is themed with CSS variables and semantic tokens. Override those tokens in your CSS to restyle the product without rewriting component classes."
+      />
 
       <section className="space-y-4">
         <p className="leading-relaxed text-muted-foreground">
-          Components consume tokens like{" "}
-          <code className="font-mono text-sm">background</code>,{" "}
-          <code className="font-mono text-sm">foreground</code>, and{" "}
-          <code className="font-mono text-sm">primary</code>. Tailwind maps them
-          to utilities such as{" "}
-          <code className="font-mono text-sm">bg-background</code> and{" "}
-          <code className="font-mono text-sm">text-foreground</code>:
+          Components consume tokens like <InlineCode>background</InlineCode>,{" "}
+          <InlineCode>foreground</InlineCode>, and{" "}
+          <InlineCode>primary</InlineCode>. Tailwind maps them to utilities
+          such as <InlineCode>bg-background</InlineCode> and{" "}
+          <InlineCode>text-foreground</InlineCode>:
         </p>
         <CodeBlock code={utilitySnippet} title="Example" />
         <p className="leading-relaxed text-muted-foreground">
           CSS variables are enabled by default in{" "}
-          <code className="font-mono text-sm">cubix.json</code>:
+          <InlineCode>cubix.json</InlineCode>:
         </p>
         <CodeBlock code={cubixJsonSnippet} title="cubix.json" lang="json" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Token convention
-        </h2>
+        <h2 className={sectionHeadingClassName}>Token convention</h2>
         <p className="leading-relaxed text-muted-foreground">
           Cubix uses semantic background and foreground pairs. The base token
-          sets the surface color; the{" "}
-          <code className="font-mono text-sm">-foreground</code> token sets text
-          and icons on that surface. The background suffix is omitted on the
-          surface token - for example{" "}
-          <code className="font-mono text-sm">primary</code> pairs with{" "}
-          <code className="font-mono text-sm">primary-foreground</code>.
+          sets the surface color; the <InlineCode>-foreground</InlineCode>{" "}
+          token sets text and icons on that surface. The background suffix is
+          omitted on the surface token - for example{" "}
+          <InlineCode>primary</InlineCode> pairs with{" "}
+          <InlineCode>primary-foreground</InlineCode>.
         </p>
         <CodeBlock code={conventionSnippet} title="app/globals.css" lang="css" />
-        <p className="leading-relaxed text-muted-foreground">
-          That maps to:
-        </p>
+        <p className="leading-relaxed text-muted-foreground">That maps to:</p>
         <CodeBlock code={conventionUsageSnippet} title="Example" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Color palette
-        </h2>
+        <h2 className={sectionHeadingClassName}>Color palette</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Defaults live under{" "}
-          <code className="font-mono text-sm">:root</code> and{" "}
-          <code className="font-mono text-sm">.dark</code> in{" "}
-          <code className="font-mono text-sm">app/globals.css</code>. Preview
-          chips use the live CSS variables, so they follow the current theme.
+          Defaults live under <InlineCode>:root</InlineCode> and{" "}
+          <InlineCode>.dark</InlineCode> in{" "}
+          <InlineCode>app/globals.css</InlineCode>. Preview chips use the live
+          CSS variables, so they follow the current theme.
         </p>
         <div className="my-6 overflow-x-auto rounded-xl border">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-semibold">Token</th>
-                <th className="px-4 py-3 text-left font-semibold">Preview</th>
-                <th className="px-4 py-3 text-left font-semibold">Light</th>
-                <th className="px-4 py-3 text-left font-semibold">Dark</th>
+                <th className="px-4 py-3 text-start font-semibold">Token</th>
+                <th className="px-4 py-3 text-start font-semibold">Preview</th>
+                <th className="px-4 py-3 text-start font-semibold">Light</th>
+                <th className="px-4 py-3 text-start font-semibold">Dark</th>
               </tr>
             </thead>
             <tbody>
@@ -136,9 +119,7 @@ export default function ThemingPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Theme tokens
-        </h2>
+        <h2 className={sectionHeadingClassName}>Theme tokens</h2>
         <p className="leading-relaxed text-muted-foreground">
           What each token controls, and where it shows up in Cubix components:
         </p>
@@ -146,22 +127,22 @@ export default function ThemingPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-semibold">Token</th>
-                <th className="px-4 py-3 text-left font-semibold">Controls</th>
-                <th className="px-4 py-3 text-left font-semibold">Used by</th>
+                <th className="px-4 py-3 text-start font-semibold">Token</th>
+                <th className="px-4 py-3 text-start font-semibold">Controls</th>
+                <th className="px-4 py-3 text-start font-semibold">Used by</th>
               </tr>
             </thead>
             <tbody>
-              {tokenDocs.map((t) => (
-                <tr key={t.name} className="border-b last:border-0">
+              {tokenDocs.map((token) => (
+                <tr key={token.name} className="border-b last:border-0">
                   <td className="px-4 py-3 align-top font-mono text-xs font-medium text-foreground">
-                    {t.name}
+                    {token.name}
                   </td>
                   <td className="px-4 py-3 align-top text-xs text-muted-foreground">
-                    {t.controls}
+                    {token.controls}
                   </td>
                   <td className="px-4 py-3 align-top text-xs text-muted-foreground">
-                    {t.usedBy}
+                    {token.usedBy}
                   </td>
                 </tr>
               ))}
@@ -171,23 +152,20 @@ export default function ThemingPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Radius scale
-        </h2>
+        <h2 className={sectionHeadingClassName}>Radius scale</h2>
         <p className="leading-relaxed text-muted-foreground">
-          <code className="font-mono text-sm">--radius</code> is the base
-          corner radius (default{" "}
-          <code className="font-mono text-sm">0.625rem</code>). Tailwind utilities
-          derive from it so one change updates the whole scale:
+          <InlineCode>--radius</InlineCode> is the base corner radius (default{" "}
+          <InlineCode>0.625rem</InlineCode>). Tailwind utilities derive from it
+          so one change updates the whole scale:
         </p>
         <CodeBlock code={radiusSnippet} title="app/globals.css" lang="css" />
         <div className="my-6 overflow-x-auto rounded-xl border">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-semibold">Token</th>
-                <th className="px-4 py-3 text-left font-semibold">Value</th>
-                <th className="px-4 py-3 text-left font-semibold">Preview</th>
+                <th className="px-4 py-3 text-start font-semibold">Token</th>
+                <th className="px-4 py-3 text-start font-semibold">Value</th>
+                <th className="px-4 py-3 text-start font-semibold">Preview</th>
               </tr>
             </thead>
             <tbody>
@@ -203,9 +181,7 @@ export default function ThemingPage() {
                     <span
                       aria-hidden
                       className="inline-block size-8 border border-border bg-muted"
-                      style={{
-                        borderRadius: `var(--${row.name})`,
-                      }}
+                      style={{ borderRadius: `var(--${row.name})` }}
                     />
                   </td>
                 </tr>
@@ -216,36 +192,33 @@ export default function ThemingPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Dark mode</h2>
+        <h2 className={sectionHeadingClassName}>Dark mode</h2>
         <p className="leading-relaxed text-muted-foreground">
           Dark mode is class-based. The same token names are overridden under{" "}
-          <code className="font-mono text-sm">.dark</code>. This docs site uses{" "}
-          <code className="font-mono text-sm">next-themes</code> with{" "}
-          <code className="font-mono text-sm">attribute=&quot;class&quot;</code>{" "}
-          on <code className="font-mono text-sm">&lt;html&gt;</code>. Toggle the
-          sun / moon control in the header to try it.
+          <InlineCode>.dark</InlineCode>. This docs site uses{" "}
+          <InlineCode>next-themes</InlineCode> with{" "}
+          <InlineCode>attribute=&quot;class&quot;</InlineCode> on{" "}
+          <InlineCode>&lt;html&gt;</InlineCode>. Toggle the sun / moon control
+          in the header to try it.
         </p>
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Customize</h2>
+        <h2 className={sectionHeadingClassName}>Customize</h2>
         <p className="leading-relaxed text-muted-foreground">
           Re-brand Cubix by overriding variables in{" "}
-          <code className="font-mono text-sm">app/globals.css</code>. Everything
-          built on those tokens updates automatically:
+          <InlineCode>app/globals.css</InlineCode>. Everything built on those
+          tokens updates automatically:
         </p>
         <CodeBlock code={customizeCss} title="app/globals.css" lang="css" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Adding new tokens
-        </h2>
+        <h2 className={sectionHeadingClassName}>Adding new tokens</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Define the variable under{" "}
-          <code className="font-mono text-sm">:root</code> and{" "}
-          <code className="font-mono text-sm">.dark</code>, then expose it to
-          Tailwind with <code className="font-mono text-sm">@theme inline</code>:
+          Define the variable under <InlineCode>:root</InlineCode> and{" "}
+          <InlineCode>.dark</InlineCode>, then expose it to Tailwind with{" "}
+          <InlineCode>@theme inline</InlineCode>:
         </p>
         <CodeBlock code={addTokenSnippet} title="app/globals.css" lang="css" />
         <p className="leading-relaxed text-muted-foreground">
@@ -255,9 +228,7 @@ export default function ThemingPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Default theme CSS
-        </h2>
+        <h2 className={sectionHeadingClassName}>Default theme CSS</h2>
         <p className="leading-relaxed text-muted-foreground">
           Neutral defaults from this project. Copy into your global CSS and
           adjust as needed:
@@ -268,21 +239,33 @@ export default function ThemingPage() {
           lang="css"
           collapsible
         />
-        <p className="leading-relaxed text-muted-foreground">
-          Next:{" "}
-          <Link href="/docs/installation" className={linkClassName}>
-            Installation
-          </Link>
-          ,{" "}
-          <Link href="/docs/cli" className={linkClassName}>
-            CLI
-          </Link>
-          , or browse{" "}
-          <Link href="/docs/components" className={linkClassName}>
-            Components
-          </Link>
-          .
-        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className={sectionHeadingClassName}>Next steps</h2>
+        <DocsNextSteps
+          steps={[
+            {
+              title: "Installation",
+              description: "Wire tokens into a new or existing project.",
+              href: "/docs/installation",
+              icon: PackageIcon,
+            },
+            {
+              title: "Typeset",
+              description:
+                "Type roles, measure, and rhythm presets that use the same tokens.",
+              href: "/docs/typeset",
+              icon: TypeIcon,
+            },
+            {
+              title: "Components",
+              description: "Browse controls that already speak these tokens.",
+              href: "/docs/components",
+              icon: BlocksIcon,
+            },
+          ]}
+        />
       </section>
     </article>
   );

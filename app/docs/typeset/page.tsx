@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { BlocksIcon, PaletteIcon, SparklesIcon } from "lucide-react";
 
 import { CodeBlock } from "@/components/docs/code-block";
-import { DocsMobileMenuTrigger } from "@/components/docs/docs-sidebar";
+import {
+  DocsNextSteps,
+  DocsPageHeader,
+  linkClassName,
+  sectionHeadingClassName,
+} from "../docs-shared";
 import {
   docsProseSnippet,
   families,
@@ -29,26 +35,13 @@ export const metadata: Metadata = {
     "Cubix typesetting: semantic roles, a Tailwind type scale, fluid display type, reading measure, and rhythm presets you own in CSS.",
 };
 
-const linkClassName =
-  "font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80";
-
 export default function TypesetPage() {
   return (
-    <article className="space-y-10">
-      <header className="space-y-4">
-        <div className="flex items-center gap-2">
-          <DocsMobileMenuTrigger />
-          <h1 className="scroll-m-24 text-3xl font-semibold tracking-tight">
-            Typeset
-          </h1>
-        </div>
-        <p className="text-lead text-muted-foreground">
-          A complete typesetting system for product UI, docs, and streaming
-          chat. Semantic roles for meaning, a numeric scale for fine control,
-          fluid display type, a 65ch reading measure, and rhythm presets you
-          own in CSS.
-        </p>
-      </header>
+    <article className="space-y-12">
+      <DocsPageHeader
+        title="Typeset"
+        description="A complete typesetting system for product UI, docs, and streaming chat. Semantic roles for meaning, a numeric scale for fine control, fluid display type, a 65ch reading measure, and rhythm presets you own in CSS."
+      />
 
       <section className="space-y-4">
         <p className="leading-relaxed text-muted-foreground">
@@ -82,9 +75,9 @@ export default function TypesetPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Control</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Role</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Notes</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Control</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Role</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Notes</th>
               </tr>
             </thead>
             <tbody>
@@ -104,7 +97,7 @@ export default function TypesetPage() {
             </tbody>
           </table>
         </div>
-        <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
+        <ul className="list-disc space-y-2 ps-6 text-muted-foreground">
           <li>
             <strong className="text-foreground">Readable by default</strong> -
             body stays at 16px with at least 1.5 line-height. Display type
@@ -150,9 +143,9 @@ export default function TypesetPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Token</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Family</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Usage</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Token</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Family</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Usage</th>
               </tr>
             </thead>
             <tbody>
@@ -193,12 +186,12 @@ export default function TypesetPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Token</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Size</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Token</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Size</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">
                   Line height
                 </th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Usage</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Usage</th>
               </tr>
             </thead>
             <tbody>
@@ -252,16 +245,16 @@ export default function TypesetPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Role</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Size</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Role</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Size</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">
                   Line height
                 </th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">
                   Tracking
                 </th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Weight</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Usage</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Weight</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Usage</th>
               </tr>
             </thead>
             <tbody>
@@ -304,9 +297,9 @@ export default function TypesetPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Token</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Value</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Usage</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Token</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Value</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Usage</th>
               </tr>
             </thead>
             <tbody>
@@ -341,9 +334,9 @@ export default function TypesetPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Token</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Value</th>
-                <th className="whitespace-nowrap px-4 py-3 text-left font-semibold">Usage</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Token</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Value</th>
+                <th className="whitespace-nowrap px-4 py-3 text-start font-semibold">Usage</th>
               </tr>
             </thead>
             <tbody>
@@ -509,21 +502,33 @@ export default function TypesetPage() {
             Hint under an input uses text-caption.
           </p>
         </div>
-        <p className="leading-relaxed text-muted-foreground">
-          Next:{" "}
-          <Link href="/docs/theming" className={linkClassName}>
-            Theming
-          </Link>
-          ,{" "}
-          <Link href="/docs/cli" className={linkClassName}>
-            CLI
-          </Link>
-          , or{" "}
-          <Link href="/docs/components" className={linkClassName}>
-            Components
-          </Link>
-          .
-        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className={sectionHeadingClassName}>Next steps</h2>
+        <DocsNextSteps
+          steps={[
+            {
+              title: "Theming",
+              description: "Color tokens Typeset inherits for dark mode.",
+              href: "/docs/theming",
+              icon: PaletteIcon,
+            },
+            {
+              title: "Skills",
+              description:
+                "Steer assistants toward Typeset presets for prose and chat.",
+              href: "/docs/skills",
+              icon: SparklesIcon,
+            },
+            {
+              title: "Components",
+              description: "Controls that already use type roles by default.",
+              href: "/docs/components",
+              icon: BlocksIcon,
+            },
+          ]}
+        />
       </section>
     </article>
   );

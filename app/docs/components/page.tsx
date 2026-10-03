@@ -1,108 +1,168 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
-  ArrowRightIcon,
+  ArrowUpRightIcon,
   BoxIcon,
   CheckCircle2Icon,
   ClockIcon,
+  PackageIcon,
+  PaletteIcon,
+  TerminalIcon,
 } from "lucide-react";
 
-import { DocsMobileMenuTrigger } from "@/components/docs/docs-sidebar";
+import { CodeBlockCommand } from "@/components/docs/code-block-command";
+import { addComponentCommands } from "@/lib/package-manager-commands";
+import { cn } from "@/lib/utils";
+import {
+  DocsNextSteps,
+  DocsPageHeader,
+  InlineCode,
+  linkClassName,
+  sectionHeadingClassName,
+} from "../docs-shared";
 import { components } from "./components-data";
 
 export const metadata: Metadata = {
   title: "Components",
   description:
-    "The complete list of Cubix components - accessible, copy-paste ready and themeable.",
+    "Browse every Cubix component. Accessible source you own, available on Base UI, React Aria, and Radix UI.",
 };
 
-const ready = components.filter((c) => c.ready);
-const planned = components.filter((c) => !c.ready);
+const ready = [...components]
+  .filter((item) => item.ready && typeof item.href === "string")
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const planned = [...components]
+  .filter((item) => !item.ready)
+  .sort((a, b) => a.name.localeCompare(b.name));
+
+const addButtonCommands = addComponentCommands("button");
+
+const cardClassName =
+  "group flex h-full flex-col rounded-xl border bg-card p-5 no-underline transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 export default function ComponentsPage() {
   return (
-    <article className="space-y-10">
-      <header className="space-y-4">
-        <div className="flex items-center gap-2">
-          <DocsMobileMenuTrigger />
-          <h1 className="scroll-m-24 text-3xl font-semibold tracking-tight">
-            Components
-          </h1>
-        </div>
-        <p className="text-base text-muted-foreground">
-          The complete Cubix component list. Every component is accessible,
-          themeable and shipped as source code you own - install one with{" "}
-          <code className="font-mono text-sm">npx cubix@latest add</code>{" "}
-          followed by its name.
-        </p>
-        <div className="flex gap-3 text-sm">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 font-medium text-emerald-600 dark:text-emerald-400">
-            <CheckCircle2Icon className="size-3.5" />
+    <article className="space-y-12">
+      <DocsPageHeader
+        title="Components"
+        description={
+          <>
+            Every Cubix component is accessible, themeable, and shipped as
+            TypeScript source you own. Install one with{" "}
+            <InlineCode>npx cubix@latest add</InlineCode> followed by its name.
+          </>
+        }
+      />
+
+      <section className="space-y-4">
+        <div className="flex flex-wrap gap-3 text-sm">
+          <span className="inline-flex items-center gap-1.5 rounded-full border bg-muted/40 px-3 py-1 font-medium text-foreground">
+            <CheckCircle2Icon aria-hidden className="size-3.5" />
             {ready.length} available
           </span>
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-muted px-3 py-1 font-medium text-muted-foreground">
-            <ClockIcon className="size-3.5" />
+          <span className="inline-flex items-center gap-1.5 rounded-full border bg-muted/40 px-3 py-1 font-medium text-muted-foreground">
+            <ClockIcon aria-hidden className="size-3.5" />
             {planned.length} on the roadmap
           </span>
         </div>
-      </header>
-
-      {/* Available */}
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Available
-        </h2>
-        <div className="my-6 grid gap-4 sm:grid-cols-2">
-          {ready.map((c) => (
-            <Link
-              key={c.name}
-              href={c.href!}
-              className="group flex h-full items-start justify-between gap-4 rounded-xl border bg-card p-5 transition-colors hover:bg-muted"
-            >
-              <div className="min-w-0 flex-1">
-                <div className="mb-1 flex items-center gap-2">
-                  <BoxIcon className="size-4 shrink-0 text-primary" />
-                  <h3 className="font-semibold">{c.name}</h3>
-                </div>
-                <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
-                  {c.description}
-                </p>
-              </div>
-              <ArrowRightIcon className="mt-1 size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          ))}
-        </div>
+        <p className="leading-relaxed text-muted-foreground">
+          Each ready component ships for Base UI, React Aria, and Radix UI with
+          the same visual API. Switch bases on the component page, or pass{" "}
+          <InlineCode>--base</InlineCode> when you install.
+        </p>
+        <CodeBlockCommand commands={addButtonCommands} />
       </section>
 
-      {/* Roadmap */}
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          On the roadmap
-        </h2>
+        <h2 className={sectionHeadingClassName}>Available</h2>
+        <ul className="my-6 grid list-none gap-3 ps-0 sm:grid-cols-2">
+          {ready.map((item) => (
+            <li key={item.name} className="flex">
+              <Link href={item.href!} className={cn(cardClassName, "flex-1")}>
+                <div className="mb-2 flex items-center justify-between gap-3">
+                  <div className="flex min-w-0 items-center gap-2.5">
+                    <span className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border/70 bg-muted/40 text-foreground [&_svg]:size-4">
+                      <BoxIcon aria-hidden />
+                    </span>
+                    <h3 className="truncate text-sm font-semibold text-foreground">
+                      {item.name}
+                    </h3>
+                  </div>
+                  <ArrowUpRightIcon
+                    aria-hidden
+                    className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 rtl:-scale-x-100"
+                  />
+                </div>
+                <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+                  {item.description}
+                </p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className={sectionHeadingClassName}>On the roadmap</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Components still being finalized stay on the roadmap until they meet
-          the Cubix production bar across Base UI, React Aria, and Radix. They
-          unlock in the sidebar one by one as each is ready.
+          Components stay here until they meet the Cubix production bar across
+          all three bases - including loading, empty, and error states. They
+          unlock in the sidebar as each one is ready. Track progress on the{" "}
+          <Link href="/docs/changelog" className={linkClassName}>
+            Changelog
+          </Link>
+          .
         </p>
-        <div className="my-6 grid gap-4 sm:grid-cols-2">
-          {planned.map((c) => (
-            <div
-              key={c.name}
-              className="flex h-full flex-col rounded-xl border bg-card/50 p-5 opacity-75"
+        <ul className="my-6 grid list-none gap-3 ps-0 sm:grid-cols-2">
+          {planned.map((item) => (
+            <li
+              key={item.name}
+              className="rounded-xl border border-dashed bg-card p-5"
             >
-              <div className="mb-1 flex items-center justify-between gap-2">
-                <h3 className="font-semibold">{c.name}</h3>
-                <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-muted px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
-                  <ClockIcon className="size-3" />
-                  Soon
+              <div className="mb-2 flex items-center justify-between gap-3">
+                <h3 className="text-sm font-semibold text-foreground">
+                  {item.name}
+                </h3>
+                <span className="inline-flex shrink-0 items-center gap-1.5 rounded-md border border-border/60 px-1.5 py-0.5 text-xs font-medium text-muted-foreground">
+                  In progress
                 </span>
               </div>
               <p className="text-sm leading-relaxed text-muted-foreground">
-                {c.description}
+                {item.description}
               </p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className={sectionHeadingClassName}>Next steps</h2>
+        <DocsNextSteps
+          steps={[
+            {
+              title: "Installation",
+              description:
+                "Initialize tokens, utilities, and cubix.json in your app.",
+              href: "/docs/installation",
+              icon: PackageIcon,
+            },
+            {
+              title: "CLI",
+              description:
+                "Add, view, and search components from the registry.",
+              href: "/docs/cli",
+              icon: TerminalIcon,
+            },
+            {
+              title: "Theming",
+              description:
+                "Restyle the catalog by editing semantic CSS variables.",
+              href: "/docs/theming",
+              icon: PaletteIcon,
+            },
+          ]}
+        />
       </section>
     </article>
   );

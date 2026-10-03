@@ -10,7 +10,9 @@
     {
       "path": "components/cubix/skeleton.tsx",
       "type": "registry:ui",
-      "target": "components/cubix/skeleton.tsx"
+      "target": "components/cubix/skeleton.tsx",
+      "content": "\"use client\"\n\nimport * as React from \"react\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Skeleton({ className, ...props }: React.ComponentProps<\"div\">) {\n  return (\n    <div\n      data-slot=\"skeleton\"\n      className={cn(\"animate-pulse rounded-md bg-muted\", className)}\n      {...props}\n    />\n  )\n}\n\nexport { Skeleton }\n"
     }
   ]
 }
+

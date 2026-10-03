@@ -1,126 +1,55 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { CircleAlertIcon } from "lucide-react";
-
-import { CodeBlock } from "@/components/docs/code-block";
-import { CodeBlockCommand } from "@/components/docs/code-block-command";
-import { DocsMobileMenuTrigger } from "@/components/docs/docs-sidebar";
 import {
-  addComponentCommands,
-  installDependencyCommands,
-} from "@/lib/package-manager-commands";
+  ArrowUpRightIcon,
+  BlocksIcon,
+  CircleAlertIcon,
+  PaletteIcon,
+  TerminalIcon,
+} from "lucide-react";
+
+import { CodeBlockCommand } from "@/components/docs/code-block-command";
+import {
+  DocsNextSteps,
+  DocsPageHeader,
+  InlineCode,
+  linkClassName,
+  sectionHeadingClassName,
+} from "../docs-shared";
+import { installationGuides } from "./installation-guides";
 
 export const metadata: Metadata = {
   title: "Installation",
   description:
-    "Install Cubix in a new or existing React project. Initialize tokens and utilities, pick a primitive base, then add components with the CLI.",
+    "Install Cubix in a new or existing React project. Choose your framework and follow step-by-step setup.",
 };
-
-const initCommands = {
-  pnpm: "pnpm dlx cubix@latest init",
-  npm: "npx cubix@latest init",
-  yarn: "yarn dlx cubix@latest init",
-  bun: "bunx --bun cubix@latest init",
-};
-
-const addButtonCommands = addComponentCommands("button");
-const addRadixCommands = addComponentCommands("button", "radix");
-
-const coreDeps = installDependencyCommands([
-  "class-variance-authority",
-  "clsx",
-  "tailwind-merge",
-  "lucide-react",
-]);
-
-const baseUiDeps = installDependencyCommands(["@base-ui/react"]);
-
-const utilsSnippet = `import { clsx, type ClassValue } from "clsx"
-import { extendTailwindMerge } from "tailwind-merge"
-
-const twMerge = extendTailwindMerge({
-  extend: {
-    theme: {
-      text: [
-        "display",
-        "headline",
-        "title",
-        "lead",
-        "body",
-        "caption",
-        "label",
-      ],
-    },
-  },
-})
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}`;
-
-const tsconfigSnippet = `{
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["./*"]
-    }
-  }
-}`;
-
-const cubixJsonSnippet = `{
-  "$schema": "https://cubix.design/schema.json",
-  "style": "cubix",
-  "base": "base",
-  "rsc": true,
-  "tsx": true,
-  "tailwind": {
-    "config": "",
-    "css": "app/globals.css",
-    "baseColor": "neutral",
-    "cssVariables": true,
-    "prefix": ""
-  },
-  "iconLibrary": "lucide",
-  "aliases": {
-    "components": "@/components",
-    "utils": "@/lib/utils",
-    "ui": "@/components/cubix",
-    "lib": "@/lib",
-    "hooks": "@/hooks"
-  }
-}`;
-
-const usageSnippet = `import { Button } from "@/components/cubix/button"
-
-export function Example() {
-  return <Button>Get started</Button>
-}`;
-
-const linkClassName =
-  "font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80";
 
 export default function InstallationPage() {
   return (
-    <article className="space-y-10">
-      <header className="space-y-4">
-        <div className="flex items-center gap-2">
-          <DocsMobileMenuTrigger />
-          <h1 className="scroll-m-24 text-3xl font-semibold tracking-tight">
-            Installation
-          </h1>
-        </div>
-        <p className="text-base text-muted-foreground">
-          Set up Cubix in a new or existing React app. Initialize design tokens
-          and utilities, choose a primitive backend, then add components as
-          source files you own.
-        </p>
-      </header>
+    <article className="space-y-12">
+      <DocsPageHeader
+        title="Installation"
+        description="Install Cubix in a new or existing React project. Prefer the CLI template for Next.js and Vite, or follow a framework guide for step-by-step setup."
+      />
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Requirements
-        </h2>
-        <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
+        <h2 className={sectionHeadingClassName}>Quick start</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Scaffold and configure in one command:
+        </p>
+        <CodeBlockCommand
+          commands={{
+            pnpm: "pnpm dlx cubix@latest init -t next",
+            npm: "npx cubix@latest init -t next",
+            yarn: "yarn dlx cubix@latest init -t next",
+            bun: "bunx --bun cubix@latest init -t next",
+          }}
+        />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className={sectionHeadingClassName}>Requirements</h2>
+        <ul className="list-disc space-y-2 ps-6 text-muted-foreground">
           <li>
             <strong className="text-foreground">React 18+</strong> (React 19
             recommended)
@@ -133,211 +62,90 @@ export default function InstallationPage() {
             default)
           </li>
           <li>
-            A path alias for{" "}
-            <code className="font-mono text-sm">@/*</code> pointing at your
-            project root
+            A path alias for <InlineCode>@/*</InlineCode>
           </li>
         </ul>
-        <div className="my-6 flex items-start gap-2 rounded-lg border bg-muted/30 p-4 text-sm">
-          <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+        <div className="flex items-start gap-2 rounded-lg border bg-muted/30 p-4 text-sm">
+          <CircleAlertIcon
+            aria-hidden
+            className="mt-0.5 size-4 shrink-0 text-muted-foreground"
+          />
           <p className="leading-relaxed text-muted-foreground">
-            Cubix works with Next.js, Vite, Remix / React Router, Astro
-            islands, TanStack Start, and other React hosts. See{" "}
-            <Link href="/docs" className={linkClassName}>
-              Introduction
+            Cubix does not replace your framework scaffold. Create the app with
+            the framework tooling, then <InlineCode>cubix init</InlineCode>{" "}
+            writes tokens, <InlineCode>lib/utils.ts</InlineCode>, and{" "}
+            <InlineCode>cubix.json</InlineCode>. Default base is Base UI - pass{" "}
+            <InlineCode>--base aria</InlineCode> or{" "}
+            <InlineCode>--base radix</InlineCode> when needed. Full flags are on
+            the{" "}
+            <Link href="/docs/cli" className={linkClassName}>
+              CLI
             </Link>{" "}
-            for framework notes.
+            page.
           </p>
         </div>
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Initialize a project
-        </h2>
+      <section id="choose-your-framework" className="scroll-mt-24 space-y-4">
+        <h2 className={sectionHeadingClassName}>Choose your framework</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Run <code className="font-mono text-sm">init</code> in the root of
-          your app. The CLI writes Cubix tokens into your CSS entry, creates{" "}
-          <code className="font-mono text-sm">lib/utils.ts</code> with the{" "}
-          <code className="font-mono text-sm">cn</code> helper, and adds a{" "}
-          <code className="font-mono text-sm">cubix.json</code> config:
+          Each guide covers New project and Existing project paths where they
+          apply.
         </p>
-        <CodeBlockCommand commands={initCommands} />
-        <p className="leading-relaxed text-muted-foreground">
-          Default base is Base UI. Pass{" "}
-          <code className="font-mono text-sm">--base aria</code> or{" "}
-          <code className="font-mono text-sm">--base radix</code> if your team
-          standardizes on React Aria or Radix UI instead.
-        </p>
-        <CodeBlock code={cubixJsonSnippet} title="cubix.json" lang="json" />
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Add a component
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Components are copied into{" "}
-          <code className="font-mono text-sm">components/cubix</code> from the
-          registry. Install only what you need:
-        </p>
-        <CodeBlockCommand commands={addButtonCommands} />
-        <p className="leading-relaxed text-muted-foreground">
-          Override the project base for a single add:
-        </p>
-        <CodeBlockCommand commands={addRadixCommands} />
-        <p className="leading-relaxed text-muted-foreground">
-          Then import from your local path:
-        </p>
-        <CodeBlock code={usageSnippet} title="components/example.tsx" />
-        <p className="leading-relaxed text-muted-foreground">
-          Full CLI reference lives on the{" "}
-          <Link href="/docs/cli" className={linkClassName}>
-            CLI
-          </Link>{" "}
-          page. Browse the catalog under{" "}
-          <Link href="/docs/components" className={linkClassName}>
-            Components
-          </Link>
-          .
-        </p>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Choose a base
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Cubix keeps one visual API across three accessibility backends. Pick
-          the stack that matches your product; switch per component with{" "}
-          <code className="font-mono text-sm">--base</code> when needed.
-        </p>
-        <div className="my-6 grid gap-4 sm:grid-cols-3">
-          {[
-            {
-              name: "Base UI",
-              flag: "base (default)",
-              detail: "Default for new Cubix projects.",
-            },
-            {
-              name: "React Aria",
-              flag: "--base aria",
-              detail: "When your app already centers on React Aria.",
-            },
-            {
-              name: "Radix UI",
-              flag: "--base radix",
-              detail: "When you prefer Radix primitives under Cubix.",
-            },
-          ].map((item) => (
-            <div
-              key={item.name}
-              className="rounded-xl border bg-card p-5 transition-colors"
-            >
-              <h3 className="font-semibold">{item.name}</h3>
-              <p className="mt-1 font-mono text-xs text-muted-foreground">
-                {item.flag}
-              </p>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {item.detail}
-              </p>
-            </div>
+        <ul className="my-6 grid list-none gap-3 ps-0 sm:grid-cols-2 lg:grid-cols-3">
+          {installationGuides.map((guide) => (
+            <li key={guide.slug} className="flex">
+              <Link
+                href={`/docs/installation/${guide.slug}`}
+                className="group flex flex-1 flex-col items-start gap-3 rounded-xl border bg-card p-5 no-underline transition-colors hover:bg-accent/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              >
+                <span
+                  aria-hidden
+                  className="flex size-8 items-center justify-center text-foreground [&_svg]:size-8"
+                  dangerouslySetInnerHTML={{ __html: guide.logo }}
+                />
+                <span className="flex w-full items-center justify-between gap-2">
+                  <span className="text-sm font-semibold text-foreground">
+                    {guide.name}
+                  </span>
+                  <ArrowUpRightIcon
+                    aria-hidden
+                    className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 rtl:-scale-x-100"
+                  />
+                </span>
+                <span className="text-sm leading-relaxed text-muted-foreground">
+                  {guide.description}
+                </span>
+              </Link>
+            </li>
           ))}
-        </div>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Manual setup
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Prefer not to use the CLI for bootstrap? Wire the shared pieces by
-          hand, then paste component files from the registry or docs Manual
-          tab.
-        </p>
-
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          1. Path alias
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          Ensure TypeScript (and your bundler) resolve{" "}
-          <code className="font-mono text-sm">@/*</code>:
-        </p>
-        <CodeBlock code={tsconfigSnippet} title="tsconfig.json" lang="json" />
-
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          2. Core dependencies
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          Install the packages every Cubix component expects. Tailwind CSS v4
-          should already be in the project:
-        </p>
-        <CodeBlockCommand commands={coreDeps} />
-        <p className="leading-relaxed text-muted-foreground">
-          For the default base, also install Base UI:
-        </p>
-        <CodeBlockCommand commands={baseUiDeps} />
-        <p className="leading-relaxed text-muted-foreground">
-          Other bases and individual components may need extra packages. The
-          Manual install section on each component page lists them.
-        </p>
-
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          3. Utilities and tokens
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          Add <code className="font-mono text-sm">lib/utils.ts</code>:
-        </p>
-        <CodeBlock code={utilsSnippet} title="lib/utils.ts" />
-        <p className="leading-relaxed text-muted-foreground">
-          Copy the Cubix design tokens (oklch light and dark palettes, radius,
-          and related variables) into your global CSS entry - typically{" "}
-          <code className="font-mono text-sm">app/globals.css</code>. See{" "}
-          <Link href="/docs/theming" className={linkClassName}>
-            Theming
-          </Link>{" "}
-          for the token map.
-        </p>
-
-        <h3 className="scroll-m-20 font-semibold tracking-tight">
-          4. Paste a component
-        </h3>
-        <p className="leading-relaxed text-muted-foreground">
-          Create{" "}
-          <code className="font-mono text-sm">
-            components/cubix/button.tsx
-          </code>{" "}
-          (or your chosen name), paste the source from the docs or{" "}
-          <code className="font-mono text-sm">public/r/*.json</code>, install
-          any listed dependencies, and fix import paths if your aliases differ.
-        </p>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Next steps
-        </h2>
-        <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
-          <li>
-            Browse and install from{" "}
-            <Link href="/docs/components" className={linkClassName}>
-              Components
-            </Link>
-          </li>
-          <li>
-            Restyle the system in{" "}
-            <Link href="/docs/theming" className={linkClassName}>
-              Theming
-            </Link>
-          </li>
-          <li>
-            Learn every command on the{" "}
-            <Link href="/docs/cli" className={linkClassName}>
-              CLI
-            </Link>{" "}
-            page
-          </li>
         </ul>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className={sectionHeadingClassName}>Next steps</h2>
+        <DocsNextSteps
+          steps={[
+            {
+              title: "Components",
+              description: "Browse and install from the catalog.",
+              href: "/docs/components",
+              icon: BlocksIcon,
+            },
+            {
+              title: "Theming",
+              description: "Customize tokens after init.",
+              href: "/docs/theming",
+              icon: PaletteIcon,
+            },
+            {
+              title: "CLI",
+              description: "Every flag for init, add, view, and build.",
+              href: "/docs/cli",
+              icon: TerminalIcon,
+            },
+          ]}
+        />
       </section>
     </article>
   );

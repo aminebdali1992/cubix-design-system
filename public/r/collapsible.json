@@ -5,11 +5,14 @@
   "title": "Collapsible",
   "description": "An interactive component which expands and collapses a panel.",
   "dependencies": [],
+  "registryDependencies": [],
   "files": [
     {
       "path": "components/cubix/collapsible.tsx",
       "type": "registry:ui",
-      "target": "components/cubix/collapsible.tsx"
+      "target": "components/cubix/collapsible.tsx",
+      "content": "\"use client\"\r\n\r\nimport { Collapsible as CollapsiblePrimitive } from \"@base-ui/react/collapsible\"\r\n\r\nimport { cn } from \"@/lib/utils\"\r\n\r\nfunction Collapsible({ ...props }: CollapsiblePrimitive.Root.Props) {\r\n  return <CollapsiblePrimitive.Root data-slot=\"collapsible\" {...props} />\r\n}\r\n\r\nfunction CollapsibleTrigger({ ...props }: CollapsiblePrimitive.Trigger.Props) {\r\n  return (\r\n    <CollapsiblePrimitive.Trigger data-slot=\"collapsible-trigger\" {...props} />\r\n  )\r\n}\r\n\r\nfunction CollapsibleContent({\r\n  className,\r\n  ...props\r\n}: CollapsiblePrimitive.Panel.Props) {\r\n  return (\r\n    <CollapsiblePrimitive.Panel\r\n      data-slot=\"collapsible-content\"\r\n      className={cn(\r\n        \"h-(--collapsible-panel-height) overflow-hidden text-description transition-[height] duration-200 ease-out data-ending-style:h-0 data-starting-style:h-0 [&[hidden]:not([hidden='until-found'])]:hidden\",\r\n        className\r\n      )}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nexport { Collapsible, CollapsibleTrigger, CollapsibleContent }\r\n"
     }
   ]
 }
+

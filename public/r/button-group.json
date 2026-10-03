@@ -4,13 +4,21 @@
   "type": "registry:ui",
   "title": "Button Group",
   "description": "A container that groups related buttons together with consistent styling.",
-  "dependencies": ["@base-ui/react", "class-variance-authority"],
-  "registryDependencies": ["button", "separator"],
+  "dependencies": [
+    "@base-ui/react",
+    "class-variance-authority"
+  ],
+  "registryDependencies": [
+    "button",
+    "separator"
+  ],
   "files": [
     {
       "path": "components/cubix/button-group.tsx",
       "type": "registry:ui",
-      "target": "components/cubix/button-group.tsx"
+      "target": "components/cubix/button-group.tsx",
+      "content": "\"use client\"\r\n\r\nimport * as React from \"react\"\r\nimport { mergeProps } from \"@base-ui/react/merge-props\"\r\nimport { useRender } from \"@base-ui/react/use-render\"\r\nimport { cva, type VariantProps } from \"class-variance-authority\"\r\n\r\nimport { Separator } from \"@/components/cubix/base/separator\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\nconst buttonGroupVariants = cva(\r\n  \"group/button-group flex w-fit items-stretch *:focus-visible:relative *:focus-visible:z-10 [&>[data-slot=select]>[data-slot=select-trigger]:focus-visible]:relative [&>[data-slot=select]>[data-slot=select-trigger]:focus-visible]:z-10 has-[>[data-slot=button-group]]:gap-2 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-e-lg [&>[data-slot=select-trigger]:not([class*='w-'])]:w-fit [&>input]:flex-1\",\r\n  {\r\n    variants: {\r\n      orientation: {\r\n        horizontal:\r\n          \"*:data-slot:rounded-e-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-e-lg! [&>[data-slot]~[data-slot]]:rounded-s-none [&>[data-slot]~[data-slot]]:border-s-0 [&>[data-slot=select]:has(~[data-slot])>[data-slot=select-trigger]]:rounded-e-none [&>[data-slot]~[data-slot=select]>[data-slot=select-trigger]]:rounded-s-none [&>[data-slot]~[data-slot=select]>[data-slot=select-trigger]]:border-s-0\",\r\n        vertical:\r\n          \"flex-col *:data-slot:rounded-b-none [&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-lg! [&>[data-slot]~[data-slot]]:rounded-t-none [&>[data-slot]~[data-slot]]:border-t-0 [&>[data-slot=select]:has(~[data-slot])>[data-slot=select-trigger]]:rounded-b-none [&>[data-slot]~[data-slot=select]>[data-slot=select-trigger]]:rounded-t-none [&>[data-slot]~[data-slot=select]>[data-slot=select-trigger]]:border-t-0\",\r\n      },\r\n    },\r\n    defaultVariants: {\r\n      orientation: \"horizontal\",\r\n    },\r\n  }\r\n)\r\n\r\nfunction ButtonGroup({\r\n  className,\r\n  orientation,\r\n  ...props\r\n}: React.ComponentProps<\"div\"> & VariantProps<typeof buttonGroupVariants>) {\r\n  return (\r\n    <div\r\n      role=\"group\"\r\n      data-slot=\"button-group\"\r\n      data-orientation={orientation}\r\n      className={cn(buttonGroupVariants({ orientation }), className)}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nfunction ButtonGroupText({ className, render, ...props }: useRender.ComponentProps<\"div\">) {\r\n  return useRender({\r\n    defaultTagName: \"div\",\r\n    props: mergeProps<\"div\">(\r\n      {\r\n        className: cn(\r\n          \"flex items-center gap-2 rounded-lg border bg-muted px-2.5 text-description font-medium [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4\",\r\n          className\r\n        ),\r\n      },\r\n      props\r\n    ),\r\n    render,\r\n    state: {\r\n      slot: \"button-group-text\",\r\n    },\r\n  })\r\n}\r\n\r\nfunction ButtonGroupSeparator({\r\n  className,\r\n  orientation = \"vertical\",\r\n  ...props\r\n}: React.ComponentProps<typeof Separator>) {\r\n  return (\r\n    <Separator\r\n      data-slot=\"button-group-separator\"\r\n      orientation={orientation}\r\n      className={cn(\r\n        \"relative self-stretch bg-input data-horizontal:mx-px data-horizontal:w-auto data-vertical:my-px data-vertical:h-auto\",\r\n        className\r\n      )}\r\n      {...props}\r\n    />\r\n  )\r\n}\r\n\r\nexport { ButtonGroup, ButtonGroupSeparator, ButtonGroupText, buttonGroupVariants }\r\n"
     }
   ]
 }
+

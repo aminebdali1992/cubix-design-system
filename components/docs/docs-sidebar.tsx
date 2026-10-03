@@ -14,12 +14,20 @@ type DocsNavLink = {
   href: string;
   indicator?: boolean;
   ready?: boolean;
+  /** Also active on child routes, e.g. /docs/installation/next. */
+  matchNested?: boolean;
 };
+
+function isLinkActive(link: DocsNavLink, pathname: string) {
+  if (pathname === link.href) return true;
+  if (canonicalComponentHref(pathname) === link.href) return true;
+  return Boolean(link.matchNested && pathname.startsWith(`${link.href}/`));
+}
 
 const getStartedLinks: DocsNavLink[] = [
   { title: "Introduction", href: "/docs" },
   { title: "Components", href: "/docs/components" },
-  { title: "Installation", href: "/docs/installation" },
+  { title: "Installation", href: "/docs/installation", matchNested: true },
   { title: "Theming", href: "/docs/theming" },
   { title: "CLI", href: "/docs/cli" },
   { title: "Typeset", href: "/docs/typeset" },
@@ -72,9 +80,7 @@ function DocsNav({
           </h3>
           <ul className="relative space-y-0.5 border-dotted-spaced-l">
             {group.links.map((link) => {
-              const active =
-                pathname === link.href ||
-                canonicalComponentHref(pathname) === link.href;
+              const active = isLinkActive(link, pathname);
               const disabled = link.ready === false;
 
               return (

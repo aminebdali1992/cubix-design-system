@@ -1,10 +1,22 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  BlocksIcon,
+  BookOpenIcon,
+  PackageIcon,
+  SparklesIcon,
+} from "lucide-react";
 
 import { CodeBlock } from "@/components/docs/code-block";
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
-import { DocsMobileMenuTrigger } from "@/components/docs/docs-sidebar";
 import { addComponentCommands } from "@/lib/package-manager-commands";
+import {
+  DocsNextSteps,
+  DocsPageHeader,
+  InlineCode,
+  linkClassName,
+  sectionHeadingClassName,
+} from "../docs-shared";
 
 export const metadata: Metadata = {
   title: "CLI",
@@ -63,17 +75,48 @@ const infoCommands = {
   bun: "bunx --bun cubix@latest info",
 };
 
-const initUsage = `Usage: cubix init [options]
+const commandOverview = [
+  {
+    name: "init",
+    description:
+      "Configure tokens, utils, and cubix.json - or scaffold a new app with -t.",
+  },
+  {
+    name: "add",
+    description: "Copy components and dependencies into your project.",
+  },
+  {
+    name: "view",
+    description: "Inspect registry items before you install them.",
+  },
+  {
+    name: "search",
+    description: "Find items in the Cubix registry. list is an alias.",
+  },
+  {
+    name: "build",
+    description: "Generate registry JSON from your registry.json.",
+  },
+  {
+    name: "info",
+    description: "Print project config for humans and assistants.",
+  },
+] as const;
+
+const initUsage = `Usage: cubix init [options] [components...]
 
 initialize your project and install dependencies
 
 Options:
-  -b, --base <base>   the primitive backend to use (base, radix, aria)
-  -y, --yes           skip confirmation prompt
-  -f, --force         force overwrite of existing configuration
-  -c, --cwd <cwd>     the working directory (default: current directory)
-  -s, --silent        mute output
-  -h, --help          display help for command`;
+  -t, --template <template>  scaffold a new project (next, vite, start, react-router, astro)
+  -b, --base <base>          the primitive backend to use (base, radix, aria)
+  -y, --yes                  skip confirmation prompts
+  -f, --force                force overwrite of existing configuration
+  -c, --cwd <cwd>            the working directory (default: current directory)
+      --src-dir              use a src/ directory (Next.js template)
+      --name <name>          project name when using --template
+  -s, --silent               mute output
+  -h, --help                 display help for command`;
 
 const addUsage = `Usage: cubix add [options] [components...]
 
@@ -136,55 +179,84 @@ Options:
   --json           output as JSON
   -h, --help       display help for command`;
 
-const linkClassName =
-  "font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80";
-
 export default function CliPage() {
   return (
-    <article className="space-y-10">
-      <header className="space-y-4">
-        <div className="flex items-center gap-2">
-          <DocsMobileMenuTrigger />
-          <h1 className="scroll-m-24 text-3xl font-semibold tracking-tight">
-            CLI
-          </h1>
-        </div>
-        <p className="text-base text-muted-foreground">
-          Use the Cubix CLI to initialize a project, add components from the
-          registry, inspect items before install, and publish registry JSON.
-        </p>
-      </header>
+    <article className="space-y-12">
+      <DocsPageHeader
+        title="CLI"
+        description="Use the Cubix CLI to initialize a project, add components from the registry, inspect items before install, and publish registry JSON."
+      />
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">init</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the <code className="font-mono text-sm">init</code> command to
-          configure an existing project. It installs shared dependencies, adds
-          the <code className="font-mono text-sm">cn</code> util, writes design
-          tokens to your CSS entry, and creates{" "}
-          <code className="font-mono text-sm">cubix.json</code>.
+          Run every command with your package manager. Prefer{" "}
+          <InlineCode>npx cubix@latest</InlineCode> (or the pnpm / yarn / bun
+          equivalent) so you always get the newest CLI.
+        </p>
+        <ul className="my-6 grid list-none gap-3 ps-0 sm:grid-cols-2">
+          {commandOverview.map((command) => (
+            <li key={command.name} className="rounded-xl border bg-card p-5">
+              <a
+                href={`#${command.name}`}
+                className="text-sm font-semibold text-foreground no-underline hover:underline"
+              >
+                <InlineCode>{command.name}</InlineCode>
+              </a>
+              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                {command.description}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="space-y-4">
+        <h2 id="init" className={sectionHeadingClassName}>
+          init
+        </h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Configure an existing project, or scaffold a new one with{" "}
+          <InlineCode>-t</InlineCode> (<InlineCode>next</InlineCode>,{" "}
+          <InlineCode>vite</InlineCode>, <InlineCode>start</InlineCode>,{" "}
+          <InlineCode>react-router</InlineCode>, <InlineCode>astro</InlineCode>
+          ). Detects your framework, writes design tokens to its CSS entry,
+          adds <InlineCode>lib/utils.ts</InlineCode> with{" "}
+          <InlineCode>cn</InlineCode>, ensures the <InlineCode>@/*</InlineCode>{" "}
+          alias, and creates <InlineCode>cubix.json</InlineCode>.
         </p>
         <CodeBlockCommand commands={initCommands} />
         <p className="leading-relaxed text-muted-foreground">
-          Options:
+          Scaffold Next.js and initialize Cubix in one step:
         </p>
+        <CodeBlockCommand
+          commands={{
+            pnpm: "pnpm dlx cubix@latest init -t next",
+            npm: "npx cubix@latest init -t next",
+            yarn: "yarn dlx cubix@latest init -t next",
+            bun: "bunx --bun cubix@latest init -t next",
+          }}
+        />
+        <p className="leading-relaxed text-muted-foreground">Options:</p>
         <CodeBlock code={initUsage} title="Terminal" />
         <p className="leading-relaxed text-muted-foreground">
-          Pass <code className="font-mono text-sm">--base aria</code> or{" "}
-          <code className="font-mono text-sm">--base radix</code> to set the
-          default primitive backend. See{" "}
+          Pass <InlineCode>--base aria</InlineCode> or{" "}
+          <InlineCode>--base radix</InlineCode> to set the default primitive
+          backend. Framework guides live on{" "}
           <Link href="/docs/installation" className={linkClassName}>
             Installation
-          </Link>{" "}
-          for the full setup flow.
+          </Link>
+          .
         </p>
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">add</h2>
+        <h2 id="add" className={sectionHeadingClassName}>
+          add
+        </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the <code className="font-mono text-sm">add</code> command to copy
-          components and their dependencies into your project.
+          Copy components and their dependencies into your project. Existing
+          files are never replaced unless you pass{" "}
+          <InlineCode>--overwrite</InlineCode>.
         </p>
         <CodeBlockCommand commands={addCommands} />
         <p className="leading-relaxed text-muted-foreground">
@@ -199,17 +271,16 @@ export default function CliPage() {
           Override the project base for one install:
         </p>
         <CodeBlockCommand commands={addAriaCommands} />
-        <p className="leading-relaxed text-muted-foreground">
-          Options:
-        </p>
+        <p className="leading-relaxed text-muted-foreground">Options:</p>
         <CodeBlock code={addUsage} title="Terminal" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">view</h2>
+        <h2 id="view" className={sectionHeadingClassName}>
+          view
+        </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the <code className="font-mono text-sm">view</code> command to
-          inspect registry items before installing them - files, dependencies,
+          Inspect registry items before installing them - files, dependencies,
           and metadata.
         </p>
         <CodeBlockCommand commands={viewCommands} />
@@ -224,34 +295,32 @@ export default function CliPage() {
             bun: "bunx --bun cubix@latest view button card dialog",
           }}
         />
-        <p className="leading-relaxed text-muted-foreground">
-          Options:
-        </p>
+        <p className="leading-relaxed text-muted-foreground">Options:</p>
         <CodeBlock code={viewUsage} title="Terminal" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">search</h2>
+        <h2 id="search" className={sectionHeadingClassName}>
+          search
+        </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the <code className="font-mono text-sm">search</code> command to
-          find components in the Cubix registry.{" "}
-          <code className="font-mono text-sm">list</code> is an alias.
+          Find components in the Cubix registry.{" "}
+          <InlineCode>list</InlineCode> is an alias.
         </p>
         <CodeBlockCommand commands={searchCommands} />
-        <p className="leading-relaxed text-muted-foreground">
-          Options:
-        </p>
+        <p className="leading-relaxed text-muted-foreground">Options:</p>
         <CodeBlock code={searchUsage} title="Terminal" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">build</h2>
+        <h2 id="build" className={sectionHeadingClassName}>
+          build
+        </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the <code className="font-mono text-sm">build</code> command to
-          generate registry JSON files from your{" "}
-          <code className="font-mono text-sm">registry.json</code>. Output lands
-          in <code className="font-mono text-sm">public/r</code> by default -
-          the same shape served by this docs site.
+          Generate registry JSON files from your{" "}
+          <InlineCode>registry.json</InlineCode>. Output lands in{" "}
+          <InlineCode>public/r</InlineCode> by default - the same shape served
+          by this docs site.
         </p>
         <CodeBlockCommand commands={buildCommands} />
         <p className="leading-relaxed text-muted-foreground">
@@ -265,9 +334,7 @@ export default function CliPage() {
             bun: "bunx --bun cubix@latest build --output ./public/registry",
           }}
         />
-        <p className="leading-relaxed text-muted-foreground">
-          Options:
-        </p>
+        <p className="leading-relaxed text-muted-foreground">Options:</p>
         <CodeBlock code={buildUsage} title="Terminal" />
         <p className="leading-relaxed text-muted-foreground">
           More on publishing and schema on the{" "}
@@ -279,18 +346,52 @@ export default function CliPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">info</h2>
+        <h2 id="info" className={sectionHeadingClassName}>
+          info
+        </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the <code className="font-mono text-sm">info</code> command to
-          print project configuration from{" "}
-          <code className="font-mono text-sm">cubix.json</code> - base, aliases,
-          Tailwind CSS entry, and related settings.
+          Print project configuration from <InlineCode>cubix.json</InlineCode>{" "}
+          - base, aliases, Tailwind CSS entry, and related settings. Pair with{" "}
+          <Link href="/docs/skills" className={linkClassName}>
+            Skills
+          </Link>{" "}
+          so assistants resolve the same context.
         </p>
         <CodeBlockCommand commands={infoCommands} />
-        <p className="leading-relaxed text-muted-foreground">
-          Options:
-        </p>
+        <p className="leading-relaxed text-muted-foreground">Options:</p>
         <CodeBlock code={infoUsage} title="Terminal" />
+      </section>
+
+      <section className="space-y-4">
+        <h2 className={sectionHeadingClassName}>Next steps</h2>
+        <DocsNextSteps
+          steps={[
+            {
+              title: "Installation",
+              description: "Walk through init and your first component add.",
+              href: "/docs/installation",
+              icon: PackageIcon,
+            },
+            {
+              title: "Registry",
+              description: "Catalog schema, item format, and publishing.",
+              href: "/docs/registry",
+              icon: BookOpenIcon,
+            },
+            {
+              title: "Skills",
+              description: "Give assistants the same CLI and project context.",
+              href: "/docs/skills",
+              icon: SparklesIcon,
+            },
+            {
+              title: "Components",
+              description: "Browse what you can add today.",
+              href: "/docs/components",
+              icon: BlocksIcon,
+            },
+          ]}
+        />
       </section>
     </article>
   );

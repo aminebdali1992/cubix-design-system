@@ -1,9 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  BlocksIcon,
+  SparklesIcon,
+  TerminalIcon,
+} from "lucide-react";
 
 import { CodeBlock } from "@/components/docs/code-block";
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
-import { DocsMobileMenuTrigger } from "@/components/docs/docs-sidebar";
+import {
+  DocsNextSteps,
+  DocsPageHeader,
+  InlineCode,
+  linkClassName,
+  sectionHeadingClassName,
+} from "../docs-shared";
 import {
   authorCatalogSnippet,
   catalogSnippet,
@@ -63,66 +74,45 @@ const searchCommands = {
   bun: 'bunx --bun cubix@latest search -q "dialog"',
 };
 
-const linkClassName =
-  "font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80";
-
 export default function RegistryPage() {
   return (
-    <article className="space-y-10">
-      <header className="space-y-4">
-        <div className="flex items-center gap-2">
-          <DocsMobileMenuTrigger />
-          <h1 className="scroll-m-24 text-3xl font-semibold tracking-tight">
-            Registry
-          </h1>
-        </div>
-        <p className="text-base text-muted-foreground">
-          Cubix distributes components as a flat-file registry. JSON items
-          describe source files and dependencies; the CLI copies them into your
-          project. You can consume the Cubix catalog or publish your own.
-        </p>
-      </header>
+    <article className="space-y-12">
+      <DocsPageHeader
+        title="Registry"
+        description="Cubix distributes components as a flat-file registry. JSON items describe source files and dependencies; the CLI copies them into your project. You can consume the Cubix catalog or publish your own."
+      />
 
       <section className="space-y-4">
         <p className="leading-relaxed text-muted-foreground">
           A registry is any HTTP endpoint that serves schema-valid JSON - a
-          Next.js <code className="font-mono text-sm">public/r</code> folder, a
-          static host, or your own API. The Cubix docs site itself ships the
-          official catalog from{" "}
-          <code className="font-mono text-sm">public/r</code>.
+          Next.js <InlineCode>public/r</InlineCode> folder, a static host, or
+          your own API. The Cubix docs site itself ships the official catalog
+          from <InlineCode>public/r</InlineCode>.
         </p>
-        <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
+        <ul className="list-disc space-y-2 ps-6 text-muted-foreground">
           <li>
             <strong className="text-foreground">Catalog</strong> -{" "}
-            <code className="font-mono text-sm">index.json</code> (or{" "}
-            <code className="font-mono text-sm">registry.json</code>) lists every
-            item.
+            <InlineCode>index.json</InlineCode> (or{" "}
+            <InlineCode>registry.json</InlineCode>) lists every item.
           </li>
           <li>
             <strong className="text-foreground">Items</strong> - one JSON file
-            per component, for example{" "}
-            <code className="font-mono text-sm">button.json</code>.
+            per component, for example <InlineCode>button.json</InlineCode>.
           </li>
           <li>
             <strong className="text-foreground">CLI</strong> -{" "}
-            <code className="font-mono text-sm">cubix add</code>,{" "}
-            <code className="font-mono text-sm">view</code>,{" "}
-            <code className="font-mono text-sm">search</code>, and{" "}
-            <code className="font-mono text-sm">build</code> speak this format.
+            <InlineCode>cubix add</InlineCode>, <InlineCode>view</InlineCode>,{" "}
+            <InlineCode>search</InlineCode>, and{" "}
+            <InlineCode>build</InlineCode> speak this format.
           </li>
         </ul>
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Catalog schema
-        </h2>
+        <h2 className={sectionHeadingClassName}>Catalog schema</h2>
         <p className="leading-relaxed text-muted-foreground">
           The catalog is the registry entry point. Cubix uses{" "}
-          <code className="font-mono text-sm">
-            https://cubix.design/schema/registry.json
-          </code>
-          :
+          <InlineCode>https://cubix.design/schema/registry.json</InlineCode>:
         </p>
         <CodeBlock
           code={catalogSnippet}
@@ -131,23 +121,20 @@ export default function RegistryPage() {
           collapsible
         />
         <p className="leading-relaxed text-muted-foreground">
-          Required fields:{" "}
-          <code className="font-mono text-sm">name</code>,{" "}
-          <code className="font-mono text-sm">homepage</code>, and{" "}
-          <code className="font-mono text-sm">items</code>. Each catalog entry
-          points at the published item JSON the CLI will fetch.
+          Required fields: <InlineCode>name</InlineCode>,{" "}
+          <InlineCode>homepage</InlineCode>, and <InlineCode>items</InlineCode>.
+          Each catalog entry points at the published item JSON the CLI will
+          fetch.
         </p>
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Item schema
-        </h2>
+        <h2 className={sectionHeadingClassName}>Item schema</h2>
         <p className="leading-relaxed text-muted-foreground">
           Each component is a registry item. Schema:{" "}
-          <code className="font-mono text-sm">
+          <InlineCode>
             https://cubix.design/schema/registry-item.json
-          </code>
+          </InlineCode>
           .
         </p>
         <CodeBlock
@@ -160,9 +147,11 @@ export default function RegistryPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-semibold">Field</th>
-                <th className="px-4 py-3 text-left font-semibold">Required</th>
-                <th className="px-4 py-3 text-left font-semibold">Description</th>
+                <th className="px-4 py-3 text-start font-semibold">Field</th>
+                <th className="px-4 py-3 text-start font-semibold">Required</th>
+                <th className="px-4 py-3 text-start font-semibold">
+                  Description
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -194,19 +183,19 @@ export default function RegistryPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Item types
-        </h2>
+        <h2 className={sectionHeadingClassName}>Item types</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Cubix primarily ships <code className="font-mono text-sm">registry:ui</code>{" "}
-          items. The schema also supports related kinds for larger catalogs:
+          Cubix primarily ships <InlineCode>registry:ui</InlineCode> items. The
+          schema also supports related kinds for larger catalogs:
         </p>
         <div className="my-6 overflow-x-auto rounded-xl border">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b bg-muted/40">
-                <th className="px-4 py-3 text-left font-semibold">Type</th>
-                <th className="px-4 py-3 text-left font-semibold">Description</th>
+                <th className="px-4 py-3 text-start font-semibold">Type</th>
+                <th className="px-4 py-3 text-start font-semibold">
+                  Description
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -226,22 +215,19 @@ export default function RegistryPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Build and serve
-        </h2>
+        <h2 className={sectionHeadingClassName}>Build and serve</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Author a source{" "}
-          <code className="font-mono text-sm">registry.json</code>, then generate
+          Author a source <InlineCode>registry.json</InlineCode>, then generate
           static files with the CLI. Output defaults to{" "}
-          <code className="font-mono text-sm">public/r</code>:
+          <InlineCode>public/r</InlineCode>:
         </p>
         <CodeBlockCommand commands={buildCommands} />
         <p className="leading-relaxed text-muted-foreground">
           On Next.js, those files are served as{" "}
-          <code className="font-mono text-sm">/r/button.json</code>,{" "}
-          <code className="font-mono text-sm">/r/index.json</code>, and so on.
-          Any host that serves static JSON works the same way. Full{" "}
-          <code className="font-mono text-sm">build</code> flags are on the{" "}
+          <InlineCode>/r/button.json</InlineCode>,{" "}
+          <InlineCode>/r/index.json</InlineCode>, and so on. Any host that
+          serves static JSON works the same way. Full{" "}
+          <InlineCode>build</InlineCode> flags are on the{" "}
           <Link href="/docs/cli" className={linkClassName}>
             CLI
           </Link>{" "}
@@ -250,9 +236,7 @@ export default function RegistryPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Consume a registry
-        </h2>
+        <h2 className={sectionHeadingClassName}>Consume a registry</h2>
         <p className="leading-relaxed text-muted-foreground">
           After{" "}
           <Link href="/docs/installation" className={linkClassName}>
@@ -273,14 +257,11 @@ export default function RegistryPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Namespaces
-        </h2>
+        <h2 className={sectionHeadingClassName}>Namespaces</h2>
         <p className="leading-relaxed text-muted-foreground">
           Map a short namespace to a URL template in{" "}
-          <code className="font-mono text-sm">cubix.json</code>.{" "}
-          <code className="font-mono text-sm">{"{name}"}</code> is replaced with
-          the item id:
+          <InlineCode>cubix.json</InlineCode>.{" "}
+          <InlineCode>{"{name}"}</InlineCode> is replaced with the item id:
         </p>
         <CodeBlock
           code={namespaceCubixSnippet}
@@ -299,16 +280,14 @@ export default function RegistryPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Publish your own
-        </h2>
+        <h2 className={sectionHeadingClassName}>Publish your own</h2>
         <p className="leading-relaxed text-muted-foreground">
           To distribute internal components with the same CLI flow:
         </p>
-        <ol className="list-decimal space-y-3 pl-6 text-muted-foreground">
+        <ol className="list-decimal space-y-3 ps-6 text-muted-foreground">
           <li>
             Keep source under paths your consumers expect (Cubix uses{" "}
-            <code className="font-mono text-sm">components/cubix</code>).
+            <InlineCode>components/cubix</InlineCode>).
           </li>
           <li>
             Define a root catalog that conforms to the Cubix registry schema:
@@ -321,41 +300,35 @@ export default function RegistryPage() {
           collapsible
         />
         <ol
-          className="list-decimal space-y-3 pl-6 text-muted-foreground"
+          className="list-decimal space-y-3 ps-6 text-muted-foreground"
           start={3}
         >
           <li>
-            Run <code className="font-mono text-sm">cubix build</code> and
-            deploy the output directory.
+            Run <InlineCode>cubix build</InlineCode> and deploy the output
+            directory.
           </li>
           <li>
             Share the namespace URL template so teams can{" "}
-            <code className="font-mono text-sm">cubix add @acme/button</code>.
+            <InlineCode>cubix add @acme/button</InlineCode>.
           </li>
         </ol>
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Authoring guidelines
-        </h2>
-        <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
+        <h2 className={sectionHeadingClassName}>Authoring guidelines</h2>
+        <ul className="list-disc space-y-2 ps-6 text-muted-foreground">
           <li>
-            Give every item a clear{" "}
-            <code className="font-mono text-sm">title</code> and{" "}
-            <code className="font-mono text-sm">description</code> - humans and
-            Skills both rely on them.
+            Give every item a clear <InlineCode>title</InlineCode> and{" "}
+            <InlineCode>description</InlineCode> - humans and Skills both rely
+            on them.
           </li>
           <li>
-            List all npm packages in{" "}
-            <code className="font-mono text-sm">dependencies</code> and all
-            Cubix peers in{" "}
-            <code className="font-mono text-sm">registryDependencies</code>.
+            List all npm packages in <InlineCode>dependencies</InlineCode> and
+            all Cubix peers in <InlineCode>registryDependencies</InlineCode>.
           </li>
           <li>
-            Set <code className="font-mono text-sm">files[].target</code> to the
-            path consumers should receive after{" "}
-            <code className="font-mono text-sm">add</code>.
+            Set <InlineCode>files[].target</InlineCode> to the path consumers
+            should receive after <InlineCode>add</InlineCode>.
           </li>
           <li>
             Keep the visual API aligned across Base UI, React Aria, and Radix
@@ -367,24 +340,35 @@ export default function RegistryPage() {
           </li>
           <li>
             Update the catalog whenever you add or rename an item so{" "}
-            <code className="font-mono text-sm">search</code> stays accurate.
+            <InlineCode>search</InlineCode> stays accurate.
           </li>
         </ul>
-        <p className="leading-relaxed text-muted-foreground">
-          Next:{" "}
-          <Link href="/docs/cli" className={linkClassName}>
-            CLI
-          </Link>
-          ,{" "}
-          <Link href="/docs/skills" className={linkClassName}>
-            Skills
-          </Link>
-          , or browse{" "}
-          <Link href="/docs/components" className={linkClassName}>
-            Components
-          </Link>
-          .
-        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className={sectionHeadingClassName}>Next steps</h2>
+        <DocsNextSteps
+          steps={[
+            {
+              title: "CLI",
+              description: "build, add, view, and search against a registry.",
+              href: "/docs/cli",
+              icon: TerminalIcon,
+            },
+            {
+              title: "Skills",
+              description: "Teach assistants your registry schemas and rules.",
+              href: "/docs/skills",
+              icon: SparklesIcon,
+            },
+            {
+              title: "Components",
+              description: "See the official Cubix catalog today.",
+              href: "/docs/components",
+              icon: BlocksIcon,
+            },
+          ]}
+        />
       </section>
     </article>
   );

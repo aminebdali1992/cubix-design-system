@@ -4,13 +4,19 @@
   "type": "registry:ui",
   "title": "Switch",
   "description": "A control that allows the user to toggle between checked and not checked.",
-  "dependencies": ["@base-ui/react"],
-  "registryDependencies": ["label"],
+  "dependencies": [
+    "@base-ui/react"
+  ],
+  "registryDependencies": [
+    "label"
+  ],
   "files": [
     {
       "path": "components/cubix/switch.tsx",
       "type": "registry:ui",
-      "target": "components/cubix/switch.tsx"
+      "target": "components/cubix/switch.tsx",
+      "content": "\"use client\"\n\n/*\n  Cubix Switch - toggle between on and off.\n\n  Compose with Label via id / htmlFor. The thumb moves toward the inline end\n  when on, so it follows the page direction (RTL by default in Cubix).\n*/\nimport { Switch as SwitchPrimitive } from \"@base-ui/react/switch\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Switch({\n  className,\n  size = \"default\",\n  ...props\n}: SwitchPrimitive.Root.Props & {\n  size?: \"sm\" | \"default\"\n}) {\n  return (\n    <SwitchPrimitive.Root\n      data-slot=\"switch\"\n      data-size={size}\n      className={cn(\n        \"peer group/switch relative inline-flex shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors outline-none group-has-[:focus-visible]/field-label:ring-0 after:absolute after:-inset-x-3 after:-inset-y-2 focus-visible:ring-3 focus-visible:ring-secondary focus-visible:ring-offset-1 focus-visible:ring-offset-background data-[size=default]:h-5 data-[size=default]:w-9 data-[size=sm]:h-4 data-[size=sm]:w-7 data-checked:bg-primary data-checked:focus-visible:ring-primary/20 data-unchecked:bg-input dark:data-unchecked:bg-input/80 data-disabled:cursor-not-allowed data-disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    >\n      <SwitchPrimitive.Thumb\n        data-slot=\"switch-thumb\"\n        className=\"pointer-events-none block rounded-full bg-background ring-0 transition-transform group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 translate-x-0 group-data-[size=default]/switch:data-checked:translate-x-4 group-data-[size=sm]/switch:data-checked:translate-x-3 group-data-[size=default]/switch:rtl:data-checked:-translate-x-4 group-data-[size=sm]/switch:rtl:data-checked:-translate-x-3 dark:data-checked:bg-primary-foreground dark:data-unchecked:bg-foreground\"\n      />\n    </SwitchPrimitive.Root>\n  )\n}\n\nexport { Switch }\n"
     }
   ]
 }
+

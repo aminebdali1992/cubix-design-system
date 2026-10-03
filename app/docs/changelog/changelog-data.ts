@@ -13,6 +13,27 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    id: "2026-10-docs",
+    date: "October 2026",
+    title: "Get started docs finalized",
+    summary:
+      "Introduction through Changelog now share one docs system: lead headers, semantic tokens, next-step cards, accurate roadmap status, and framework logos aligned with supported hosts.",
+    sections: [
+      {
+        heading: "What changed",
+        body: [
+          "The Get started path is production-ready for onboarding: clearer principles, live token previews, command overviews, and cards that link to the next page without inventing a second visual language.",
+        ],
+        bullets: [
+          "Introduction - ownership model, three bases, agent surfaces, Typeset, RTL, and Skills.",
+          "Components - available vs roadmap, with install command and base note.",
+          "Installation - CLI and Manual setup, including Laravel (Inertia) and Manual React hosts.",
+          "Theming, CLI, Typeset, Skills, Registry - consistent structure and next steps.",
+        ],
+      },
+    ],
+  },
+  {
     id: "2026-09-docs",
     date: "September 2026",
     title: "Get started docs",
@@ -52,12 +73,12 @@ npx cubix@latest add button`,
     date: "September 2026",
     title: "Agent UI primitives",
     summary:
-      "First-class building blocks for chat and agent products - conversation shells, prompt input, thinking, tool calls, streaming text, and related surfaces.",
+      "Dedicated building blocks for chat and agent products are on the Cubix roadmap - conversation shells, prompt input, thinking, tool calls, streaming text, and related surfaces.",
     sections: [
       {
-        heading: "What's included",
+        heading: "In progress",
         body: [
-          "Cubix now ships AI-oriented registry items alongside classic forms and overlays. Source lives under components/cubix like every other primitive, so you own the files and can wire your backend without a closed SDK.",
+          "Agent surfaces follow the same ownership model as every other Cubix component: TypeScript source under components/cubix, three bases, and semantic tokens. They stay on the Components roadmap until each meets the production bar across Base UI, React Aria, and Radix.",
         ],
         bullets: [
           "Conversation - stick-to-bottom chat shell with empty and scroll controls.",
@@ -68,13 +89,10 @@ npx cubix@latest add button`,
         ],
       },
       {
-        heading: "Install an agent surface",
-        body: [],
-        code: {
-          title: "Terminal",
-          lang: "shell",
-          content: `npx cubix@latest add conversation prompt-input thinking tool-call`,
-        },
+        heading: "Track readiness",
+        body: [
+          "When a surface ships, it moves from On the roadmap to Available on the Components page and unlocks in the sidebar.",
+        ],
       },
     ],
   },

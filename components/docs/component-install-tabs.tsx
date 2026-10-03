@@ -11,6 +11,10 @@ import {
   installDependencyCommands,
 } from "@/components/docs/code-block-command";
 import {
+  docsLineTabsListClassName,
+  docsLineTabsTriggerClassName,
+} from "@/components/docs/docs-line-tabs";
+import {
   DEFAULT_BASE,
   type BaseName,
   parseComponentPath,
@@ -55,20 +59,11 @@ export function ComponentInstallTabs({
 
   return (
     <Tabs dir="ltr" defaultValue="cli" className="relative mt-6 w-full flex-col gap-0">
-      <TabsList
-        variant="line"
-        className="h-auto w-full justify-start gap-6 rounded-none bg-transparent p-0 px-0"
-      >
-        <TabsTrigger
-          value="cli"
-          className="h-auto w-fit flex-none justify-start rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base font-normal text-muted-foreground shadow-none after:hidden hover:text-foreground data-active:border-foreground data-active:bg-transparent data-active:text-foreground data-active:shadow-none data-active:after:hidden"
-        >
+      <TabsList variant="line" className={docsLineTabsListClassName}>
+        <TabsTrigger value="cli" className={docsLineTabsTriggerClassName}>
           Command
         </TabsTrigger>
-        <TabsTrigger
-          value="manual"
-          className="h-auto w-fit flex-none justify-start rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base font-normal text-muted-foreground shadow-none after:hidden hover:text-foreground data-active:border-foreground data-active:bg-transparent data-active:text-foreground data-active:shadow-none data-active:after:hidden"
-        >
+        <TabsTrigger value="manual" className={docsLineTabsTriggerClassName}>
           Manual
         </TabsTrigger>
       </TabsList>
@@ -76,7 +71,7 @@ export function ComponentInstallTabs({
         <CodeBlockCommand commands={addComponentCommands(name, base)} />
       </TabsContent>
       <TabsContent value="manual" className="relative">
-        <div className="docs-steps mb-0 pt-2 md:ml-4 md:border-l md:pl-8">
+        <div className="docs-steps mb-0 pt-2 md:ms-4 md:border-s md:ps-8">
           {variant.dependencies.length > 0 ? (
             <>
               <ManualStep>Install the following dependencies:</ManualStep>

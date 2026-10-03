@@ -1,22 +1,41 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  CheckCircle2Icon,
-  CircleAlertIcon,
-} from "lucide-react";
+import { ChevronRightIcon, CircleAlertIcon } from "lucide-react";
 
+import { CodeBlockCommand } from "@/components/docs/code-block-command";
 import { DocsMobileMenuTrigger } from "@/components/docs/docs-sidebar";
-import { frameworks } from "./frameworks";
+import { addComponentCommands } from "@/lib/package-manager-commands";
+import { initCommands, readyComponentCount } from "./introduction-data";
+import {
+  AgentSurfaceList,
+  BaseTable,
+  FrameworkGrid,
+  NextStepGrid,
+  PrincipleGrid,
+  TokenSwatches,
+} from "./introduction-sections";
 
 export const metadata: Metadata = {
   title: "Introduction",
   description:
-    "Cubix is an open React component registry with design tokens, three accessibility backends, and AI-ready building blocks you own in your repo.",
+    "Cubix is a set of accessible, token-driven React components and the system that distributes them. Three primitive bases, one visual API, and source you own.",
 };
+
+const linkClassName =
+  "font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80";
+
+const sectionHeadingClassName = "scroll-m-20 font-semibold tracking-tight";
+
+const addDialogAriaCommands = addComponentCommands("dialog", "aria");
+const addButtonCommands = addComponentCommands("button");
+
+function InlineCode({ children }: { children: React.ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>;
+}
 
 export default function DocsPage() {
   return (
-    <article className="space-y-10">
+    <article className="space-y-12">
       <header className="space-y-4">
         <div className="flex items-center gap-2">
           <DocsMobileMenuTrigger />
@@ -24,241 +43,286 @@ export default function DocsPage() {
             Introduction
           </h1>
         </div>
-        <p className="text-base text-muted-foreground">
-          Cubix is an open React component registry for product teams. Accessible
-          primitives, a shared token system, and source you paste into your app -
-          so the UI layer stays yours from day one.
+        <p className="text-lead text-muted-foreground">
+          Cubix is a set of accessible, token-driven React components and the
+          system that distributes them. Three primitive bases, one visual API,
+          and source you own. Open source. Open code.
         </p>
       </header>
 
       <section className="space-y-4">
-        <p className="leading-relaxed text-muted-foreground">
-          Most UI kits ask you to install a package, import a black box, and
-          hope the escape hatches cover your design system. That works until a
-          product need falls outside the package: a different interaction model,
-          a custom layout, or a control that simply is not in the kit.
+        <p className="border-s-2 border-foreground ps-4 font-medium text-foreground">
+          Cubix is not a component library you install. It is the foundation
+          you build your own component library on.
         </p>
         <p className="leading-relaxed text-muted-foreground">
-          Cubix takes the opposite path. Components ship as TypeScript source in
-          your repository. You theme them with CSS variables, compose them with
-          a consistent API, and change anything without wrapping someone
-          else&apos;s abstraction.
+          Most UI kits follow the same pattern: install a package, import its
+          components, and use them as-is. That works until the product needs
+          something the package did not plan for - a different interaction
+          model, a layout the API cannot express, or a control that is simply
+          missing.
         </p>
         <p className="leading-relaxed text-muted-foreground">
-          What you get out of the box:
+          From there, teams wrap components, override styles with ever more
+          specific selectors, or mix libraries with incompatible APIs. The UI
+          layer slowly becomes the part of the codebase nobody wants to touch.
         </p>
-        <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
+        <p className="leading-relaxed text-muted-foreground">
+          Cubix is built to avoid that. {readyComponentCount} production-ready
+          components today, each available on three accessibility backends,
+          all shaped by a few principles:
+        </p>
+        <PrincipleGrid />
+      </section>
+
+      <section className="space-y-4">
+        <h2 id="open-code" className={sectionHeadingClassName}>
+          Open code
+        </h2>
+        <p className="leading-relaxed text-muted-foreground">
+          The CLI copies real TypeScript files into{" "}
+          <InlineCode>components/cubix</InlineCode>. Nothing is compiled away
+          or hidden behind a package boundary, which means:
+        </p>
+        <ul className="list-disc space-y-2 ps-6 text-muted-foreground">
           <li>
-            <strong className="text-foreground">Owned source</strong> - every
-            control lives under{" "}
-            <code className="font-mono text-sm">components/cubix</code>, ready
-            to edit.
+            <strong className="text-foreground">Full transparency</strong> -
+            markup, variants, ARIA wiring, and{" "}
+            <InlineCode>data-slot</InlineCode> structure are all visible.
           </li>
           <li>
-            <strong className="text-foreground">One visual API</strong> -
-            install against Base UI, React Aria, or Radix UI without redesigning
-            your app.
+            <strong className="text-foreground">Direct customization</strong>{" "}
+            - to change how a button behaves, edit{" "}
+            <InlineCode>components/cubix/button.tsx</InlineCode>. No wrapper,
+            no style overrides.
           </li>
           <li>
-            <strong className="text-foreground">Token-first theming</strong> -
-            oklch colors, radius, and typography as CSS variables you can restyle
-            in one place.
-          </li>
-          <li>
-            <strong className="text-foreground">AI surfaces included</strong> -
-            conversation, prompt input, tool call, thinking, and related blocks
-            for agent UIs.
-          </li>
-          <li>
-            <strong className="text-foreground">CLI + registry</strong> - add
-            components with{" "}
-            <code className="font-mono text-sm">npx cubix@latest</code> from a
-            flat-file registry.
+            <strong className="text-foreground">No upstream lock-in</strong> -
+            a one-line fix never waits on someone else&apos;s release.
           </li>
         </ul>
+        <details className="group rounded-xl border bg-card">
+          <summary className="flex cursor-pointer list-none items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring [&::-webkit-details-marker]:hidden">
+            <ChevronRightIcon
+              aria-hidden
+              className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-90 rtl:-scale-x-100"
+            />
+            How do I pick up upstream updates?
+          </summary>
+          <div className="border-t px-4 py-3 text-sm leading-relaxed text-muted-foreground">
+            Run <InlineCode>cubix view &lt;name&gt;</InlineCode> to inspect the
+            latest registry version, compare it with your local file, and merge
+            what you want. <InlineCode>cubix add</InlineCode> never replaces an
+            existing file unless you pass{" "}
+            <InlineCode>--overwrite</InlineCode>, so your edits stay safe.
+          </div>
+        </details>
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Source you own
+        <h2 id="one-api-three-bases" className={sectionHeadingClassName}>
+          One API, three bases
         </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Cubix is not a compiled dependency you fight with overrides. The CLI
-          copies real files into your project. That means full visibility into
-          markup, variants, and accessibility wiring - and the freedom to delete,
-          rename, or extend anything.
+          Teams standardize on different accessibility primitives for good
+          reasons. Cubix treats all three as first-class: every component ships
+          for each base with identical props, variants, tokens, and slot names,
+          so screens do not change when the primitive underneath does.
         </p>
+        <BaseTable />
         <p className="leading-relaxed text-muted-foreground">
-          Need a button that behaves differently for your product? Open{" "}
-          <code className="font-mono text-sm">components/cubix/button.tsx</code>
-          . No wrapper layer. No waiting on an upstream release for a one-line
-          change.
+          Set the default in <InlineCode>cubix.json</InlineCode>, or override
+          it for a single install:
         </p>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Three bases, one Cubix API
-        </h2>
+        <CodeBlockCommand commands={addDialogAriaCommands} />
         <p className="leading-relaxed text-muted-foreground">
-          Accessibility backends are not one-size-fits-all. Teams standardize on
-          Base UI, React Aria, or Radix UI for different reasons. Cubix keeps
-          the product-facing API aligned across all three so you can pick a
-          primitive stack without rewriting screens.
-        </p>
-        <ul className="list-disc space-y-2 pl-6 text-muted-foreground">
-          <li>
-            <strong className="text-foreground">Base UI</strong> - default base
-            for new projects.
-          </li>
-          <li>
-            <strong className="text-foreground">React Aria</strong> - when your
-            stack already centers on Adobe&apos;s accessibility primitives.
-          </li>
-          <li>
-            <strong className="text-foreground">Radix UI</strong> - when you
-            prefer Radix primitives under the same Cubix surface.
-          </li>
-        </ul>
-        <p className="leading-relaxed text-muted-foreground">
-          Switch with{" "}
-          <code className="font-mono text-sm">--base aria</code> or{" "}
-          <code className="font-mono text-sm">--base radix</code> when you add
-          components. Visual variants, tokens, and{" "}
-          <code className="font-mono text-sm">data-slot</code> structure stay
-          consistent.
+          Every component page includes a base switcher, so you can compare
+          the source for each backend side by side.
         </p>
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Design tokens, not one-off styles
+        <h2 id="design-tokens" className={sectionHeadingClassName}>
+          Design tokens
         </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Cubix components speak a small set of semantic tokens:{" "}
-          <code className="font-mono text-sm">background</code>,{" "}
-          <code className="font-mono text-sm">foreground</code>,{" "}
-          <code className="font-mono text-sm">muted</code>,{" "}
-          <code className="font-mono text-sm">accent</code>,{" "}
-          <code className="font-mono text-sm">primary</code>,{" "}
-          <code className="font-mono text-sm">destructive</code>,{" "}
-          <code className="font-mono text-sm">border</code>,{" "}
-          <code className="font-mono text-sm">input</code>, and{" "}
-          <code className="font-mono text-sm">ring</code>. Light and dark palettes
-          live in <code className="font-mono text-sm">globals.css</code> as
-          oklch values.
+          Components never reach for a hardcoded color. They speak a small set
+          of semantic tokens, defined as oklch values for light and dark mode
+          in <InlineCode>globals.css</InlineCode>:
         </p>
+        <TokenSwatches />
         <p className="leading-relaxed text-muted-foreground">
-          Restyle the product by editing variables. Dig into component files
-          only when structure or behavior must change. See{" "}
-          <Link
-            href="/docs/theming"
-            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80"
-          >
+          Restyle the entire product by editing variables, and open component
+          files only when structure or behavior must change. The full map
+          lives in{" "}
+          <Link href="/docs/theming" className={linkClassName}>
             Theming
+          </Link>
+          .
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 id="agent-interfaces" className={sectionHeadingClassName}>
+          Agent interfaces
+        </h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Chat and agent products need more than forms and dialogs. Cubix is
+          building a dedicated set of agent surfaces that handle the hard
+          states - streaming, partial output, tool failures, and long
+          transcripts - not just the happy path:
+        </p>
+        <AgentSurfaceList />
+        <p className="leading-relaxed text-muted-foreground">
+          Each surface follows the same rules as every other Cubix component:
+          owned source, three bases, semantic tokens. Track progress on the{" "}
+          <Link href="/docs/changelog" className={linkClassName}>
+            Changelog
+          </Link>
+          .
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 id="typeset" className={sectionHeadingClassName}>
+          Typeset
+        </h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Markdown, CMS content, and model output arrive as unstyled HTML.
+          Typeset gives them one shared rhythm: semantic type roles, a reading
+          measure, and presets driven by three controls -{" "}
+          <InlineCode>size</InlineCode>, <InlineCode>leading</InlineCode>, and{" "}
+          <InlineCode>flow</InlineCode>.
+        </p>
+        <p className="leading-relaxed text-muted-foreground">
+          Spacing runs in one direction, so a streaming reply can append new
+          blocks without reflowing the ones above it. The presets are plain
+          CSS in your project - this page uses the{" "}
+          <InlineCode>docs-prose</InlineCode> preset. Read more in{" "}
+          <Link href="/docs/typeset" className={linkClassName}>
+            Typeset
+          </Link>
+          .
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 id="rtl-and-locale" className={sectionHeadingClassName}>
+          RTL and locale
+        </h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Bidirectional layout is part of the system, not a patch on top of it.
+          Components use logical properties (<InlineCode>ps-*</InlineCode>,{" "}
+          <InlineCode>me-*</InlineCode>, <InlineCode>start</InlineCode>,{" "}
+          <InlineCode>end</InlineCode>), so they mirror correctly under{" "}
+          <InlineCode>dir=&quot;rtl&quot;</InlineCode> without extra classes.
+        </p>
+        <p className="leading-relaxed text-muted-foreground">
+          Persian content under <InlineCode>[lang=fa]</InlineCode> uses
+          IRANSans XV with baseline-corrected metrics and tuned leading, while
+          type sizes stay identical to the documented scale across locales.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 id="distribution" className={sectionHeadingClassName}>
+          Distribution
+        </h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Cubix is also a code distribution system, made of two parts:
+        </p>
+        <ul className="list-disc space-y-2 ps-6 text-muted-foreground">
+          <li>
+            <strong className="text-foreground">Registry schema</strong> - a
+            flat-file JSON format that lists each item&apos;s files,
+            dependencies, and base variants.
+          </li>
+          <li>
+            <strong className="text-foreground">CLI</strong> -{" "}
+            <InlineCode>init</InlineCode>, <InlineCode>add</InlineCode>,{" "}
+            <InlineCode>view</InlineCode>, <InlineCode>search</InlineCode>,{" "}
+            <InlineCode>build</InlineCode>, and <InlineCode>info</InlineCode>{" "}
+            for installing, inspecting, and publishing items.
+          </li>
+        </ul>
+        <p className="leading-relaxed text-muted-foreground">
+          Use the same schema to publish your own components to other
+          projects. See{" "}
+          <Link href="/docs/cli" className={linkClassName}>
+            CLI
           </Link>{" "}
-          for the full token map.
+          and{" "}
+          <Link href="/docs/registry" className={linkClassName}>
+            Registry
+          </Link>
+          .
         </p>
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Built for agent interfaces
+        <h2 id="ai-ready" className={sectionHeadingClassName}>
+          AI-ready
         </h2>
         <p className="leading-relaxed text-muted-foreground">
-          Modern products need more than forms and dialogs. Cubix includes
-          first-class pieces for AI chat and agent workflows: conversation
-          shells, prompt input, streaming text, thinking states, tool calls,
-          code blocks, and related patterns - plus ready-made blocks you can
-          drop into an app shell.
+          Open source and a consistent API make Cubix easy for assistants to
+          read and extend. Cubix goes further by giving them project context:{" "}
+          <InlineCode>cubix.json</InlineCode> and{" "}
+          <InlineCode>cubix info</InlineCode> expose your framework, aliases,
+          base, and installed components.
         </p>
         <p className="leading-relaxed text-muted-foreground">
-          Same ownership model as every other component: copy the source, wire
-          your backend, ship.
+          Install the Cubix{" "}
+          <Link href="/docs/skills" className={linkClassName}>
+            Skills
+          </Link>{" "}
+          and your assistant uses the right imports, the right base, and theme
+          tokens instead of hardcoded colors - on the first try.
         </p>
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Registry and CLI
-        </h2>
+        <h2 className={sectionHeadingClassName}>Quick start</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Components are published as registry items - JSON that lists files and
-          dependencies - and installed with the Cubix CLI. That keeps
-          distribution predictable for humans and for tooling that generates or
-          updates UI from the same schema.
+          Initialize Cubix in the root of your app. This writes the design
+          tokens, creates <InlineCode>lib/utils.ts</InlineCode>, and adds{" "}
+          <InlineCode>cubix.json</InlineCode>:
         </p>
+        <CodeBlockCommand commands={initCommands} />
         <p className="leading-relaxed text-muted-foreground">
-          Start a project with{" "}
-          <Link
-            href="/docs/installation"
-            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80"
-          >
+          Then add your first component:
+        </p>
+        <CodeBlockCommand commands={addButtonCommands} />
+        <p className="leading-relaxed text-muted-foreground">
+          The full walkthrough, including manual setup, is in{" "}
+          <Link href="/docs/installation" className={linkClassName}>
             Installation
           </Link>
-          , then add what you need with the{" "}
-          <Link
-            href="/docs/cli"
-            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80"
-          >
-            CLI
-          </Link>
-          . When you are ready to publish your own set, use the{" "}
-          <Link
-            href="/docs/registry"
-            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80"
-          >
-            Registry
-          </Link>{" "}
-          docs.
+          .
         </p>
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Framework support
-        </h2>
+        <h2 className={sectionHeadingClassName}>Framework support</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Because Cubix is React source plus Tailwind - not a closed runtime -
-          it runs anywhere you can render React. The docs site itself is a
-          Next.js App Router app.
+          Cubix is React source plus Tailwind CSS, not a closed runtime. It
+          runs anywhere you can render React.
         </p>
-        <div className="my-6 grid gap-4 sm:grid-cols-2">
-          {frameworks.map((f) => (
-            <div
-              key={f.name}
-              className="rounded-xl border bg-card p-5 shadow-sm"
-            >
-              <div className="mb-2 flex items-center justify-between gap-3">
-                <div className="flex min-w-0 items-center gap-2.5">
-                  <span
-                    className="flex size-8 shrink-0 items-center justify-center rounded-lg border border-border/70 bg-muted/40 text-foreground [&_svg]:size-4"
-                    dangerouslySetInnerHTML={{ __html: f.logo }}
-                  />
-                  <h3 className="truncate font-semibold">{f.name}</h3>
-                </div>
-                <span className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-medium text-emerald-600 dark:text-emerald-400">
-                  <CheckCircle2Icon className="size-3" />
-                  {f.status}
-                </span>
-              </div>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                {f.description}
-              </p>
-            </div>
-          ))}
-        </div>
-        <div className="my-6 flex items-start gap-2 rounded-lg border bg-muted/30 p-4 text-sm">
-          <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+        <FrameworkGrid />
+        <div className="flex items-start gap-2 rounded-lg border bg-muted/30 p-4 text-sm">
+          <CircleAlertIcon
+            aria-hidden
+            className="mt-0.5 size-4 shrink-0 text-muted-foreground"
+          />
           <p className="leading-relaxed text-muted-foreground">
             <strong className="text-foreground">Requirements:</strong> React
-            18+ (React 19 recommended), Tailwind CSS v4, and TypeScript. Default
-            base is Base UI; pass{" "}
-            <code className="font-mono text-sm">--base aria</code> or{" "}
-            <code className="font-mono text-sm">--base radix</code> when you need
-            a different primitive backend.
+            18+ (React 19 recommended), Tailwind CSS v4, and TypeScript.
           </p>
         </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className={sectionHeadingClassName}>Next steps</h2>
+        <NextStepGrid />
       </section>
     </article>
   );

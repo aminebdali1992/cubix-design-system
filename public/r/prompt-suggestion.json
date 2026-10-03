@@ -5,12 +5,16 @@
   "title": "Prompt Suggestion",
   "description": "One-tap suggestion chips that seed the prompt composer with starter prompts.",
   "dependencies": [],
-  "registryDependencies": ["button"],
+  "registryDependencies": [
+    "button"
+  ],
   "files": [
     {
       "path": "components/cubix/prompt-suggestion.tsx",
       "type": "registry:ui",
-      "target": "components/cubix/prompt-suggestion.tsx"
+      "target": "components/cubix/prompt-suggestion.tsx",
+      "content": "\"use client\"\r\n\r\nimport * as React from \"react\"\r\n\r\nimport { Button } from \"@/components/cubix/button\"\r\nimport { cn } from \"@/lib/utils\"\r\n\r\nexport type PromptSuggestionsProps = React.ComponentProps<\"div\"> & {\r\n  orientation?: \"horizontal\" | \"wrap\"\r\n}\r\n\r\nfunction PromptSuggestions({\r\n  className,\r\n  orientation = \"horizontal\",\r\n  children,\r\n  ...props\r\n}: PromptSuggestionsProps) {\r\n  return (\r\n    <div\r\n      data-slot=\"prompt-suggestions\"\r\n      data-orientation={orientation}\r\n      role=\"list\"\r\n      className={cn(\r\n        \"flex w-full gap-2\",\r\n        orientation === \"horizontal\" &&\r\n          \"flex-nowrap overflow-x-auto overscroll-x-contain pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden\",\r\n        orientation === \"wrap\" && \"flex-wrap\",\r\n        className\r\n      )}\r\n      {...props}\r\n    >\r\n      {children}\r\n    </div>\r\n  )\r\n}\r\n\r\nexport type PromptSuggestionsEmptyProps = React.ComponentProps<\"div\">\r\n\r\nfunction PromptSuggestionsEmpty({\r\n  className,\r\n  children = \"No suggestions yet.\",\r\n  ...props\r\n}: PromptSuggestionsEmptyProps) {\r\n  return (\r\n    <div\r\n      data-slot=\"prompt-suggestions-empty\"\r\n      className={cn(\r\n        \"flex w-full items-center justify-center rounded-xl border border-dashed px-4 py-6 text-center text-description text-muted-foreground\",\r\n        className\r\n      )}\r\n      {...props}\r\n    >\r\n      {children}\r\n    </div>\r\n  )\r\n}\r\n\r\nexport type PromptSuggestionProps = Omit<\r\n  React.ComponentProps<typeof Button>,\r\n  \"onClick\"\r\n> & {\r\n  suggestion: string\r\n  active?: boolean\r\n  onClick?: (suggestion: string) => void\r\n}\r\n\r\nfunction PromptSuggestion({\r\n  suggestion,\r\n  onClick,\r\n  className,\r\n  variant = \"outline\",\r\n  size = \"sm\",\r\n  active = false,\r\n  disabled,\r\n  children,\r\n  ...props\r\n}: PromptSuggestionProps) {\r\n  return (\r\n    <Button\r\n      data-slot=\"prompt-suggestion\"\r\n      data-active={active ? \"\" : undefined}\r\n      role=\"listitem\"\r\n      type=\"button\"\r\n      variant={variant}\r\n      size={size}\r\n      disabled={disabled}\r\n      aria-pressed={active || undefined}\r\n      className={cn(\r\n        \"h-8 shrink-0 rounded-full px-3.5 font-normal shadow-none\",\r\n        \"data-active:border-foreground/20 data-active:bg-accent data-active:text-accent-foreground\",\r\n        className\r\n      )}\r\n      onClick={() => {\r\n        if (disabled) {\r\n          return\r\n        }\r\n        onClick?.(suggestion)\r\n      }}\r\n      {...props}\r\n    >\r\n      {children ?? suggestion}\r\n    </Button>\r\n  )\r\n}\r\n\r\nexport { PromptSuggestion, PromptSuggestions, PromptSuggestionsEmpty }\r\n"
     }
   ]
 }
+
