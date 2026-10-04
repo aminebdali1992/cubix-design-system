@@ -57,10 +57,10 @@ const passwordFieldInputVariants = cva(
 
 /*
   Passwords are typed in Latin: dir="ltr" keeps trailing symbols in place when
-  the value is revealed, and match-parent keeps the text aligned with the
-  surrounding form direction.
+  the value is revealed, and rtl:text-right keeps the text aligned with a
+  surrounding RTL form (text-align: match-parent is not supported in Chromium).
 */
-const PASSWORD_ALIGN_CLASS = "[text-align:match-parent]"
+const PASSWORD_ALIGN_CLASS = "rtl:text-right"
 
 type PasswordFieldSize = NonNullable<VariantProps<typeof passwordFieldInputVariants>["size"]>
 

@@ -1,7 +1,7 @@
 export const propRows = [
   {
     prop: "variant",
-    type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
+    type: '"default" | "foreground" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"default"',
     description: "The visual style of the button.",
   },
@@ -48,6 +48,12 @@ export const variantRows = [
     prop: "default",
     type: "-",
     description: "Solid primary button. The main call-to-action style.",
+  },
+  {
+    prop: "foreground",
+    type: "-",
+    description:
+      "Solid foreground fill (black in light mode, inverts in dark mode). A neutral, high-contrast call to action.",
   },
   {
     prop: "secondary",

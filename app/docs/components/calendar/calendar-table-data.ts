@@ -41,7 +41,7 @@ export const calendarPropRows = [
   },
   {
     prop: "buttonVariant",
-    type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
+    type: '"default" | "foreground" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"ghost"',
     description: "Visual style of the previous and next month buttons.",
   },

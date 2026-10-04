@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { ArrowUpRightIcon } from "lucide-react"
+import { ArrowUpLeftIcon } from "lucide-react"
 
 import { Badge } from "@/components/cubix/badge"
 import { Button } from "@/components/cubix/button"
@@ -10,20 +10,20 @@ import { buildNotFoundFiles } from "@/components/blocks/templates/block-source-d
 const destinations = [
   {
     label: "01",
-    title: "Documentation",
-    description: "Guides, APIs, and patterns",
+    title: "مستندات",
+    description: "راهنما، API و الگوها",
     href: "/docs",
   },
   {
     label: "02",
-    title: "Components",
-    description: "Ready-to-ship UI primitives",
+    title: "کامپوننت‌ها",
+    description: "اجزای آمادهٔ رابط کاربری",
     href: "/docs/components",
   },
   {
     label: "03",
-    title: "Blocks",
-    description: "Page sections and layouts",
+    title: "بلوک‌ها",
+    description: "بخش‌ها و چیدمان صفحات",
     href: "/blocks",
   },
 ]
@@ -37,6 +37,8 @@ function NotFound02View({
 }) {
   return (
     <div
+      lang="fa"
+      dir="rtl"
       className={cn(
         "@container relative flex flex-col overflow-hidden bg-background",
         className
@@ -57,10 +59,10 @@ function NotFound02View({
           size="sm"
           render={<Link href="/" />}
           nativeButton={false}
-          className="cubix-enter text-muted-foreground"
+          className="cubix-enter"
           style={{ animationDelay: "80ms" }}
         >
-          Support
+          پشتیبانی
         </Button>
       </header>
 
@@ -87,22 +89,22 @@ function NotFound02View({
             </div>
 
             <h1
-              className="cubix-enter mt-6 font-heading text-display text-balance"
+              className="cubix-enter mt-6 font-heading text-lead font-semibold text-balance"
               style={{ animationDelay: "120ms" }}
             >
-              Page not found
+              صفحه مورد نظر یافت نشد
             </h1>
 
             <p
-              className="cubix-enter mt-4 text-lead text-muted-foreground text-pretty"
+              className="cubix-enter mt-4 text-description text-muted-foreground text-pretty"
               style={{ animationDelay: "180ms" }}
             >
-              It may have been renamed or removed. Pick a destination below, or
-              return home and start fresh.
+              ممکن است تغییر نام داده یا حذف شده باشد. یکی از مقصدهای زیر را
+              انتخاب کنید، یا به خانه برگردید و از نو شروع کنید.
             </p>
 
             <nav
-              aria-label="Suggested destinations"
+              aria-label="مقصدهای پیشنهادی"
               className="cubix-enter mt-9"
               style={{ animationDelay: "240ms" }}
             >
@@ -113,15 +115,15 @@ function NotFound02View({
                       variant="ghost"
                       nativeButton={false}
                       render={<Link href={item.href} />}
-                      className="h-auto w-full items-start justify-start gap-4 rounded-none py-3.5 whitespace-normal hover:bg-muted/30"
+                      className="h-auto w-full items-start justify-start gap-4 rounded-none py-3.5 whitespace-normal"
                     >
                       <span className="mt-0.5 w-7 shrink-0 font-mono text-caption text-muted-foreground">
                         {item.label}
                       </span>
                       <span className="min-w-0 flex-1 text-start">
-                        <span className="flex items-center gap-1.5 text-description font-medium text-foreground">
+                        <span className="flex items-center gap-1.5 text-description text-foreground">
                           {item.title}
-                          <ArrowUpRightIcon className="size-3.5 text-muted-foreground opacity-0 transition-all group-hover/button:translate-x-0.5 group-hover/button:-translate-y-0.5 group-hover/button:opacity-100" />
+                          <ArrowUpLeftIcon className="size-3.5 text-muted-foreground opacity-0 transition-all group-hover/button:-translate-x-0.5 group-hover/button:-translate-y-0.5 group-hover/button:opacity-100" />
                         </span>
                         <span className="mt-0.5 block text-caption font-normal text-muted-foreground">
                           {item.description}
@@ -137,8 +139,12 @@ function NotFound02View({
               className="cubix-enter mt-8"
               style={{ animationDelay: "320ms" }}
             >
-              <Button render={<Link href="/" />} nativeButton={false}>
-                Back to home
+              <Button
+                render={<Link href="/" />}
+                nativeButton={false}
+                variant="foreground"
+              >
+                بازگشت به خانه
               </Button>
             </div>
           </div>
@@ -171,27 +177,27 @@ export function NotFound02() {
 }
 
 export const notFound02Files = buildNotFoundFiles(`import Link from "next/link"
-import { ArrowUpRightIcon } from "lucide-react"
+import { ArrowUpLeftIcon } from "lucide-react"
 
 import { Badge } from "@/components/cubix/badge"
 import { Button } from "@/components/cubix/button"
 import { Separator } from "@/components/cubix/separator"
 
 const destinations = [
-  { label: "01", title: "Documentation", description: "Guides, APIs, and patterns", href: "/docs" },
-  { label: "02", title: "Components", description: "Ready-to-ship UI primitives", href: "/docs/components" },
-  { label: "03", title: "Blocks", description: "Page sections and layouts", href: "/blocks" },
+  { label: "01", title: "مستندات", description: "راهنما، API و الگوها", href: "/docs" },
+  { label: "02", title: "کامپوننت‌ها", description: "اجزای آمادهٔ رابط کاربری", href: "/docs/components" },
+  { label: "03", title: "بلوک‌ها", description: "بخش‌ها و چیدمان صفحات", href: "/blocks" },
 ]
 
 export default function NotFound() {
   return (
-    <div className="relative flex min-h-svh flex-col overflow-hidden bg-background">
+    <div lang="fa" dir="rtl" className="relative flex min-h-svh flex-col overflow-hidden bg-background">
       <header className="flex h-14 items-center justify-between border-b border-border px-5 sm:px-8">
         <Button variant="ghost" size="sm" render={<Link href="/" />} nativeButton={false} className="font-heading">
           Cubix
         </Button>
         <Button variant="ghost" size="sm" render={<Link href="/" />} nativeButton={false}>
-          Support
+          پشتیبانی
         </Button>
       </header>
       <div className="relative grid min-h-0 flex-1 lg:grid-cols-2">
@@ -201,11 +207,11 @@ export default function NotFound() {
             <Separator className="w-8" />
             <span className="text-caption tracking-wide text-muted-foreground">Not found</span>
           </div>
-          <h1 className="mt-6 font-heading text-display">
-            Page not found
+          <h1 className="mt-6 font-heading text-lead font-semibold">
+            صفحه مورد نظر یافت نشد
           </h1>
-          <p className="mt-4 text-lead text-muted-foreground">
-            It may have been renamed or removed. Pick a destination below, or return home and start fresh.
+          <p className="mt-4 text-description text-muted-foreground">
+            ممکن است تغییر نام داده یا حذف شده باشد. یکی از مقصدهای زیر را انتخاب کنید، یا به خانه برگردید و از نو شروع کنید.
           </p>
           <ul className="mt-9 border-y border-border">
             {destinations.map((item) => (
@@ -213,9 +219,9 @@ export default function NotFound() {
                 <Button variant="ghost" nativeButton={false} render={<Link href={item.href} />} className="h-auto w-full items-start justify-start gap-4 rounded-none py-3.5 whitespace-normal">
                   <span className="mt-0.5 w-7 font-mono text-caption text-muted-foreground">{item.label}</span>
                   <span className="min-w-0 flex-1 text-start">
-                    <span className="flex items-center gap-1.5 text-description font-medium">
+                    <span className="flex items-center gap-1.5 text-description">
                       {item.title}
-                      <ArrowUpRightIcon className="size-3.5 text-muted-foreground opacity-0 group-hover/button:opacity-100" />
+                      <ArrowUpLeftIcon className="size-3.5 text-muted-foreground opacity-0 group-hover/button:opacity-100" />
                     </span>
                     <span className="mt-0.5 block text-caption font-normal text-muted-foreground">{item.description}</span>
                   </span>
@@ -224,7 +230,7 @@ export default function NotFound() {
             ))}
           </ul>
           <div className="mt-8">
-            <Button render={<Link href="/" />} nativeButton={false}>Back to home</Button>
+            <Button render={<Link href="/" />} nativeButton={false} variant="foreground">بازگشت به خانه</Button>
           </div>
         </div>
         <div className="relative hidden overflow-hidden border-s border-border bg-muted/25 lg:block">

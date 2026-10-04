@@ -607,6 +607,7 @@ function ComboboxValue({
 type TriggerRenderProps = {
   variant?:
     | "default"
+    | "foreground"
     | "secondary"
     | "gray"
     | "destructive"

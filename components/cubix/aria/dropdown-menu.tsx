@@ -212,6 +212,7 @@ function DropdownMenu({
 type TriggerRenderProps = {
   variant?:
     | "default"
+    | "foreground"
     | "secondary"
     | "gray"
     | "destructive"

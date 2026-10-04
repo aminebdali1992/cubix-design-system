@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { BoxesIcon } from "lucide-react";
 
 import { cn } from "@/lib/utils";
-import { defaultBlocksHref } from "@/app/blocks/blocks-data";
+import { blockViewBasePath, defaultBlocksHref } from "@/app/blocks/blocks-data";
 import { SiteFrame } from "@/components/site-frame";
 import { ThemeToggle } from "@/components/theme-toggle";
 
@@ -65,6 +65,8 @@ function HeaderBar({ className, githubLink }: SiteHeaderProps) {
 export function SiteHeader({ className, githubLink }: SiteHeaderProps) {
   const pathname = usePathname();
   const framed = pathname === "/";
+
+  if (pathname.startsWith(`${blockViewBasePath}/`)) return null;
 
   return (
     <header

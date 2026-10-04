@@ -19,6 +19,12 @@ export type BlockItem = {
   }[]
 }
 
+export const blockViewBasePath = "/view"
+
+export function blockViewHref(id: string) {
+  return `${blockViewBasePath}/${encodeURIComponent(id)}`
+}
+
 export const blockNavigation: BlockNavLink[] = [
   { title: "Landing Page", href: "/blocks/landing-page" },
   { title: "AI Agent", href: "/blocks/ai-agent" },
@@ -28,6 +34,8 @@ export const blockCategories: BlockCategory[] = []
 
 export const landingPageCategories: BlockCategory[] = [
   { title: "404 Sections", href: "/blocks/landing-page/404-sections", count: 6 },
+  { title: "Login", href: "/blocks/landing-page/login", count: 5 },
+  { title: "Signup", href: "/blocks/landing-page/signup", count: 5 },
 ]
 
 export const eCommerceCategories: BlockCategory[] = []

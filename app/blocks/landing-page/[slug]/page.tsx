@@ -11,9 +11,15 @@ type PageProps = {
   params: Promise<{ slug: string }>
 }
 
+const categoriesWithDedicatedPages = new Set([
+  "/blocks/landing-page/404-sections",
+  "/blocks/landing-page/login",
+  "/blocks/landing-page/signup",
+])
+
 export function generateStaticParams() {
   return landingPageCategories
-    .filter((category) => category.href !== "/blocks/landing-page/404-sections")
+    .filter((category) => !categoriesWithDedicatedPages.has(category.href))
     .map((category) => ({
       slug: category.href.replace("/blocks/landing-page/", ""),
     }))

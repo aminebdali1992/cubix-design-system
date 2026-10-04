@@ -109,7 +109,7 @@ function MessageActions() {
         type="button"
         variant="ghost"
         size="icon-xs"
-        aria-label={copied ? "Copied" : "Copy"}
+        aria-label={copied ? "کپی شد" : "کپی"}
         onClick={() => {
           setCopied(true)
           window.setTimeout(() => setCopied(false), 1200)
@@ -117,10 +117,10 @@ function MessageActions() {
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
       </Button>
-      <Button type="button" variant="ghost" size="icon-xs" aria-label="Retry">
+      <Button type="button" variant="ghost" size="icon-xs" aria-label="تلاش دوباره">
         <RefreshCwIcon />
       </Button>
-      <Button type="button" variant="ghost" size="icon-xs" aria-label="More">
+      <Button type="button" variant="ghost" size="icon-xs" aria-label="بیشتر">
         <EllipsisIcon />
       </Button>
     </MessageFooter>
@@ -132,6 +132,8 @@ export function AgentChatInterface({ className }: { className?: string }) {
 
   return (
     <div
+      lang="fa"
+      dir="rtl"
       className={cn(
         "absolute inset-0 flex min-h-0 flex-col overflow-hidden bg-background",
         className
@@ -140,10 +142,10 @@ export function AgentChatInterface({ className }: { className?: string }) {
       <header className="flex h-11 shrink-0 items-center justify-between gap-3 border-b border-border/70 px-3 sm:px-4">
         <div className="flex min-w-0 items-center gap-2">
           <span className="truncate text-description font-medium tracking-tight">
-            Fix auth redirect loop
+            رفع حلقهٔ ریدایرکت ورود
           </span>
           <Badge variant="outline" className="hidden font-mono sm:inline">
-            Agent
+            عامل
           </Badge>
         </div>
         <div className="flex items-center gap-0.5">
@@ -151,11 +153,11 @@ export function AgentChatInterface({ className }: { className?: string }) {
             type="button"
             variant="ghost"
             size="icon-sm"
-            aria-label="New chat"
+            aria-label="گفتگوی جدید"
           >
             <SquarePenIcon />
           </Button>
-          <Button type="button" variant="ghost" size="icon-sm" aria-label="Add">
+          <Button type="button" variant="ghost" size="icon-sm" aria-label="افزودن">
             <PlusIcon />
           </Button>
         </div>
@@ -164,8 +166,8 @@ export function AgentChatInterface({ className }: { className?: string }) {
       <Conversation className="min-h-0 flex-1">
         <ConversationContent className="mx-auto w-full max-w-3xl gap-6 px-4 py-6 sm:px-6">
           <UserMessage>
-            The login page keeps bouncing back to itself after a successful
-            sign-in. Trace the redirect and propose a fix.
+            بعد از ورود موفق، صفحهٔ لاگین دوباره به خودش برمی‌گردد. ریدایرکت را
+            پیدا کن و یک اصلاح پیشنهاد بده.
           </UserMessage>
 
           <AssistantMessage>
@@ -174,12 +176,12 @@ export function AgentChatInterface({ className }: { className?: string }) {
               <ThinkingContent>
                 <div className="space-y-2 text-muted-foreground">
                   <p>
-                    Redirect likely happens after the session cookie is written,
-                    before middleware observes it.
+                    احتمالاً ریدایرکت بعد از نوشتن کوکی نشست رخ می‌دهد، قبل از
+                    اینکه middleware آن را ببیند.
                   </p>
                   <p>
-                    Inspect the auth callback, middleware matcher, and the
-                    post-login destination next.
+                    بعدی: callback احراز هویت، matcher میدلور، و مقصد بعد از ورود
+                    را بررسی می‌کنم.
                   </p>
                 </div>
               </ThinkingContent>
@@ -190,7 +192,7 @@ export function AgentChatInterface({ className }: { className?: string }) {
               status="output-available"
               defaultOpen={false}
             >
-              <ToolCallHeader label="Read middleware.ts" />
+              <ToolCallHeader label="خواندن middleware.ts" />
               <ToolCallContent>
                 <ToolCallInput
                   parameters={{ path: "middleware.ts", lines: "1-84" }}
@@ -198,7 +200,7 @@ export function AgentChatInterface({ className }: { className?: string }) {
                 <ToolCallOutput
                   result={{
                     matched: true,
-                    issue: "callbackUrl still points at /login",
+                    issue: "callbackUrl هنوز به /login اشاره می‌کند",
                   }}
                 />
               </ToolCallContent>
@@ -206,20 +208,20 @@ export function AgentChatInterface({ className }: { className?: string }) {
 
             <div className="typeset typeset-chat">
               <p>
-                The loop comes from middleware treating a brand-new session as
-                anonymous for one request. After sign-in,{" "}
+                حلقه از اینجا می‌آید که middleware یک نشست تازه‌ساخته را برای یک
+                درخواست هنوز ناشناس می‌بیند. بعد از ورود،{" "}
                 <span className="rounded bg-muted px-1 py-0.5 font-mono text-caption">
                   callbackUrl
                 </span>{" "}
-                still resolves to{" "}
+                هنوز به{" "}
                 <span className="rounded bg-muted px-1 py-0.5 font-mono text-caption">
                   /login
                 </span>
-                , so the next navigation bounces.
+                {" "}می‌رسد و ناوبری بعدی برمی‌گردد.
               </p>
               <p className="text-muted-foreground">
-                Prefer a stable post-auth destination and ignore login as a
-                callback target:
+                مقصد پایدار بعد از احراز هویت بگذارید و login را به‌عنوان callback
+                نادیده بگیرید:
               </p>
             </div>
 
@@ -238,8 +240,8 @@ export function AgentChatInterface({ className }: { className?: string }) {
 
             <div className="typeset typeset-chat">
               <p>
-                Clear stale callback values on successful auth so login can never
-                become the next hop.
+                بعد از احراز هویت موفق، مقادیر کهنهٔ callback را پاک کنید تا login
+                دیگر مقصد بعدی نشود.
               </p>
             </div>
 
@@ -264,20 +266,20 @@ export function AgentChatInterface({ className }: { className?: string }) {
               </PromptInputAttachments>
             </PromptInputHeader>
             <PromptInputBody>
-              <PromptInputTextarea placeholder="Plan, search, build anything..." />
+              <PromptInputTextarea placeholder="برنامه‌ریزی، جستجو، یا ساخت هر چیزی..." />
             </PromptInputBody>
             <PromptInputFooter>
               <PromptInputTools>
                 <PromptInputActionMenu>
-                  <PromptInputActionMenuTrigger aria-label="Add context" />
+                  <PromptInputActionMenuTrigger aria-label="افزودن زمینه" />
                   <PromptInputActionMenuContent>
                     <PromptInputActionAddAttachments />
                   </PromptInputActionMenuContent>
                 </PromptInputActionMenu>
-                <PromptInputButton tooltip="Mention">
+                <PromptInputButton tooltip="منشن">
                   <AtSignIcon className="size-4" />
                 </PromptInputButton>
-                <PromptInputButton tooltip="Browser">
+                <PromptInputButton tooltip="مرورگر">
                   <GlobeIcon className="size-4" />
                 </PromptInputButton>
                 <PromptInputSelect
@@ -289,7 +291,7 @@ export function AgentChatInterface({ className }: { className?: string }) {
                   }}
                 >
                   <PromptInputSelectTrigger
-                    aria-label="Model"
+                    aria-label="مدل"
                     className="w-auto"
                   >
                     <PromptInputSelectValue />
@@ -421,7 +423,7 @@ function MessageActions() {
         type="button"
         variant="ghost"
         size="icon-xs"
-        aria-label={copied ? "Copied" : "Copy"}
+        aria-label={copied ? "کپی شد" : "کپی"}
         onClick={() => {
           setCopied(true)
           window.setTimeout(() => setCopied(false), 1200)
@@ -429,10 +431,10 @@ function MessageActions() {
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
       </Button>
-      <Button type="button" variant="ghost" size="icon-xs" aria-label="Retry">
+      <Button type="button" variant="ghost" size="icon-xs" aria-label="تلاش دوباره">
         <RefreshCwIcon />
       </Button>
-      <Button type="button" variant="ghost" size="icon-xs" aria-label="More">
+      <Button type="button" variant="ghost" size="icon-xs" aria-label="بیشتر">
         <EllipsisIcon />
       </Button>
     </MessageFooter>
@@ -447,17 +449,17 @@ export default function AgentChatPage() {
       <header className="flex h-11 shrink-0 items-center justify-between gap-3 border-b border-border/70 px-3 sm:px-4">
         <div className="flex min-w-0 items-center gap-2">
           <span className="truncate text-description font-medium tracking-tight">
-            Fix auth redirect loop
+            رفع حلقهٔ ریدایرکت ورود
           </span>
           <Badge variant="outline" className="hidden font-mono sm:inline">
-            Agent
+            عامل
           </Badge>
         </div>
         <div className="flex items-center gap-0.5">
-          <Button type="button" variant="ghost" size="icon-sm" aria-label="New chat">
+          <Button type="button" variant="ghost" size="icon-sm" aria-label="گفتگوی جدید">
             <SquarePenIcon />
           </Button>
-          <Button type="button" variant="ghost" size="icon-sm" aria-label="Add">
+          <Button type="button" variant="ghost" size="icon-sm" aria-label="افزودن">
             <PlusIcon />
           </Button>
         </div>
@@ -466,8 +468,8 @@ export default function AgentChatPage() {
       <Conversation className="min-h-0 flex-1">
         <ConversationContent className="mx-auto w-full max-w-3xl gap-6 px-4 py-6 sm:px-6">
           <UserMessage>
-            The login page keeps bouncing back to itself after a successful
-            sign-in. Trace the redirect and propose a fix.
+            بعد از ورود موفق، صفحهٔ لاگین دوباره به خودش برمی‌گردد. ریدایرکت را
+            پیدا کن و یک اصلاح پیشنهاد بده.
           </UserMessage>
 
           <AssistantMessage>
@@ -476,25 +478,25 @@ export default function AgentChatPage() {
               <ThinkingContent>
                 <div className="space-y-2 text-muted-foreground">
                   <p>
-                    Redirect likely happens after the session cookie is written,
-                    before middleware observes it.
+                    احتمالاً ریدایرکت بعد از نوشتن کوکی نشست رخ می‌دهد، قبل از
+                    اینکه middleware آن را ببیند.
                   </p>
                   <p>
-                    Inspect the auth callback, middleware matcher, and the
-                    post-login destination next.
+                    بعدی: callback احراز هویت، matcher میدلور، و مقصد بعد از ورود
+                    را بررسی می‌کنم.
                   </p>
                 </div>
               </ThinkingContent>
             </Thinking>
 
             <ToolCall name="read_file" status="output-available" defaultOpen={false}>
-              <ToolCallHeader label="Read middleware.ts" />
+              <ToolCallHeader label="خواندن middleware.ts" />
               <ToolCallContent>
                 <ToolCallInput parameters={{ path: "middleware.ts", lines: "1-84" }} />
                 <ToolCallOutput
                   result={{
                     matched: true,
-                    issue: "callbackUrl still points at /login",
+                    issue: "callbackUrl هنوز به /login اشاره می‌کند",
                   }}
                 />
               </ToolCallContent>
@@ -502,20 +504,20 @@ export default function AgentChatPage() {
 
             <div className="typeset typeset-chat">
               <p>
-                The loop comes from middleware treating a brand-new session as
-                anonymous for one request. After sign-in,{" "}
+                حلقه از اینجا می‌آید که middleware یک نشست تازه‌ساخته را برای یک
+                درخواست هنوز ناشناس می‌بیند. بعد از ورود،{" "}
                 <span className="rounded bg-muted px-1 py-0.5 font-mono text-caption">
                   callbackUrl
                 </span>{" "}
-                still resolves to{" "}
+                هنوز به{" "}
                 <span className="rounded bg-muted px-1 py-0.5 font-mono text-caption">
                   /login
                 </span>
-                , so the next navigation bounces.
+                {" "}می‌رسد و ناوبری بعدی برمی‌گردد.
               </p>
               <p className="text-muted-foreground">
-                Prefer a stable post-auth destination and ignore login as a
-                callback target:
+                مقصد پایدار بعد از احراز هویت بگذارید و login را به‌عنوان callback
+                نادیده بگیرید:
               </p>
             </div>
 
@@ -534,8 +536,8 @@ export default function AgentChatPage() {
 
             <div className="typeset typeset-chat">
               <p>
-                Clear stale callback values on successful auth so login can never
-                become the next hop.
+                بعد از احراز هویت موفق، مقادیر کهنهٔ callback را پاک کنید تا login
+                دیگر مقصد بعدی نشود.
               </p>
             </div>
 
@@ -554,20 +556,20 @@ export default function AgentChatPage() {
               </PromptInputAttachments>
             </PromptInputHeader>
             <PromptInputBody>
-              <PromptInputTextarea placeholder="Plan, search, build anything..." />
+              <PromptInputTextarea placeholder="برنامه‌ریزی، جستجو، یا ساخت هر چیزی..." />
             </PromptInputBody>
             <PromptInputFooter>
               <PromptInputTools>
                 <PromptInputActionMenu>
-                  <PromptInputActionMenuTrigger aria-label="Add context" />
+                  <PromptInputActionMenuTrigger aria-label="افزودن زمینه" />
                   <PromptInputActionMenuContent>
                     <PromptInputActionAddAttachments />
                   </PromptInputActionMenuContent>
                 </PromptInputActionMenu>
-                <PromptInputButton tooltip="Mention">
+                <PromptInputButton tooltip="منشن">
                   <AtSignIcon className="size-4" />
                 </PromptInputButton>
-                <PromptInputButton tooltip="Browser">
+                <PromptInputButton tooltip="مرورگر">
                   <GlobeIcon className="size-4" />
                 </PromptInputButton>
                 <PromptInputSelect
@@ -578,7 +580,7 @@ export default function AgentChatPage() {
                     }
                   }}
                 >
-                  <PromptInputSelectTrigger aria-label="Model" className="w-auto">
+                  <PromptInputSelectTrigger aria-label="مدل" className="w-auto">
                     <PromptInputSelectValue />
                   </PromptInputSelectTrigger>
                   <PromptInputSelectContent>
@@ -601,9 +603,9 @@ export default function AgentChatPage() {
 export const chatInterfaceBlocks: BlockListItem[] = [
   {
     id: "chat-agent-01",
-    title: "Agent chat workspace",
+    title: "فضای کار چت عامل",
     description:
-      "Cursor-style agent shell with thinking, tool calls, code, actions, and Prompt Input.",
+      "پوستهٔ عامل با thinking، tool call، کد، اکشن‌ها و Prompt Input.",
     preview: <AgentChatInterface />,
     files: buildChatInterfaceFiles(agentChatPageSource),
   },

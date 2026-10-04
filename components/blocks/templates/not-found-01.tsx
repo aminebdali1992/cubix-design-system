@@ -8,6 +8,8 @@ import { buildNotFoundFiles } from "@/components/blocks/templates/block-source-d
 function NotFound01View({ className }: { className?: string }) {
   return (
     <div
+      lang="fa"
+      dir="rtl"
       className={cn(
         "relative flex flex-col overflow-hidden bg-background",
         className
@@ -54,18 +56,18 @@ function NotFound01View({ className }: { className?: string }) {
           </Badge>
 
           <h1
-            className="cubix-enter mt-7 font-heading text-display text-balance"
+            className="cubix-enter mt-7 font-heading text-lead font-semibold text-balance"
             style={{ animationDelay: "140ms" }}
           >
-            Page not found
+            صفحه مورد نظر یافت نشد
           </h1>
 
           <p
-            className="cubix-enter mt-4 max-w-md text-lead text-muted-foreground text-pretty"
+            className="cubix-enter mt-4 max-w-md text-description text-muted-foreground text-pretty"
             style={{ animationDelay: "200ms" }}
           >
-            The address may be mistyped, or the page may have moved. Head home
-            and continue from there.
+            آدرس ممکن است اشتباه تایپ شده باشد یا صفحه جابه‌جا شده باشد. به خانه
+            برگردید و از آنجا ادامه دهید.
           </p>
 
           <div
@@ -73,19 +75,19 @@ function NotFound01View({ className }: { className?: string }) {
             style={{ animationDelay: "280ms" }}
           >
             <Button
-              size="lg"
               render={<Link href="/" />}
               nativeButton={false}
+              variant="foreground"
               className="min-w-36"
             >
-              Take me home
+              بازگشت به خانه
             </Button>
             <Button
-              variant="link"
+              variant="ghost"
               render={<Link href="/" />}
               nativeButton={false}
             >
-              Go to previous page
+              بازگشت به صفحه قبل
             </Button>
           </div>
         </div>
@@ -93,10 +95,10 @@ function NotFound01View({ className }: { className?: string }) {
 
       <footer className="relative z-10 flex items-center justify-center px-6 pb-6">
         <p
-          className="cubix-enter font-mono text-caption tracking-widest text-muted-foreground uppercase"
+          className="cubix-enter text-caption text-muted-foreground"
           style={{ animationDelay: "360ms" }}
         >
-          Lost, but not gone
+          گم شده، اما نه از دست رفته
         </p>
       </footer>
     </div>
@@ -114,7 +116,7 @@ import { Button } from "@/components/cubix/button"
 
 export default function NotFound() {
   return (
-    <div className="relative flex min-h-svh flex-col overflow-hidden bg-background">
+    <div lang="fa" dir="rtl" className="relative flex min-h-svh flex-col overflow-hidden bg-background">
       <div aria-hidden className="cubix-enter-soft pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_90%_55%_at_50%_-15%,color-mix(in_oklab,var(--foreground)_7%,transparent),transparent_70%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_50%_at_80%_110%,color-mix(in_oklab,var(--muted-foreground)_10%,transparent),transparent_65%)]" />
@@ -124,19 +126,19 @@ export default function NotFound() {
         <Badge variant="outline" className="font-mono tracking-widest uppercase">
           Error 404
         </Badge>
-        <h1 className="mt-7 font-heading text-display text-balance">
-          Page not found
+        <h1 className="mt-7 font-heading text-lead font-semibold text-balance">
+          صفحه مورد نظر یافت نشد
         </h1>
-        <p className="mt-4 max-w-md text-lead text-muted-foreground text-pretty">
-          The address may be mistyped, or the page may have moved. Head home
-          and continue from there.
+        <p className="mt-4 max-w-md text-description text-muted-foreground text-pretty">
+          آدرس ممکن است اشتباه تایپ شده باشد یا صفحه جابه‌جا شده باشد. به خانه
+          برگردید و از آنجا ادامه دهید.
         </p>
         <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
-          <Button size="lg" render={<Link href="/" />} nativeButton={false} className="min-w-36">
-            Take me home
+          <Button render={<Link href="/" />} nativeButton={false} variant="foreground" className="min-w-36">
+            بازگشت به خانه
           </Button>
-          <Button variant="link" render={<Link href="/" />} nativeButton={false}>
-            Go to previous page
+          <Button variant="ghost" render={<Link href="/" />} nativeButton={false}>
+            بازگشت به صفحه قبل
           </Button>
         </div>
       </div>

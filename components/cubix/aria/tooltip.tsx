@@ -88,6 +88,7 @@ function Tooltip({
 type TriggerRenderProps = {
   variant?:
     | "default"
+    | "foreground"
     | "secondary"
     | "gray"
     | "destructive"

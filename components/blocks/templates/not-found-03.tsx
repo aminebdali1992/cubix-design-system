@@ -1,3 +1,4 @@
+import type { ComponentProps } from "react"
 import Link from "next/link"
 import { SearchIcon } from "lucide-react"
 
@@ -11,23 +12,44 @@ import {
   EmptyTitle,
 } from "@/components/cubix/empty"
 import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/components/cubix/input-group"
+  TextField,
+  TextFieldClear,
+  TextFieldControl,
+  TextFieldInput,
+} from "@/components/cubix/text-field"
 import { cn } from "@/lib/utils"
 import { buildNotFoundFiles } from "@/components/blocks/templates/block-source-deps"
 
 const suggestions = [
-  { title: "Getting started", href: "/docs" },
-  { title: "Components", href: "/docs/components" },
-  { title: "Blocks", href: "/blocks" },
+  { title: "کامپوننت‌ها", href: "/docs/components" },
+  { title: "بلوک‌ها", href: "/blocks" },
+  { title: "بازگشت به خانه", href: "/" },
 ]
+
+function SearchGlyph(props: ComponentProps<"svg">) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <circle cx="11" cy="11" r="5.5" />
+      <path d="m15 15 4 4" />
+    </svg>
+  )
+}
 
 function NotFound03View({ className }: { className?: string }) {
   return (
     <div
+      lang="fa"
+      dir="rtl"
       className={cn(
         "relative flex flex-col overflow-hidden bg-background",
         className
@@ -42,54 +64,55 @@ function NotFound03View({ className }: { className?: string }) {
         <Empty className="max-w-md border-0 p-0">
           <EmptyHeader className="max-w-md">
             <EmptyMedia
-              variant="icon"
-              className="cubix-enter size-11 rounded-xl border border-border bg-background text-muted-foreground"
+              variant="outline"
+              className="cubix-enter"
               style={{ animationDelay: "40ms" }}
             >
               <SearchIcon />
             </EmptyMedia>
             <EmptyTitle
-              className="cubix-enter mt-5 font-heading text-display text-balance"
+              className="cubix-enter mt-5 font-heading text-lead font-semibold tracking-normal text-balance"
               style={{ animationDelay: "100ms" }}
             >
-              Page not found
+              صفحه مورد نظر یافت نشد
             </EmptyTitle>
             <EmptyDescription
-              className="cubix-enter mt-1 text-lead text-pretty"
+              className="cubix-enter mt-1 text-description text-pretty"
               style={{ animationDelay: "160ms" }}
             >
-              Search for what you need, or jump to a place that still exists.
+              چیزی که نیاز دارید را جستجو کنید، یا به جایی بروید که هنوز وجود
+              دارد.
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent className="max-w-md">
             <form
               action="/docs"
-              className="cubix-enter mt-5 w-full"
+              role="search"
+              className="cubix-enter mt-5 flex w-full items-center gap-2"
               style={{ animationDelay: "220ms" }}
             >
-              <InputGroup className="h-11">
-                <InputGroupAddon>
-                  <SearchIcon />
-                </InputGroupAddon>
-                <InputGroupInput
-                  name="q"
-                  type="search"
-                  placeholder="Search documentation..."
-                  aria-label="Search documentation"
-                />
-                <InputGroupAddon align="inline-end">
-                  <InputGroupButton type="submit" variant="default" size="xs">
-                    Search
-                  </InputGroupButton>
-                </InputGroupAddon>
-              </InputGroup>
+              <TextField className="min-w-0 flex-1">
+                <TextFieldControl>
+                  <SearchGlyph data-icon="inline-start" />
+                  <TextFieldInput
+                    name="q"
+                    type="text"
+                    enterKeyHint="search"
+                    placeholder="جستجو در مستندات..."
+                    aria-label="جستجو در مستندات"
+                  />
+                  <TextFieldClear aria-label="پاک کردن جستجو" />
+                </TextFieldControl>
+              </TextField>
+              <Button type="submit" variant="foreground">
+                جستجو
+              </Button>
             </form>
 
             <div
               className="cubix-enter mt-4 flex flex-wrap items-center justify-center gap-x-1 gap-y-2 text-description"
               style={{ animationDelay: "300ms" }}
             >
-              <span className="text-muted-foreground">Try</span>
               {suggestions.map((item, index) => (
                 <span key={item.href} className="inline-flex items-center gap-1">
                   {index > 0 ? (
@@ -98,27 +121,16 @@ function NotFound03View({ className }: { className?: string }) {
                     </span>
                   ) : null}
                   <Button
-                    variant="link"
+                    variant="ghost"
                     size="sm"
                     render={<Link href={item.href} />}
                     nativeButton={false}
-                    className="h-auto px-1"
                   >
                     {item.title}
                   </Button>
                 </span>
               ))}
             </div>
-
-            <Button
-              variant="link"
-              render={<Link href="/" />}
-              nativeButton={false}
-              className="cubix-enter mt-4 text-muted-foreground"
-              style={{ animationDelay: "360ms" }}
-            >
-              Or go back home
-            </Button>
           </EmptyContent>
         </Empty>
       </div>
@@ -130,7 +142,8 @@ export function NotFound03() {
   return <NotFound03View className="h-full min-h-0" />
 }
 
-export const notFound03Files = buildNotFoundFiles(`import Link from "next/link"
+export const notFound03Files = buildNotFoundFiles(`import type { ComponentProps } from "react"
+import Link from "next/link"
 import { SearchIcon } from "lucide-react"
 
 import { Button } from "@/components/cubix/button"
@@ -143,57 +156,71 @@ import {
   EmptyTitle,
 } from "@/components/cubix/empty"
 import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-} from "@/components/cubix/input-group"
+  TextField,
+  TextFieldClear,
+  TextFieldControl,
+  TextFieldInput,
+} from "@/components/cubix/text-field"
 
 const suggestions = [
-  { title: "Getting started", href: "/docs" },
-  { title: "Components", href: "/docs/components" },
-  { title: "Blocks", href: "/blocks" },
+  { title: "کامپوننت‌ها", href: "/docs/components" },
+  { title: "بلوک‌ها", href: "/blocks" },
+  { title: "بازگشت به خانه", href: "/" },
 ]
+
+function SearchGlyph(props: ComponentProps<"svg">) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      {...props}
+    >
+      <circle cx="11" cy="11" r="5.5" />
+      <path d="m15 15 4 4" />
+    </svg>
+  )
+}
 
 export default function NotFound() {
   return (
-    <div className="relative flex min-h-svh flex-col overflow-hidden bg-background">
+    <div lang="fa" dir="rtl" className="relative flex min-h-svh flex-col overflow-hidden bg-background">
       <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 py-14">
         <Empty className="max-w-md border-0 p-0">
           <EmptyHeader className="max-w-md">
-            <EmptyMedia variant="icon" className="size-11 rounded-xl border border-border bg-background">
+            <EmptyMedia variant="outline">
               <SearchIcon />
             </EmptyMedia>
-            <EmptyTitle className="mt-5 font-heading text-display">
-              Page not found
+            <EmptyTitle className="mt-5 font-heading text-lead font-semibold tracking-normal">
+              صفحه مورد نظر یافت نشد
             </EmptyTitle>
-            <EmptyDescription className="text-lead">
-              Search for what you need, or jump to a place that still exists.
+            <EmptyDescription className="text-description">
+              چیزی که نیاز دارید را جستجو کنید، یا به جایی بروید که هنوز وجود دارد.
             </EmptyDescription>
           </EmptyHeader>
           <EmptyContent className="max-w-md">
-            <form action="/docs" className="mt-5 w-full">
-              <InputGroup className="h-11">
-                <InputGroupAddon>
-                  <SearchIcon />
-                </InputGroupAddon>
-                <InputGroupInput name="q" type="search" placeholder="Search documentation..." aria-label="Search documentation" />
-                <InputGroupAddon align="inline-end">
-                  <InputGroupButton type="submit" variant="default" size="xs">Search</InputGroupButton>
-                </InputGroupAddon>
-              </InputGroup>
+            <form action="/docs" role="search" className="mt-5 flex w-full items-center gap-2">
+              <TextField className="min-w-0 flex-1">
+                <TextFieldControl>
+                  <SearchGlyph data-icon="inline-start" />
+                  <TextFieldInput name="q" type="text" enterKeyHint="search" placeholder="جستجو در مستندات..." aria-label="جستجو در مستندات" />
+                  <TextFieldClear aria-label="پاک کردن جستجو" />
+                </TextFieldControl>
+              </TextField>
+              <Button type="submit" variant="foreground">جستجو</Button>
             </form>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-1 text-description">
-              <span className="text-muted-foreground">Try</span>
               {suggestions.map((item) => (
-                <Button key={item.href} variant="link" size="sm" render={<Link href={item.href} />} nativeButton={false}>
+                <Button key={item.href} variant="ghost" size="sm" render={<Link href={item.href} />} nativeButton={false}>
                   {item.title}
                 </Button>
               ))}
             </div>
-            <Button variant="link" render={<Link href="/" />} nativeButton={false} className="mt-4">
-              Or go back home
-            </Button>
           </EmptyContent>
         </Empty>
       </div>

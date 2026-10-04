@@ -16,6 +16,7 @@ type CarouselNavProps = {
   className?: string
   variant?:
     | "default"
+    | "foreground"
     | "secondary"
     | "gray"
     | "destructive"

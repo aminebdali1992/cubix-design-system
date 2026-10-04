@@ -75,18 +75,6 @@
   }
 }
 
-/*
-  Tailwind theme fonts resolve to Geist stacks. Re-declare the utilities so
-  IRANSans Cubix stays first; unicode-range keeps Latin on Geist.
-*/
-@utility font-sans {
-  font-family: var(--font-arab), var(--font-sans), ui-sans-serif, sans-serif;
-}
-
-@utility font-heading {
-  font-family: var(--font-arab), var(--font-heading), ui-sans-serif, sans-serif;
-}
-
 @utility cn-rtl-flip {
   :where([dir="rtl"], [dir="rtl"] *) & {
     rotate: 180deg;
@@ -337,9 +325,14 @@
   --container-prose-narrow: 45ch;
   --container-prose-wide: 75ch;
 
-  --font-sans: var(--font-sans);
-  --font-heading: var(--font-heading);
-  --font-mono: var(--font-mono);
+  /*
+    font-sans / font-heading / font-mono utilities are generated from these
+    tokens, so the Arab-script face must live here; a separate @utility of the
+    same name is overridden. unicode-range keeps Latin glyphs on Geist.
+  */
+  --font-sans: var(--font-arab), var(--font-sans), ui-sans-serif, sans-serif;
+  --font-heading: var(--font-arab), var(--font-heading), ui-sans-serif, sans-serif;
+  --font-mono: var(--font-arab), var(--font-mono), ui-monospace, monospace;
   --font-iran-sans: var(--font-iran-sans);
   /* Cubix face first (metric overrides); next/font face as loaded fallback. */
   --font-arab: "IRANSans Cubix", var(--font-iran-sans);
@@ -457,11 +450,6 @@
     text-rendering: optimizeLegibility;
   }
 
-  .font-sans {
-    font-family: var(--font-arab), var(--font-sans), ui-sans-serif, sans-serif;
-  }
-
-  .font-heading,
   .cn-font-heading {
     font-family: var(--font-arab), var(--font-heading), ui-sans-serif, sans-serif;
   }

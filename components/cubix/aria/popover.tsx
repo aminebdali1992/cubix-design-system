@@ -102,6 +102,7 @@ function Popover({
 type TriggerRenderProps = {
   variant?:
     | "default"
+    | "foreground"
     | "secondary"
     | "gray"
     | "destructive"

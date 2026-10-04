@@ -39,7 +39,7 @@ export const itemPropRows = [
 export const navPropRows = [
   {
     prop: "variant",
-    type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
+    type: '"default" | "foreground" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"outline"',
     description: "Visual style of the previous or next button.",
   },

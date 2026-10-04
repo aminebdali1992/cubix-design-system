@@ -57,9 +57,10 @@ const emailFieldInputVariants = cva(
 
 /*
   Addresses are Latin: dir="ltr" keeps a trailing @ or . in place while typing,
-  and match-parent keeps the text aligned with the surrounding form direction.
+  and rtl:text-right keeps the text aligned with a surrounding RTL form
+  (text-align: match-parent is not supported in Chromium).
 */
-const EMAIL_ALIGN_CLASS = "[text-align:match-parent]"
+const EMAIL_ALIGN_CLASS = "rtl:text-right"
 
 type EmailFieldSize = NonNullable<VariantProps<typeof emailFieldInputVariants>["size"]>
 

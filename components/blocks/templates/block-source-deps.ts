@@ -1,4 +1,21 @@
 import type { BlockSourceFile } from "@/components/blocks/block-code-panel"
+import avatarRegistryItem from "@/public/r/avatar.json"
+import cardRegistryItem from "@/public/r/card.json"
+import checkboxRegistryItem from "@/public/r/checkbox.json"
+import emailFieldRegistryItem from "@/public/r/email-field.json"
+import passwordFieldRegistryItem from "@/public/r/password-field.json"
+import phoneFieldRegistryItem from "@/public/r/phone-field.json"
+import tabsRegistryItem from "@/public/r/tabs.json"
+
+type RegistryItem = {
+  files: { path: string; content: string }[]
+}
+
+/* Reads the component source from its built registry item, so it stays in sync with `npm run registry:build`. */
+function registrySourceFile(item: RegistryItem): BlockSourceFile {
+  const [file] = item.files
+  return { path: file.path, content: file.content }
+}
 
 export const cubixUtilsFile: BlockSourceFile = {
   path: "lib/utils.ts",
@@ -14,6 +31,7 @@ const twMerge = extendTailwindMerge({
         "title",
         "lead",
         "body",
+        "description",
         "caption",
         "label",
       ],
@@ -31,38 +49,60 @@ export const cubixButtonFile: BlockSourceFile = {
   path: "components/cubix/button.tsx",
   content: `"use client"
 
+/*
+  Cubix Button - Persian-first control.
+
+  Weight 400 and tracking-normal keep IRANSans XV readable in fixed-height
+  pills; Latin letter-spacing and medium weight look heavy on Arab script.
+  Icon inset uses logical inline-start / inline-end for RTL.
+*/
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
+/*
+  Icon-side inline padding matches vertical icon inset:
+  (button height - icon size) / 2
+  xs: (28 - 14) / 2 = 7px · sm/default: 8px (pe/ps-2) · lg: 12px (pe/ps-3)
+*/
+const ICON_INLINE_PAD_XS =
+  "has-data-[icon=inline-end]:pe-[7px] has-data-[icon=inline-start]:ps-[7px]"
+
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-description leading-none font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-label leading-none font-normal tracking-normal whitespace-nowrap transition-[color,background-color,border-color,opacity,box-shadow,transform] outline-none select-none focus-visible:ring-3 focus-visible:ring-secondary focus-visible:ring-offset-1 focus-visible:ring-offset-background active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        default:
+          "bg-primary text-primary-foreground hover:bg-[color-mix(in_oklch,var(--primary),black_10%)] focus-visible:ring-primary/20",
+        foreground:
+          "bg-foreground text-background hover:bg-foreground/85 focus-visible:ring-foreground/20",
+        secondary:
+          "bg-primary/10 text-primary hover:bg-primary/20 aria-expanded:bg-primary/10 aria-expanded:text-primary focus-visible:ring-primary/20 dark:bg-primary/20 dark:hover:bg-primary/30",
+        gray:
+          "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-[color-mix(in_oklch,var(--destructive),black_10%)] focus-visible:ring-destructive/20",
+        "destructive-secondary":
+          "bg-destructive/10 text-destructive hover:bg-destructive/20 aria-expanded:bg-destructive/10 aria-expanded:text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
-        secondary:
-          "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:
           "hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:hover:bg-muted/50",
-        destructive:
-          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40",
         link: "text-primary underline-offset-[6px] hover:underline hover:decoration-dotted hover:decoration-1",
       },
       size: {
+        xs: \`h-7 gap-1 rounded-[min(var(--radius-md),10px)] px-2.5 text-caption in-data-[slot=button-group]:rounded-lg \${ICON_INLINE_PAD_XS} [&_svg:not([class*='size-'])]:size-3.5\`,
+        sm: "h-8 gap-1.5 rounded-[min(var(--radius-md),12px)] px-3 text-caption in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pe-2 has-data-[icon=inline-start]:ps-2 [&_svg:not([class*='size-'])]:size-4",
         default:
-          "h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pe-2 has-data-[icon=inline-start]:ps-2",
-        xs: "h-6 gap-1 rounded-[min(var(--radius-md),10px)] px-2 text-caption in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pe-1.5 has-data-[icon=inline-start]:ps-1.5 [&_svg:not([class*='size-'])]:size-3",
-        sm: "h-7 gap-1 rounded-[min(var(--radius-md),12px)] px-2.5 text-caption in-data-[slot=button-group]:rounded-lg has-data-[icon=inline-end]:pe-1.5 has-data-[icon=inline-start]:ps-1.5 [&_svg:not([class*='size-'])]:size-3.5",
-        lg: "h-9 gap-1.5 px-2.5 has-data-[icon=inline-end]:pe-2 has-data-[icon=inline-start]:ps-2",
-        icon: "size-8",
+          "h-10 gap-2 px-4 has-data-[icon=inline-end]:pe-2 has-data-[icon=inline-start]:ps-2 [&_svg:not([class*='size-'])]:size-6",
+        lg: "h-12 gap-2.5 px-6 text-description has-data-[icon=inline-end]:pe-3 has-data-[icon=inline-start]:ps-3 [&_svg:not([class*='size-'])]:size-6",
         "icon-xs":
-          "size-6 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3",
+          "size-7 rounded-[min(var(--radius-md),10px)] in-data-[slot=button-group]:rounded-lg [&_svg:not([class*='size-'])]:size-3.5",
         "icon-sm":
-          "size-7 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
-        "icon-lg": "size-9",
+          "size-8 rounded-[min(var(--radius-md),12px)] in-data-[slot=button-group]:rounded-lg",
+        icon: "size-10 [&_svg:not([class*='size-'])]:size-6",
+        "icon-lg": "size-12 [&_svg:not([class*='size-'])]:size-6",
       },
     },
     defaultVariants: {
@@ -144,15 +184,20 @@ export const cubixBadgeFile: BlockSourceFile = {
   path: "components/cubix/badge.tsx",
   content: `"use client"
 
+import type { ComponentProps } from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const badgeVariants = cva(
-  "group/badge inline-flex h-5 w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent px-2 py-0.5 text-caption font-medium whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 has-data-[icon=inline-end]:pe-1.5 has-data-[icon=inline-start]:ps-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
+  "group/badge inline-flex w-fit shrink-0 items-center justify-center gap-1 overflow-hidden rounded-4xl border border-transparent text-caption leading-none font-normal whitespace-nowrap transition-all outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 has-data-[icon=inline-end]:pe-1.5 has-data-[icon=inline-start]:ps-1.5 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&>svg]:pointer-events-none [&>svg]:size-3!",
   {
     variants: {
+      size: {
+        default: "h-5 px-2",
+        lg: "h-6 px-2.5 has-data-[icon=inline-end]:pe-2 has-data-[icon=inline-start]:ps-2 [&>svg]:size-3.5!",
+      },
       variant: {
         default: "bg-primary text-primary-foreground [a]:hover:bg-primary/80",
         secondary:
@@ -164,9 +209,14 @@ const badgeVariants = cva(
         ghost:
           "hover:bg-muted hover:text-muted-foreground dark:hover:bg-muted/50",
         link: "text-primary underline-offset-[6px] hover:underline hover:decoration-dotted hover:decoration-1",
+        dot: "size-2 min-w-0 gap-0 rounded-full bg-primary p-0 text-transparent",
       },
     },
+    compoundVariants: [
+      { variant: "dot", size: "lg", className: "size-3" },
+    ],
     defaultVariants: {
+      size: "default",
       variant: "default",
     },
   }
@@ -175,6 +225,7 @@ const badgeVariants = cva(
 function Badge({
   className,
   variant = "default",
+  size = "default",
   render,
   ...props
 }: useRender.ComponentProps<"span"> & VariantProps<typeof badgeVariants>) {
@@ -182,14 +233,17 @@ function Badge({
     defaultTagName: "span",
     props: mergeProps<"span">(
       {
-        className: cn(badgeVariants({ variant }), className),
-      },
+        className: cn(badgeVariants({ variant, size }), className),
+        // Base UI mergeProps typings omit data-* keys; keep Cubix slot contract.
+        ...({ "data-slot": "badge" } satisfies { "data-slot": string }),
+      } as ComponentProps<"span">,
       props
     ),
     render,
     state: {
       slot: "badge",
       variant,
+      size,
     },
   })
 }
@@ -215,7 +269,7 @@ function Separator({
       data-slot="separator"
       orientation={orientation}
       className={cn(
-        "shrink-0 bg-border data-horizontal:h-px data-horizontal:w-full data-vertical:w-px data-vertical:self-stretch",
+        "w-full shrink-0 bg-border data-horizontal:h-px data-vertical:w-px data-vertical:self-stretch",
         className
       )}
       {...props}
@@ -227,22 +281,20 @@ export { Separator }
 `,
 }
 
-export const cubixCardFile: BlockSourceFile = {
-  path: "components/cubix/card.tsx",
-  content: `import * as React from "react"
+export const cubixLabelFile: BlockSourceFile = {
+  path: "components/cubix/label.tsx",
+  content: `"use client"
+
+import * as React from "react"
+
 import { cn } from "@/lib/utils"
 
-function Card({
-  className,
-  size = "default",
-  ...props
-}: React.ComponentProps<"div"> & { size?: "default" | "sm" }) {
+function Label({ className, ...props }: React.ComponentProps<"label">) {
   return (
-    <div
-      data-slot="card"
-      data-size={size}
+    <label
+      data-slot="label"
       className={cn(
-        "group/card flex flex-col gap-(--card-spacing) overflow-hidden rounded-xl bg-card py-(--card-spacing) text-description text-card-foreground ring-1 ring-foreground/10 [--card-spacing:--spacing(4)] has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl",
+        "flex items-center gap-2 text-label leading-none font-normal select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 group-data-[disabled=true]/field:pointer-events-none group-data-[disabled=true]/field:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-50",
         className
       )}
       {...props}
@@ -250,59 +302,7 @@ function Card({
   )
 }
 
-function CardHeader({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-header"
-      className={cn(
-        "group/card-header @container/card-header grid auto-rows-min items-start gap-1 rounded-t-xl px-(--card-spacing) has-data-[slot=card-action]:grid-cols-[1fr_auto] has-data-[slot=card-description]:grid-rows-[auto_auto] [.border-b]:pb-(--card-spacing)",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function CardTitle({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-title"
-      className={cn(
-        "cn-font-heading text-body leading-snug font-medium group-data-[size=sm]/card:text-description",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-function CardDescription({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-description"
-      className={cn("text-description text-muted-foreground", className)}
-      {...props}
-    />
-  )
-}
-
-function CardContent({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="card-content"
-      className={cn("px-(--card-spacing)", className)}
-      {...props}
-    />
-  )
-}
-
-export {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-}
+export { Label }
 `,
 }
 
@@ -343,6 +343,8 @@ const emptyMediaVariants = cva(
       variant: {
         default: "bg-transparent",
         icon: "flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground [&_svg:not([class*='size-'])]:size-4",
+        outline:
+          "flex size-11 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-muted-foreground [&_svg:not([class*='size-'])]:size-4",
       },
     },
     defaultVariants: {
@@ -567,15 +569,331 @@ export {
 `,
 }
 
+export const cubixTextFieldFile: BlockSourceFile = {
+  path: "components/cubix/text-field.tsx",
+  content: `"use client"
+
+/*
+  Cubix Text Field - Persian-first labeled text input.
+
+  Weight 400 and tracking-normal keep IRANSans XV readable in fixed-height
+  controls; Latin letter-spacing and medium weight look heavy on Arab script.
+  Icons use data-icon="inline-start" | "inline-end" like Button (logical inset).
+*/
+import * as React from "react"
+import { Field as FieldPrimitive } from "@base-ui/react/field"
+import { Input as InputPrimitive } from "@base-ui/react/input"
+import { cva, type VariantProps } from "class-variance-authority"
+
+import { cn } from "@/lib/utils"
+
+/*
+  Icon-side inline padding matches Button / vertical icon inset:
+  default: 8px · lg: 12px
+*/
+
+const textFieldControlVariants = cva(
+  "group/text-field-control relative flex w-full min-w-0 items-center rounded-lg border border-input bg-transparent transition-colors outline-none has-disabled:cursor-not-allowed has-disabled:border-transparent has-disabled:bg-muted has-[[data-slot=text-field-input]:focus-visible]:border-primary has-[[data-slot=text-field-input]:focus-visible]:ring-3 has-[[data-slot=text-field-input]:focus-visible]:ring-primary/20 has-[[data-slot=text-field-input]:focus-visible]:ring-offset-1 has-[[data-slot=text-field-input]:focus-visible]:ring-offset-background has-[[data-slot=text-field-input][aria-invalid=true]]:border-destructive has-[[data-slot=text-field-input][aria-invalid=true]]:ring-0 has-[[data-slot=text-field-input][aria-invalid=true]:focus-visible]:border-destructive has-[[data-slot=text-field-input][aria-invalid=true]:focus-visible]:ring-0 dark:bg-input/30 dark:has-disabled:bg-muted dark:has-[[data-slot=text-field-input][aria-invalid=true]]:border-destructive/50 dark:has-[[data-slot=text-field-input][aria-invalid=true]:focus-visible]:border-destructive/50 dark:has-[[data-slot=text-field-input][aria-invalid=true]:focus-visible]:ring-0 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg]:text-muted-foreground [&_svg:not([class*='size-'])]:size-4",
+  {
+    variants: {
+      size: {
+        default:
+          "h-10 gap-2 px-3 has-data-[icon=inline-end]:pe-2 has-data-[icon=inline-start]:ps-2 [&_svg:not([class*='size-'])]:size-6",
+        lg: "h-12 gap-2.5 px-3.5 has-data-[icon=inline-end]:pe-3 has-data-[icon=inline-start]:ps-3 [&_svg:not([class*='size-'])]:size-6",
+      },
+    },
+    defaultVariants: {
+      size: "default",
+    },
+  }
+)
+
+const textFieldInputVariants = cva(
+  "w-full min-w-0 rounded-lg border border-input bg-transparent font-normal leading-none tracking-normal text-foreground transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-description file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-primary focus-visible:ring-3 focus-visible:ring-primary/20 focus-visible:ring-offset-1 focus-visible:ring-offset-background disabled:cursor-not-allowed disabled:border-transparent disabled:bg-muted disabled:text-muted-foreground disabled:placeholder:text-muted-foreground aria-invalid:border-destructive aria-invalid:ring-0 aria-invalid:focus-visible:border-destructive aria-invalid:focus-visible:ring-0 dark:bg-input/30 dark:disabled:bg-muted dark:aria-invalid:border-destructive/50 dark:aria-invalid:focus-visible:border-destructive/50",
+  {
+    variants: {
+      size: {
+        default: "h-10 px-3 text-label md:text-label",
+        lg: "h-12 px-3.5 text-label md:text-label",
+      },
+      inControl: {
+        true: "h-full flex-1 rounded-none border-0 bg-transparent p-0 shadow-none ring-0 focus-visible:border-0 focus-visible:ring-0 focus-visible:ring-offset-0 aria-invalid:border-0 aria-invalid:ring-0 aria-invalid:ring-offset-0 disabled:bg-transparent dark:bg-transparent dark:disabled:bg-transparent",
+        false: "",
+      },
+    },
+    defaultVariants: {
+      size: "default",
+      inControl: false,
+    },
+  }
+)
+
+type TextFieldSize = NonNullable<
+  VariantProps<typeof textFieldInputVariants>["size"]
+>
+
+const TextFieldSizeContext = React.createContext<TextFieldSize>("default")
+const TextFieldControlContext = React.createContext(false)
+
+function TextField({
+  className,
+  size = "default",
+  ...props
+}: React.ComponentProps<typeof FieldPrimitive.Root> & {
+  size?: TextFieldSize
+}) {
+  return (
+    <TextFieldSizeContext.Provider value={size}>
+      <FieldPrimitive.Root
+        data-slot="text-field"
+        data-size={size}
+        className={cn(
+          "group/text-field flex w-full flex-col gap-2 data-disabled:cursor-not-allowed data-disabled:opacity-70",
+          className
+        )}
+        {...props}
+      />
+    </TextFieldSizeContext.Provider>
+  )
+}
+
+function TextFieldLabel({
+  className,
+  ...props
+}: React.ComponentProps<typeof FieldPrimitive.Label>) {
+  return (
+    <FieldPrimitive.Label
+      data-slot="text-field-label"
+      className={cn(
+        "flex w-fit items-center gap-2 text-label leading-none font-normal text-foreground select-none group-data-disabled/text-field:cursor-not-allowed group-data-disabled/text-field:text-muted-foreground",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function TextFieldControl({
+  className,
+  size: sizeProp,
+  onClick,
+  ...props
+}: React.ComponentProps<"div"> & {
+  size?: TextFieldSize
+}) {
+  const contextSize = React.useContext(TextFieldSizeContext)
+  const size = sizeProp ?? contextSize
+
+  return (
+    <TextFieldControlContext.Provider value={true}>
+      <div
+        data-slot="text-field-control"
+        data-size={size}
+        className={cn(textFieldControlVariants({ size }), className)}
+        onClick={(event) => {
+          onClick?.(event)
+          if (event.defaultPrevented) return
+          if ((event.target as HTMLElement).closest("button,a,input,textarea")) {
+            return
+          }
+          const input = event.currentTarget.querySelector<HTMLInputElement>(
+            "[data-slot=text-field-input]"
+          )
+          if (!input || input.disabled || input.readOnly) return
+          input.focus()
+        }}
+        {...props}
+      />
+    </TextFieldControlContext.Provider>
+  )
+}
+
+function TextFieldInput({
+  className,
+  size: sizeProp,
+  ...props
+}: Omit<React.ComponentProps<typeof InputPrimitive>, "size"> & {
+  size?: TextFieldSize
+}) {
+  const contextSize = React.useContext(TextFieldSizeContext)
+  const size = sizeProp ?? contextSize
+  const inControl = React.useContext(TextFieldControlContext)
+
+  return (
+    <InputPrimitive
+      data-slot="text-field-input"
+      data-size={size}
+      className={cn(
+        textFieldInputVariants({ size, inControl }),
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function clearTextFieldInput(input: HTMLInputElement) {
+  const descriptor = Object.getOwnPropertyDescriptor(
+    HTMLInputElement.prototype,
+    "value"
+  )
+  descriptor?.set?.call(input, "")
+  input.dispatchEvent(new Event("input", { bubbles: true }))
+  input.dispatchEvent(new Event("change", { bubbles: true }))
+}
+
+function TextFieldClearIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z" />
+    </svg>
+  )
+}
+
+function TextFieldClear({
+  className,
+  onClick,
+  "aria-label": ariaLabel = "Clear",
+  ...props
+}: React.ComponentProps<"button">) {
+  const ref = React.useRef<HTMLButtonElement>(null)
+  const [show, setShow] = React.useState(false)
+
+  React.useLayoutEffect(() => {
+    const control = ref.current?.closest("[data-slot=text-field-control]")
+    const input = control?.querySelector<HTMLInputElement>(
+      "[data-slot=text-field-input]"
+    )
+    if (!input) return
+
+    const sync = () => {
+      setShow(Boolean(input.value) && !input.disabled && !input.readOnly)
+    }
+    sync()
+    input.addEventListener("input", sync)
+    input.addEventListener("change", sync)
+    return () => {
+      input.removeEventListener("input", sync)
+      input.removeEventListener("change", sync)
+    }
+  }, [])
+
+  return (
+    <button
+      ref={ref}
+      type="button"
+      data-slot="text-field-clear"
+      data-icon={show ? "inline-end" : undefined}
+      aria-label={ariaLabel}
+      tabIndex={show ? 0 : -1}
+      hidden={!show}
+      className={cn(
+        "inline-flex size-6 shrink-0 items-center justify-center rounded-md text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary/20 disabled:pointer-events-none",
+        className
+      )}
+      onClick={(event) => {
+        onClick?.(event)
+        if (event.defaultPrevented) return
+        const input = event.currentTarget
+          .closest("[data-slot=text-field-control]")
+          ?.querySelector<HTMLInputElement>("[data-slot=text-field-input]")
+        if (!input) return
+        clearTextFieldInput(input)
+        setShow(false)
+        input.focus()
+      }}
+      {...props}
+    >
+      <TextFieldClearIcon className="size-4" />
+    </button>
+  )
+}
+
+function TextFieldDescription({
+  className,
+  ...props
+}: React.ComponentProps<typeof FieldPrimitive.Description>) {
+  return (
+    <FieldPrimitive.Description
+      data-slot="text-field-description"
+      className={cn(
+        "m-0 text-caption font-normal text-muted-foreground group-data-disabled/text-field:cursor-not-allowed",
+        className
+      )}
+      {...props}
+    />
+  )
+}
+
+function TextFieldError({
+  className,
+  children,
+  match,
+  ...props
+}: React.ComponentProps<typeof FieldPrimitive.Error>) {
+  return (
+    <FieldPrimitive.Validity>
+      {(validity) => {
+        const isInvalid = validity.validity.valid === false
+        if (!isInvalid && match !== true) {
+          return null
+        }
+
+        return (
+          <FieldPrimitive.Error
+            data-slot="text-field-error"
+            match={match ?? true}
+            className={cn(
+              "m-0 text-caption font-normal text-destructive",
+              className
+            )}
+            {...props}
+          >
+            {children}
+          </FieldPrimitive.Error>
+        )
+      }}
+    </FieldPrimitive.Validity>
+  )
+}
+
+export {
+  TextField,
+  TextFieldLabel,
+  TextFieldControl,
+  TextFieldInput,
+  TextFieldClear,
+  TextFieldDescription,
+  TextFieldError,
+  textFieldControlVariants,
+  textFieldInputVariants,
+}
+`,
+}
+
 const cubixSourceByName: Record<string, BlockSourceFile> = {
   button: cubixButtonFile,
   input: cubixInputFile,
   textarea: cubixTextareaFile,
   badge: cubixBadgeFile,
   separator: cubixSeparatorFile,
-  card: cubixCardFile,
+  avatar: registrySourceFile(avatarRegistryItem),
+  card: registrySourceFile(cardRegistryItem),
   empty: cubixEmptyFile,
   "input-group": cubixInputGroupFile,
+  "text-field": cubixTextFieldFile,
+  label: cubixLabelFile,
+  checkbox: registrySourceFile(checkboxRegistryItem),
+  "email-field": registrySourceFile(emailFieldRegistryItem),
+  "password-field": registrySourceFile(passwordFieldRegistryItem),
+  "phone-field": registrySourceFile(phoneFieldRegistryItem),
+  tabs: registrySourceFile(tabsRegistryItem),
 }
 
 const cubixSourceDeps: Record<string, string[]> = {
@@ -586,11 +904,19 @@ const cubixSourceOrder = [
   "button",
   "badge",
   "separator",
+  "avatar",
   "card",
   "empty",
   "input",
   "textarea",
   "input-group",
+  "text-field",
+  "tabs",
+  "email-field",
+  "password-field",
+  "phone-field",
+  "checkbox",
+  "label",
 ] as const
 
 function collectCubixSourceFiles(pageContent: string): BlockSourceFile[] {
@@ -626,28 +952,38 @@ export const placeholderAssetFile: BlockSourceFile = {
 `,
 }
 
+type BlockFilesOptions = {
+  placeholder?: boolean
+  extra?: BlockSourceFile[]
+}
+
 export function buildNotFoundFiles(
   pageContent: string,
-  options?: {
-    placeholder?: boolean
-    extra?: BlockSourceFile[]
-  }
+  options?: BlockFilesOptions
 ): BlockSourceFile[] {
+  return buildBlockFiles("app/not-found.tsx", pageContent, options)
+}
+
+export function buildBlockFiles(
+  pagePath: string,
+  pageContent: string,
+  options?: BlockFilesOptions
+): BlockSourceFile[] {
+  const extra = options?.extra ?? []
   const files: BlockSourceFile[] = [
     {
-      path: "app/not-found.tsx",
+      path: pagePath,
       content: pageContent,
     },
-    ...collectCubixSourceFiles(pageContent),
+    ...extra,
+    ...collectCubixSourceFiles(
+      [pageContent, ...extra.map((file) => file.content)].join("\n")
+    ),
     cubixUtilsFile,
   ]
 
   if (options?.placeholder) {
     files.push(placeholderAssetFile)
-  }
-
-  if (options?.extra?.length) {
-    files.push(...options.extra)
   }
 
   return files

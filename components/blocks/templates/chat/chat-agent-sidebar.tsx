@@ -116,33 +116,33 @@ type ChatThread = {
 const initialThreads: ChatThread[] = [
   {
     id: "1",
-    title: "Fix auth redirect loop",
+    title: "رفع حلقهٔ ریدایرکت ورود",
     group: "Today",
-    preview: "The login page keeps bouncing back...",
+    preview: "صفحهٔ لاگین دوباره به خودش برمی‌گردد...",
   },
   {
     id: "2",
-    title: "Tighten checkout form validation",
+    title: "سخت‌تر کردن اعتبارسنجی فرم پرداخت",
     group: "Today",
-    preview: "Card errors should map to field copy.",
+    preview: "خطاهای کارت باید به متن فیلد برسند.",
   },
   {
     id: "3",
-    title: "Explain edge caching strategy",
+    title: "توضیح استراتژی کش لبه",
     group: "Today",
-    preview: "What should stay dynamic at the edge?",
+    preview: "چه چیزی باید در لبه پویا بماند؟",
   },
   {
     id: "4",
-    title: "Migrate billing webhooks",
+    title: "مهاجرت وب‌هوک‌های صورتحساب",
     group: "Yesterday",
-    preview: "Move Stripe handlers to the new queue.",
+    preview: "هندلرهای Stripe را به صف جدید ببر.",
   },
   {
     id: "5",
-    title: "Polish empty inbox state",
+    title: "بهبود حالت خالی صندوق ورودی",
     group: "Yesterday",
-    preview: "Empty state should feel intentional.",
+    preview: "حالت خالی باید عمدی و تمیز باشد.",
   },
 ]
 
@@ -183,7 +183,7 @@ function MessageActions() {
         type="button"
         variant="ghost"
         size="icon-xs"
-        aria-label={copied ? "Copied" : "Copy"}
+        aria-label={copied ? "کپی شد" : "کپی"}
         onClick={() => {
           setCopied(true)
           window.setTimeout(() => setCopied(false), 1200)
@@ -191,10 +191,10 @@ function MessageActions() {
       >
         {copied ? <CheckIcon /> : <CopyIcon />}
       </Button>
-      <Button type="button" variant="ghost" size="icon-xs" aria-label="Retry">
+      <Button type="button" variant="ghost" size="icon-xs" aria-label="تلاش دوباره">
         <RefreshCwIcon />
       </Button>
-      <Button type="button" variant="ghost" size="icon-xs" aria-label="More">
+      <Button type="button" variant="ghost" size="icon-xs" aria-label="بیشتر">
         <EllipsisIcon />
       </Button>
     </MessageFooter>
@@ -205,8 +205,8 @@ function AuthRedirectThread() {
   return (
     <>
       <UserMessage>
-        The login page keeps bouncing back to itself after a successful
-        sign-in. Trace the redirect and propose a fix.
+        بعد از ورود موفق، صفحهٔ لاگین دوباره به خودش برمی‌گردد. ریدایرکت را
+        پیدا کن و یک اصلاح پیشنهاد بده.
       </UserMessage>
 
       <AssistantMessage>
@@ -215,12 +215,12 @@ function AuthRedirectThread() {
           <ThinkingContent>
             <div className="space-y-2 text-muted-foreground">
               <p>
-                Session is written, then middleware still sees an empty cookie
-                on the first bounce.
+                نشست نوشته می‌شود، اما middleware در اولین برگشت هنوز کوکی خالی
+                می‌بیند.
               </p>
               <p>
-                Check callback resolution and whether login can become the next
-                destination.
+                resolution مربوط به callback و اینکه login می‌تواند مقصد بعدی
+                شود را بررسی کن.
               </p>
             </div>
           </ThinkingContent>
@@ -231,7 +231,7 @@ function AuthRedirectThread() {
           status="output-available"
           defaultOpen={false}
         >
-          <ToolCallHeader label="Read middleware.ts" />
+          <ToolCallHeader label="خواندن middleware.ts" />
           <ToolCallContent>
             <ToolCallInput
               parameters={{ path: "middleware.ts", lines: "1-84" }}
@@ -239,14 +239,14 @@ function AuthRedirectThread() {
             <ToolCallOutput
               result={{
                 matched: true,
-                issue: "callbackUrl still points at /login",
+                issue: "callbackUrl هنوز به /login اشاره می‌کند",
               }}
             />
           </ToolCallContent>
         </ToolCall>
 
         <ToolCall name="grep" status="output-available" defaultOpen={false}>
-          <ToolCallHeader label="Search auth callback handlers" />
+          <ToolCallHeader label="جستجوی handlerهای callback احراز هویت" />
           <ToolCallContent>
             <ToolCallInput
               parameters={{ pattern: "callbackUrl", path: "lib/auth" }}
@@ -262,20 +262,20 @@ function AuthRedirectThread() {
 
         <div className="typeset typeset-chat">
           <p>
-            Middleware treats a brand-new session as anonymous for one request.
-            After sign-in,{" "}
+            middleware یک نشست تازه‌ساخته را برای یک درخواست هنوز ناشناس می‌بیند.
+            بعد از ورود،{" "}
             <span className="rounded bg-muted px-1 py-0.5 font-mono text-caption">
               callbackUrl
             </span>{" "}
-            still resolves to{" "}
+            هنوز به{" "}
             <span className="rounded bg-muted px-1 py-0.5 font-mono text-caption">
               /login
-            </span>
-            , so navigation loops.
+            </span>{" "}
+            می‌رسد و ناوبری حلقه می‌زند.
           </p>
           <p className="text-muted-foreground">
-            Prefer a stable post-auth destination and never allow login as a
-            callback target:
+            مقصد پایدار بعد از احراز هویت بگذارید و هرگز login را به‌عنوان
+            callback مجاز نکنید:
           </p>
         </div>
 
@@ -294,8 +294,8 @@ function AuthRedirectThread() {
 
         <div className="typeset typeset-chat">
           <p>
-            Clear stale callback values on successful auth so login can never
-            become the next hop.
+            بعد از احراز هویت موفق، مقادیر کهنهٔ callback را پاک کنید تا login
+            دیگر مقصد بعدی نشود.
           </p>
         </div>
 
@@ -386,8 +386,8 @@ function SidebarPanel({
           <InputGroupInput
             value={query}
             onChange={(event) => onQueryChange(event.target.value)}
-            placeholder="Search chats..."
-            aria-label="Search chats"
+            placeholder="جستجوی گفتگوها..."
+            aria-label="جستجوی گفتگوها"
           />
         </InputGroup>
       </div>
@@ -397,17 +397,17 @@ function SidebarPanel({
           {groups.length === 0 ? (
             <Empty className="border-0 py-8">
               <EmptyHeader>
-                <EmptyTitle>No chats</EmptyTitle>
+                <EmptyTitle>گفتگویی نیست</EmptyTitle>
                 <EmptyDescription>
-                  No chats match &ldquo;{query}&rdquo;.
+                  گفتگویی با «{query}» پیدا نشد.
                 </EmptyDescription>
               </EmptyHeader>
             </Empty>
           ) : (
             groups.map(({ group, items }) => (
               <div key={group} className="flex flex-col gap-1">
-                <p className="px-2 text-caption font-medium tracking-wider text-muted-foreground uppercase">
-                  {group}
+                <p className="px-2 text-caption font-medium tracking-wider text-muted-foreground">
+                  {group === "Today" ? "امروز" : "دیروز"}
                 </p>
                 <div className="flex flex-col gap-0.5">
                   {items.map((thread) => {
@@ -443,7 +443,7 @@ function SidebarPanel({
                                 type="button"
                                 variant="ghost"
                                 size="icon-xs"
-                                aria-label={`More options for ${thread.title}`}
+                                aria-label={`گزینه‌های بیشتر برای ${thread.title}`}
                                 className="mr-0.5 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover/thread:opacity-100 data-popup-open:opacity-100"
                               />
                             }
@@ -497,7 +497,7 @@ function SidebarPanel({
             type="button"
             variant="ghost"
             size="icon-xs"
-            aria-label="Account menu"
+            aria-label="منوی حساب"
           >
             <EllipsisIcon />
           </Button>
@@ -508,7 +508,7 @@ function SidebarPanel({
         <div
           role="separator"
           aria-orientation="vertical"
-          aria-label="Resize sidebar"
+          aria-label="تغییر اندازه نوار کناری"
           aria-valuemin={SIDEBAR_MIN}
           aria-valuemax={SIDEBAR_MAX}
           aria-valuenow={Math.round(width)}
@@ -592,9 +592,9 @@ export function AgentChatWithSidebar({ className }: { className?: string }) {
     const id = `new-${Date.now()}`
     const next: ChatThread = {
       id,
-      title: "Untitled chat",
+      title: "گفتگوی بدون عنوان",
       group: "Today",
-      preview: "Start a new agent task...",
+      preview: "یک وظیفهٔ جدید برای عامل شروع کنید...",
     }
     setThreads((prev) => [next, ...prev])
     setActiveId(id)
@@ -683,11 +683,13 @@ export function AgentChatWithSidebar({ className }: { className?: string }) {
     onResizeKeyDown,
   }
 
-  const isBlank = active?.title === "Untitled chat"
+  const isBlank = active?.title === "گفتگوی بدون عنوان"
 
   return (
     <div
       ref={rootRef}
+      lang="fa"
+      dir="rtl"
       className={cn(
         "absolute inset-0 flex min-h-0 overflow-hidden bg-background",
         className
@@ -699,13 +701,13 @@ export function AgentChatWithSidebar({ className }: { className?: string }) {
         <>
           <button
             type="button"
-            aria-label="Close sidebar overlay"
+            aria-label="بستن نوار کناری"
             className="absolute inset-0 z-20 bg-overlay"
             onClick={() => setSidebarOpen(false)}
           />
           <SidebarPanel
             {...sidebarProps}
-            className="absolute inset-y-0 left-0 z-30 w-[min(85%,280px)] bg-background shadow-xl"
+            className="absolute inset-y-0 start-0 z-30 w-[min(85%,280px)] bg-background shadow-xl"
           />
         </>
       ) : null}
@@ -719,8 +721,8 @@ export function AgentChatWithSidebar({ className }: { className?: string }) {
                   type="button"
                   variant="ghost"
                   size="icon-sm"
-                  aria-label={sidebarOpen ? "Collapse sidebar" : "Open sidebar"}
-                  className="-ml-0.5"
+                  aria-label={sidebarOpen ? "جمع کردن نوار کناری" : "باز کردن نوار کناری"}
+                  className="-ms-0.5"
                   onClick={() => setSidebarOpen((open) => !open)}
                 />
               }
@@ -743,7 +745,7 @@ export function AgentChatWithSidebar({ className }: { className?: string }) {
             type="button"
             variant="ghost"
             size="icon-sm"
-            aria-label="New chat"
+            aria-label="گفتگوی جدید"
             onClick={createChat}
           >
             <PlusIcon />
@@ -752,7 +754,7 @@ export function AgentChatWithSidebar({ className }: { className?: string }) {
             type="button"
             variant="ghost"
             size="icon-sm"
-            aria-label="More"
+            aria-label="بیشتر"
           >
             <EllipsisIcon />
           </Button>
@@ -790,12 +792,12 @@ export function AgentChatWithSidebar({ className }: { className?: string }) {
                 </PromptInputAttachments>
               </PromptInputHeader>
               <PromptInputBody>
-                <PromptInputTextarea placeholder="Plan, search, build anything..." />
+                <PromptInputTextarea placeholder="برنامه‌ریزی، جستجو، یا ساخت هر چیزی..." />
               </PromptInputBody>
               <PromptInputFooter>
                 <PromptInputTools>
                   <PromptInputActionMenu>
-                    <PromptInputActionMenuTrigger aria-label="Add context" />
+                    <PromptInputActionMenuTrigger aria-label="افزودن زمینه" />
                     <PromptInputActionMenuContent>
                       <PromptInputActionAddAttachments />
                     </PromptInputActionMenuContent>
@@ -813,7 +815,7 @@ export function AgentChatWithSidebar({ className }: { className?: string }) {
                     }}
                   >
                     <PromptInputSelectTrigger
-                      aria-label="Model"
+                      aria-label="مدل"
                       className="w-auto"
                     >
                       <PromptInputSelectValue />
@@ -843,9 +845,9 @@ export function AgentChatWithSidebar({ className }: { className?: string }) {
 
 export const chatAgentSidebarBlock: BlockListItem = {
   id: "chat-agent-02",
-  title: "Agent chat with sidebar",
+  title: "چت عامل با نوار کناری",
   description:
-    "Interactive agent workspace with resizable history sidebar, search, thread switching, and responsive overlay.",
+    "فضای کار عامل با نوار تاریخچهٔ قابل‌تغییر اندازه، جستجو، تعویض گفتگو، و overlay واکنش‌گرا.",
   preview: <AgentChatWithSidebar />,
   files: buildChatInterfaceFiles(
     `export { AgentChatWithSidebar as default } from "@/components/blocks/templates/chat/chat-agent-sidebar"

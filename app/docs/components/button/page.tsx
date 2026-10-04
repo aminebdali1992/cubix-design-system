@@ -122,7 +122,7 @@ export default function ButtonPage() {
 
         <ExampleSection
           title="Primary"
-          description="Solid and soft brand styles for the main call to action."
+          description="Solid brand, soft brand, and neutral foreground styles for the main call to action."
           code={buttonPrimarySource}
         >
           <ButtonPrimaryDemo />

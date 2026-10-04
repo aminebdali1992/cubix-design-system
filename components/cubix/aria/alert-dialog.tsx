@@ -57,6 +57,7 @@ function AlertDialog({
 type TriggerRenderProps = {
   variant?:
     | "default"
+    | "foreground"
     | "secondary"
     | "gray"
     | "destructive"

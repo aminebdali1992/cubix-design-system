@@ -36,7 +36,7 @@ type SlotProps = {
 
 type ActionProps = {
   className?: string
-  variant?: "default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"
+  variant?: "default" | "foreground" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"
   size?: "default" | "xs" | "sm" | "lg" | "icon" | "icon-xs" | "icon-sm" | "icon-lg"
   children?: ReactNode
   "aria-label"?: string

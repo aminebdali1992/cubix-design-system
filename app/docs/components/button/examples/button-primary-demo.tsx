@@ -7,6 +7,7 @@ export function ButtonPrimaryDemo() {
     <div className="flex flex-wrap items-center justify-center gap-2">
       <Button>متن دکمه</Button>
       <Button variant="secondary">متن دکمه</Button>
+      <Button variant="foreground">متن دکمه</Button>
     </div>
   )
 }

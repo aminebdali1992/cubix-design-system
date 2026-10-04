@@ -1,0 +1,36 @@
+---
+description: Block templates and examples must be built 100% from Cubix design system components
+alwaysApply: true
+---
+
+# Blocks use Cubix components only
+
+Every sample, block template (`components/blocks/templates/**`), and docs example must be composed **only** from components in `components/cubix/*` (imported as `@/components/cubix/<name>`). This applies to both the live view and the copyable source string.
+
+## Use the component, not a hand-made copy
+
+- Interactive UI: `Button`, `InputGroup*`, `Input`, `Field`, `Select`, `Tabs`, `Badge`, `Card*`, `Empty*`, `Separator`, `Kbd`, `Tooltip`, `Sheet`, `Drawer`, `Dialog`, `ScrollArea`, `Skeleton`, `Avatar`, `Table`, agent components (`Conversation`, `PromptInput`, `Message`, ...).
+- Never ship a raw `<button>`, `<input>`, `<select>`, `<textarea>`, hand-rolled card/badge/divider/overlay, or a custom drawer when a Cubix component exists.
+- Semantic wrappers with no Cubix equivalent are fine: `<nav>`, `<ul>/<li>`, `<dl>`, `<form>`, `<header>`, `<footer>`, `<main>`, `<img>`, text `<p>/<span>/<h1>`.
+
+## Style through the system, not around it
+
+- Use the component's own `variant` / `size` props first.
+- Do not re-skin a component with className color overrides (e.g. `bg-foreground text-background` on `Button`). If a needed look is missing, add it as a real `cva` variant in all three bases (Base UI, React Aria, Radix) and its docs, then use that variant.
+- Layout/spacing classes on components (`mt-*`, `w-full`, `min-w-*`, `gap-*`) are fine.
+- Typography only from Typeset tokens: `text-display`, `text-headline`, `text-title`, `text-lead`, `text-body`, `text-description`, `text-caption`, `text-label`.
+- Colors only from tokens; no hex/rgb.
+
+## Persian text
+
+- No `font-mono` and no `tracking-*` on Persian strings (breaks letter joining). Keep those for Latin labels like `Error 404`.
+
+```tsx
+// BAD
+<button className="rounded-lg bg-primary px-4 py-2">بازگشت</button>
+<Button className="bg-foreground text-background">بازگشت</Button>
+
+// GOOD
+<Button render={<Link href="/" />} nativeButton={false}>بازگشت</Button>
+<Button variant="outline">مستندات</Button>
+```

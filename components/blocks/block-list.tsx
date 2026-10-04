@@ -11,7 +11,7 @@ import {
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import type { BlockItem } from "@/app/blocks/blocks-data"
+import { blockViewHref, type BlockItem } from "@/app/blocks/blocks-data"
 import { BlockCodePanel } from "@/components/blocks/block-code-panel"
 
 type Viewport = "desktop" | "tablet" | "mobile"
@@ -28,11 +28,13 @@ function BlockPreviewToolbar({
   onModeChange,
   viewport,
   onViewportChange,
+  viewHref,
 }: {
   mode: ViewMode
   onModeChange: (mode: ViewMode) => void
   viewport: Viewport
   onViewportChange: (viewport: Viewport) => void
+  viewHref: string
 }) {
   const viewports: {
     id: Viewport
@@ -107,18 +109,19 @@ function BlockPreviewToolbar({
             })}
           </div>
 
-          <button
-            type="button"
-            aria-label="Open preview in fullscreen"
-            disabled
+          <a
+            href={viewHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Open preview in a new tab"
+            title="Open in new tab"
             className={cn(
-              "inline-flex size-8 items-center justify-center rounded-full border border-border/80 bg-background text-muted-foreground shadow-xs outline-none",
-              "hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40",
-              "disabled:pointer-events-none disabled:opacity-50"
+              "inline-flex size-8 items-center justify-center rounded-full border border-border/80 bg-background text-muted-foreground shadow-xs outline-none transition-colors",
+              "hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring/40"
             )}
           >
             <Maximize2Icon className="size-3.5" />
-          </button>
+          </a>
         </>
       ) : null}
 
@@ -397,6 +400,7 @@ function BlockPreviewCard({ block }: { block: BlockListItem }) {
           onModeChange={setMode}
           viewport={viewport}
           onViewportChange={setViewport}
+          viewHref={blockViewHref(block.id)}
         />
       </div>
 

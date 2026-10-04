@@ -64,7 +64,7 @@ export const contentPropRows = [
 export const actionPropRows = [
   {
     prop: "variant",
-    type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
+    type: '"default" | "foreground" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"default"',
     description: "Visual style of the confirm button.",
   },
@@ -84,7 +84,7 @@ export const actionPropRows = [
 export const cancelPropRows = [
   {
     prop: "variant",
-    type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
+    type: '"default" | "foreground" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"outline"',
     description: "Visual style of the cancel button.",
   },
