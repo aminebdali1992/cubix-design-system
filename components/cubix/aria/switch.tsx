@@ -48,8 +48,8 @@ function Switch({
       isSelected={checked}
       defaultSelected={defaultChecked}
       isDisabled={disabled}
-      isInvalid={isInvalid}
       aria-invalid={isInvalid || undefined}
+      data-invalid={isInvalid ? "" : undefined}
       onChange={onCheckedChange}
       className="peer group/switch relative inline-flex shrink-0 cursor-pointer items-center rounded-full outline-none after:absolute after:-inset-x-3 after:-inset-y-2 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
       {...props}
