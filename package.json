@@ -15,6 +15,8 @@
     "readiness:sync": "node scripts/sync-component-readiness.mjs",
     "registry:build": "npm run readiness:sync && npm run build:cli && npm run cubix -- build ./registry.json -o ./public/r -c .",
     "test:registry": "node scripts/test-registry-packaging.mjs",
+    "test:mcp": "node scripts/test-mcp.mjs",
+    "test:mcp-registry": "node scripts/test-mcp-registry.mjs",
     "audit:ready": "node scripts/audit-ready-components.mjs",
     "smoke:cli": "node scripts/smoke-cli.mjs",
     "start": "next start",

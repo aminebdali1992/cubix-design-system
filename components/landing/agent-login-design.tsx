@@ -6,7 +6,10 @@ import { AnimatePresence, motion } from "framer-motion"
 import {
   CheckIcon,
   ChevronRightIcon,
+  CloudIcon,
   LoaderCircleIcon,
+  PackageIcon,
+  SearchIcon,
   SparklesIcon,
   TerminalIcon,
 } from "lucide-react"
@@ -32,8 +35,10 @@ import {
   PasswordFieldToggle,
 } from "@/components/cubix/password-field"
 import { cn } from "@/lib/utils"
+import { siteConfig } from "@/lib/site"
 
 import { CursorAgentComposer } from "./cursor-agent-composer"
+import { TypingCaret } from "./cursor-agent-caret"
 import { usePrefersReducedMotion } from "./use-prefers-reduced-motion"
 
 const cursorSans = Inter({
@@ -51,19 +56,39 @@ const cursorMono = JetBrains_Mono({
 const USER_PROMPT =
   "Design a clean login screen with Cubix - email, password, and a primary sign-in button."
 
-const AGENT_INTRO =
-  "Building with Cubix primitives: Card, Email Field, Password Field, and Button. Same tokens in light and dark."
+const AGENT_PLAN =
+  "I'll use the Cubix Skill against the registry, pull the ready components, then compose the login UI."
 
 const AGENT_SUCCESS =
-  "Login form is ready. Fields use Cubix focus and invalid states, and the CTA is the primary Button."
+  "Login is ready. Card, Email Field, Password Field, and Button came from the registry - same tokens in light and dark."
+
+const SEARCH_HITS = [
+  { name: "card", version: "1.0.0" },
+  { name: "email-field", version: "1.0.0" },
+  { name: "password-field", version: "1.0.0" },
+  { name: "button", version: "1.0.0" },
+] as const
+
+const ADDED_FILES = [
+  "components/cubix/card.tsx",
+  "components/cubix/email-field.tsx",
+  "components/cubix/password-field.tsx",
+  "components/cubix/button.tsx",
+] as const
 
 type DemoPhase =
   | "idle"
+  | "skill"
   | "typing"
   | "sending"
   | "user-sent"
   | "thinking"
-  | "agent-intro"
+  | "plan"
+  | "search-run"
+  | "search-done"
+  | "add-run"
+  | "add-writing"
+  | "add-done"
   | "preview-card"
   | "preview-fields"
   | "preview-button"
@@ -72,11 +97,17 @@ type DemoPhase =
 
 const PHASE_ORDER: DemoPhase[] = [
   "idle",
+  "skill",
   "typing",
   "sending",
   "user-sent",
   "thinking",
-  "agent-intro",
+  "plan",
+  "search-run",
+  "search-done",
+  "add-run",
+  "add-writing",
+  "add-done",
   "preview-card",
   "preview-fields",
   "preview-button",
@@ -85,17 +116,23 @@ const PHASE_ORDER: DemoPhase[] = [
 ]
 
 const PHASE_AT = {
-  typing: 800,
-  charMs: 28,
-  afterTyped: 500,
-  sending: 240,
-  thinking: 800,
-  agentIntro: 900,
-  previewCard: 700,
-  previewFields: 900,
-  previewButton: 700,
-  success: 700,
-  hold: 3400,
+  skill: 1100,
+  typing: 500,
+  charMs: 26,
+  afterTyped: 420,
+  sending: 220,
+  thinking: 700,
+  plan: 900,
+  searchRun: 900,
+  searchDone: 1100,
+  addRun: 700,
+  addWriting: 1400,
+  addDone: 700,
+  previewCard: 650,
+  previewFields: 850,
+  previewButton: 650,
+  success: 800,
+  hold: 3600,
 } as const
 
 function phaseRank(phase: DemoPhase) {
@@ -115,6 +152,53 @@ function ThinkingDots() {
   )
 }
 
+function ToolShell({
+  title,
+  icon: Icon,
+  status,
+  children,
+  reduceMotion,
+}: {
+  title: string
+  icon: React.ComponentType<{ className?: string }>
+  status: "running" | "done"
+  children: React.ReactNode
+  reduceMotion: boolean
+}) {
+  return (
+    <motion.div
+      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.28 }}
+      className="overflow-hidden rounded-xl border border-border bg-background"
+    >
+      <div className="flex items-center gap-2 border-b border-border px-3 py-2">
+        <Icon className="size-3.5 text-muted-foreground" aria-hidden />
+        <span
+          className="min-w-0 flex-1 truncate font-mono text-[12px] text-foreground"
+          style={{ fontFamily: "var(--font-cursor-mono), ui-monospace, monospace" }}
+        >
+          {title}
+        </span>
+        <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground">
+          {status === "running" ? (
+            <>
+              <LoaderCircleIcon className="size-3 animate-spin" aria-hidden />
+              Running
+            </>
+          ) : (
+            <>
+              <CheckIcon className="size-3 text-emerald-600 dark:text-emerald-400" aria-hidden />
+              Done
+            </>
+          )}
+        </span>
+      </div>
+      <div className="px-3 py-2.5">{children}</div>
+    </motion.div>
+  )
+}
+
 function LoginPreview({
   phase,
   reduceMotion,
@@ -128,7 +212,7 @@ function LoginPreview({
   const done = atLeast(phase, "success")
 
   return (
-    <div className="relative flex h-full min-h-0 flex-col border-t border-border bg-muted/40 lg:border-t-0 lg:border-s">
+    <div className="relative flex h-full min-h-0 flex-col bg-muted/40 lg:border-s lg:border-border">
       <div className="flex h-10 shrink-0 items-center justify-between border-b border-border px-4">
         <div className="flex items-center gap-2 text-[13px] text-muted-foreground">
           <span className="font-medium text-foreground">Preview</span>
@@ -167,11 +251,7 @@ function LoginPreview({
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
               className="relative w-full max-w-[320px]"
             >
-              <Card
-                dir="rtl"
-                lang="fa"
-                className="w-full shadow-sm ring-foreground/10"
-              >
+              <Card dir="rtl" lang="fa" className="w-full shadow-sm ring-foreground/10">
                 <CardHeader>
                   <motion.div
                     initial={reduceMotion ? false : { opacity: 0, y: 8 }}
@@ -179,15 +259,10 @@ function LoginPreview({
                     transition={{ delay: reduceMotion ? 0 : 0.08, duration: 0.3 }}
                     className="space-y-1"
                   >
-                    <CardTitle className="text-base font-medium">
-                      ورود به حساب
-                    </CardTitle>
-                    <CardDescription>
-                      با حساب Cubix خود ادامه دهید.
-                    </CardDescription>
+                    <CardTitle className="text-base font-medium">ورود به حساب</CardTitle>
+                    <CardDescription>با حساب Cubix خود ادامه دهید.</CardDescription>
                   </motion.div>
                 </CardHeader>
-
                 <CardContent className="space-y-4 pb-(--card-spacing)">
                   <AnimatePresence>
                     {showFields ? (
@@ -222,7 +297,6 @@ function LoginPreview({
                       </motion.div>
                     ) : null}
                   </AnimatePresence>
-
                   <AnimatePresence>
                     {showButton ? (
                       <motion.div
@@ -245,10 +319,10 @@ function LoginPreview({
               key="empty"
               initial={false}
               animate={{ opacity: 1 }}
-              className="flex flex-col items-center gap-2 text-center text-[13px] text-muted-foreground"
+              className="flex max-w-[220px] flex-col items-center gap-3 text-center text-[13px] text-muted-foreground"
             >
-              <SparklesIcon className="size-5 opacity-60" aria-hidden />
-              <p>Preview updates as the agent builds.</p>
+              <CloudIcon className="size-5 opacity-60" aria-hidden />
+              <p>Waiting for registry install, then the preview builds field by field.</p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -261,6 +335,9 @@ export function AgentLoginDesign() {
   const reduceMotion = usePrefersReducedMotion()
   const [phase, setPhase] = React.useState<DemoPhase>(reduceMotion ? "hold" : "idle")
   const [typed, setTyped] = React.useState(reduceMotion ? USER_PROMPT : "")
+  const [filesVisible, setFilesVisible] = React.useState(
+    reduceMotion ? ADDED_FILES.length : 0
+  )
   const scrollRef = React.useRef<HTMLDivElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
   const timers = React.useRef<number[]>([])
@@ -279,6 +356,7 @@ export function AgentLoginDesign() {
     if (reduceMotion) {
       setPhase("hold")
       setTyped(USER_PROMPT)
+      setFilesVisible(ADDED_FILES.length)
       return
     }
 
@@ -289,6 +367,11 @@ export function AgentLoginDesign() {
       clearTimers()
       setPhase("idle")
       setTyped("")
+      setFilesVisible(0)
+
+      let t = 400
+      schedule(() => setPhase("skill"), t)
+      t += PHASE_AT.skill
 
       schedule(() => {
         setPhase("typing")
@@ -305,19 +388,35 @@ export function AgentLoginDesign() {
           }
         }
         typeNext()
-      }, PHASE_AT.typing)
+      }, t)
 
-      const afterUser =
+      t +=
         PHASE_AT.typing +
         USER_PROMPT.length * PHASE_AT.charMs +
         PHASE_AT.afterTyped +
-        PHASE_AT.sending
+        PHASE_AT.sending +
+        280
 
-      let t = afterUser + 300
       schedule(() => setPhase("thinking"), t)
       t += PHASE_AT.thinking
-      schedule(() => setPhase("agent-intro"), t)
-      t += PHASE_AT.agentIntro
+      schedule(() => setPhase("plan"), t)
+      t += PHASE_AT.plan
+      schedule(() => setPhase("search-run"), t)
+      t += PHASE_AT.searchRun
+      schedule(() => setPhase("search-done"), t)
+      t += PHASE_AT.searchDone
+      schedule(() => setPhase("add-run"), t)
+      t += PHASE_AT.addRun
+      schedule(() => {
+        setPhase("add-writing")
+        setFilesVisible(0)
+        ADDED_FILES.forEach((_, index) => {
+          schedule(() => setFilesVisible(index + 1), 220 * (index + 1))
+        })
+      }, t)
+      t += PHASE_AT.addWriting
+      schedule(() => setPhase("add-done"), t)
+      t += PHASE_AT.addDone
       schedule(() => setPhase("preview-card"), t)
       t += PHASE_AT.previewCard
       schedule(() => setPhase("preview-fields"), t)
@@ -350,26 +449,29 @@ export function AgentLoginDesign() {
     })
     observer.observe(content)
     return () => observer.disconnect()
-  }, [reduceMotion])
+  }, [reduceMotion, phase, filesVisible])
 
+  const showSkill = atLeast(phase, "skill")
   const showUser = atLeast(phase, "user-sent")
   const draft = phase === "typing" || phase === "sending" ? typed : ""
   const showThinking = phase === "thinking"
-  const showAgent = atLeast(phase, "agent-intro")
+  const showPlan = atLeast(phase, "plan")
+  const showSearch = atLeast(phase, "search-run")
+  const showAdd = atLeast(phase, "add-run")
   const showSuccess = atLeast(phase, "success")
   const busy = atLeast(phase, "user-sent") && !atLeast(phase, "success")
 
   return (
     <div
       role="img"
-      aria-label="Animated agent demo designing a Cubix login form while a live preview assembles on the side."
+      aria-label="Animated demo showing Cubix Skill connecting to the registry, installing components with the CLI, and assembling a login UI preview."
       className={cn(
         cursorSans.className,
         cursorMono.variable,
         "w-full overflow-hidden border-0 bg-card text-card-foreground antialiased tracking-[-0.011em]"
       )}
     >
-      <div className="flex flex-col bg-card text-card-foreground">
+      <div className="flex h-full flex-col bg-card text-card-foreground">
         <div className="flex h-11 items-center gap-3 border-b border-border bg-muted/40 px-3.5">
           <div className="flex items-center gap-[7px]" aria-hidden>
             <span className="size-[11px] rounded-full bg-[#ff5f57]" />
@@ -381,26 +483,59 @@ export function AgentLoginDesign() {
               <TerminalIcon className="size-3.5 shrink-0 opacity-70" aria-hidden />
               <span className="truncate">Agent</span>
               <span className="opacity-40">/</span>
-              <span className="truncate text-foreground">Design login</span>
+              <span className="truncate text-foreground">Cubix Skill</span>
             </div>
           </div>
           <div className="w-[52px]" aria-hidden />
         </div>
 
-        <div className="grid min-h-[520px] grid-cols-1 lg:min-h-[500px] lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
-          <div className="flex min-h-[320px] min-w-0 flex-col bg-card lg:min-h-0">
+        <div className="grid h-[640px] grid-cols-1 grid-rows-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:h-[560px] lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:grid-rows-none">
+          <div className="flex h-full min-h-0 min-w-0 flex-col overflow-hidden bg-card">
             <div className="flex h-10 shrink-0 items-center gap-1.5 border-b border-border px-4 text-[13px]">
               <span className="font-medium text-foreground">Agent</span>
               <ChevronRightIcon className="size-3.5 text-muted-foreground" aria-hidden />
-              <span className="text-muted-foreground">New chat</span>
+              <span className="text-muted-foreground">Build login</span>
             </div>
 
             <div
               ref={scrollRef}
-              className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 md:px-5"
+              className="cubix-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 md:px-5"
             >
-              <div ref={contentRef} className="flex flex-col gap-5">
+              <div ref={contentRef} className="flex flex-col gap-4">
                 <AnimatePresence initial={false}>
+                  {showSkill ? (
+                    <motion.div
+                      key="skill"
+                      initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="rounded-xl border border-border bg-muted/40 px-3.5 py-3"
+                    >
+                      <div className="flex items-start gap-2.5">
+                        <span className="mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-md border border-border bg-background">
+                          <SparklesIcon className="size-3.5" aria-hidden />
+                        </span>
+                        <div className="min-w-0 space-y-1">
+                          <div className="text-[13px] font-medium text-foreground">
+                            Cubix Skill connected
+                          </div>
+                          <p className="text-[12px] leading-relaxed text-muted-foreground">
+                            Registry{" "}
+                            <span className="font-mono text-foreground/80">
+                              {siteConfig.registryUrl}
+                            </span>
+                            {" · "}
+                            CLI{" "}
+                            <span className="font-mono text-foreground/80">cubix-ui</span>
+                          </p>
+                        </div>
+                        <CheckIcon
+                          className="ms-auto size-3.5 shrink-0 text-emerald-600 dark:text-emerald-400"
+                          aria-hidden
+                        />
+                      </div>
+                    </motion.div>
+                  ) : null}
+
                   {showUser ? (
                     <motion.div
                       key="user"
@@ -426,80 +561,119 @@ export function AgentLoginDesign() {
                     </motion.div>
                   ) : null}
 
-                  {showAgent ? (
-                    <motion.div
-                      key="agent"
-                      initial={reduceMotion ? false : { opacity: 0, y: 10 }}
+                  {showPlan ? (
+                    <motion.p
+                      key="plan"
+                      initial={reduceMotion ? false : { opacity: 0, y: 8 }}
                       animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
-                      className="max-w-[min(100%,40rem)] space-y-3.5"
+                      className="max-w-[min(100%,40rem)] text-[14px] leading-[1.6] text-foreground"
                     >
-                      <p className="text-[14px] leading-[1.6] text-foreground">{AGENT_INTRO}</p>
-                      <ul className="space-y-2 text-[13px] text-muted-foreground">
-                        <li className="flex items-center gap-2">
-                          <CheckIcon
-                            className={cn(
-                              "size-3.5",
-                              atLeast(phase, "preview-card")
-                                ? "text-emerald-600 dark:text-[#4ade80]"
-                                : "text-muted-foreground/40"
-                            )}
-                            aria-hidden
-                          />
-                          Compose Card shell and title
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <CheckIcon
-                            className={cn(
-                              "size-3.5",
-                              atLeast(phase, "preview-fields")
-                                ? "text-emerald-600 dark:text-[#4ade80]"
-                                : "text-muted-foreground/40"
-                            )}
-                            aria-hidden
-                          />
-                          Wire Email Field and Password Field
-                        </li>
-                        <li className="flex items-center gap-2">
-                          <CheckIcon
-                            className={cn(
-                              "size-3.5",
-                              atLeast(phase, "preview-button")
-                                ? "text-emerald-600 dark:text-[#4ade80]"
-                                : "text-muted-foreground/40"
-                            )}
-                            aria-hidden
-                          />
-                          Add primary Button CTA
-                        </li>
-                      </ul>
-                      {showSuccess ? (
-                        <motion.p
-                          initial={reduceMotion ? false : { opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          className="text-[14px] leading-[1.6] text-foreground"
-                        >
-                          {AGENT_SUCCESS}
-                        </motion.p>
-                      ) : null}
-                    </motion.div>
+                      {AGENT_PLAN}
+                    </motion.p>
+                  ) : null}
+
+                  {showSearch ? (
+                    <ToolShell
+                      key="search"
+                      title="npx cubix-ui@latest search -q login"
+                      icon={SearchIcon}
+                      status={atLeast(phase, "search-done") ? "done" : "running"}
+                      reduceMotion={reduceMotion}
+                    >
+                      <div
+                        className="space-y-1.5 font-mono text-[12px] leading-relaxed"
+                        style={{
+                          fontFamily: "var(--font-cursor-mono), ui-monospace, monospace",
+                        }}
+                      >
+                        {atLeast(phase, "search-done") ? (
+                          SEARCH_HITS.map((hit) => (
+                            <div
+                              key={hit.name}
+                              className="flex items-center justify-between gap-3 text-muted-foreground"
+                            >
+                              <span className="text-foreground">{hit.name}</span>
+                              <span>v{hit.version} · ready</span>
+                            </div>
+                          ))
+                        ) : (
+                          <span className="text-muted-foreground">
+                            Querying {siteConfig.registryUrl}
+                            <TypingCaret />
+                          </span>
+                        )}
+                      </div>
+                    </ToolShell>
+                  ) : null}
+
+                  {showAdd ? (
+                    <ToolShell
+                      key="add"
+                      title="npx cubix-ui@latest add card email-field password-field button"
+                      icon={PackageIcon}
+                      status={atLeast(phase, "add-done") ? "done" : "running"}
+                      reduceMotion={reduceMotion}
+                    >
+                      <div
+                        className="space-y-1.5 font-mono text-[12px]"
+                        style={{
+                          fontFamily: "var(--font-cursor-mono), ui-monospace, monospace",
+                        }}
+                      >
+                        {ADDED_FILES.slice(0, filesVisible).map((file) => (
+                          <div
+                            key={file}
+                            className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400"
+                          >
+                            <CheckIcon className="size-3 shrink-0" aria-hidden />
+                            <span className="truncate">+ {file}</span>
+                          </div>
+                        ))}
+                        {phase === "add-run" ||
+                        (phase === "add-writing" && filesVisible < ADDED_FILES.length) ? (
+                          <div className="flex items-center gap-2 text-muted-foreground">
+                            <LoaderCircleIcon className="size-3 animate-spin" aria-hidden />
+                            Writing owned source into the repo
+                            <TypingCaret />
+                          </div>
+                        ) : null}
+                        {atLeast(phase, "add-done") ? (
+                          <div className="pt-1 text-muted-foreground">
+                            4 components added · base from cubix.json
+                          </div>
+                        ) : null}
+                      </div>
+                    </ToolShell>
+                  ) : null}
+
+                  {showSuccess ? (
+                    <motion.p
+                      key="success"
+                      initial={reduceMotion ? false : { opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="max-w-[min(100%,40rem)] text-[14px] leading-[1.6] text-foreground"
+                    >
+                      {AGENT_SUCCESS}
+                    </motion.p>
                   ) : null}
                 </AnimatePresence>
               </div>
             </div>
 
-            <CursorAgentComposer
-              draft={draft}
-              typing={phase === "typing"}
-              sending={phase === "sending"}
-              busy={busy}
-              hasMessages={showUser}
-              reduceMotion={reduceMotion}
-              tone="surface"
-            />
+            <div className="shrink-0 border-t border-border">
+              <CursorAgentComposer
+                draft={draft}
+                typing={phase === "typing"}
+                sending={phase === "sending"}
+                busy={busy}
+                hasMessages={showUser}
+                reduceMotion={reduceMotion}
+                tone="surface"
+              />
+            </div>
           </div>
 
-          <div className="min-h-[280px] lg:min-h-0">
+          <div className="h-full min-h-0 overflow-hidden border-t border-border lg:border-t-0">
             <LoginPreview phase={reduceMotion ? "hold" : phase} reduceMotion={reduceMotion} />
           </div>
         </div>

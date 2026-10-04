@@ -5,6 +5,7 @@ export const siteConfig = {
   name: "Cubix",
   url,
   registryUrl: `${url}/r`,
+  mcpUrl: `${url}/api/mcp`,
   schemaUrl: `${url}/schema.json`,
   registrySchemaUrl: `${url}/schema/registry.json`,
   registryItemSchemaUrl: `${url}/schema/registry-item.json`,

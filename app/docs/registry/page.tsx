@@ -4,6 +4,7 @@ import {
   BlocksIcon,
   SparklesIcon,
   TerminalIcon,
+  WaypointsIcon,
 } from "lucide-react";
 
 import { CodeBlock } from "@/components/docs/code-block";
@@ -354,6 +355,12 @@ export default function RegistryPage() {
               description: "build, add, view, and search against a registry.",
               href: "/docs/cli",
               icon: TerminalIcon,
+            },
+            {
+              title: "MCP",
+              description: "HTTP tools that read this registry for agents.",
+              href: "/docs/mcp",
+              icon: WaypointsIcon,
             },
             {
               title: "Skills",

@@ -75,6 +75,18 @@
   }
 }
 
+/*
+  Tailwind theme fonts resolve to Geist stacks. Re-declare the utilities so
+  IRANSans Cubix stays first; unicode-range keeps Latin on Geist.
+*/
+@utility font-sans {
+  font-family: var(--font-arab), var(--font-sans), ui-sans-serif, sans-serif;
+}
+
+@utility font-heading {
+  font-family: var(--font-arab), var(--font-heading), ui-sans-serif, sans-serif;
+}
+
 @utility cn-rtl-flip {
   :where([dir="rtl"], [dir="rtl"] *) & {
     rotate: 180deg;
@@ -329,7 +341,8 @@
   --font-heading: var(--font-heading);
   --font-mono: var(--font-mono);
   --font-iran-sans: var(--font-iran-sans);
-  --font-arab: "IRANSans Cubix";
+  /* Cubix face first (metric overrides); next/font face as loaded fallback. */
+  --font-arab: "IRANSans Cubix", var(--font-iran-sans);
   --font-arab-ascent-override: 107%;
   --font-arab-descent-override: 43%;
   --font-arab-optical-nudge: 0em;
@@ -337,9 +350,10 @@
 
 /*
   Type tokens stay in @theme (not inline) so utilities resolve
-  font-size: var(--text-description) at runtime. Locale rules like
-  [lang=fa] can then tune font family and leading without touching
-  components - sizes stay on the documented scale.
+  font-size: var(--text-description) at runtime. Cubix is Persian-first:
+  clean steps of 12 / 13 / 14 / 15 / 17 / 20 / 22 / 28 / 32 (+ fluid
+  display). IRANSans body sits at 15px so it matches Latin 16 optically.
+  text-label (13) and text-caption (12) stay fixed for control chrome.
 */
 
 @theme {
@@ -349,48 +363,48 @@
   --text-13--line-height: calc(1.125 / 0.8125);
   --text-sm: 0.875rem;
   --text-sm--line-height: calc(1.25 / 0.875);
-  --text-base: 1rem;
-  --text-base--line-height: calc(1.5 / 1);
-  --text-lg: 1.125rem;
-  --text-lg--line-height: calc(1.75 / 1.125);
+  --text-base: 0.9375rem;
+  --text-base--line-height: calc(1.5 / 0.9375);
+  --text-lg: 1.0625rem;
+  --text-lg--line-height: calc(1.625 / 1.0625);
   --text-xl: 1.25rem;
   --text-xl--line-height: calc(1.75 / 1.25);
-  --text-2xl: 1.5rem;
-  --text-2xl--line-height: calc(2 / 1.5);
-  --text-3xl: 1.875rem;
-  --text-3xl--line-height: calc(2.25 / 1.875);
-  --text-4xl: 2.25rem;
-  --text-4xl--line-height: calc(2.5 / 2.25);
-  --text-5xl: 3rem;
+  --text-2xl: 1.375rem;
+  --text-2xl--line-height: calc(1.875 / 1.375);
+  --text-3xl: 1.75rem;
+  --text-3xl--line-height: calc(2.125 / 1.75);
+  --text-4xl: 2rem;
+  --text-4xl--line-height: calc(2.375 / 2);
+  --text-5xl: 2.75rem;
   --text-5xl--line-height: 1.15;
-  --text-6xl: 3.75rem;
+  --text-6xl: 3.5rem;
   --text-6xl--line-height: 1.12;
-  --text-7xl: 4.5rem;
+  --text-7xl: 4.25rem;
   --text-7xl--line-height: 1.1;
-  --text-8xl: 6rem;
+  --text-8xl: 5.5rem;
   --text-8xl--line-height: 1.08;
 
-  --text-display: clamp(2.25rem, 1.75rem + 2.5vw, 3.75rem);
+  --text-display: clamp(2rem, 1.55rem + 2vw, 3.25rem);
   --text-display--line-height: 1.12;
   --text-display--letter-spacing: -0.03em;
   --text-display--font-weight: 600;
 
-  --text-headline: clamp(1.875rem, 1.75rem + 0.625vw, 2.25rem);
+  --text-headline: clamp(1.75rem, 1.625rem + 0.5vw, 2rem);
   --text-headline--line-height: 1.2;
   --text-headline--letter-spacing: -0.025em;
   --text-headline--font-weight: 600;
 
-  --text-title: 1.5rem;
-  --text-title--line-height: calc(2 / 1.5);
+  --text-title: 1.375rem;
+  --text-title--line-height: calc(1.875 / 1.375);
   --text-title--letter-spacing: -0.02em;
   --text-title--font-weight: 600;
 
-  --text-lead: 1.125rem;
-  --text-lead--line-height: calc(1.75 / 1.125);
+  --text-lead: 1.0625rem;
+  --text-lead--line-height: calc(1.625 / 1.0625);
   --text-lead--letter-spacing: 0em;
 
-  --text-body: 1rem;
-  --text-body--line-height: 1.6;
+  --text-body: 0.9375rem;
+  --text-body--line-height: 1.65;
   --text-body--letter-spacing: 0em;
 
   --text-description: 0.875rem;
@@ -427,7 +441,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
-    --font-arab: "IRANSans Cubix";
+    --font-arab: "IRANSans Cubix", var(--font-iran-sans);
     --font-arab-ascent-override: 107%;
     --font-arab-descent-override: 43%;
     --font-arab-optical-nudge: 0em;
@@ -571,25 +585,25 @@
   }
 
   .typeset :where(h1) {
-    font-size: 2.25em;
+    font-size: 2em;
     line-height: var(--leading-headline);
     letter-spacing: var(--tracking-display);
   }
 
   .typeset :where(h2) {
-    font-size: 1.5em;
+    font-size: 1.375em;
     line-height: var(--leading-headline);
     letter-spacing: var(--tracking-headline);
   }
 
   .typeset :where(h3) {
-    font-size: 1.25em;
+    font-size: 1.1875em;
     line-height: 1.3;
     letter-spacing: var(--tracking-title);
   }
 
   .typeset :where(h4) {
-    font-size: 1.125em;
+    font-size: 1.0625em;
     line-height: 1.4;
     letter-spacing: var(--tracking-title);
   }
@@ -829,6 +843,19 @@
 .cubix-code-block code {
   line-height: 1.55;
   white-space: normal;
+}
+
+@keyframes cli-step-ring-fill {
+  from {
+    stroke-dashoffset: var(--cli-step-ring-circumference);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.cli-step-ring {
+  animation: cli-step-ring-fill var(--cli-step-ring-duration) linear forwards;
 }
 
 .landing-hatch {

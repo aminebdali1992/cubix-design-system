@@ -52,18 +52,6 @@ function HeaderBar({ className, githubLink }: SiteHeaderProps) {
           >
             Blocks
           </Link>
-          <Link
-            href="/docs/theming"
-            className="transition-colors hover:text-foreground"
-          >
-            Theming
-          </Link>
-          <Link
-            href="/docs/typeset"
-            className="transition-colors hover:text-foreground"
-          >
-            Typeset
-          </Link>
         </nav>
       </div>
       <div className="flex items-center gap-2">

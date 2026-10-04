@@ -33,6 +33,7 @@ const getStartedLinks: DocsNavLink[] = [
   { title: "Upgrade", href: "/docs/upgrade" },
   { title: "Typeset", href: "/docs/typeset" },
   { title: "Skills", href: "/docs/skills" },
+  { title: "MCP", href: "/docs/mcp" },
   { title: "Registry", href: "/docs/registry" },
   { title: "Changelog", href: "/docs/changelog", indicator: true },
 ];

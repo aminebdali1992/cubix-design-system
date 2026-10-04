@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import {
   BlocksIcon,
-  BookOpenIcon,
   PaletteIcon,
   TerminalIcon,
+  WaypointsIcon,
 } from "lucide-react";
 
 import { CodeBlock } from "@/components/docs/code-block";
@@ -184,7 +184,12 @@ export default function SkillsPage() {
           <Link href="/docs/installation" className={linkClassName}>
             Installation
           </Link>{" "}
-          so <InlineCode>cubix.json</InlineCode> already exists in the repo.
+          so <InlineCode>cubix.json</InlineCode> already exists in the repo,
+          and with{" "}
+          <Link href="/docs/mcp" className={linkClassName}>
+            MCP
+          </Link>{" "}
+          when you want live registry tools over HTTP.
         </p>
       </section>
 
@@ -291,6 +296,12 @@ export default function SkillsPage() {
         <DocsNextSteps
           steps={[
             {
+              title: "MCP",
+              description: "HTTP tools for list, search, install, and demos.",
+              href: "/docs/mcp",
+              icon: WaypointsIcon,
+            },
+            {
               title: "CLI",
               description: "Commands the skill expects assistants to use.",
               href: "/docs/cli",
@@ -301,12 +312,6 @@ export default function SkillsPage() {
               description: "Token rules assistants should follow.",
               href: "/docs/theming",
               icon: PaletteIcon,
-            },
-            {
-              title: "Registry",
-              description: "Schemas for publishing and discovering items.",
-              href: "/docs/registry",
-              icon: BookOpenIcon,
             },
             {
               title: "Components",

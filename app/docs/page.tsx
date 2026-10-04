@@ -275,8 +275,12 @@ export default function DocsPage() {
           <Link href="/docs/skills" className={linkClassName}>
             Skills
           </Link>{" "}
-          and your assistant uses the right imports, the right base, and theme
-          tokens instead of hardcoded colors - on the first try.
+          and connect{" "}
+          <Link href="/docs/mcp" className={linkClassName}>
+            MCP
+          </Link>{" "}
+          so the assistant uses the right imports, the right base, theme tokens,
+          and live registry tools - on the first try.
         </p>
       </section>
 

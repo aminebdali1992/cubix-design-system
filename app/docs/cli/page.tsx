@@ -5,6 +5,7 @@ import {
   BookOpenIcon,
   PackageIcon,
   SparklesIcon,
+  WaypointsIcon,
 } from "lucide-react";
 
 import { CodeBlock } from "@/components/docs/code-block";
@@ -396,6 +397,12 @@ export default function CliPage() {
               description: "Catalog schema, item format, and publishing.",
               href: "/docs/registry",
               icon: BookOpenIcon,
+            },
+            {
+              title: "MCP",
+              description: "HTTP tools over the same registry the CLI uses.",
+              href: "/docs/mcp",
+              icon: WaypointsIcon,
             },
             {
               title: "Skills",

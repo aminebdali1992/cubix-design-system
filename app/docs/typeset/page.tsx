@@ -100,12 +100,14 @@ export default function TypesetPage() {
         <ul className="list-disc space-y-2 ps-6 text-muted-foreground">
           <li>
             <strong className="text-foreground">Readable by default</strong> -
-            body stays at 16px with at least 1.5 line-height. Display type
-            tracks tighter. Persian on{" "}
-            <code className="font-mono text-sm">[lang=fa]</code> uses IRANSans XV
-            with a baseline-corrected font face, 0 heading
-            tracking, and tuned prose leading. Type sizes match the
-            documented scale exactly - no locale size shrink.
+            body sits at 15px with at least 1.5 line-height - a Persian-first
+            optical scale so IRANSans does not feel oversized. Display type
+            tracks tighter. On{" "}
+            <code className="font-mono text-sm">[lang=fa]</code>, IRANSans XV
+            uses a baseline-corrected face, 0 heading tracking, and tuned prose
+            leading. <code className="font-mono text-sm">text-label</code> (13px)
+            and <code className="font-mono text-sm">text-caption</code> (12px)
+            stay fixed for controls.
           </li>
           <li>
             <strong className="text-foreground">Fits the container</strong> -
@@ -154,8 +156,15 @@ export default function TypesetPage() {
                   <td className="whitespace-nowrap px-4 py-3 align-top font-mono text-xs font-medium text-foreground">
                     {f.name}
                   </td>
-                  <td className={`px-4 py-3 align-top text-xs ${f.className}`}>
-                    {f.value} - The quick brown fox jumps over the lazy dog.
+                  <td
+                    className={`px-4 py-3 align-top text-xs ${f.className}`}
+                    {...(f.name === "--font-iran-sans"
+                      ? { lang: "fa", dir: "rtl" as const }
+                      : {})}
+                  >
+                    {f.name === "--font-iran-sans"
+                      ? `${f.value} - طراحی سیستم تایپ کوبیکس برای محصول فارسی`
+                      : `${f.value} - The quick brown fox jumps over the lazy dog.`}
                   </td>
                   <td className="px-4 py-3 align-top text-xs text-muted-foreground">
                     {f.usage}
@@ -369,8 +378,9 @@ export default function TypesetPage() {
           <code className="font-mono text-sm">text-description</code> read{" "}
           <code className="font-mono text-sm">var(--text-description)</code>, so
           IRANSans XV, tuned prose leading, and heading flow all follow.
-          Type sizes stay on the documented scale (12 / 13 / 14 / 16px and up).
-          Title-to-description stack stays the same as English.
+          Type sizes stay on the documented Persian-first scale (12 / 13 / 14 /
+          15 / 17 / 20 / 22 / 28 / 32px). Title-to-description stack stays the
+          same as English.
         </p>
         <p className="leading-relaxed text-muted-foreground">
           Vertical centering is solved once, in the font face. Geist places its
@@ -471,35 +481,43 @@ export default function TypesetPage() {
         <h2 className="scroll-m-20 font-semibold tracking-tight">
           In practice
         </h2>
-        <div className="space-y-6 rounded-xl border border-border p-6 sm:p-8">
-          <p className="font-heading text-display">
-            The quick brown fox jumps over the lazy dog
+        <p className="leading-relaxed text-muted-foreground">
+          Same roles in Persian - IRANSans XV, RTL, and the documented sizes.
+        </p>
+        <div
+          lang="fa"
+          dir="rtl"
+          className="space-y-6 rounded-xl border border-border bg-muted/20 p-6 sm:p-8 [font-family:var(--font-arab),var(--font-sans),ui-sans-serif,sans-serif]"
+        >
+          <p className="text-display font-semibold tracking-normal [font-family:var(--font-arab),var(--font-heading),ui-sans-serif,sans-serif]">
+            طراحی سیستم تایپ کوبیکس
           </p>
-          <p className="font-heading text-headline">
-            Headline for a product page
+          <p className="text-headline font-semibold tracking-normal [font-family:var(--font-arab),var(--font-heading),ui-sans-serif,sans-serif]">
+            عنوان صفحه محصول
           </p>
-          <p className="font-heading text-title">Section title</p>
+          <p className="text-title font-semibold tracking-normal [font-family:var(--font-arab),var(--font-heading),ui-sans-serif,sans-serif]">
+            عنوان بخش
+          </p>
           <p className="text-lead text-muted-foreground">
-            Lead copy uses text-lead at 18px with relaxed leading so the first
-            paragraph can carry the page.
+            متن lead با سایز ۱۷ پیکسل و فاصله خطوط باز - برای پاراگراف اول
+            صفحه.
           </p>
           <div className="typeset typeset-docs max-w-prose">
             <p>
-              Body copy sits at 16px and 1.6 line-height, capped near 65
-              characters. That is the reading column WCAG and classic print
-              practice both point at.
+              متن بدنه روی ۱۵ پیکسل و ارتفاع خط ۱٫۶۵ است؛ عرض خواندن نزدیک ۶۵
+              نویسه. این همان ستون خواندنی برای مستندات و مقاله است.
             </p>
             <p>
-              A second paragraph gets flow spacing from the typeset, not from
-              ad-hoc margins on each tag.
+              پاراگراف دوم فاصله‌اش را از ریتم Typeset می‌گیرد، نه از حاشیه
+              جداگانه روی هر تگ.
             </p>
           </div>
           <p className="text-description text-muted-foreground">
-            Supporting UI copy uses text-description.
+            متن کمکی رابط با text-description - ۱۴ پیکسل.
           </p>
-          <p className="text-label">Field label</p>
+          <p className="text-label">برچسب فیلد - ۱۳ پیکسل</p>
           <p className="text-caption text-muted-foreground">
-            Hint under an input uses text-caption.
+            راهنمای زیر ورودی با text-caption - ۱۲ پیکسل.
           </p>
         </div>
       </section>

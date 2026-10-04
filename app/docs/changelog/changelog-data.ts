@@ -13,6 +13,34 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    id: "2026-10-mcp",
+    date: "October 2026",
+    title: "HTTP MCP server for the Cubix registry",
+    summary:
+      "Agents can connect over Streamable HTTP to list, search, and fetch install commands and demos from the live Cubix registry - the same catalog cubix-ui uses.",
+    sections: [
+      {
+        heading: "What shipped",
+        body: [
+          "A public, read-only MCP endpoint at /api/mcp implements the 2025-03-26 Streamable HTTP transport (JSON or SSE). It exposes list_components, search_components, get_component, get_component_demo, and get_install_command against public/r.",
+        ],
+        bullets: [
+          "One public Streamable HTTP URL for Cursor, Codex, Claude, and other MCP clients.",
+          "Docs cover Cursor mcp.json, Codex CLI/config.toml, and Claude CLI.",
+          "Landing Behind the scenes section points agents at MCP plus the Cubix Skill.",
+        ],
+        code: {
+          title: "Terminal",
+          lang: "shell",
+          content: `# Cursor: .cursor/mcp.json → { "mcpServers": { "cubix": { "url": "https://cubixflow.ir/api/mcp" } } }
+codex mcp add cubix --url https://cubixflow.ir/api/mcp
+claude mcp add --transport http cubix https://cubixflow.ir/api/mcp
+npx skills add aminebdali1992/cubix-design-system`,
+        },
+      },
+    ],
+  },
+  {
     id: "2026-10-release",
     date: "October 2026",
     title: "Public readiness contract and cubix-ui@0.1.4",

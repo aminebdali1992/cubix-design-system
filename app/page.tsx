@@ -14,9 +14,10 @@ import { Button } from "@/components/cubix/button"
 import { cn } from "@/lib/utils"
 import { AgentLoginDesign } from "@/components/landing/agent-login-design"
 import { BasesCycle } from "@/components/landing/bases-cycle"
-import { CliInstallSnippet } from "@/components/landing/cli-install-snippet"
+import { CliWorkflowDemo } from "@/components/landing/cli-workflow-demo"
 import { CopyInitCommand } from "@/components/landing/copy-init-command"
 import { HeroAgentStack } from "@/components/landing/hero-agent-stack"
+import { McpAgentMarks } from "@/components/landing/mcp-agent-marks"
 import { SiteFrame } from "@/components/site-frame"
 import { siteConfig } from "@/lib/site"
 
@@ -27,6 +28,7 @@ const capabilities = [
   "42 ready components",
   "3 primitive bases",
   "Agent UI",
+  "HTTP MCP",
   "Typeset",
   "RTL & Persian",
   "Owned source",
@@ -92,7 +94,13 @@ const resources = [
     href: "/docs",
     icon: BookOpenIcon,
     title: "Documentation",
-    description: "Install, theming, Typeset, Skills, and the readiness contract.",
+    description: "Install, theming, Skills, and the readiness contract.",
+  },
+  {
+    href: "/docs/typeset",
+    icon: TypeIcon,
+    title: "Typeset",
+    description: "Semantic type roles, rhythm presets, and Persian-first prose.",
   },
   {
     href: "/docs/components",
@@ -229,11 +237,32 @@ export default function HomePage() {
       </section>
 
       <SectionShell
-        eyebrow="Agent + design"
-        title="Prompt a screen. Watch Cubix assemble the UI."
-        description="One prompt. Cubix primitives compose in a live preview - design language and implementation stay the same story."
-        className="flex flex-col items-center justify-center gap-10 border-x border-border pt-16 md:gap-12 md:pt-24"
+        eyebrow="Behind the scenes"
+        title="How your agent installs Cubix and builds the UI"
+        description="Connect MCP for live registry tools, install the Cubix Skill for composition rules, then search and add owned source - every step is real."
+        className="flex flex-col items-center justify-center gap-8 border-x border-border pt-16 md:gap-10 md:pt-24"
       >
+        <div className="w-full px-5 md:px-12">
+          <div className="mx-auto flex max-w-2xl flex-col items-center gap-4 text-center">
+            <McpAgentMarks />
+            <code className="inline-flex max-w-full items-center overflow-x-auto rounded-full border border-border bg-muted/50 px-3 py-1.5 font-mono text-[11px] text-muted-foreground md:text-xs">
+              {siteConfig.mcpUrl}
+            </code>
+            <p className="text-xs text-muted-foreground">
+              One MCP URL for every client -{" "}
+              <Link
+                href="/docs/mcp"
+                className="font-medium text-foreground/80 underline decoration-dotted underline-offset-4"
+              >
+                setup guides
+              </Link>
+              . Pair with{" "}
+              <span className="font-mono text-foreground/80">
+                npx skills add {siteConfig.githubRepo}
+              </span>
+            </p>
+          </div>
+        </div>
         <div className="w-full border-t border-border">
           <AgentLoginDesign />
         </div>
@@ -304,9 +333,9 @@ export default function HomePage() {
       <section className="w-full bg-background">
         <div className="border-b border-border">
           <SiteFrame>
-            <div className="grid border-x border-border md:grid-cols-2 md:items-stretch">
-              <div className="flex flex-col justify-center gap-5 border-b border-border px-5 py-14 md:border-b-0 md:border-e md:px-12 md:py-20">
-                <div className="space-y-3">
+            <div className="border-x border-border">
+              <div className="flex flex-col items-start justify-between gap-6 border-b border-border px-5 py-12 md:flex-row md:items-end md:px-12 md:py-14">
+                <div className="max-w-xl space-y-3">
                   <div className="font-mono text-xs font-medium tracking-wider text-muted-foreground uppercase">
                     Developer workflow
                   </div>
@@ -314,8 +343,8 @@ export default function HomePage() {
                     Own every line. Update when you choose.
                   </h2>
                   <p className="text-base text-pretty text-muted-foreground md:text-lg">
-                    Init writes tokens and config. Add copies components into your repo. Upgrade is
-                    an intentional re-add with diff review - not a silent dependency bump.
+                    Init, add, review the diff, then overwrite on purpose - not a silent dependency
+                    bump.
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-3">
@@ -336,11 +365,7 @@ export default function HomePage() {
                   </Button>
                 </div>
               </div>
-              <div className="flex min-h-[280px] md:min-h-0 md:h-full">
-                <div className="w-full md:h-full">
-                  <CliInstallSnippet />
-                </div>
-              </div>
+              <CliWorkflowDemo />
             </div>
           </SiteFrame>
         </div>
@@ -352,7 +377,7 @@ export default function HomePage() {
         description="Docs for decisions, components for product UI, CLI for the developer loop."
         className="flex flex-col items-center justify-center gap-10 border-x border-border pt-16 md:gap-12 md:pt-24"
       >
-        <div className="grid w-full grid-cols-1 gap-2 border-t border-border bg-muted p-2 sm:grid-cols-3 sm:items-stretch">
+        <div className="grid w-full grid-cols-1 gap-2 border-t border-border bg-muted p-2 sm:grid-cols-2 sm:items-stretch lg:grid-cols-4">
           {resources.map((resource) => (
             <Link
               key={resource.title}

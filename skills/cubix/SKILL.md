@@ -120,9 +120,33 @@ npx cubix-ui@latest build ./registry.json -o ./public/r
 
 Each item needs a `name`, a `type` such as `registry:ui` or `registry:block`, its `files`, and accurate `dependencies` (npm packages) and `registryDependencies` (other Cubix items). Validate against `https://cubixflow.ir/schema/registry.json` and `https://cubixflow.ir/schema/registry-item.json`.
 
+## 7. Optional: Cubix MCP
+
+When the host supports MCP over HTTP, connect any client to the same public URL:
+
+`https://cubixflow.ir/api/mcp`
+
+- **Cursor** - project `.cursor/mcp.json` or `~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "cubix": {
+      "url": "https://cubixflow.ir/api/mcp"
+    }
+  }
+}
+```
+
+- **Codex** - `codex mcp add cubix --url https://cubixflow.ir/api/mcp` (or `[mcp_servers.cubix]` with `url` in `~/.codex/config.toml`)
+- **Claude** - `claude mcp add --transport http cubix https://cubixflow.ir/api/mcp`
+
+Tools: `list_components`, `search_components`, `get_component`, `get_component_demo`, `get_install_command`. Prefer these for discovery, then still run `cubix-ui add` (or the command from `get_install_command`) so owned source lands correctly. Docs: https://cubixflow.ir/docs/mcp
+
 ## Reference
 
 - Documentation: https://cubixflow.ir/docs
+- MCP: https://cubixflow.ir/docs/mcp
 - CLI reference: https://cubixflow.ir/docs/cli
 - Components: https://cubixflow.ir/docs/components
 - Theming: https://cubixflow.ir/docs/theming

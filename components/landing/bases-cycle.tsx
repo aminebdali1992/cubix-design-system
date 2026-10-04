@@ -252,7 +252,7 @@ export function BasesCycle() {
           </AnimatePresence>
         </div>
 
-        <div className="flex items-center justify-center bg-muted/60 px-6 py-10 md:px-8 md:py-12">
+        <div className="flex items-center justify-center bg-muted/25 px-6 py-10 md:px-8 md:py-12">
           <AnimatePresence mode="wait">
             <motion.div
               key={active.id}

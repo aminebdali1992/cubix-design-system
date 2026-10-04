@@ -9,10 +9,14 @@ const starsFormatter = new Intl.NumberFormat("en", {
   maximumFractionDigits: 1,
 });
 
+const STAR_COUNT_THRESHOLD = 100;
+
 export async function GitHubLink() {
   const stars = await getGitHubStars();
-  const label =
-    stars === null ? "Cubix on GitHub" : `Cubix on GitHub, ${stars} stars`;
+  const showStarCount = stars !== null && stars > STAR_COUNT_THRESHOLD;
+  const label = showStarCount
+    ? `Cubix on GitHub, ${stars} stars`
+    : "Cubix on GitHub";
 
   return (
     <Button
@@ -30,12 +34,12 @@ export async function GitHubLink() {
       }
     >
       <GithubIcon />
-      {stars === null ? (
-        "GitHub"
-      ) : (
+      {showStarCount ? (
         <span className="text-muted-foreground tabular-nums">
           {starsFormatter.format(stars)}
         </span>
+      ) : (
+        "GitHub"
       )}
     </Button>
   );

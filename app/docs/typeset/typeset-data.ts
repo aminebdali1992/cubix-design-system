@@ -22,11 +22,12 @@ export const families = [
     value: "IRANSans XV",
     usage:
       "Persian / RTL (variable, 100-900). Baseline-corrected via font metric overrides so fixed-height controls center like Latin; Latin stays on Geist.",
-    className: "[font-family:var(--font-iran-sans)]",
+    className:
+      "[font-family:var(--font-arab),var(--font-iran-sans),var(--font-sans)]",
   },
 ] as const;
 
-/** Pixel sizes assume a 16px root font size. */
+/** Pixel sizes assume a 16px root font size. Persian-first clean steps. */
 export const typeScale = [
   {
     token: "text-xs",
@@ -51,16 +52,16 @@ export const typeScale = [
   },
   {
     token: "text-base",
-    size: "1rem",
-    px: "16px",
-    lh: "calc(1.5 / 1)",
+    size: "0.9375rem",
+    px: "15px",
+    lh: "calc(1.5 / 0.9375)",
     usage: "Numeric twin of text-body",
   },
   {
     token: "text-lg",
-    size: "1.125rem",
-    px: "18px",
-    lh: "calc(1.75 / 1.125)",
+    size: "1.0625rem",
+    px: "17px",
+    lh: "calc(1.625 / 1.0625)",
     usage: "Numeric twin of text-lead",
   },
   {
@@ -72,50 +73,50 @@ export const typeScale = [
   },
   {
     token: "text-2xl",
-    size: "1.5rem",
-    px: "24px",
-    lh: "calc(2 / 1.5)",
+    size: "1.375rem",
+    px: "22px",
+    lh: "calc(1.875 / 1.375)",
     usage: "Numeric twin of text-title",
   },
   {
     token: "text-3xl",
-    size: "1.875rem",
-    px: "30px",
-    lh: "calc(2.25 / 1.875)",
+    size: "1.75rem",
+    px: "28px",
+    lh: "calc(2.125 / 1.75)",
     usage: "Section headings",
   },
   {
     token: "text-4xl",
-    size: "2.25rem",
-    px: "36px",
-    lh: "calc(2.5 / 2.25)",
+    size: "2rem",
+    px: "32px",
+    lh: "calc(2.375 / 2)",
     usage: "Page titles",
   },
   {
     token: "text-5xl",
-    size: "3rem",
-    px: "48px",
+    size: "2.75rem",
+    px: "44px",
     lh: "1.15",
     usage: "Hero titles",
   },
   {
     token: "text-6xl",
-    size: "3.75rem",
-    px: "60px",
+    size: "3.5rem",
+    px: "56px",
     lh: "1.12",
     usage: "Marketing displays",
   },
   {
     token: "text-7xl",
-    size: "4.5rem",
-    px: "72px",
+    size: "4.25rem",
+    px: "68px",
     lh: "1.1",
     usage: "Large displays",
   },
   {
     token: "text-8xl",
-    size: "6rem",
-    px: "96px",
+    size: "5.5rem",
+    px: "88px",
     lh: "1.08",
     usage: "Poster-scale type",
   },
@@ -124,8 +125,8 @@ export const typeScale = [
 export const typeRoles = [
   {
     token: "text-display",
-    size: "clamp(2.25rem, 1.75rem + 2.5vw, 3.75rem)",
-    px: "36-60px",
+    size: "clamp(2rem, 1.55rem + 2vw, 3.25rem)",
+    px: "32-52px",
     lh: "1.12",
     tracking: "-0.03em",
     weight: "600",
@@ -133,8 +134,8 @@ export const typeRoles = [
   },
   {
     token: "text-headline",
-    size: "clamp(1.875rem, 1.75rem + 0.625vw, 2.25rem)",
-    px: "30-36px",
+    size: "clamp(1.75rem, 1.625rem + 0.5vw, 2rem)",
+    px: "28-32px",
     lh: "1.2",
     tracking: "-0.025em",
     weight: "600",
@@ -142,27 +143,27 @@ export const typeRoles = [
   },
   {
     token: "text-title",
-    size: "1.5rem",
-    px: "24px",
-    lh: "1.333",
+    size: "1.375rem",
+    px: "22px",
+    lh: "1.364",
     tracking: "-0.02em",
     weight: "600",
     usage: "Section headings",
   },
   {
     token: "text-lead",
-    size: "1.125rem",
-    px: "18px",
-    lh: "1.556",
+    size: "1.0625rem",
+    px: "17px",
+    lh: "1.529",
     tracking: "0",
     weight: "400",
     usage: "Intro paragraphs",
   },
   {
     token: "text-body",
-    size: "1rem",
-    px: "16px",
-    lh: "1.6",
+    size: "0.9375rem",
+    px: "15px",
+    lh: "1.65",
     tracking: "0",
     weight: "400",
     usage: "Readable body copy",
@@ -174,7 +175,7 @@ export const typeRoles = [
     lh: "1.429",
     tracking: "0.005em",
     weight: "400",
-    usage: "Controls, menu items, supporting UI copy",
+    usage: "Supporting UI copy, chat typeset",
   },
   {
     token: "text-label",
@@ -246,7 +247,8 @@ export const rhythmControls = [
   {
     name: "--typeset-size",
     role: "Base text size",
-    detail: "Defaults to 1rem (16px). Chat may tighten; docs should not go below 16px.",
+    detail:
+      "Defaults to text-body (15px). Chat uses text-description (14px); docs stay on body.",
   },
   {
     name: "--typeset-leading",

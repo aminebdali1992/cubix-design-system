@@ -74,7 +74,7 @@ export const principles: Principle[] = [
     id: "ai-ready",
     title: "AI-ready",
     description:
-      "Predictable source, project context, and Skills so assistants write correct Cubix code.",
+      "Predictable source, project context, Skills, and MCP so assistants write correct Cubix code.",
     icon: SparklesIcon,
   },
 ];
