@@ -1,177 +1,413 @@
+import type { ReactNode } from "react"
 import Link from "next/link"
 import {
   ArrowUpRightIcon,
   BookOpenIcon,
-  BoxesIcon,
+  LanguagesIcon,
   PaletteIcon,
-  PuzzleIcon,
+  SparklesIcon,
   TerminalIcon,
   TypeIcon,
 } from "lucide-react"
 
 import { Button } from "@/components/cubix/button"
-import { CursorAgentInstall } from "@/components/landing/cursor-agent-install"
+import { cn } from "@/lib/utils"
+import { AgentLoginDesign } from "@/components/landing/agent-login-design"
+import { BasesCycle } from "@/components/landing/bases-cycle"
+import { CliInstallSnippet } from "@/components/landing/cli-install-snippet"
+import { CopyInitCommand } from "@/components/landing/copy-init-command"
+import { HeroAgentStack } from "@/components/landing/hero-agent-stack"
 import { SiteFrame } from "@/components/site-frame"
 import { siteConfig } from "@/lib/site"
+
+const brandButtonClassName =
+  "bg-foreground text-background hover:bg-foreground/90 focus-visible:ring-foreground/20"
+
+const capabilities = [
+  "42 ready components",
+  "3 primitive bases",
+  "Agent UI",
+  "Typeset",
+  "RTL & Persian",
+  "Owned source",
+] as const
+
+const designPillars = [
+  {
+    icon: PaletteIcon,
+    title: "Tokens first",
+    description:
+      "One oklch contract for light and dark. Restyle the system from CSS variables - never chase hex inside components.",
+    proof: (
+      <>
+        <div className="flex items-center gap-1.5" aria-hidden>
+          <span className="size-3.5 rounded-full bg-background ring-1 ring-border" />
+          <span className="size-3.5 rounded-full bg-foreground" />
+          <span className="size-3.5 rounded-full bg-primary" />
+          <span className="size-3.5 rounded-full bg-muted ring-1 ring-border" />
+          <span className="size-3.5 rounded-full bg-destructive" />
+        </div>
+        <span className="font-mono text-[11px] text-muted-foreground">oklch</span>
+      </>
+    ),
+  },
+  {
+    icon: TypeIcon,
+    title: "Typeset",
+    description:
+      "Owned rhythm for UI, docs, and chat. Streaming-stable prose that stays on the same scale as the rest of the system.",
+    proof: (
+      <>
+        <div className="flex items-baseline gap-2 text-foreground" aria-hidden>
+          <span className="text-2xl font-semibold leading-none tracking-tight">Aa</span>
+          <span className="text-sm leading-none text-muted-foreground">Bb</span>
+          <span className="text-xs leading-none text-muted-foreground/80">Cc</span>
+        </div>
+        <span className="font-mono text-[11px] text-muted-foreground">size · leading</span>
+      </>
+    ),
+  },
+  {
+    icon: LanguagesIcon,
+    title: "RTL ready",
+    description:
+      "Logical properties, locale-aware direction, and Persian-first foundations - built in, not bolted on after English ships.",
+    proof: (
+      <>
+        <div className="flex items-center gap-2 text-sm" aria-hidden>
+          <span className="text-muted-foreground">EN</span>
+          <span className="text-muted-foreground/40">·</span>
+          <span lang="fa" className="font-medium text-foreground">
+            فارسی
+          </span>
+        </div>
+        <span className="font-mono text-[11px] text-muted-foreground">ltr · rtl</span>
+      </>
+    ),
+  },
+]
 
 const resources = [
   {
     href: "/docs",
     icon: BookOpenIcon,
     title: "Documentation",
-    description:
-      "Install Cubix, add components from the registry, and ship with a token-based system.",
+    description: "Install, theming, Typeset, Skills, and the readiness contract.",
   },
   {
     href: "/docs/components",
-    icon: PuzzleIcon,
-    title: "Component library",
-    description: "Buttons, forms, overlays, and layout primitives - copy-paste ready React.",
-  },
-  {
-    href: "/docs/theming",
-    icon: PaletteIcon,
-    title: "Theming",
-    description:
-      "Restyle the entire system from a handful of oklch CSS variables. Light and dark included.",
-  },
-  {
-    href: "/docs/typeset",
-    icon: TypeIcon,
-    title: "Typeset",
-    description:
-      "Geist for UI, rhythm presets for docs and chat, and a Tailwind-aligned type scale.",
+    icon: SparklesIcon,
+    title: "Components",
+    description: "42 ready names across Base UI, React Aria, and Radix - copy-paste ownership.",
   },
   {
     href: "/docs/cli",
     icon: TerminalIcon,
     title: "CLI & registry",
-    description:
-      "Scaffold with npx cubix-ui@latest init, add components, or read the JSON registry directly.",
-  },
-  {
-    href: "/docs/components",
-    icon: BoxesIcon,
-    title: "Own the source",
-    description: "Components live in your repo. No lock-in, no hidden runtime - extend every line.",
+    description: `Init, add, and ship from ${siteConfig.registryUrl}.`,
   },
 ]
+
+function SectionShell({
+  eyebrow,
+  title,
+  description,
+  children,
+  className,
+}: {
+  eyebrow: string
+  title: string
+  description: string
+  children?: ReactNode
+  className?: string
+}) {
+  return (
+    <section className="w-full bg-background">
+      <div className="border-b border-border">
+        <SiteFrame>
+          <div
+            className={
+              className ??
+              "flex flex-col items-center justify-center gap-10 border-x border-border py-16 md:gap-12 md:py-24"
+            }
+          >
+            <div className="flex w-full flex-col px-5 md:px-12">
+              <div className="mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
+                <div className="flex flex-col gap-3">
+                  <div className="font-mono text-xs font-medium tracking-wider text-muted-foreground uppercase">
+                    {eyebrow}
+                  </div>
+                  <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+                    {title}
+                  </h2>
+                  <p className="text-base text-pretty text-muted-foreground md:text-lg">
+                    {description}
+                  </p>
+                </div>
+              </div>
+            </div>
+            {children}
+          </div>
+        </SiteFrame>
+      </div>
+    </section>
+  )
+}
 
 export default function HomePage() {
   return (
     <main className="flex-1">
-      <section className="w-full bg-background">
+      <section className="relative z-10 w-full bg-background">
         <div className="border-b border-border">
           <SiteFrame>
-            <div className="flex flex-col items-center justify-center gap-12 border-x border-border py-12">
-              <div className="flex flex-col px-5 md:px-12">
-                <div className="mx-auto flex max-w-3xl flex-col items-center justify-center gap-6 text-center">
-                  <div className="flex flex-col gap-3 lg:gap-4">
-                    <div className="text-center font-mono text-xs leading-4 font-medium tracking-wider text-muted-foreground uppercase">
+            <div className="relative flex flex-col items-center justify-center gap-10 border-x border-border pt-16 md:gap-12 md:pt-24">
+              <div
+                aria-hidden
+                className="pointer-events-none absolute inset-0 overflow-hidden opacity-80"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 80% 55% at 50% 0%, color-mix(in oklch, var(--foreground) 8%, transparent), transparent 70%)",
+                }}
+              />
+              <div className="relative z-10 flex w-full flex-col gap-10 px-5 md:gap-12 md:px-12">
+                <div className="mx-auto flex max-w-3xl flex-col items-center gap-7 text-center">
+                  <div className="flex flex-col gap-4">
+                    <p className="font-mono text-xs font-medium tracking-[0.22em] text-muted-foreground uppercase">
                       Cubix
-                    </div>
-                    <h1 className="text-4xl font-semibold tracking-tight md:text-5xl">
-                      Beautifully designed components you can copy and paste.
+                    </p>
+                    <h1 className="text-4xl font-semibold tracking-tight text-balance md:text-6xl md:leading-[1.05]">
+                      The design system your team owns.
                     </h1>
-                    <p className="text-base text-muted-foreground md:text-lg">
-                      Cubix is a complete design system for building modern products. Accessible,
-                      customizable and open source - built on React and Tailwind CSS, with
-                      first-class Next.js support.
+                    <p className="mx-auto max-w-2xl text-base text-pretty text-muted-foreground md:text-lg">
+                      Tokens, three bases, agent UI, Typeset, and RTL - installed as source in your
+                      repo. Agents run the same CLI you do.
                     </p>
                   </div>
-                  <div className="flex flex-row items-center gap-3">
+                  <div className="flex flex-row flex-wrap items-center justify-center gap-3">
                     <Button
                       size="lg"
-                      className="h-10 rounded-full px-4"
+                      className={cn("h-10 rounded-full px-5", brandButtonClassName)}
                       nativeButton={false}
                       render={<Link href="/docs" />}
                     >
-                      Get Started
+                      Start building
                     </Button>
                     <Button
                       size="lg"
                       variant="outline"
-                      className="h-10 rounded-full px-4"
+                      className="h-10 rounded-full px-5"
                       nativeButton={false}
                       render={<Link href="/docs/components" />}
                     >
-                      Browse Components
+                      Browse components
                     </Button>
                   </div>
+                  <CopyInitCommand />
                 </div>
+                <HeroAgentStack />
               </div>
             </div>
           </SiteFrame>
         </div>
       </section>
 
-      <section className="w-full bg-background">
+      <section className="w-full bg-background" aria-label="Cubix capabilities">
         <div className="border-b border-border">
           <SiteFrame>
-            <div className="flex flex-col items-center justify-center gap-10 border-x border-border py-12 md:gap-12 md:py-16">
-              <div className="flex flex-col px-5 md:px-12">
-                <div className="mx-auto flex max-w-2xl flex-col items-center justify-center gap-6 text-center">
-                  <div className="flex flex-col gap-3 lg:gap-4">
-                    <div className="text-center font-mono text-xs leading-4 font-medium tracking-wider text-muted-foreground uppercase">
-                      Agent-ready
-                    </div>
-                    <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
-                      Let your agent set up Cubix
-                    </h2>
-                    <p className="text-base text-muted-foreground md:text-lg">
-                      Coding agents run the same CLI you do. One prompt configures tokens, writes
-                      cubix.json, and pulls components straight from the registry.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="w-full px-5 md:px-12">
-                <div className="mx-auto w-full max-w-4xl">
-                  <CursorAgentInstall />
-                </div>
-              </div>
-            </div>
-          </SiteFrame>
-        </div>
-      </section>
-
-      <section className="w-full bg-background">
-        <div className="border-b border-border">
-          <SiteFrame>
-            <div className="flex flex-col items-center justify-center gap-12 border-x border-border pt-12">
-              <div className="flex flex-col px-5 md:px-12">
-                <div className="mx-auto flex max-w-2xl flex-col items-center justify-center gap-6 text-center">
-                  <div className="flex flex-col gap-3 lg:gap-4">
-                    <div className="text-center font-mono text-xs leading-4 font-medium tracking-wider text-muted-foreground uppercase">
-                      Our ecosystem
-                    </div>
-                    <h2 className="text-3xl font-semibold tracking-tight md:text-4xl">
-                      Design and ship Cubix projects faster
-                    </h2>
-                    <p className="text-base text-muted-foreground md:text-lg">
-                      An extensive collection of React resources to help designers, developers, and
-                      teams deliver Cubix projects efficiently.
-                    </p>
-                  </div>
-                </div>
-              </div>
-              <div className="grid w-full grid-cols-1 gap-2 border-t border-border bg-muted p-2 sm:grid-cols-2 md:grid-cols-3">
-                {resources.map((resource) => (
-                  <Link
-                    key={resource.title}
-                    href={resource.href}
-                    className="group relative flex flex-col items-start justify-start rounded-md border border-border bg-card p-5 transition-colors duration-300 hover:border-primary/20 hover:opacity-80 md:p-6"
-                  >
-                    <ArrowUpRightIcon className="absolute top-3 right-3 text-foreground/30 transition-colors duration-300 group-hover:text-foreground" />
-                    <div className="flex size-10 items-center justify-center rounded-md border border-border transition-colors duration-300 group-hover:border-foreground group-hover:bg-foreground group-hover:text-background">
-                      <resource.icon className="size-4" />
-                    </div>
-                    <h3 className="mt-6 text-xl leading-tight font-semibold tracking-tight text-foreground">
-                      {resource.title}
-                    </h3>
-                    <p className="mt-3 text-muted-foreground">{resource.description}</p>
-                  </Link>
+            <div className="border-x border-border">
+              <ul className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2.5 px-5 py-3.5 font-mono text-[11px] tracking-wide text-muted-foreground uppercase md:gap-x-7 md:px-8 md:py-4">
+                {capabilities.map((item) => (
+                  <li key={item} className="flex items-center gap-2">
+                    <span className="size-1 shrink-0 rounded-full bg-foreground/35" aria-hidden />
+                    <span className="whitespace-nowrap">{item}</span>
+                  </li>
                 ))}
+              </ul>
+            </div>
+          </SiteFrame>
+        </div>
+      </section>
+
+      <SectionShell
+        eyebrow="Agent + design"
+        title="Prompt a screen. Watch Cubix assemble the UI."
+        description="One prompt. Cubix primitives compose in a live preview - design language and implementation stay the same story."
+        className="flex flex-col items-center justify-center gap-10 border-x border-border pt-16 md:gap-12 md:pt-24"
+      >
+        <div className="w-full border-t border-border">
+          <AgentLoginDesign />
+        </div>
+      </SectionShell>
+
+      <section className="w-full bg-background" aria-hidden>
+        <div className="border-b border-border">
+          <SiteFrame>
+            <div className="landing-hatch h-[56px] border-x border-border" />
+          </SiteFrame>
+        </div>
+      </section>
+
+      <SectionShell
+        eyebrow="Three bases"
+        title="One visual API. Three primitive backends."
+        description="Base UI, React Aria, and Radix stay first-class. Switch with --base without rewriting product UI."
+        className="flex flex-col items-center justify-center gap-10 border-x border-border pt-16 md:gap-12 md:pt-24"
+      >
+        <div className="w-full border-t border-border">
+          <BasesCycle />
+        </div>
+      </SectionShell>
+
+      <SectionShell
+        eyebrow="Design system"
+        title="Tokens, type, and locale as the foundation"
+        description="Cubix ships more than components. Theming, Typeset, and RTL are part of the contract."
+        className="flex flex-col items-center justify-center gap-10 border-x border-border pt-16 md:gap-12 md:pt-24"
+      >
+        <div className="grid w-full grid-cols-1 border-t border-border md:grid-cols-3 md:items-stretch">
+          {designPillars.map((pillar, index) => (
+            <div
+              key={pillar.title}
+              className={cn(
+                "flex h-full flex-col border-border bg-background",
+                index > 0 && "border-t md:border-t-0",
+                index < designPillars.length - 1 && "md:border-e"
+              )}
+            >
+              <div className="flex flex-1 flex-col gap-4 p-6 md:p-7">
+                <div className="flex size-10 items-center justify-center rounded-lg border border-border bg-muted/50">
+                  <pillar.icon className="size-4" aria-hidden />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-lg font-semibold tracking-tight">{pillar.title}</h3>
+                  <p className="text-sm leading-relaxed text-pretty text-muted-foreground">
+                    {pillar.description}
+                  </p>
+                </div>
+              </div>
+              <div className="flex h-14 shrink-0 items-center justify-between gap-3 border-t border-border px-6 md:px-7">
+                {pillar.proof}
+              </div>
+            </div>
+          ))}
+        </div>
+      </SectionShell>
+
+      <section className="w-full bg-background" aria-hidden>
+        <div className="border-b border-border">
+          <SiteFrame>
+            <div className="landing-hatch h-[56px] border-x border-border" />
+          </SiteFrame>
+        </div>
+      </section>
+
+      <section className="w-full bg-background">
+        <div className="border-b border-border">
+          <SiteFrame>
+            <div className="grid border-x border-border md:grid-cols-2 md:items-stretch">
+              <div className="flex flex-col justify-center gap-5 border-b border-border px-5 py-14 md:border-b-0 md:border-e md:px-12 md:py-20">
+                <div className="space-y-3">
+                  <div className="font-mono text-xs font-medium tracking-wider text-muted-foreground uppercase">
+                    Developer workflow
+                  </div>
+                  <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+                    Own every line. Update when you choose.
+                  </h2>
+                  <p className="text-base text-pretty text-muted-foreground md:text-lg">
+                    Init writes tokens and config. Add copies components into your repo. Upgrade is
+                    an intentional re-add with diff review - not a silent dependency bump.
+                  </p>
+                </div>
+                <div className="flex flex-wrap gap-3">
+                  <Button
+                    nativeButton={false}
+                    render={<Link href="/docs/cli" />}
+                    className={cn("rounded-full", brandButtonClassName)}
+                  >
+                    CLI docs
+                  </Button>
+                  <Button
+                    variant="outline"
+                    nativeButton={false}
+                    render={<Link href="/docs/upgrade" />}
+                    className="rounded-full"
+                  >
+                    Upgrade guide
+                  </Button>
+                </div>
+              </div>
+              <div className="flex min-h-[280px] md:min-h-0 md:h-full">
+                <div className="w-full md:h-full">
+                  <CliInstallSnippet />
+                </div>
+              </div>
+            </div>
+          </SiteFrame>
+        </div>
+      </section>
+
+      <SectionShell
+        eyebrow="Start here"
+        title="Everything you need to ship with Cubix"
+        description="Docs for decisions, components for product UI, CLI for the developer loop."
+        className="flex flex-col items-center justify-center gap-10 border-x border-border pt-16 md:gap-12 md:pt-24"
+      >
+        <div className="grid w-full grid-cols-1 gap-2 border-t border-border bg-muted p-2 sm:grid-cols-3 sm:items-stretch">
+          {resources.map((resource) => (
+            <Link
+              key={resource.title}
+              href={resource.href}
+              className="group relative flex h-full flex-col items-start justify-start rounded-md border border-border bg-card p-5 transition-colors duration-200 hover:border-foreground/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-muted md:p-6"
+            >
+              <ArrowUpRightIcon className="absolute top-3 end-3 size-4 text-foreground/25 transition-colors duration-200 group-hover:text-foreground" />
+              <div className="flex size-10 items-center justify-center rounded-md border border-border transition-colors duration-200 group-hover:border-foreground group-hover:bg-foreground group-hover:text-background">
+                <resource.icon className="size-4" aria-hidden />
+              </div>
+              <h3 className="mt-6 text-xl leading-tight font-semibold tracking-tight text-foreground">
+                {resource.title}
+              </h3>
+              <p className="mt-2 text-sm text-pretty text-muted-foreground">
+                {resource.description}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </SectionShell>
+
+      <section className="w-full bg-background">
+        <div className="border-b border-border">
+          <SiteFrame>
+            <div className="flex flex-col items-center gap-7 border-x border-border bg-muted/35 px-5 py-16 text-center md:px-12 md:py-24">
+              <div className="flex max-w-xl flex-col items-center gap-3">
+                <p className="font-mono text-xs font-medium tracking-wider text-muted-foreground uppercase">
+                  Get started
+                </p>
+                <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
+                  Ship the system. Keep the source.
+                </h2>
+                <p className="text-base text-pretty text-muted-foreground md:text-lg">
+                  Initialize Cubix in your app, pull the components you need, and let agents work
+                  against the same registry.
+                </p>
+              </div>
+              <div className="flex flex-row flex-wrap items-center justify-center gap-3">
+                <Button
+                  size="lg"
+                  className={cn("h-10 rounded-full px-5", brandButtonClassName)}
+                  nativeButton={false}
+                  render={<Link href="/docs" />}
+                >
+                  Read the docs
+                </Button>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="h-10 rounded-full px-5 font-mono text-sm"
+                  nativeButton={false}
+                  render={<Link href="/docs/cli" />}
+                >
+                  npx cubix-ui@latest init
+                </Button>
               </div>
             </div>
           </SiteFrame>
@@ -182,7 +418,7 @@ export default function HomePage() {
         <SiteFrame>
           <div className="flex flex-col items-center justify-between gap-4 border-x border-border px-5 py-8 text-sm text-muted-foreground sm:flex-row lg:px-6">
             <p>
-              Built by Cubix. The source code is available on{" "}
+              © {new Date().getFullYear()} Cubix. Source on{" "}
               <a
                 href={siteConfig.links.github}
                 target="_blank"
@@ -193,7 +429,20 @@ export default function HomePage() {
               </a>
               .
             </p>
-            <p>Open source under the MIT license.</p>
+            <div className="flex items-center gap-4">
+              <a
+                href={siteConfig.links.npm}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-sm font-medium text-foreground/80 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              >
+                npm
+              </a>
+              <span className="text-border" aria-hidden>
+                |
+              </span>
+              <p>MIT License</p>
+            </div>
           </div>
         </SiteFrame>
       </footer>

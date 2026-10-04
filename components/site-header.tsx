@@ -28,7 +28,7 @@ function HeaderBar({ className, githubLink }: SiteHeaderProps) {
           href="/"
           className="flex items-center gap-2 text-base font-semibold tracking-tight"
         >
-          <span className="flex size-7 items-center justify-center rounded-md bg-primary text-primary-foreground">
+          <span className="flex size-7 items-center justify-center rounded-md bg-foreground text-background">
             <BoxesIcon className="size-4" />
           </span>
           Cubix

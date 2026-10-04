@@ -30,11 +30,25 @@ const fontMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Cubix - Beautifully designed components",
+    default: "Cubix - The design system your team owns",
     template: "%s - Cubix",
   },
   description:
-    "Cubix is a design system with beautifully designed, accessible components and an open-source distribution model. Copy, paste, ship.",
+    "Tokens, three bases, agent UI, Typeset, and RTL - installed as source in your repo. Agents run the same CLI you do.",
+  openGraph: {
+    title: "Cubix - The design system your team owns",
+    description:
+      "Tokens, three bases, agent UI, Typeset, and RTL - installed as source in your repo.",
+    url: siteConfig.url,
+    siteName: "Cubix",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Cubix - The design system your team owns",
+    description:
+      "Tokens, three bases, agent UI, Typeset, and RTL - installed as source in your repo.",
+  },
 };
 
 export default function RootLayout({
