@@ -1,5 +1,6 @@
 "use client"
 
+import type { ComponentProps } from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -48,9 +49,10 @@ function Badge({
     defaultTagName: "span",
     props: mergeProps<"span">(
       {
-        "data-slot": "badge",
         className: cn(badgeVariants({ variant, size }), className),
-      },
+        // Base UI mergeProps typings omit data-* keys; keep Cubix slot contract.
+        ...({ "data-slot": "badge" } satisfies { "data-slot": string }),
+      } as ComponentProps<"span">,
       props
     ),
     render,
