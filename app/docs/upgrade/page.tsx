@@ -39,10 +39,10 @@ const updateManyCommands = {
   bun: "bunx --bun cubix-ui@latest add button dialog select --overwrite",
 };
 const pinCliCommands = {
-  pnpm: "pnpm dlx cubix-ui@0.1.3 add button --overwrite",
-  npm: "npx cubix-ui@0.1.3 add button --overwrite",
-  yarn: "yarn dlx cubix-ui@0.1.3 add button --overwrite",
-  bun: "bunx --bun cubix-ui@0.1.3 add button --overwrite",
+  pnpm: "pnpm dlx cubix-ui@0.1.4 add button --overwrite",
+  npm: "npx cubix-ui@0.1.4 add button --overwrite",
+  yarn: "yarn dlx cubix-ui@0.1.4 add button --overwrite",
+  bun: "bunx --bun cubix-ui@0.1.4 add button --overwrite",
 };
 
 const mergeChecklist = `1. Commit or stash local edits under components/cubix before updating.
