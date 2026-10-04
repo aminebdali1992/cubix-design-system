@@ -39,6 +39,8 @@ function Switch({
   onCheckedChange,
   ...props
 }: CubixSwitchProps) {
+  const isInvalid = invalid ?? ariaInvalid === true
+
   return (
     <AriaSwitch
       data-slot="switch"
@@ -46,7 +48,8 @@ function Switch({
       isSelected={checked}
       defaultSelected={defaultChecked}
       isDisabled={disabled}
-      aria-invalid={invalid ?? ariaInvalid}
+      isInvalid={isInvalid}
+      aria-invalid={isInvalid || undefined}
       onChange={onCheckedChange}
       className="peer group/switch relative inline-flex shrink-0 cursor-pointer items-center rounded-full outline-none after:absolute after:-inset-x-3 after:-inset-y-2 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"
       {...props}
@@ -57,7 +60,7 @@ function Switch({
           data-checked={isSelected ? "" : undefined}
           data-unchecked={isSelected ? undefined : ""}
           className={cn(
-            "flex shrink-0 items-center rounded-full border-2 border-transparent transition-colors group-has-[:focus-visible]/field-label:ring-0 group-data-[size=default]/switch:h-5 group-data-[size=default]/switch:w-9 group-data-[size=sm]/switch:h-4 group-data-[size=sm]/switch:w-7 group-data-[focus-visible]/switch:ring-3 group-data-[focus-visible]/switch:ring-secondary group-data-[focus-visible]/switch:ring-offset-1 group-data-[focus-visible]/switch:ring-offset-background data-checked:bg-primary group-data-[focus-visible]/switch:data-checked:ring-primary/20 data-unchecked:bg-input dark:data-unchecked:bg-input/80",
+            "flex shrink-0 items-center rounded-full border-2 border-transparent transition-colors group-has-[:focus-visible]/field-label:ring-0 group-data-[size=default]/switch:h-5 group-data-[size=default]/switch:w-9 group-data-[size=sm]/switch:h-4 group-data-[size=sm]/switch:w-7 group-data-[focus-visible]/switch:ring-3 group-data-[focus-visible]/switch:ring-secondary group-data-[focus-visible]/switch:ring-offset-1 group-data-[focus-visible]/switch:ring-offset-background data-checked:bg-primary group-data-[focus-visible]/switch:data-checked:ring-primary/20 data-unchecked:bg-input dark:data-unchecked:bg-input/80 group-data-[invalid]/switch:border-destructive group-data-[invalid]/switch:ring-3 group-data-[invalid]/switch:ring-destructive/20 dark:group-data-[invalid]/switch:border-destructive/50 dark:group-data-[invalid]/switch:ring-destructive/40",
             className
           )}
         >

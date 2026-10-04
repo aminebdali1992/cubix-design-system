@@ -116,6 +116,10 @@ function PopoverClose({ ...props }: PopoverPrimitive.Close.Props) {
   return <PopoverPrimitive.Close data-slot="popover-close" {...props} />
 }
 
+function PopoverAnchor({ className, ...props }: React.ComponentProps<"div">) {
+  return <div data-slot="popover-anchor" className={className} {...props} />
+}
+
 function PopoverHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -148,6 +152,7 @@ function PopoverDescription({ className, ...props }: PopoverPrimitive.Descriptio
 
 export {
   Popover,
+  PopoverAnchor,
   PopoverClose,
   PopoverContent,
   PopoverDescription,

@@ -55,6 +55,9 @@ jobs:
       - name: Registry packaging contract
         run: npm run test:registry
 
+      - name: Ready component quality audit
+        run: npm run audit:ready
+
   cli-smoke:
     needs: verify
     runs-on: ubuntu-latest

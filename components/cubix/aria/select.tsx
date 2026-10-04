@@ -458,12 +458,44 @@ function SelectSeparator({
   )
 }
 
+// React Aria ListBox scrolls natively. These keep the Cubix select export
+// surface aligned with Base UI / Radix for shared examples and migrations.
+function SelectScrollUpButton({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="select-scroll-up-button"
+      aria-hidden
+      className={cn("hidden", className)}
+      {...props}
+    />
+  )
+}
+
+function SelectScrollDownButton({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="select-scroll-down-button"
+      aria-hidden
+      className={cn("hidden", className)}
+      {...props}
+    />
+  )
+}
+
 export {
   Select,
   SelectContent,
   SelectGroup,
   SelectItem,
   SelectLabel,
+  SelectScrollDownButton,
+  SelectScrollUpButton,
   SelectSeparator,
   SelectTrigger,
   SelectValue,

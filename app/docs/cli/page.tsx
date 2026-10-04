@@ -386,9 +386,9 @@ export default function CliPage() {
         <DocsNextSteps
           steps={[
             {
-              title: "Installation",
-              description: "Walk through init and your first component add.",
-              href: "/docs/installation",
+              title: "Upgrade",
+              description: "Refresh owned components without losing your edits.",
+              href: "/docs/upgrade",
               icon: PackageIcon,
             },
             {

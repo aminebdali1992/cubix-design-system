@@ -48,6 +48,7 @@ function Badge({
     defaultTagName: "span",
     props: mergeProps<"span">(
       {
+        "data-slot": "badge",
         className: cn(badgeVariants({ variant, size }), className),
       },
       props

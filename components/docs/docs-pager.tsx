@@ -21,6 +21,7 @@ const getStarted = [
   { title: "Manual", href: "/docs/installation/manual" },
   { title: "Theming", href: "/docs/theming" },
   { title: "CLI", href: "/docs/cli" },
+  { title: "Upgrade", href: "/docs/upgrade" },
   { title: "Typeset", href: "/docs/typeset" },
   { title: "Skills", href: "/docs/skills" },
   { title: "Registry", href: "/docs/registry" },

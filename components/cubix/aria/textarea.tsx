@@ -51,7 +51,7 @@ function TextareaResizeGrip({ className }: { className?: string }) {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       className={cn(
-        "pointer-events-none absolute bottom-[4px] end-[4px] z-10 size-[8px] h-[8px] w-[8px] shrink-0 text-[#D5D8DD] dark:text-border",
+        "pointer-events-none absolute bottom-[4px] end-[4px] z-10 size-[8px] h-[8px] w-[8px] shrink-0 text-border",
         "ltr:-scale-x-100 ltr:origin-center",
         className
       )}
