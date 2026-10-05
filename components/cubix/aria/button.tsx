@@ -7,7 +7,13 @@
   pills; Latin letter-spacing and medium weight look heavy on Arab script.
   Icon inset uses logical inline-start / inline-end for RTL.
 */
-import { cloneElement, isValidElement, type ComponentProps, type ReactElement } from "react"
+import {
+  cloneElement,
+  isValidElement,
+  type ComponentProps,
+  type ReactElement,
+  type ReactNode,
+} from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
@@ -66,6 +72,28 @@ type ButtonHostProps = ComponentProps<"button"> & {
   "data-slot"?: string
   "data-variant"?: string
   "data-size"?: string
+  "data-script"?: string
+}
+
+const ARAB_SCRIPT =
+  /[\u0600-\u06FF\u0750-\u077F\u0870-\u089F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/u
+const LATIN_TEXT = /[A-Za-z0-9\u00C0-\u024F]/u
+
+function textContent(node: ReactNode): string {
+  if (typeof node === "string" || typeof node === "number") return String(node)
+  if (Array.isArray(node)) return node.map(textContent).join("")
+  if (isValidElement<{ children?: ReactNode }>(node)) return textContent(node.props.children)
+  return ""
+}
+
+/*
+  In lang="fa" sections the Persian button face sets the line baseline, and
+  Latin glyphs on it sit about 1px high. Latin-only labels opt out with
+  data-script="latn" so they keep the Latin baseline.
+*/
+function labelScript(children: ReactNode): "latn" | undefined {
+  const text = textContent(children)
+  return LATIN_TEXT.test(text) && !ARAB_SCRIPT.test(text) ? "latn" : undefined
 }
 
 function Button({
@@ -85,13 +113,15 @@ function Button({
   const buttonClassName = cn(buttonVariants({ variant, size }), className)
 
   if (isValidElement<ButtonHostProps>(render)) {
+    const label = children ?? render.props.children
     return cloneElement(render, {
       ...props,
       className: cn(buttonClassName, render.props.className),
       "data-slot": "button",
       "data-variant": variant ?? "default",
       "data-size": size ?? "default",
-      children: children ?? render.props.children,
+      "data-script": labelScript(label),
+      children: label,
     })
   }
 
@@ -101,6 +131,7 @@ function Button({
       data-slot="button"
       data-variant={variant}
       data-size={size}
+      data-script={labelScript(children)}
       className={buttonClassName}
       {...props}
     >

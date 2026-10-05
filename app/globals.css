@@ -28,7 +28,7 @@
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
-  unicode-range: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+  unicode-range: U+0600-06FF, U+0750-077F, U+0870-089F, U+08A0-08FF, U+200C-200F, U+FB50-FDFF, U+FE70-FEFF;
   ascent-override: 107%;
   descent-override: 43%;
   line-gap-override: 0%;
@@ -334,8 +334,11 @@
   --font-heading: var(--font-arab), var(--font-heading), ui-sans-serif, sans-serif;
   --font-mono: var(--font-arab), var(--font-mono), ui-monospace, monospace;
   --font-iran-sans: var(--font-iran-sans);
-  /* Cubix face first (metric overrides); next/font face as loaded fallback. */
-  --font-arab: "IRANSans Cubix", var(--font-iran-sans);
+  /*
+    Only the unicode-range face may sit here. The next/font face has no
+    unicode-range, so listing it would claim Latin glyphs before Geist.
+  */
+  --font-arab: "IRANSans Cubix";
   --font-arab-ascent-override: 107%;
   --font-arab-descent-override: 43%;
   --font-arab-optical-nudge: 0em;
@@ -434,7 +437,7 @@
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 5rem;
-    --font-arab: "IRANSans Cubix", var(--font-iran-sans);
+    --font-arab: "IRANSans Cubix";
     --font-arab-ascent-override: 107%;
     --font-arab-descent-override: 43%;
     --font-arab-optical-nudge: 0em;
@@ -999,8 +1002,9 @@ html.cubix-scrollbar::-webkit-scrollbar-button:single-button,
   line-gap-override: 0%;
 }
 
+/* Latin-only labels (data-script="latn") stay on the Latin baseline; on this face they sit about 1px high. */
 @layer base {
-  .group\/button:lang(fa) {
+  .group\/button:lang(fa):not([data-script="latn"]) {
     font-family: "IRANSans Cubix Button D", var(--font-sans), ui-sans-serif, sans-serif;
   }
 }
@@ -1020,7 +1024,7 @@ html.cubix-scrollbar::-webkit-scrollbar-button:single-button,
 }
 
 @layer base {
-  .group\/button.h-12:lang(fa) {
+  .group\/button.h-12:lang(fa):not([data-script="latn"]) {
     font-family: "IRANSans Cubix Button LG", var(--font-sans), ui-sans-serif, sans-serif;
   }
 }
