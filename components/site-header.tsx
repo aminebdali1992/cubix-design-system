@@ -47,6 +47,12 @@ function HeaderBar({ className, githubLink }: SiteHeaderProps) {
             Components
           </Link>
           <Link
+            href="/ds-manager"
+            className="transition-colors hover:text-foreground"
+          >
+            DS Manager
+          </Link>
+          <Link
             href={defaultBlocksHref}
             className="transition-colors hover:text-foreground"
           >
@@ -66,7 +72,9 @@ export function SiteHeader({ className, githubLink }: SiteHeaderProps) {
   const pathname = usePathname();
   const framed = pathname === "/";
 
-  if (pathname.startsWith(`${blockViewBasePath}/`)) return null;
+  if (pathname.startsWith(`${blockViewBasePath}/`) || pathname.startsWith("/ds-manager")) {
+    return null;
+  }
 
   return (
     <header

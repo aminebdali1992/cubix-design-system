@@ -1,0 +1,73 @@
+/*
+ * DS Manager shell surfaces. The editor chrome re-points the Cubix tokens to
+ * its own neutral ramp; the canvas re-applies the edited palette inline, so
+ * specimens always render the tokens being edited. `--ds-surface` and
+ * `--ds-card-radius` resolve on the shell element, so they keep the chrome
+ * background and corners inside the canvas.
+ */
+[data-ds-shell] {
+  --ds-canvas: var(--muted);
+  --ds-surface: var(--background);
+  --ds-card-radius: var(--radius-xl);
+}
+
+/*
+ * The radius utilities inline `calc(var(--radius) * factor)` at build time, so
+ * a pinned step would never reach them. Inside the canvas they read the step
+ * variables the editor sets. `:where` keeps the specificity of a plain utility,
+ * so variant classes such as `data-[variant=line]:rounded-none` still win.
+ */
+@layer utilities {
+  :where([data-ds-canvas]) .rounded-sm {
+    border-radius: var(--radius-sm);
+  }
+  :where([data-ds-canvas]) .rounded-md {
+    border-radius: var(--radius-md);
+  }
+  :where([data-ds-canvas]) .rounded-lg {
+    border-radius: var(--radius-lg);
+  }
+  :where([data-ds-canvas]) .rounded-xl {
+    border-radius: var(--radius-xl);
+  }
+  :where([data-ds-canvas]) .rounded-2xl {
+    border-radius: var(--radius-2xl);
+  }
+  :where([data-ds-canvas]) .rounded-3xl {
+    border-radius: var(--radius-3xl);
+  }
+  :where([data-ds-canvas]) .rounded-4xl {
+    border-radius: var(--radius-4xl);
+  }
+}
+
+[data-ds-shell].dark {
+  --ds-canvas: oklch(0.235 0 0);
+
+  --background: oklch(0.2931 0 0);
+  --foreground: oklch(0.9401 0 0);
+
+  --card: oklch(0.3211 0 0);
+  --card-foreground: oklch(0.9401 0 0);
+
+  --popover: oklch(0.3211 0 0);
+  --popover-foreground: oklch(0.9401 0 0);
+
+  --primary: oklch(0.9491 0 0);
+  --primary-foreground: oklch(0.1822 0 0);
+
+  --secondary: oklch(0.3407 0 0);
+  --secondary-foreground: oklch(0.9401 0 0);
+
+  --muted: oklch(0.3407 0 0);
+  --muted-foreground: oklch(0.7889 0 0);
+
+  --accent: oklch(0.36 0 0);
+  --accent-foreground: oklch(0.9401 0 0);
+
+  --destructive: oklch(0.6544 0.1849 24.81);
+
+  --border: oklch(0.3753 0 0);
+  --input: oklch(0.3753 0 0);
+  --ring: oklch(0.9491 0 0);
+}

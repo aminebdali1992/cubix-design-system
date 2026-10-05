@@ -16,6 +16,7 @@ import {
   cubixJsonSnippet,
   customizeCss,
   defaultThemeCss,
+  radiusBaseRem,
   radiusScale,
   radiusSnippet,
   swatches,
@@ -155,7 +156,7 @@ export default function ThemingPage() {
         <h2 className={sectionHeadingClassName}>Radius scale</h2>
         <p className="leading-relaxed text-muted-foreground">
           <InlineCode>--radius</InlineCode> is the base corner radius (default{" "}
-          <InlineCode>0.625rem</InlineCode>). Tailwind utilities derive from it
+          <InlineCode>{radiusBaseRem}rem</InlineCode>). Tailwind utilities derive from it
           so one change updates the whole scale:
         </p>
         <CodeBlock code={radiusSnippet} title="app/globals.css" lang="css" />

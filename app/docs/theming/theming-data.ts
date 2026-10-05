@@ -223,15 +223,25 @@ export const tokenDocs: TokenDoc[] = [
   },
 ];
 
-export const radiusScale = [
-  { name: "radius-sm", value: "calc(var(--radius) * 0.6)" },
-  { name: "radius-md", value: "calc(var(--radius) * 0.8)" },
-  { name: "radius-lg", value: "var(--radius)" },
-  { name: "radius-xl", value: "calc(var(--radius) * 1.4)" },
-  { name: "radius-2xl", value: "calc(var(--radius) * 1.8)" },
-  { name: "radius-3xl", value: "calc(var(--radius) * 2.2)" },
-  { name: "radius-4xl", value: "calc(var(--radius) * 2.6)" },
-];
+/** Default `--radius` in rem - matches `app/globals.css`. */
+export const radiusBaseRem = 0.625;
+
+const radiusFactors = [
+  ["radius-sm", 0.6],
+  ["radius-md", 0.8],
+  ["radius-lg", 1],
+  ["radius-xl", 1.4],
+  ["radius-2xl", 1.8],
+  ["radius-3xl", 2.2],
+  ["radius-4xl", 2.6],
+] as const;
+
+/** Each step is `--radius` times `factor`. */
+export const radiusScale = radiusFactors.map(([name, factor]) => ({
+  name,
+  factor,
+  value: factor === 1 ? "var(--radius)" : `calc(var(--radius) * ${factor})`,
+}));
 
 export const cubixJsonSnippet = `{
   "style": "cubix",
@@ -284,19 +294,13 @@ export const addTokenSnippet = `:root {
 export const addTokenUsageSnippet = `<div className="bg-warning text-warning-foreground" />`;
 
 export const radiusSnippet = `@theme inline {
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
+${radiusScale.map((step) => `  --${step.name}: ${step.value};`).join("\n")}
 }`;
 
 export const defaultThemeCss = `@custom-variant dark (&:is(.dark *));
 
 :root {
-  --radius: 0.625rem;
+  --radius: ${radiusBaseRem}rem;
 
   --background: oklch(1 0 0);
   --foreground: oklch(0% 0 0);
