@@ -19,7 +19,10 @@ function ScrollArea({
         data-slot="scroll-area-viewport"
         className="size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1"
       >
-        {children}
+        {/* Overrides the primitive's inline min-width: fit-content, which lets truncated children widen the content past the viewport. */}
+        <ScrollAreaPrimitive.Content data-slot="scroll-area-content" style={{ minWidth: 0 }}>
+          {children}
+        </ScrollAreaPrimitive.Content>
       </ScrollAreaPrimitive.Viewport>
       <ScrollBar />
       <ScrollAreaPrimitive.Corner />
@@ -38,7 +41,7 @@ function ScrollBar({
       data-orientation={orientation}
       orientation={orientation}
       className={cn(
-        "flex touch-none p-px transition-colors select-none data-horizontal:h-1 data-horizontal:flex-col data-horizontal:border-t data-horizontal:border-t-transparent data-vertical:h-full data-vertical:w-1 data-vertical:border-l data-vertical:border-l-transparent",
+        "flex touch-none transition-colors select-none data-horizontal:h-1 data-horizontal:flex-col data-vertical:h-full data-vertical:w-1",
         className
       )}
       {...props}

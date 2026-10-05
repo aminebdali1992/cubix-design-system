@@ -11,6 +11,7 @@ import {
   ToggleGroupDisabledDemo,
   ToggleGroupOutlineDemo,
   ToggleGroupRtlDemo,
+  ToggleGroupSegmentedDemo,
   ToggleGroupSizesDemo,
   ToggleGroupSpacingDemo,
   ToggleGroupVerticalDemo,
@@ -70,6 +71,20 @@ const outlineSnippet = `<ToggleGroup variant="outline" defaultValue={["all"]}>
   </ToggleGroupItem>
   <ToggleGroupItem value="missed" aria-label="Toggle missed">
     Missed
+  </ToggleGroupItem>
+</ToggleGroup>`
+
+const segmentedSnippet = `<ToggleGroup
+  variant="segmented"
+  size="sm"
+  defaultValue={["preview"]}
+  className="w-64"
+>
+  <ToggleGroupItem value="preview" className="flex-1">
+    Preview
+  </ToggleGroupItem>
+  <ToggleGroupItem value="code" className="flex-1">
+    Code
   </ToggleGroupItem>
 </ToggleGroup>`
 
@@ -192,6 +207,19 @@ export default function ToggleGroupDocsPage() {
         </p>
         <ComponentPreview code={outlineSnippet} previewClassName="min-h-32">
           <ToggleGroupOutlineDemo />
+        </ComponentPreview>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Segmented</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Use{" "}
+          <code className="font-mono text-sm">variant=&quot;segmented&quot;</code>{" "}
+          for a single-choice switch on a muted track, where the selected item
+          is raised onto a card surface.
+        </p>
+        <ComponentPreview code={segmentedSnippet} previewClassName="min-h-32">
+          <ToggleGroupSegmentedDemo />
         </ComponentPreview>
       </section>
 

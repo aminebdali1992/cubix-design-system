@@ -1,7 +1,7 @@
 export const toggleGroupPropRows = [
   {
     prop: "variant",
-    type: '"default" | "outline"',
+    type: '"default" | "outline" | "segmented"',
     default: '"default"',
     description: "Visual style applied to all items unless overridden.",
   },
@@ -68,7 +68,7 @@ export const toggleGroupItemPropRows = [
   },
   {
     prop: "variant",
-    type: '"default" | "outline"',
+    type: '"default" | "outline" | "segmented"',
     description: "Overrides the group variant for this item.",
   },
   {

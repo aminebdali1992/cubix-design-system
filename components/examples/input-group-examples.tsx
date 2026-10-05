@@ -187,6 +187,25 @@ export function InputGroupBlockEndDemo() {
   )
 }
 
+export function InputGroupVariantDemo() {
+  return (
+    <div className="mx-auto grid w-full max-w-sm gap-6">
+      <InputGroup>
+        <InputGroupInput aria-label="Search (outline)" placeholder="Search..." />
+        <InputGroupAddon>
+          <SearchIcon />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup variant="filled">
+        <InputGroupInput aria-label="Search (filled)" placeholder="Search..." />
+        <InputGroupAddon>
+          <SearchIcon />
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+
 export function InputGroupIconDemo() {
   return (
     <div className="mx-auto grid w-full max-w-sm gap-6">

@@ -1,5 +1,12 @@
 export const inputGroupPropRows = [
   {
+    prop: "variant",
+    type: '"outline" | "filled"',
+    default: '"outline"',
+    description:
+      "Surface style. Outline draws an input border; filled uses a borderless muted surface for toolbars, sidebars and search fields.",
+  },
+  {
     prop: "className",
     type: "string",
     description:

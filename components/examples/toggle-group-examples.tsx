@@ -42,6 +42,24 @@ export function ToggleGroupOutlineDemo() {
   )
 }
 
+export function ToggleGroupSegmentedDemo() {
+  return (
+    <ToggleGroup
+      variant="segmented"
+      size="sm"
+      defaultValue={["preview"]}
+      className="w-64"
+    >
+      <ToggleGroupItem value="preview" className="flex-1">
+        Preview
+      </ToggleGroupItem>
+      <ToggleGroupItem value="code" className="flex-1">
+        Code
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+
 export function ToggleGroupSizesDemo() {
   return (
     <div className="flex flex-col items-center gap-4">

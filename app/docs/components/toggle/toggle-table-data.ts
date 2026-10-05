@@ -1,7 +1,7 @@
 export const togglePropRows = [
   {
     prop: "variant",
-    type: '"default" | "outline"',
+    type: '"default" | "outline" | "segmented"',
     default: '"default"',
     description: "Visual style of the toggle.",
   },

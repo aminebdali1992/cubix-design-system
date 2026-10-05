@@ -18,6 +18,7 @@ import {
   InputGroupSpinnerDemo,
   InputGroupTextDemo,
   InputGroupTextareaDemo,
+  InputGroupVariantDemo,
 } from "@/components/examples/input-group-examples"
 
 import {
@@ -93,6 +94,19 @@ const blockEndSnippet = `<InputGroup>
     <InputGroupButton variant="default" size="sm" className="ml-auto">
       Post
     </InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>`
+
+const variantSnippet = `<InputGroup>
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon>
+    <SearchIcon />
+  </InputGroupAddon>
+</InputGroup>
+<InputGroup variant="filled">
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon>
+    <SearchIcon />
   </InputGroupAddon>
 </InputGroup>`
 
@@ -198,6 +212,19 @@ export default function InputGroupDocsPage() {
             <InputGroupBlockEndDemo />
           </ComponentPreview>
         </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Variant</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Use <code className="font-mono text-sm">variant=&quot;filled&quot;</code>{" "}
+          for a borderless muted surface in toolbars, sidebars and search
+          fields. The default is{" "}
+          <code className="font-mono text-sm">outline</code>.
+        </p>
+        <ComponentPreview code={variantSnippet} previewClassName="min-h-48">
+          <InputGroupVariantDemo />
+        </ComponentPreview>
       </section>
 
       <section className="space-y-4">
