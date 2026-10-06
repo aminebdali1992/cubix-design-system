@@ -67,6 +67,8 @@ export function TopBar({ editor, palettes }: TopBarProps) {
           overrides={editor.overrides}
           typography={editor.typography}
           radius={editor.radius}
+          spacing={editor.spacing}
+          shadow={editor.shadow}
         />
       </div>
     </header>

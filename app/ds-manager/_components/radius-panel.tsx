@@ -12,11 +12,11 @@ import {
   RADIUS_STEPS,
   activePreset,
   derivedRadius,
-  formatRem,
   radiusValue,
   type RadiusPresetId,
   type RadiusStepSpec,
 } from "../_lib/radius";
+import { formatRem } from "../_lib/units";
 import type { DesignEditor } from "../_lib/use-design-editor";
 import { PanelSection, PropertyRow, SidePanel } from "./panel-section";
 import { ResetDot } from "./reset-dot";

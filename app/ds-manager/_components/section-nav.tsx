@@ -51,8 +51,8 @@ const DESIGN_SECTIONS: readonly SectionItem[] = [
   { id: "color", label: "Color", icon: ColorIcon, href: "/ds-manager/color" },
   { id: "typography", label: "Typography", icon: TypographyIcon, href: "/ds-manager/typography" },
   { id: "radius", label: "Radius", icon: RadiusIcon, href: "/ds-manager/radius" },
-  { id: "shadow", label: "Shadow", icon: ShadowIcon },
-  { id: "spacing", label: "Spacing", icon: SpacingIcon },
+  { id: "shadow", label: "Shadow", icon: ShadowIcon, href: "/ds-manager/shadow" },
+  { id: "spacing", label: "Spacing", icon: SpacingIcon, href: "/ds-manager/spacing" },
   { id: "icons", label: "Icons", icon: IconsIcon },
   { id: "brand", label: "Brand", icon: BrandIcon },
   { id: "blocks", label: "Blocks", icon: BlocksIcon },
@@ -167,7 +167,7 @@ export function SectionNav() {
                 aria-label="Clear search"
                 onClick={() => setQuery("")}
               >
-                <XIcon />
+                <XIcon aria-hidden className="size-3.5" />
               </InputGroupButton>
             </InputGroupAddon>
           ) : null}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useDesign } from "../_lib/design-context";
-import { formatRem } from "../_lib/radius";
+import { formatRem } from "../_lib/units";
 import { RadiusPanel } from "./radius-panel";
 import { RadiusSpecimens } from "./radius-specimens";
 import { CanvasSkeleton } from "./states";

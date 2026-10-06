@@ -31,7 +31,7 @@ const SWATCH_RADIUS = "rounded-[3px]";
 const SWATCH_CHECKERBOARD =
   "bg-[conic-gradient(var(--border)_25%,var(--background)_0_50%,var(--border)_0_75%,var(--background)_0)] dark:bg-[conic-gradient(var(--muted)_25%,var(--accent)_0_50%,var(--muted)_0_75%,var(--accent)_0)] bg-size-[calc(var(--spacing)*3)]";
 
-function ColorSwatch({ color }: { color: string }) {
+export function ColorSwatch({ color }: { color: string }) {
   return (
     <span
       aria-hidden

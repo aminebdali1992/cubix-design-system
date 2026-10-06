@@ -3,6 +3,15 @@
 import * as React from "react";
 
 import { DEFAULT_RADIUS, type RadiusState, type RadiusToken } from "./radius";
+import {
+  DEFAULT_SEED,
+  DEFAULT_SHADOW,
+  type ShadowLayer,
+  type ShadowSeed,
+  type ShadowState,
+  type ShadowStep,
+} from "./shadow";
+import { DEFAULT_SPACING } from "./spacing";
 import type { ColorMode } from "./tokens";
 import {
   DEFAULT_TYPOGRAPHY,
@@ -18,6 +27,9 @@ type DesignDocument = {
   colors: Overrides;
   typography: TypographyState;
   radius: RadiusState;
+  /** `--spacing` in rem. */
+  spacing: number;
+  shadow: ShadowState;
 };
 
 type History = {
@@ -34,6 +46,10 @@ type Action =
   | { type: "reset-tracking" }
   | { type: "set-radius"; value: number }
   | { type: "set-radius-step"; token: RadiusToken; value: number | null }
+  | { type: "set-spacing"; value: number }
+  | { type: "set-shadow-seed"; patch: Partial<ShadowSeed> }
+  | { type: "reset-shadow-seed" }
+  | { type: "set-shadow-step"; step: ShadowStep; layer: ShadowLayer | null }
   | { type: "undo" }
   | { type: "redo" };
 
@@ -43,6 +59,8 @@ const INITIAL_DOCUMENT: DesignDocument = {
   colors: { light: {}, dark: {} },
   typography: DEFAULT_TYPOGRAPHY,
   radius: DEFAULT_RADIUS,
+  spacing: DEFAULT_SPACING,
+  shadow: DEFAULT_SHADOW,
 };
 
 function commit(history: History, next: DesignDocument): History {
@@ -106,6 +124,26 @@ function withRadiusStep(radius: RadiusState, token: RadiusToken, value: number |
   return { ...radius, overrides };
 }
 
+function withShadow(design: DesignDocument, next: ShadowState): DesignDocument {
+  return next === design.shadow ? design : { ...design, shadow: next };
+}
+
+function withShadowSeed(shadow: ShadowState, patch: Partial<ShadowSeed>): ShadowState {
+  const current = shadow.seed ?? DEFAULT_SEED;
+  const next = { ...current, ...patch };
+  const changed = (Object.keys(next) as (keyof ShadowSeed)[]).some((key) => next[key] !== current[key]);
+  if (shadow.seed && !changed) return shadow;
+  return { ...shadow, seed: next };
+}
+
+function withShadowStep(shadow: ShadowState, step: ShadowStep, layer: ShadowLayer | null): ShadowState {
+  if (layer === null && shadow.overrides[step] === undefined) return shadow;
+  const overrides = { ...shadow.overrides };
+  if (layer === null) delete overrides[step];
+  else overrides[step] = layer;
+  return { ...shadow, overrides };
+}
+
 function apply(
   design: DesignDocument,
   action: Exclude<Action, { type: "undo" | "redo" }>
@@ -142,6 +180,18 @@ function apply(
     }
     case "set-radius-step":
       return withRadius(design, withRadiusStep(design.radius, action.token, action.value));
+    case "set-spacing": {
+      const value = roundUnit(action.value);
+      return value === design.spacing ? design : { ...design, spacing: value };
+    }
+    case "set-shadow-seed":
+      return withShadow(design, withShadowSeed(design.shadow, action.patch));
+    case "reset-shadow-seed":
+      return design.shadow.seed === null
+        ? design
+        : withShadow(design, { ...design.shadow, seed: null });
+    case "set-shadow-step":
+      return withShadow(design, withShadowStep(design.shadow, action.step, action.layer));
   }
 }
 
@@ -205,6 +255,20 @@ export function useDesignEditor() {
       dispatch({ type: "set-radius-step", token, value }),
     []
   );
+  const setSpacing = React.useCallback(
+    (value: number) => dispatch({ type: "set-spacing", value }),
+    []
+  );
+  const setShadowSeed = React.useCallback(
+    (patch: Partial<ShadowSeed>) => dispatch({ type: "set-shadow-seed", patch }),
+    []
+  );
+  const resetShadowSeed = React.useCallback(() => dispatch({ type: "reset-shadow-seed" }), []);
+  const setShadowStep = React.useCallback(
+    (step: ShadowStep, layer: ShadowLayer | null) =>
+      dispatch({ type: "set-shadow-step", step, layer }),
+    []
+  );
   const undo = React.useCallback(() => dispatch({ type: "undo" }), []);
   const redo = React.useCallback(() => dispatch({ type: "redo" }), []);
 
@@ -213,6 +277,8 @@ export function useDesignEditor() {
       overrides: history.present.colors,
       typography: history.present.typography,
       radius: history.present.radius,
+      spacing: history.present.spacing,
+      shadow: history.present.shadow,
       canUndo: history.past.length > 0,
       canRedo: history.future.length > 0,
       setToken,
@@ -223,6 +289,10 @@ export function useDesignEditor() {
       resetTracking,
       setRadius,
       setRadiusStep,
+      setSpacing,
+      setShadowSeed,
+      resetShadowSeed,
+      setShadowStep,
       undo,
       redo,
     }),
@@ -236,6 +306,10 @@ export function useDesignEditor() {
       resetTracking,
       setRadius,
       setRadiusStep,
+      setSpacing,
+      setShadowSeed,
+      resetShadowSeed,
+      setShadowStep,
       undo,
       redo,
     ]

@@ -9,6 +9,9 @@
   --ds-canvas: var(--muted);
   --ds-surface: var(--background);
   --ds-card-radius: var(--radius-xl);
+
+  --primary: var(--foreground);
+  --primary-foreground: var(--background);
 }
 
 /*
@@ -38,6 +41,35 @@
   }
   :where([data-ds-canvas]) .rounded-4xl {
     border-radius: var(--radius-4xl);
+  }
+}
+
+/*
+ * Shadow utilities inline their theme value too. Inside the canvas each one
+ * reads the step the editor sets, keeping the ring and inset layers Tailwind
+ * composes around `--tw-shadow`.
+ */
+@layer utilities {
+  :where([data-ds-canvas]) .shadow-2xs {
+    --tw-shadow: var(--shadow-2xs);
+  }
+  :where([data-ds-canvas]) .shadow-xs {
+    --tw-shadow: var(--shadow-xs);
+  }
+  :where([data-ds-canvas]) .shadow-sm {
+    --tw-shadow: var(--shadow-sm);
+  }
+  :where([data-ds-canvas]) .shadow-md {
+    --tw-shadow: var(--shadow-md);
+  }
+  :where([data-ds-canvas]) .shadow-lg {
+    --tw-shadow: var(--shadow-lg);
+  }
+  :where([data-ds-canvas]) .shadow-xl {
+    --tw-shadow: var(--shadow-xl);
+  }
+  :where([data-ds-canvas]) .shadow-2xl {
+    --tw-shadow: var(--shadow-2xl);
   }
 }
 

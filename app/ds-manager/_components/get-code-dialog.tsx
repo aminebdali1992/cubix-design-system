@@ -23,6 +23,8 @@ import {
 
 import type { Palettes } from "../_lib/palette";
 import { radiusCss, type RadiusState } from "../_lib/radius";
+import { shadowCss, type ShadowState } from "../_lib/shadow";
+import { spacingCss } from "../_lib/spacing";
 import { typographyCss, type TypographyState } from "../_lib/typography";
 import { resolvePalette } from "../_lib/use-palettes";
 import type { Overrides } from "../_lib/use-design-editor";
@@ -46,15 +48,32 @@ type GetCodeDialogProps = {
   overrides: Overrides;
   typography: TypographyState;
   radius: RadiusState;
+  spacing: number;
+  shadow: ShadowState;
 };
 
-export function GetCodeDialog({ palettes, overrides, typography, radius }: GetCodeDialogProps) {
+export function GetCodeDialog({
+  palettes,
+  overrides,
+  typography,
+  radius,
+  spacing,
+  shadow,
+}: GetCodeDialogProps) {
   const code = React.useMemo(
     () =>
       palettes
-        ? [typographyCss(typography), radiusCss(radius), colorCss(palettes, overrides)].join("\n\n")
+        ? [
+            typographyCss(typography),
+            spacingCss(spacing),
+            radiusCss(radius),
+            shadowCss(shadow),
+            colorCss(palettes, overrides),
+          ]
+            .filter((block) => block !== "")
+            .join("\n\n")
         : "",
-    [palettes, overrides, typography, radius]
+    [palettes, overrides, typography, radius, spacing, shadow]
   );
 
   return (
@@ -67,7 +86,7 @@ export function GetCodeDialog({ palettes, overrides, typography, radius }: GetCo
         <DialogHeader>
           <DialogTitle>Get code</DialogTitle>
           <DialogDescription>
-            Paste these tokens into your global stylesheet. Fonts, letter spacing, radius, and both
+            Paste these tokens into your global stylesheet. Fonts, letter spacing, spacing, radius, shadows, and both
             color palettes carry every edit you made.
           </DialogDescription>
         </DialogHeader>

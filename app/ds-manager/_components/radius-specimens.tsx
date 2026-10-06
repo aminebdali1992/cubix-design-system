@@ -8,7 +8,8 @@ import { Label } from "@/components/cubix/label";
 import { Switch } from "@/components/cubix/switch";
 import { TextField, TextFieldInput } from "@/components/cubix/text-field";
 
-import { RADIUS_STEPS, formatPx, radiusValue, type RadiusState } from "../_lib/radius";
+import { RADIUS_STEPS, radiusValue, type RadiusState } from "../_lib/radius";
+import { formatPx } from "../_lib/units";
 import { SpecimenCard, SpecimenPage, SpecimenSection } from "./specimen";
 
 function Corner({ variable }: { variable: string }) {

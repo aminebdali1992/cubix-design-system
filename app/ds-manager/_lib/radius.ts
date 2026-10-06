@@ -1,7 +1,7 @@
 import { radiusBaseRem, radiusScale } from "@/app/docs/theming/theming-data";
 
 import { cssBlock } from "./css";
-import { formatUnit, roundUnit, type UnitRange } from "./units";
+import { formatRem, roundUnit, type UnitRange } from "./units";
 
 export type RadiusToken = (typeof radiusScale)[number]["name"];
 
@@ -36,16 +36,6 @@ export type RadiusState = {
 };
 
 export const DEFAULT_RADIUS: RadiusState = { base: radiusBaseRem, overrides: {} };
-
-const PX_PER_REM = 16;
-
-export function formatRem(value: number): string {
-  return formatUnit(value, "rem");
-}
-
-export function formatPx(rem: number): string {
-  return `${roundUnit(rem * PX_PER_REM)}px`;
-}
 
 /** A step's value as its Cubix factor sets it, ignoring any override on it. */
 export function derivedRadius(radius: RadiusState, spec: RadiusStepSpec): number {

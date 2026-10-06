@@ -6,6 +6,7 @@ import { ScrollArea } from "@/components/cubix/scroll-area";
 
 import { useDesign } from "../_lib/design-context";
 import { radiusVariables } from "../_lib/radius";
+import { shadowVariables } from "../_lib/shadow";
 import { useTokenVariables } from "../_lib/use-palettes";
 import { PaletteError } from "./states";
 
@@ -56,8 +57,11 @@ export function Workspace({ title, description, variables, panel, children }: Wo
   const { paletteState, editor } = useDesign();
   const failed = paletteState.status === "error";
   const canvasVariables = React.useMemo(
-    () => (variables ? { ...variables, ...radiusVariables(editor.radius) } : null),
-    [variables, editor.radius]
+    () =>
+      variables
+        ? { ...variables, ...radiusVariables(editor.radius), ...shadowVariables(editor.shadow) }
+        : null,
+    [variables, editor.radius, editor.shadow]
   );
 
   return (
