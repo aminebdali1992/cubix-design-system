@@ -15,7 +15,6 @@ import {
   MCP_PROTOCOL_VERSIONS,
   MCP_SERVER_NAME,
   MCP_SERVER_VERSION,
-  type JsonRpcMessage,
   type JsonRpcNotification,
   type JsonRpcRequest,
   type JsonRpcResponse,
@@ -128,13 +127,10 @@ export async function handleMcpBody(raw: string): Promise<McpHandleResult> {
       continue;
     }
 
+    // Client-originated JSON-RPC responses are ignored by a tools-only server.
     if (isJsonRpcNotification(message)) {
       handleNotification(message);
-      continue;
     }
-
-    // Client-originated JSON-RPC responses are ignored by a tools-only server.
-    void message as JsonRpcMessage;
   }
 
   if (!sawRequest) {
