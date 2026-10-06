@@ -13,6 +13,28 @@ export type ChangelogEntry = {
 
 export const changelogEntries: ChangelogEntry[] = [
   {
+    id: "2026-10-aria-primitives",
+    date: "October 2026",
+    title: "Ten more components on all three bases",
+    summary:
+      "Collapsible, Empty, Kbd, Label, Progress, Skeleton, Slider, Spinner, Toggle, and Toggle Group now ship React Aria versions and are installable on Base UI, React Aria, and Radix.",
+    sections: [
+      {
+        heading: "What shipped",
+        body: [
+          "Each component keeps one visual API across bases, with docs previews that switch to the selected base and a three-base test suite covering keyboard, state, and accessibility.",
+        ],
+        bullets: [
+          "Toggle Group on Radix now takes the same multiple / string array value API as Base UI and React Aria.",
+          "Collapsible exposes data-open, data-closed, and data-panel-open on every base, and the Radix trigger accepts render.",
+          "Slider names every thumb from aria-label or aria-labelledby, and follows the page reading direction on React Aria and Radix.",
+          "Progress links ProgressLabel to the progress bar on Radix and fills the indicator against max in RTL.",
+          "Toggle and Toggle Group use logical padding, radius, and borders, so joined groups render correctly in RTL.",
+        ],
+      },
+    ],
+  },
+  {
     id: "2026-10-mcp",
     date: "October 2026",
     title: "HTTP MCP server for the Cubix registry",

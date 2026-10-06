@@ -90,6 +90,29 @@
       ]
     },
     {
+      "name": "collapsible",
+      "type": "registry:ui",
+      "title": "Collapsible",
+      "description": "An interactive component which expands and collapses a panel.",
+      "dependencies": [
+        "react-aria-components"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "components/cubix/collapsible.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
       "name": "combobox",
       "type": "registry:ui",
       "title": "Combobox",
@@ -155,6 +178,25 @@
       "files": [
         {
           "path": "components/cubix/input-group.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
+      "name": "kbd",
+      "type": "registry:ui",
+      "title": "Kbd",
+      "description": "A component to display keyboard shortcuts.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/cubix/kbd.tsx",
           "type": "registry:ui"
         }
       ],
@@ -391,6 +433,86 @@
       ]
     },
     {
+      "name": "skeleton",
+      "type": "registry:ui",
+      "title": "Skeleton",
+      "description": "Use to show a placeholder while content is loading.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/cubix/skeleton.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
+      "name": "slider",
+      "type": "registry:ui",
+      "title": "Slider",
+      "description": "An input where the user selects a value from within a given range.",
+      "dependencies": [
+        "react-aria-components"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/cubix/slider.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task.",
+      "dependencies": [
+        "react-aria-components"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/cubix/progress.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
+      "name": "spinner",
+      "type": "registry:ui",
+      "title": "Spinner",
+      "description": "An indicator that can be used to show a loading state.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/cubix/spinner.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
       "name": "toast",
       "type": "registry:ui",
       "title": "Toast",
@@ -404,6 +526,50 @@
       "files": [
         {
           "path": "components/cubix/toast.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
+      "name": "toggle",
+      "type": "registry:ui",
+      "title": "Toggle",
+      "description": "A two-state button that can be either on or off.",
+      "dependencies": [
+        "react-aria-components"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/cubix/toggle.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:ui",
+      "title": "Toggle Group",
+      "description": "A set of two-state buttons that can be toggled on or off.",
+      "dependencies": [
+        "react-aria-components"
+      ],
+      "registryDependencies": [
+        "toggle"
+      ],
+      "files": [
+        {
+          "path": "components/cubix/toggle-group.tsx",
           "type": "registry:ui"
         }
       ],
@@ -533,6 +699,46 @@
       "files": [
         {
           "path": "components/cubix/dropdown-menu.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
+      "name": "empty",
+      "type": "registry:ui",
+      "title": "Empty",
+      "description": "Use the Empty component to display an empty state.",
+      "dependencies": [],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/cubix/empty.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
+      "name": "label",
+      "type": "registry:ui",
+      "title": "Label",
+      "description": "Renders an accessible label associated with controls.",
+      "dependencies": [
+        "react-aria-components"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/cubix/label.tsx",
           "type": "registry:ui"
         }
       ],

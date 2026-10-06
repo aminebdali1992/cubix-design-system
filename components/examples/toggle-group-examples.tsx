@@ -11,7 +11,7 @@ import {
 import {
   ToggleGroup,
   ToggleGroupItem,
-} from "@/components/cubix/toggle-group"
+} from "@/app/docs/components/toggle-group/docs-toggle-group"
 
 export function ToggleGroupDemo() {
   return (

@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 
 const usageImport = `import { Slider } from "@/components/cubix/slider"`
 
-const usageSnippet = `<Slider defaultValue={[33]} max={100} step={1} />`
+const usageSnippet = `<Slider defaultValue={[33]} max={100} step={1} aria-label="Volume" />`
 
 const demoSnippet = `import { Slider } from "@/components/cubix/slider"
 
@@ -37,6 +37,7 @@ export function SliderDemo() {
       defaultValue={[33]}
       max={100}
       step={1}
+      aria-label="Volume"
       className="mx-auto w-full max-w-xs"
     />
   )
@@ -46,6 +47,7 @@ const rangeSnippet = `<Slider
   defaultValue={[25, 50]}
   max={100}
   step={5}
+  aria-label="Price range"
   className="mx-auto w-full max-w-xs"
 />`
 
@@ -53,6 +55,7 @@ const multipleSnippet = `<Slider
   defaultValue={[10, 20, 70]}
   max={100}
   step={10}
+  aria-label="Breakpoints"
   className="mx-auto w-full max-w-xs"
 />`
 
@@ -62,6 +65,7 @@ const verticalSnippet = `<div className="mx-auto flex w-full max-w-xs items-cent
     max={100}
     step={1}
     orientation="vertical"
+    aria-label="Bass"
     className="h-40"
   />
   <Slider
@@ -69,6 +73,7 @@ const verticalSnippet = `<div className="mx-auto flex w-full max-w-xs items-cent
     max={100}
     step={1}
     orientation="vertical"
+    aria-label="Treble"
     className="h-40"
   />
 </div>`
@@ -86,15 +91,15 @@ export function SliderControlledDemo() {
   return (
     <div className="mx-auto grid w-full max-w-xs gap-3">
       <div className="flex items-center justify-between gap-2">
-        <Label htmlFor="slider-demo-temperature">Temperature</Label>
+        <Label id="slider-demo-temperature">Temperature</Label>
         <span className="text-sm text-muted-foreground tabular-nums">
           {value.join(", ")}
         </span>
       </div>
       <Slider
-        id="slider-demo-temperature"
+        aria-labelledby="slider-demo-temperature"
         value={value}
-        onValueChange={(next) => setValue(next as number[])}
+        onValueChange={(next) => setValue(typeof next === "number" ? [next] : [...next])}
         min={0}
         max={1}
         step={0.1}
@@ -108,6 +113,7 @@ const disabledSnippet = `<Slider
   max={100}
   step={1}
   disabled
+  aria-label="Volume"
   className="mx-auto w-full max-w-xs"
 />`
 
@@ -116,6 +122,7 @@ const rtlSnippet = `<div dir="rtl" className="w-full">
     defaultValue={[40]}
     max={100}
     step={1}
+    aria-label="میزان صدا"
     className="mx-auto w-full max-w-xs"
   />
 </div>`

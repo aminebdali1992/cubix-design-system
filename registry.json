@@ -184,6 +184,12 @@
       "description": "An input where the user selects a value from within a given range."
     },
     {
+      "name": "progress",
+      "type": "registry:ui",
+      "title": "Progress",
+      "description": "Displays an indicator showing the completion progress of a task."
+    },
+    {
       "name": "sonner",
       "type": "registry:ui",
       "title": "Sonner",

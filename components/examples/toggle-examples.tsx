@@ -2,7 +2,7 @@
 
 import { BoldIcon, BookmarkIcon, ItalicIcon } from "lucide-react"
 
-import { Toggle } from "@/components/cubix/toggle"
+import { Toggle } from "@/app/docs/components/toggle/docs-toggle"
 
 export function ToggleDemo() {
   return (

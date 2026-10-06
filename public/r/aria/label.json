@@ -1,0 +1,20 @@
+{
+  "$schema": "https://cubixflow.ir/schema/registry-item.json",
+  "name": "label",
+  "type": "registry:ui",
+  "title": "Label",
+  "description": "Renders an accessible label associated with controls.",
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/label.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/label.tsx",
+      "content": "\"use client\"\n\n/*\n  Cubix Label - React Aria version.\n\n  Built on React Aria Label, so inside a React Aria field it picks up the\n  field's id wiring automatically. Standalone, it links to a control through\n  htmlFor like the Base UI and Radix labels.\n*/\nimport type { ComponentProps } from \"react\"\nimport { Label as AriaLabel } from \"react-aria-components\"\n\nimport { cn } from \"@/lib/utils\"\n\nfunction Label({ className, ...props }: ComponentProps<typeof AriaLabel>) {\n  return (\n    <AriaLabel\n      data-slot=\"label\"\n      className={cn(\n        \"flex items-center gap-2 text-label leading-none font-normal select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 group-data-[disabled=true]/field:pointer-events-none group-data-[disabled=true]/field:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50 peer-data-disabled:cursor-not-allowed peer-data-disabled:opacity-50\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Label }\n"
+    }
+  ]
+}
+

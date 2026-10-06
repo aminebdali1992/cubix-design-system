@@ -23,8 +23,9 @@ import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/cubix/collapsible"
+} from "@/app/docs/components/collapsible/docs-collapsible"
 import { Input } from "@/components/cubix/input"
+import { Label } from "@/app/docs/components/label/docs-label"
 import { Tabs, TabsList, TabsTrigger } from "@/components/cubix/tabs"
 
 export function CollapsibleDemo() {
@@ -79,7 +80,7 @@ export function CollapsibleBasicDemo() {
             render={<Button variant="ghost" className="w-full" />}
           >
             Product details
-            <ChevronDownIcon className="ml-auto transition-transform group-data-panel-open/button:rotate-180" />
+            <ChevronDownIcon className="ms-auto transition-transform group-data-panel-open/button:rotate-180" />
           </CollapsibleTrigger>
           <CollapsibleContent className="flex flex-col items-start gap-2 p-2.5 pt-0 text-sm">
             <div>
@@ -111,28 +112,28 @@ export function CollapsibleSettingsDemo() {
         >
           <div className="grid w-full grid-cols-2 gap-2">
             <div>
-              <label htmlFor="radius-x" className="sr-only">
+              <Label htmlFor="radius-x" className="sr-only">
                 Radius X
-              </label>
+              </Label>
               <Input id="radius-x" placeholder="0" defaultValue={0} />
             </div>
             <div>
-              <label htmlFor="radius-y" className="sr-only">
+              <Label htmlFor="radius-y" className="sr-only">
                 Radius Y
-              </label>
+              </Label>
               <Input id="radius-y" placeholder="0" defaultValue={0} />
             </div>
             <CollapsibleContent className="col-span-full grid grid-cols-subgrid gap-2">
               <div>
-                <label htmlFor="radius-x-extra" className="sr-only">
+                <Label htmlFor="radius-x-extra" className="sr-only">
                   Radius X
-                </label>
+                </Label>
                 <Input id="radius-x-extra" placeholder="0" defaultValue={0} />
               </div>
               <div>
-                <label htmlFor="radius-y-extra" className="sr-only">
+                <Label htmlFor="radius-y-extra" className="sr-only">
                   Radius Y
-                </label>
+                </Label>
                 <Input id="radius-y-extra" placeholder="0" defaultValue={0} />
               </div>
             </CollapsibleContent>
@@ -221,7 +222,7 @@ export function CollapsibleFileTreeDemo() {
             <FolderIcon />
             {fileItem.name}
           </CollapsibleTrigger>
-          <CollapsibleContent className="mt-1 ml-5">
+          <CollapsibleContent className="mt-1 ms-5">
             <div className="flex flex-col gap-1">
               {fileItem.items.map((child) => renderItem(child))}
             </div>

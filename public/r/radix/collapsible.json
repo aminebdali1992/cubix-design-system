@@ -1,0 +1,20 @@
+{
+  "$schema": "https://cubixflow.ir/schema/registry-item.json",
+  "name": "collapsible",
+  "type": "registry:ui",
+  "title": "Collapsible",
+  "description": "An interactive component which expands and collapses a panel.",
+  "dependencies": [
+    "radix-ui"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/collapsible.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/collapsible.tsx",
+      "content": "\"use client\"\n\n/*\n  Cubix Collapsible - Radix UI version.\n\n  The root and panel expose data-open / data-closed and the trigger exposes\n  data-panel-open, the same state attributes as the Base UI and React Aria\n  versions. render={<Button variant=\"ghost\" />} composes the trigger with\n  another element; asChild works as well.\n*/\nimport * as React from \"react\"\nimport { Collapsible as CollapsiblePrimitive } from \"radix-ui\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst CollapsibleOpenContext = React.createContext(false)\n\nfunction openStateAttributes(open: boolean) {\n  return {\n    \"data-open\": open ? \"\" : undefined,\n    \"data-closed\": open ? undefined : \"\",\n  }\n}\n\nfunction Collapsible({\n  open,\n  defaultOpen = false,\n  onOpenChange,\n  ...props\n}: React.ComponentProps<typeof CollapsiblePrimitive.Root>) {\n  const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)\n  const isOpen = open ?? uncontrolledOpen\n\n  return (\n    <CollapsibleOpenContext.Provider value={isOpen}>\n      <CollapsiblePrimitive.Root\n        data-slot=\"collapsible\"\n        {...openStateAttributes(isOpen)}\n        open={isOpen}\n        onOpenChange={(next) => {\n          if (open === undefined) setUncontrolledOpen(next)\n          onOpenChange?.(next)\n        }}\n        {...props}\n      />\n    </CollapsibleOpenContext.Provider>\n  )\n}\n\nfunction CollapsibleTrigger({\n  render,\n  asChild,\n  children,\n  ...props\n}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleTrigger> & {\n  render?: React.ReactElement<Record<string, unknown>>\n}) {\n  const open = React.useContext(CollapsibleOpenContext)\n\n  return (\n    <CollapsiblePrimitive.CollapsibleTrigger\n      data-slot=\"collapsible-trigger\"\n      data-panel-open={open ? \"\" : undefined}\n      asChild={asChild || render !== undefined}\n      {...props}\n    >\n      {render\n        ? children === undefined\n          ? render\n          : React.cloneElement(render, undefined, children)\n        : children}\n    </CollapsiblePrimitive.CollapsibleTrigger>\n  )\n}\n\nfunction CollapsibleContent({\n  className,\n  ...props\n}: React.ComponentProps<typeof CollapsiblePrimitive.CollapsibleContent>) {\n  const open = React.useContext(CollapsibleOpenContext)\n\n  return (\n    <CollapsiblePrimitive.CollapsibleContent\n      data-slot=\"collapsible-content\"\n      {...openStateAttributes(open)}\n      className={cn(\n        \"overflow-hidden text-description data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down\",\n        className\n      )}\n      {...props}\n    />\n  )\n}\n\nexport { Collapsible, CollapsibleTrigger, CollapsibleContent }\n"
+    }
+  ]
+}
+

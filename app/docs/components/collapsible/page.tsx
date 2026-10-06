@@ -83,7 +83,7 @@ const basicSnippet = `<Collapsible className="rounded-md data-open:bg-muted">
     render={<Button variant="ghost" className="w-full" />}
   >
     Product details
-    <ChevronDownIcon className="ml-auto group-data-panel-open/button:rotate-180" />
+    <ChevronDownIcon className="ms-auto group-data-panel-open/button:rotate-180" />
   </CollapsibleTrigger>
   <CollapsibleContent className="flex flex-col items-start gap-2 p-2.5 pt-0 text-sm">
     This panel can be expanded or collapsed to reveal additional content.
@@ -122,7 +122,7 @@ const fileTreeSnippet = `<Collapsible>
     <FolderIcon />
     components
   </CollapsibleTrigger>
-  <CollapsibleContent className="mt-1 ml-5">
+  <CollapsibleContent className="mt-1 ms-5">
     ...
   </CollapsibleContent>
 </Collapsible>`
