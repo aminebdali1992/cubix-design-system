@@ -160,8 +160,8 @@ export default function DialogPage() {
         <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
           <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
           <p className="leading-relaxed text-muted-foreground">
-            <strong className="text-foreground">Note:</strong> Dialog traps focus and dismisses on
-            Escape or backdrop click. Prefer <Code>Alert Dialog</Code> when the user must confirm or
+            <strong className="text-foreground">Note:</strong> Dialog moves focus to its panel when it
+            opens, traps focus, and dismisses on Escape or backdrop click. Prefer <Code>Alert Dialog</Code> when the user must confirm or
             cancel an irreversible action.
           </p>
         </div>

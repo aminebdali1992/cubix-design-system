@@ -9,8 +9,13 @@
 */
 import { XIcon } from "lucide-react"
 import {
+  createContext,
+  useCallback,
+  useContext,
+  useId,
   useLayoutEffect,
   useRef,
+  useState,
   type ComponentProps,
   type ReactElement,
   type ReactNode,
@@ -29,6 +34,15 @@ import {
 
 import { buttonVariants } from "@/components/cubix/aria/button"
 import { cn } from "@/lib/utils"
+
+/*
+  React Aria only links a description to role="alertdialog". DialogDescription
+  registers its id here so the dialog is described like the Base UI and Radix
+  versions, and only while a description is actually rendered.
+*/
+type RegisterDescription = (id: string) => () => void
+
+const DialogDescriptionContext = createContext<RegisterDescription | null>(null)
 
 function CubixDialog({
   children,
@@ -130,6 +144,12 @@ function DialogContent({
   lang?: string
   children?: ReactNode
 }) {
+  const [descriptionId, setDescriptionId] = useState<string>()
+  const registerDescription = useCallback<RegisterDescription>((id) => {
+    setDescriptionId(id)
+    return () => setDescriptionId((current) => (current === id ? undefined : current))
+  }, [])
+
   return (
     <DialogOverlay>
       <Modal
@@ -142,8 +162,10 @@ function DialogContent({
         )}
         {...props}
       >
-        <Dialog role="dialog" className="contents">
-          {children}
+        <Dialog role="dialog" aria-describedby={descriptionId} className="contents">
+          <DialogDescriptionContext.Provider value={registerDescription}>
+            {children}
+          </DialogDescriptionContext.Provider>
           {showCloseButton ? (
             <AriaButton
               slot="close"
@@ -264,9 +286,16 @@ function DialogTitle({ className, ...props }: ComponentProps<typeof Heading>) {
   )
 }
 
-function DialogDescription({ className, ...props }: ComponentProps<"p">) {
+function DialogDescription({ id, className, ...props }: ComponentProps<"p">) {
+  const generatedId = useId()
+  const descriptionId = id ?? generatedId
+  const registerDescription = useContext(DialogDescriptionContext)
+
+  useLayoutEffect(() => registerDescription?.(descriptionId), [registerDescription, descriptionId])
+
   return (
     <p
+      id={descriptionId}
       data-slot="dialog-description"
       className={cn(
         "text-label text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",

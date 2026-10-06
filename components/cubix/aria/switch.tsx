@@ -28,6 +28,33 @@ type CubixSwitchProps = Omit<
   onCheckedChange?: (checked: boolean) => void
 }
 
+/*
+  React Aria Switch has no validation props and does not forward aria-invalid
+  to the hidden input that carries the switch role, so it is mirrored there.
+*/
+function useInputInvalid(
+  invalid: boolean,
+  forwardedRef: React.Ref<HTMLInputElement | null> | undefined
+) {
+  const inputRef = React.useRef<HTMLInputElement | null>(null)
+
+  React.useLayoutEffect(() => {
+    const input = inputRef.current
+    if (!input) return
+    if (invalid) input.setAttribute("aria-invalid", "true")
+    else input.removeAttribute("aria-invalid")
+  }, [invalid])
+
+  return React.useCallback(
+    (node: HTMLInputElement | null) => {
+      inputRef.current = node
+      if (typeof forwardedRef === "function") forwardedRef(node)
+      else if (forwardedRef) forwardedRef.current = node
+    },
+    [forwardedRef]
+  )
+}
+
 function Switch({
   className,
   size = "default",
@@ -36,10 +63,12 @@ function Switch({
   disabled,
   invalid,
   "aria-invalid": ariaInvalid,
+  inputRef,
   onCheckedChange,
   ...props
 }: CubixSwitchProps) {
   const isInvalid = invalid ?? ariaInvalid === true
+  const setInputRef = useInputInvalid(isInvalid, inputRef)
 
   return (
     <AriaSwitch
@@ -48,7 +77,7 @@ function Switch({
       isSelected={checked}
       defaultSelected={defaultChecked}
       isDisabled={disabled}
-      aria-invalid={isInvalid || undefined}
+      inputRef={setInputRef}
       data-invalid={isInvalid ? "" : undefined}
       onChange={onCheckedChange}
       className="peer group/switch relative inline-flex shrink-0 cursor-pointer items-center rounded-full outline-none after:absolute after:-inset-x-3 after:-inset-y-2 data-[disabled]:cursor-not-allowed data-[disabled]:opacity-50"

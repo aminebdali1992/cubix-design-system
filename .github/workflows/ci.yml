@@ -9,7 +9,25 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Unit, accessibility and contract tests
+        run: npm test
+
   verify:
     runs-on: ubuntu-latest
     steps:
@@ -25,8 +43,8 @@ jobs:
       - name: Lint
         run: npm run lint -- --max-warnings 0
 
-      - name: Typecheck CLI
-        run: npm run typecheck -w cubix-ui
+      - name: Typecheck site and CLI
+        run: npm run typecheck
 
       - name: Build CLI
         run: npm run build:cli
