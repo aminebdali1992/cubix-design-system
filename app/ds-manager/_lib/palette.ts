@@ -60,7 +60,8 @@ export function readPalettes(tokens: readonly string[]): Palettes | null {
 
 export function isValidColor(value: string): boolean {
   if (value.trim().length === 0) return false;
-  // `CSS` is browser-only; server renders only ever see committed, valid colors.
-  if (typeof CSS === "undefined") return true;
+  // `CSS.supports` is browser-only, and polyfills may define a partial `CSS`.
+  // Server renders only ever see committed, valid colors.
+  if (typeof CSS === "undefined" || typeof CSS.supports !== "function") return true;
   return CSS.supports("color", value);
 }

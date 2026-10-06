@@ -85,6 +85,14 @@ function labelScript(children: ReactNode): "latn" | undefined {
   return LATIN_TEXT.test(text) && !ARAB_SCRIPT.test(text) ? "latn" : undefined
 }
 
+/*
+  Base UI gives every non-native button role="button". A render target with an
+  href is a link, so it keeps its native role, matching React Aria and Radix.
+*/
+function isLinkTarget(render: ButtonPrimitive.Props["render"]): boolean {
+  return isValidElement<{ href?: unknown }>(render) && render.props.href !== undefined
+}
+
 function Button({
   className,
   variant = "default",
@@ -99,6 +107,7 @@ function Button({
       data-size={size}
       data-script={labelScript(children ?? (isValidElement(props.render) ? props.render : null))}
       className={cn(buttonVariants({ variant, size }), className)}
+      {...(isLinkTarget(props.render) ? { role: undefined } : {})}
       {...props}
     >
       {children}

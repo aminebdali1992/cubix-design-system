@@ -21,6 +21,7 @@ import {
   Heading,
   Modal,
   ModalOverlay,
+  Text,
   type ButtonProps,
   type DialogTriggerProps,
   type ModalOverlayProps,
@@ -226,9 +227,14 @@ function AlertDialogTitle({ className, ...props }: ComponentProps<typeof Heading
   )
 }
 
-function AlertDialogDescription({ className, ...props }: ComponentProps<"p">) {
+function AlertDialogDescription({
+  className,
+  ...props
+}: Omit<ComponentProps<typeof Text>, "slot" | "elementType">) {
   return (
-    <p
+    <Text
+      slot="description"
+      elementType="p"
       data-slot="alert-dialog-description"
       className={cn(
         "text-label text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",

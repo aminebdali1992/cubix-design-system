@@ -36,6 +36,33 @@ type CubixCheckboxProps = Omit<
   children?: React.ReactNode
 }
 
+/*
+  React Aria does not forward aria-busy to the hidden input that carries the
+  checkbox role, so the pending state is mirrored onto it directly.
+*/
+function useInputBusy(
+  busy: boolean,
+  forwardedRef: React.Ref<HTMLInputElement | null> | undefined
+) {
+  const inputRef = React.useRef<HTMLInputElement | null>(null)
+
+  React.useLayoutEffect(() => {
+    const input = inputRef.current
+    if (!input) return
+    if (busy) input.setAttribute("aria-busy", "true")
+    else input.removeAttribute("aria-busy")
+  }, [busy])
+
+  return React.useCallback(
+    (node: HTMLInputElement | null) => {
+      inputRef.current = node
+      if (typeof forwardedRef === "function") forwardedRef(node)
+      else if (forwardedRef) forwardedRef.current = node
+    },
+    [forwardedRef]
+  )
+}
+
 function Checkbox({
   className,
   checked,
@@ -46,9 +73,12 @@ function Checkbox({
   invalid,
   onCheckedChange,
   "aria-invalid": ariaInvalid,
+  inputRef,
   children,
   ...props
 }: CubixCheckboxProps) {
+  const setInputRef = useInputBusy(pending, inputRef)
+
   return (
     <AriaCheckbox
       data-slot="checkbox"
@@ -58,7 +88,7 @@ function Checkbox({
       isIndeterminate={indeterminate}
       isDisabled={disabled || pending}
       isInvalid={invalid ?? ariaInvalid === true}
-      aria-busy={pending || undefined}
+      inputRef={setInputRef}
       onChange={onCheckedChange}
       className={cn(
         "group/checkbox peer relative flex size-[18px] shrink-0 items-center justify-center rounded-[6px] border border-input transition-[background-color,border-color] outline-none group-has-disabled/field:opacity-50 after:absolute after:-inset-x-3 after:-inset-y-2 data-[focus-visible]:ring-3 data-[focus-visible]:ring-secondary data-[focus-visible]:ring-offset-1 data-[focus-visible]:ring-offset-background data-[disabled]:cursor-not-allowed data-[disabled]:data-[selected]:opacity-50 data-[disabled]:data-[indeterminate]:opacity-50 dark:bg-input/30 data-[invalid]:border-destructive data-[invalid]:ring-3 data-[invalid]:ring-destructive/20 dark:data-[invalid]:border-destructive/50 dark:data-[invalid]:ring-destructive/40 data-[selected]:border-primary data-[selected]:bg-primary data-[selected]:text-primary-foreground data-[selected]:data-[focus-visible]:ring-primary/20 data-[indeterminate]:border-primary data-[indeterminate]:bg-primary data-[indeterminate]:text-primary-foreground data-[indeterminate]:data-[focus-visible]:ring-primary/20 dark:data-[selected]:bg-primary dark:data-[indeterminate]:bg-primary data-[pending]:cursor-wait data-[pending]:border-transparent data-[pending]:bg-transparent data-[pending]:text-muted-foreground data-[pending]:opacity-100 data-[pending]:data-[selected]:border-transparent data-[pending]:data-[selected]:bg-transparent data-[pending]:data-[selected]:text-muted-foreground data-[pending]:data-[indeterminate]:border-transparent data-[pending]:data-[indeterminate]:bg-transparent data-[pending]:data-[indeterminate]:text-muted-foreground dark:data-[pending]:bg-transparent",
