@@ -59,5 +59,8 @@ export function readPalettes(tokens: readonly string[]): Palettes | null {
 }
 
 export function isValidColor(value: string): boolean {
-  return value.trim().length > 0 && CSS.supports("color", value);
+  if (value.trim().length === 0) return false;
+  // `CSS` is browser-only; server renders only ever see committed, valid colors.
+  if (typeof CSS === "undefined") return true;
+  return CSS.supports("color", value);
 }
