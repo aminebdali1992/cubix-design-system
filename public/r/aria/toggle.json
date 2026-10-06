@@ -1,0 +1,20 @@
+{
+  "$schema": "https://cubixflow.ir/schema/registry-item.json",
+  "name": "toggle",
+  "type": "registry:ui",
+  "title": "Toggle",
+  "description": "A two-state button that can be either on or off.",
+  "dependencies": [
+    "react-aria-components"
+  ],
+  "registryDependencies": [],
+  "files": [
+    {
+      "path": "components/cubix/toggle.tsx",
+      "type": "registry:ui",
+      "target": "components/cubix/toggle.tsx",
+      "content": "\"use client\"\n\n/*\n  Cubix Toggle - React Aria version.\n\n  Same variants and classes as the Base UI and Radix toggles, built on React\n  Aria ToggleButton. Cubix props (pressed, defaultPressed, onPressedChange,\n  disabled) map onto isSelected / defaultSelected / onChange / isDisabled.\n  React Aria marks the on state with data-selected, which drives the same\n  pressed styles as aria-pressed.\n*/\nimport type { ReactNode } from \"react\"\nimport { ToggleButton, type ToggleButtonProps } from \"react-aria-components\"\nimport { cva, type VariantProps } from \"class-variance-authority\"\n\nimport { cn } from \"@/lib/utils\"\n\nconst toggleVariants = cva(\n  \"group/toggle inline-flex items-center justify-center gap-1 rounded-lg text-description font-medium whitespace-nowrap transition-all outline-none hover:bg-muted hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 aria-pressed:bg-muted data-selected:bg-muted dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4\",\n  {\n    variants: {\n      variant: {\n        default: \"bg-transparent\",\n        outline: \"border border-input bg-transparent hover:bg-muted\",\n        segmented:\n          \"border border-transparent bg-transparent bg-clip-padding font-normal text-muted-foreground hover:bg-transparent hover:text-foreground aria-pressed:border-border aria-pressed:bg-card aria-pressed:font-medium aria-pressed:text-foreground data-selected:border-border data-selected:bg-card data-selected:font-medium data-selected:text-foreground\",\n      },\n      size: {\n        default:\n          \"h-8 min-w-8 px-2.5 has-data-[icon=inline-end]:pe-2 has-data-[icon=inline-start]:ps-2\",\n        sm: \"h-7 min-w-7 rounded-[min(var(--radius-md),12px)] px-2.5 text-caption has-data-[icon=inline-end]:pe-1.5 has-data-[icon=inline-start]:ps-1.5 [&_svg:not([class*='size-'])]:size-3.5\",\n        lg: \"h-9 min-w-9 px-2.5 has-data-[icon=inline-end]:pe-2 has-data-[icon=inline-start]:ps-2\",\n      },\n    },\n    defaultVariants: {\n      variant: \"default\",\n      size: \"default\",\n    },\n  }\n)\n\ntype ToggleProps = Omit<\n  ToggleButtonProps,\n  \"className\" | \"children\" | \"isSelected\" | \"defaultSelected\" | \"onChange\" | \"isDisabled\"\n> &\n  VariantProps<typeof toggleVariants> & {\n    className?: string\n    children?: ReactNode\n    pressed?: boolean\n    defaultPressed?: boolean\n    onPressedChange?: (pressed: boolean) => void\n    disabled?: boolean\n  }\n\nfunction Toggle({\n  className,\n  variant = \"default\",\n  size = \"default\",\n  pressed,\n  defaultPressed,\n  onPressedChange,\n  disabled,\n  ...props\n}: ToggleProps) {\n  return (\n    <ToggleButton\n      data-slot=\"toggle\"\n      isSelected={pressed}\n      defaultSelected={defaultPressed}\n      onChange={onPressedChange}\n      isDisabled={disabled}\n      className={cn(toggleVariants({ variant, size, className }))}\n      {...props}\n    />\n  )\n}\n\nexport { Toggle, toggleVariants }\n"
+    }
+  ]
+}
+

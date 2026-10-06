@@ -1,7 +1,7 @@
 import { Checkbox } from "@/components/cubix/checkbox"
 import { Field } from "@/components/cubix/field"
 import { Input } from "@/components/cubix/input"
-import { Label } from "@/components/cubix/label"
+import { Label } from "@/app/docs/components/label/docs-label"
 import { Textarea } from "@/components/cubix/textarea"
 
 export function LabelDemo() {

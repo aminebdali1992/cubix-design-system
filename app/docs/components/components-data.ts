@@ -246,7 +246,7 @@ export const components = [
     name: "Collapsible",
     description: "An interactive component which expands and collapses a panel.",
     href: "/docs/components/collapsible",
-    ready: false,
+    ready: true,
   },
   {
     name: "Combobox",
@@ -288,7 +288,7 @@ export const components = [
     name: "Empty",
     description: "Use the Empty component to display an empty state.",
     href: "/docs/components/empty",
-    ready: false,
+    ready: true,
   },
   {
     name: "Field",
@@ -313,13 +313,13 @@ export const components = [
     name: "Kbd",
     description: "A component to display keyboard shortcuts.",
     href: "/docs/components/kbd",
-    ready: false,
+    ready: true,
   },
   {
     name: "Label",
     description: "Renders an accessible label associated with controls.",
     href: "/docs/components/label",
-    ready: false,
+    ready: true,
   },
   {
     name: "Menubar",
@@ -350,7 +350,7 @@ export const components = [
     name: "Progress",
     description: "Displays an indicator showing the completion progress of a task.",
     href: "/docs/components/progress",
-    ready: false,
+    ready: true,
   },
   {
     name: "Resizable",
@@ -387,14 +387,14 @@ export const components = [
     name: "Skeleton",
     description: "Use to show a placeholder while content is loading.",
     href: "/docs/components/skeleton",
-    ready: false,
+    ready: true,
   },
   {
     name: "Slider",
     description:
       "An input where the user selects a value from within a given range.",
     href: "/docs/components/slider",
-    ready: false,
+    ready: true,
   },
   {
     name: "Sonner",
@@ -406,7 +406,7 @@ export const components = [
     name: "Spinner",
     description: "An indicator that can be used to show a loading state.",
     href: "/docs/components/spinner",
-    ready: false,
+    ready: true,
   },
   {
     name: "Table",
@@ -425,13 +425,13 @@ export const components = [
     name: "Toggle",
     description: "A two-state button that can be either on or off.",
     href: "/docs/components/toggle",
-    ready: false,
+    ready: true,
   },
   {
     name: "Toggle Group",
     description: "A set of two-state buttons that can be toggled on or off.",
     href: "/docs/components/toggle-group",
-    ready: false,
+    ready: true,
   },
 
   // AI & chat - roadmap

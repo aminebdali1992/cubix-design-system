@@ -31,7 +31,7 @@ export const metadata: Metadata = {
 
 const usageImport = `import { Progress } from "@/components/cubix/progress"`
 
-const usageSnippet = `<Progress value={33} />`
+const usageSnippet = `<Progress value={33} aria-label="Upload" />`
 
 const compositionSnippet = `Progress
 ├── ProgressLabel
@@ -52,15 +52,15 @@ export function ProgressDemo() {
     return () => clearTimeout(timer)
   }, [])
 
-  return <Progress value={progress} className="w-[60%]" />
+  return <Progress value={progress} aria-label="Loading" className="w-[60%]" />
 }`
 
 const valuesSnippet = `<div className="flex w-full flex-col gap-4">
-  <Progress value={0} />
-  <Progress value={25} />
-  <Progress value={50} />
-  <Progress value={75} />
-  <Progress value={100} />
+  <Progress value={0} aria-label="0 percent" />
+  <Progress value={25} aria-label="25 percent" />
+  <Progress value={50} aria-label="50 percent" />
+  <Progress value={75} aria-label="75 percent" />
+  <Progress value={100} aria-label="100 percent" />
 </div>`
 
 const labelSnippet = `import {
@@ -78,19 +78,20 @@ const controlledSnippet = `"use client"
 
 import * as React from "react"
 import { Progress } from "@/components/cubix/progress"
+import { Slider } from "@/components/cubix/slider"
 
 export function ProgressControlledDemo() {
   const [value, setValue] = React.useState(50)
 
   return (
     <div className="flex w-full flex-col gap-4">
-      <Progress value={value} className="w-full" />
-      <input
-        type="range"
-        min={0}
+      <Progress value={value} aria-label="Progress" className="w-full" />
+      <Slider
+        value={[value]}
+        onValueChange={(next) => setValue(typeof next === "number" ? next : next[0])}
         max={100}
-        value={value}
-        onChange={(event) => setValue(Number(event.target.value))}
+        step={1}
+        aria-label="Progress value"
       />
     </div>
   )
@@ -101,7 +102,7 @@ const fileUploadSnippet = `<ul className="flex flex-col gap-3">
     <li key={file.id} className="flex items-center gap-3">
       <FileIcon className="size-5" />
       <span className="flex-1 truncate">{file.name}</span>
-      <Progress value={file.progress} className="w-32" />
+      <Progress value={file.progress} aria-label={file.name} className="w-32" />
       <span className="text-muted-foreground">{file.timeRemaining}</span>
     </li>
   ))}
@@ -169,7 +170,7 @@ export default function ProgressDocsPage() {
           Controlled
         </h2>
         <p className="leading-relaxed text-muted-foreground">
-          A progress bar that can be controlled by a range input.
+          A progress bar controlled by a slider.
         </p>
         <ComponentPreview code={controlledSnippet} previewClassName="min-h-32">
           <ProgressControlledDemo />
