@@ -1,4 +1,6 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
+import { CircleAlertIcon } from "lucide-react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
@@ -6,103 +8,87 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
 import {
-  HoverCardDemo,
-  HoverCardSidesDemo,
-} from "@/components/examples/hover-card-examples"
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { HoverCardDelayDemo } from "./examples/hover-card-delay-demo"
+import { HoverCardDemo } from "./examples/hover-card-demo"
+import { HoverCardSidesDemo } from "./examples/hover-card-sides-demo"
+import { contentPropRows, hoverCardPropRows, triggerPropRows } from "./hover-card-table-data"
 
-import {
-  contentPropRows,
-  hoverCardPropRows,
-  triggerPropRows,
-} from "./hover-card-table-data"
-
-const description =
-  "For sighted users to preview content available behind a link."
+const description = "For sighted users to preview content available behind a link."
 
 export const metadata: Metadata = {
-  title: "Hover Card",
-  description,
+  title: "HoverCard",
+  description: "Displays rich content in a portal, triggered by a button.",
 }
 
-const usageImport = `import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/cubix/hover-card"`
+const PUBLIC_IMPORT = "@/components/cubix/hover-card"
+const EXAMPLES_DIR = "app/docs/components/hover-card/examples"
 
-const usageSnippet = `<HoverCard>
-  <HoverCardTrigger render={<Button variant="link" />}>
-    Hover
-  </HoverCardTrigger>
-  <HoverCardContent>
-    The React Framework - created and maintained by @vercel.
-  </HoverCardContent>
-</HoverCard>`
+function loadExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
-const compositionSnippet = `HoverCard
-├── HoverCardTrigger
-└── HoverCardContent`
-
-const delaySnippet = `<HoverCard>
-  <HoverCardTrigger delay={100} closeDelay={200} render={<Button variant="link" />}>
-    Hover
-  </HoverCardTrigger>
-  <HoverCardContent>Content</HoverCardContent>
-</HoverCard>`
-
-const positioningSnippet = `<HoverCard>
-  <HoverCardTrigger render={<Button variant="link" />}>
-    Hover
-  </HoverCardTrigger>
-  <HoverCardContent side="top" align="start">
-    Content
-  </HoverCardContent>
-</HoverCard>`
-
-const demoSnippet = `<HoverCard>
-  <HoverCardTrigger
-    delay={10}
-    closeDelay={100}
-    render={<Button variant="link" />}
-  >
-    Hover Here
-  </HoverCardTrigger>
-  <HoverCardContent className="flex w-64 flex-col gap-0.5">
-    <div className="font-semibold">@nextjs</div>
-    <div>The React Framework - created and maintained by @vercel.</div>
-    <div className="mt-1 text-xs text-muted-foreground">
-      Joined December 2021
+/*
+  Persian trigger buttons need lang="fa" so .group/button:lang(fa)
+  picks the "IRANSans Cubix Button D" face (with U+0020 + 103%/47%
+  baseline). Without it the trigger falls back to the generic face
+  and Geist sets the baseline, so Persian looks unloaded/misaligned.
+  Docs chrome only - not part of the paste-ready example source.
+*/
+function PreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div dir="rtl" lang="fa" className="flex items-center justify-center">
+      {children}
     </div>
-  </HoverCardContent>
-</HoverCard>`
+  )
+}
 
-const sidesSnippet = `<HoverCard>
-  <HoverCardTrigger
-    delay={100}
-    closeDelay={100}
-    render={<Button variant="outline" className="capitalize" />}
-  >
-    top
-  </HoverCardTrigger>
-  <HoverCardContent side="top">
-    <div className="flex flex-col gap-1">
-      <h4 className="font-medium">Hover Card</h4>
-      <p>This hover card appears on the top side of the trigger.</p>
+function ExampleSection({
+  title,
+  description,
+  code,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName="min-h-40">
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
     </div>
-  </HoverCardContent>
-</HoverCard>`
+  )
+}
 
-export default function HoverCardDocsPage() {
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
+
+export default function HoverCardPage() {
+  const demoSource = loadExample("hover-card-demo.tsx")
+  const sidesSource = loadExample("hover-card-sides-demo.tsx")
+  const delaySource = loadExample("hover-card-delay-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Hover Card"
-        description={description}
-        slug="hover-card"
-      />
+      <ComponentDocsHeader title="Hover Card" description={description} slug="hover-card" />
 
-      <ComponentPreview code={demoSnippet} previewClassName="min-h-80">
-        <HoverCardDemo />
+      <ComponentPreview code={demoSource} previewClassName="min-h-40">
+        <PreviewShell>
+          <HoverCardDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="hover-card" />
@@ -113,87 +99,64 @@ export default function HoverCardDocsPage() {
         <CodeBlock code={usageSnippet} title="Example" />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use the following composition to build a{" "}
-          <code className="font-mono text-sm">HoverCard</code>:
-        </p>
-        <CodeBlock code={compositionSnippet} />
-      </section>
+      <section className="space-y-6">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Trigger Delays
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use <code className="font-mono text-sm">delay</code> and{" "}
-          <code className="font-mono text-sm">closeDelay</code> on the trigger to
-          control when the card opens and closes. On Radix UI, set{" "}
-          <code className="font-mono text-sm">openDelay</code> and{" "}
-          <code className="font-mono text-sm">closeDelay</code> on{" "}
-          <code className="font-mono text-sm">HoverCard</code> instead.
-        </p>
-        <CodeBlock code={delaySnippet} />
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Positioning
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use the <code className="font-mono text-sm">side</code> and{" "}
-          <code className="font-mono text-sm">align</code> props on{" "}
-          <code className="font-mono text-sm">HoverCardContent</code> to control
-          placement.
-        </p>
-        <CodeBlock code={positioningSnippet} />
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Basic</h2>
-        <ComponentPreview code={demoSnippet} previewClassName="min-h-80">
-          <HoverCardDemo />
-        </ComponentPreview>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Sides</h2>
-        <ComponentPreview
-          code={sidesSnippet}
-          previewClassName="min-h-[22rem]"
+        <ExampleSection
+          title="Sides"
+          description={
+            <>
+              Use <Code>side</Code> on <Code>HoverCardContent</Code> to place the card on the top,
+              right, bottom, or left of the trigger.
+            </>
+          }
+          code={sidesSource}
         >
           <HoverCardSidesDemo />
-        </ComponentPreview>
+        </ExampleSection>
+
+        <ExampleSection
+          title="Delay"
+          description={
+            <>
+              Use <Code>openDelay</Code> and <Code>closeDelay</Code> on <Code>HoverCard</Code> to
+              control how long the pointer must rest on, or leave, the trigger.
+            </>
+          }
+          code={delaySource}
+        >
+          <HoverCardDelayDemo />
+        </ExampleSection>
       </section>
 
-      <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
-
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            HoverCard
-          </h3>
-          <PropsTable data={hoverCardPropRows} />
+      <section id="api-reference" className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
+        <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
+          <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
+          <p className="leading-relaxed text-muted-foreground">
+            <strong className="text-foreground">Note:</strong> Hover cards open on hover and
+            keyboard focus only, not on touch. Do not put content there that users cannot reach
+            another way. Use <Code>Popover</Code> for click-triggered panels.
+          </p>
         </div>
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            HoverCardTrigger
-          </h3>
-          <PropsTable data={triggerPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">HoverCard</h3>
+        <p className="leading-relaxed text-muted-foreground">
+          The container that wraps the trigger and content and manages open state and delays.
+        </p>
+        <PropsTable data={hoverCardPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            HoverCardContent
-          </h3>
-          <PropsTable data={contentPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">HoverCardTrigger</h3>
+        <p className="leading-relaxed text-muted-foreground">
+          The element that opens the card on hover or focus. Renders a link by default.
+        </p>
+        <PropsTable data={triggerPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">HoverCardContent</h3>
+        <p className="leading-relaxed text-muted-foreground">
+          The card rendered in a portal, positioned relative to the trigger.
+        </p>
+        <PropsTable data={contentPropRows} />
       </section>
     </article>
   )

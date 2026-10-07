@@ -177,7 +177,7 @@ function ConfigFileCard({
 
 function FileTree({ revealConfig }: { revealConfig: boolean }) {
   return (
-    <div className="hidden w-[200px] shrink-0 flex-col overflow-y-auto border-e border-[#2a2a2a] bg-[#141414] lg:flex">
+    <div className="hidden w-[200px] shrink-0 flex-col overflow-hidden border-e border-[#2a2a2a] bg-[#141414] lg:flex">
       <div className="px-3 py-2.5 text-[11px] font-medium tracking-[0.04em] text-[#6f6f6f] uppercase">
         Explorer
       </div>
@@ -195,9 +195,19 @@ function FileTree({ revealConfig }: { revealConfig: boolean }) {
               style={{ paddingInlineStart: `${6 + entry.depth * 12}px` }}
             >
               {entry.kind === "folder" ? (
-                <FolderIcon className="size-3.5 shrink-0 opacity-75" aria-hidden />
+                <>
+                  {entry.open ? (
+                    <ChevronDownIcon className="size-3 shrink-0 opacity-60" aria-hidden />
+                  ) : (
+                    <ChevronRightIcon className="size-3 shrink-0 opacity-60" aria-hidden />
+                  )}
+                  <FolderIcon className="size-3.5 shrink-0 opacity-75" aria-hidden />
+                </>
               ) : (
-                <FileIcon className="size-3.5 shrink-0 opacity-75" aria-hidden />
+                <>
+                  <span className="size-3 shrink-0" aria-hidden />
+                  <FileIcon className="size-3.5 shrink-0 opacity-75" aria-hidden />
+                </>
               )}
               <span className="truncate">{entry.name}</span>
             </li>
@@ -336,7 +346,7 @@ export function CursorAgentInstall() {
         "antialiased tracking-[-0.011em]"
       )}
     >
-      <div className="flex flex-col bg-[#181818] text-[#e4e4e7]">
+      <div className="flex h-full flex-col bg-[#181818] text-[#e4e4e7]">
         <div className="flex h-11 items-center gap-3 border-b border-[#2a2a2a] bg-[#1c1c1c] px-3.5">
           <div className="flex items-center gap-[7px]" aria-hidden>
             <span className="size-[11px] rounded-full bg-[#ff5f57]" />
@@ -354,7 +364,7 @@ export function CursorAgentInstall() {
           <div className="w-[52px]" aria-hidden />
         </div>
 
-        <div className="flex h-[460px] md:h-[500px]">
+        <div className="flex min-h-0 flex-1">
           <div
             className="hidden w-12 shrink-0 flex-col items-center justify-between border-e border-[#2a2a2a] bg-[#141414] py-3.5 sm:flex"
             aria-hidden
@@ -378,9 +388,9 @@ export function CursorAgentInstall() {
 
             <div
               ref={scrollRef}
-              className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 md:px-5"
+              className="min-h-0 flex-1 overflow-hidden px-4 py-5 md:px-5"
             >
-              <div ref={contentRef} className="flex flex-col gap-5">
+              <div ref={contentRef} className="mx-auto flex w-full max-w-[608px] flex-col gap-5">
                 <AnimatePresence initial={false}>
                   {showUser ? (
                     <motion.div
@@ -443,14 +453,18 @@ export function CursorAgentInstall() {
               </div>
             </div>
 
-            <CursorAgentComposer
-              draft={draft}
-              typing={phase === "typing"}
-              sending={phase === "sending"}
-              busy={busy}
-              hasMessages={showUser}
-              reduceMotion={reduceMotion}
-            />
+            <div className="mx-auto w-full max-w-[648px]">
+
+              <CursorAgentComposer
+                draft={draft}
+                typing={phase === "typing"}
+                sending={phase === "sending"}
+                busy={busy}
+                hasMessages={showUser}
+                reduceMotion={reduceMotion}
+              />
+
+            </div>
           </div>
         </div>
       </div>

@@ -499,7 +499,7 @@ export function AgentLoginDesign() {
 
             <div
               ref={scrollRef}
-              className="cubix-scrollbar min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-5 md:px-5"
+              className="min-h-0 flex-1 overflow-hidden px-4 py-5 md:px-5"
             >
               <div ref={contentRef} className="flex flex-col gap-4">
                 <AnimatePresence initial={false}>

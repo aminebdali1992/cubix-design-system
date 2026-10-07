@@ -21,8 +21,14 @@ import { McpAgentMarks } from "@/components/landing/mcp-agent-marks"
 import { SiteFrame } from "@/components/site-frame"
 import { siteConfig } from "@/lib/site"
 
-const brandButtonClassName =
-  "bg-foreground text-background hover:bg-foreground/90 focus-visible:ring-foreground/20"
+const brandButtonClassName = cn(
+  "bg-foreground text-background focus-visible:ring-foreground/20",
+  "transition-[scale,box-shadow,background-color] duration-300 ease-out",
+  "hover:scale-105 hover:bg-foreground/90 hover:shadow-2xl hover:shadow-neutral-600",
+  "active:not-aria-[haspopup]:translate-y-0 active:scale-100 active:duration-150",
+  "dark:hover:shadow-white/25",
+  "motion-reduce:transition-colors motion-reduce:hover:scale-100"
+)
 
 const capabilities = [
   "42 ready components",
@@ -130,7 +136,7 @@ function SectionShell({
   className?: string
 }) {
   return (
-    <section className="w-full bg-background">
+    <section className="w-full">
       <div className="border-b border-border">
         <SiteFrame>
           <div
@@ -164,8 +170,8 @@ function SectionShell({
 
 export default function HomePage() {
   return (
-    <main className="flex-1">
-      <section className="relative z-10 w-full bg-background">
+    <main className="flex-1 overflow-x-clip">
+      <section className="relative z-10 w-full">
         <div className="border-b border-border">
           <SiteFrame>
             <div className="relative flex flex-col items-center justify-center gap-10 border-x border-border pt-16 md:gap-12 md:pt-24">
@@ -219,7 +225,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="w-full bg-background" aria-label="Cubix capabilities">
+      <section className="w-full" aria-label="Cubix capabilities">
         <div className="border-b border-border">
           <SiteFrame>
             <div className="border-x border-border">
@@ -268,7 +274,7 @@ export default function HomePage() {
         </div>
       </SectionShell>
 
-      <section className="w-full bg-background" aria-hidden>
+      <section className="w-full" aria-hidden>
         <div className="border-b border-border">
           <SiteFrame>
             <div className="landing-hatch h-[56px] border-x border-border" />
@@ -322,7 +328,7 @@ export default function HomePage() {
         </div>
       </SectionShell>
 
-      <section className="w-full bg-background" aria-hidden>
+      <section className="w-full" aria-hidden>
         <div className="border-b border-border">
           <SiteFrame>
             <div className="landing-hatch h-[56px] border-x border-border" />
@@ -330,7 +336,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="w-full bg-background">
+      <section className="w-full">
         <div className="border-b border-border">
           <SiteFrame>
             <div className="border-x border-border">
@@ -399,7 +405,7 @@ export default function HomePage() {
         </div>
       </SectionShell>
 
-      <section className="w-full bg-background">
+      <section className="w-full">
         <div className="border-b border-border">
           <SiteFrame>
             <div className="flex flex-col items-center gap-7 border-x border-border bg-muted/35 px-5 py-16 text-center md:px-12 md:py-24">

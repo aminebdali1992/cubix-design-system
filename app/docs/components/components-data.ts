@@ -301,7 +301,7 @@ export const components = [
     name: "Hover Card",
     description: "For sighted users to preview content available behind a link.",
     href: "/docs/components/hover-card",
-    ready: false,
+    ready: true,
   },
   {
     name: "Input Group",

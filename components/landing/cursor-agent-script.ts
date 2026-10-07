@@ -58,11 +58,32 @@ export const PHASE_AT = {
   hold: 3200,
 } as const
 
-export const FILE_TREE = [
-  { name: "app", kind: "folder" as const, depth: 0 },
-  { name: "page.tsx", kind: "file" as const, depth: 1 },
-  { name: "components", kind: "folder" as const, depth: 0 },
-  { name: "lib", kind: "folder" as const, depth: 0 },
-  { name: "cubix.json", kind: "file" as const, depth: 0, highlight: true },
-  { name: "package.json", kind: "file" as const, depth: 0 },
+type TreeEntry = {
+  name: string
+  kind: "folder" | "file"
+  depth: number
+  open?: boolean
+  highlight?: boolean
+}
+
+export const FILE_TREE: TreeEntry[] = [
+  { name: ".next", kind: "folder", depth: 0 },
+  { name: "app", kind: "folder", depth: 0, open: true },
+  { name: "favicon.ico", kind: "file", depth: 1 },
+  { name: "globals.css", kind: "file", depth: 1 },
+  { name: "layout.tsx", kind: "file", depth: 1 },
+  { name: "page.tsx", kind: "file", depth: 1 },
+  { name: "components", kind: "folder", depth: 0 },
+  { name: "lib", kind: "folder", depth: 0 },
+  { name: "node_modules", kind: "folder", depth: 0 },
+  { name: "public", kind: "folder", depth: 0 },
+  { name: ".gitignore", kind: "file", depth: 0 },
+  { name: "cubix.json", kind: "file", depth: 0, highlight: true },
+  { name: "eslint.config.mjs", kind: "file", depth: 0 },
+  { name: "next-env.d.ts", kind: "file", depth: 0 },
+  { name: "next.config.ts", kind: "file", depth: 0 },
+  { name: "package.json", kind: "file", depth: 0 },
+  { name: "postcss.config.mjs", kind: "file", depth: 0 },
+  { name: "README.md", kind: "file", depth: 0 },
+  { name: "tsconfig.json", kind: "file", depth: 0 },
 ]

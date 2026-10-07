@@ -5,6 +5,7 @@ import { iranSans } from "@/app/fonts/iran-sans";
 import { Toaster } from "@/components/cubix/sonner";
 import { TooltipProvider } from "@/components/cubix/tooltip";
 import { GitHubLink } from "@/components/github-link";
+import { HeroLiquidBackground } from "@/components/landing/hero-liquid-background";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/site";
@@ -70,6 +71,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <TooltipProvider>
+            <HeroLiquidBackground />
             <SiteHeader githubLink={<GitHubLink />} />
             <div className="relative z-0">{children}</div>
             <Toaster />
