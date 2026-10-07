@@ -1,6 +1,6 @@
 {
   "$schemaComment": "Public Cubix readiness contract. A slug is ready only with base+aria+radix sources, docs, and a registry.json entry.",
-  "generatedAt": "2026-10-06T15:10:52.953Z",
+  "generatedAt": "2026-10-06T20:49:16.346Z",
   "slugs": [
     "accordion",
     "alert",
@@ -26,6 +26,7 @@
     "credit-card",
     "dialog",
     "direction",
+    "drawer",
     "dropdown-menu",
     "email-field",
     "empty",
@@ -42,6 +43,7 @@
     "radio-group",
     "select",
     "separator",
+    "sheet",
     "skeleton",
     "slider",
     "spinner",

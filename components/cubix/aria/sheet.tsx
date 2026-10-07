@@ -1,11 +1,14 @@
 "use client"
 
+import * as React from "react"
+
+const SheetChromeContext = React.createContext({ showCloseButton: true })
 /*
-  Cubix Dialog - React Aria version.
+  Cubix Sheet - React Aria version.
 
   Persian-first: the portaled panel defaults to dir="rtl" lang="fa" so the
-  dialog follows Persian regardless of the portal position. Pass dir="ltr"
-  on DialogContent to switch.
+  sheet follows Persian regardless of the portal position. Pass dir="ltr"
+  on SheetContent to switch.
 */
 import { XIcon } from "lucide-react"
 import {
@@ -14,7 +17,6 @@ import {
   useContext,
   useId,
   useLayoutEffect,
-  useRef,
   useState,
   type ComponentProps,
   type ReactElement,
@@ -35,16 +37,11 @@ import {
 import { buttonVariants } from "@/components/cubix/aria/button"
 import { cn } from "@/lib/utils"
 
-/*
-  React Aria only links a description to role="alertdialog". DialogDescription
-  registers its id here so the dialog is described like the Base UI and Radix
-  versions, and only while a description is actually rendered.
-*/
 type RegisterDescription = (id: string) => () => void
 
-const DialogDescriptionContext = createContext<RegisterDescription | null>(null)
+const SheetDescriptionContext = createContext<RegisterDescription | null>(null)
 
-function CubixDialog({
+function CubixSheet({
   children,
   open,
   defaultOpen,
@@ -58,7 +55,7 @@ function CubixDialog({
 }) {
   return (
     <DialogTrigger
-      data-slot="dialog"
+      data-slot="sheet"
       isOpen={open}
       defaultOpen={defaultOpen}
       onOpenChange={onOpenChange}
@@ -84,16 +81,16 @@ type TriggerRenderProps = {
   className?: string
 }
 
-type DialogTriggerButtonProps = Omit<ButtonProps, "children" | "className" | "render"> & {
+type SheetTriggerButtonProps = Omit<ButtonProps, "children" | "className" | "render"> & {
   render?: ReactElement<TriggerRenderProps>
   className?: string
   children?: ReactNode
 }
 
-function CubixDialogTrigger({ render, className, children, ...props }: DialogTriggerButtonProps) {
+function CubixSheetTrigger({ render, className, children, ...props }: SheetTriggerButtonProps) {
   return (
     <AriaButton
-      data-slot="dialog-trigger"
+      data-slot="sheet-trigger"
       className={cn(
         buttonVariants({
           variant: render?.props.variant ?? "outline",
@@ -109,20 +106,20 @@ function CubixDialogTrigger({ render, className, children, ...props }: DialogTri
   )
 }
 
-function DialogPortal({ children }: { children?: ReactNode }) {
+function SheetPortal({ children }: { children?: ReactNode }) {
   return children
 }
 
-function DialogOverlay({
+function SheetOverlay({
   className,
   ...props
 }: Omit<ModalOverlayProps, "className"> & { className?: string }) {
   return (
     <ModalOverlay
-      data-slot="dialog-overlay"
+      data-slot="sheet-overlay"
       isDismissable
       className={cn(
-        "fixed inset-0 isolate z-50 bg-overlay-strong duration-100 data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0",
+        "fixed inset-y-0 left-0 z-50 w-screen isolate bg-overlay-strong duration-100 data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0",
         className
       )}
       {...props}
@@ -130,9 +127,10 @@ function DialogOverlay({
   )
 }
 
-function DialogContent({
+function SheetContent({
   className,
   showCloseButton = true,
+  side = "right",
   dir = "rtl",
   lang = "fa",
   children,
@@ -140,6 +138,7 @@ function DialogContent({
 }: Omit<ModalOverlayProps, "className" | "children"> & {
   className?: string
   showCloseButton?: boolean
+  side?: "top" | "right" | "bottom" | "left"
   dir?: "ltr" | "rtl"
   lang?: string
   children?: ReactNode
@@ -151,59 +150,62 @@ function DialogContent({
   }, [])
 
   return (
-    <DialogOverlay>
+    <SheetOverlay>
       <Modal
-        data-slot="dialog-content"
+        data-slot="sheet-content"
+        data-side={side}
         dir={dir}
         lang={dir === "rtl" ? lang : undefined}
         className={cn(
-          "group/dialog-content fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-sm data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-95 data-exiting:animate-out data-exiting:fade-out-0 data-exiting:zoom-out-95",
+          "group fixed z-50 flex flex-col gap-4 bg-popover bg-clip-padding text-label text-popover-foreground shadow-lg outline-none duration-100 data-[side=bottom]:inset-x-0 data-[side=bottom]:w-screen data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=bottom]:border-t data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=left]:border-r data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:mr-[calc(100%-100vw)] data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=right]:border-l data-[side=top]:inset-x-0 data-[side=top]:w-screen data-[side=top]:top-0 data-[side=top]:h-auto data-[side=top]:border-b data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm data-entering:animate-in data-entering:fade-in-0 data-[side=bottom]:data-entering:slide-in-from-bottom-10 data-[side=left]:data-entering:slide-in-from-left-10 data-[side=right]:data-entering:slide-in-from-right-10 data-[side=top]:data-entering:slide-in-from-top-10 data-exiting:animate-out data-exiting:fade-out-0 data-[side=bottom]:data-exiting:slide-out-to-bottom-10 data-[side=left]:data-exiting:slide-out-to-left-10 data-[side=right]:data-exiting:slide-out-to-right-10 data-[side=top]:data-exiting:slide-out-to-top-10",
           className
         )}
         {...props}
       >
         <Dialog role="dialog" aria-describedby={descriptionId} className="contents">
-          <DialogDescriptionContext.Provider value={registerDescription}>
-            {children}
-          </DialogDescriptionContext.Provider>
-          {showCloseButton ? (
+          <SheetDescriptionContext.Provider value={registerDescription}>
+            <SheetChromeContext.Provider value={{ showCloseButton }}>
+          {children}
+        </SheetChromeContext.Provider>
+          </SheetDescriptionContext.Provider>
+          
+        </Dialog>
+      </Modal>
+    </SheetOverlay>
+  )
+}
+
+function SheetHeader({ className, children, ...props }: ComponentProps<"div">) {
+  const { showCloseButton } = React.useContext(SheetChromeContext)
+  return (
+    <div
+      data-slot="sheet-header"
+      className={cn(
+        "flex flex-row h-14 items-center justify-between gap-2 border-b px-4 text-start",
+        className
+      )}
+      {...props}
+    >
+      <div className="min-w-0 flex-1">{children}</div>
+      {showCloseButton ? (
             <AriaButton
               slot="close"
-              data-slot="dialog-close"
+              data-slot="sheet-close"
               className={cn(
                 buttonVariants({ variant: "ghost", size: "icon-sm" }),
-                "absolute top-2 end-2"
+                "shrink-0"
               )}
             >
               <XIcon />
               <span className="sr-only">Close</span>
             </AriaButton>
           ) : null}
-        </Dialog>
-      </Modal>
-    </DialogOverlay>
+    </div>
   )
 }
 
-function DialogHeader({ className, ...props }: ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="dialog-header"
-      className={cn("flex flex-col gap-2 text-start", className)}
-      {...props}
-    />
-  )
-}
-
-function DialogFooter({
-  className,
-  showCloseButton = false,
-  children,
-  ...props
-}: ComponentProps<"div"> & {
-  showCloseButton?: boolean
-}) {
-  const ref = useRef<HTMLDivElement>(null)
+function SheetFooter({ className, ...props }: ComponentProps<"div">) {
+  const ref = React.useRef<HTMLDivElement>(null)
 
   useLayoutEffect(() => {
     const row = ref.current
@@ -228,38 +230,28 @@ function DialogFooter({
   return (
     <div
       ref={ref}
-      data-slot="dialog-footer"
+      data-slot="sheet-footer"
       className={cn(
-        "-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 px-4 py-3 sm:flex-row sm:justify-end",
+        "mt-auto flex flex-row items-center gap-2 border-t bg-muted/50 px-4 py-3 group-data-[side=left]:[&>*]:flex-1 group-data-[side=right]:[&>*]:flex-1 group-data-[side=top]:[&>*]:flex-1 group-data-[side=bottom]:[&>*]:flex-1 group-data-[side=top]:sm:[&>*]:flex-none group-data-[side=bottom]:sm:[&>*]:flex-none group-data-[side=top]:sm:justify-end group-data-[side=bottom]:sm:justify-end",
         className
       )}
       {...props}
-    >
-      {children}
-      {showCloseButton ? (
-        <AriaButton
-          slot="close"
-          data-slot="dialog-close"
-          className={cn(buttonVariants({ variant: "ghost", size: "sm" }))}
-        >
-          Close
-        </AriaButton>
-      ) : null}
-    </div>
+      dir="ltr"
+    />
   )
 }
 
-type DialogCloseProps = Omit<ButtonProps, "className" | "children" | "slot" | "render"> & {
+type SheetCloseProps = Omit<ButtonProps, "className" | "children" | "slot" | "render"> & {
   render?: ReactElement<TriggerRenderProps>
   className?: string
   children?: ReactNode
 }
 
-function DialogClose({ render, className, children, ...props }: DialogCloseProps) {
+function SheetClose({ render, className, children, ...props }: SheetCloseProps) {
   return (
     <AriaButton
       slot="close"
-      data-slot="dialog-close"
+      data-slot="sheet-close"
       className={cn(
         buttonVariants({
           variant: render?.props.variant ?? "outline",
@@ -275,30 +267,30 @@ function DialogClose({ render, className, children, ...props }: DialogCloseProps
   )
 }
 
-function DialogTitle({ className, ...props }: ComponentProps<typeof Heading>) {
+function SheetTitle({ className, ...props }: ComponentProps<typeof Heading>) {
   return (
     <Heading
       slot="title"
-      data-slot="dialog-title"
-      className={cn("cn-font-heading text-label font-medium", className)}
+      data-slot="sheet-title"
+      className={cn("cn-font-heading text-body font-normal", className)}
       {...props}
     />
   )
 }
 
-function DialogDescription({ id, className, ...props }: ComponentProps<"p">) {
+function SheetDescription({ id, className, ...props }: ComponentProps<"p">) {
   const generatedId = useId()
   const descriptionId = id ?? generatedId
-  const registerDescription = useContext(DialogDescriptionContext)
+  const registerDescription = useContext(SheetDescriptionContext)
 
   useLayoutEffect(() => registerDescription?.(descriptionId), [registerDescription, descriptionId])
 
   return (
     <p
       id={descriptionId}
-      data-slot="dialog-description"
+      data-slot="sheet-description"
       className={cn(
-        "text-label text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
+        "text-description text-balance text-muted-foreground md:text-pretty *:[a]:underline *:[a]:underline-offset-3 *:[a]:hover:text-foreground",
         className
       )}
       {...props}
@@ -307,14 +299,14 @@ function DialogDescription({ id, className, ...props }: ComponentProps<"p">) {
 }
 
 export {
-  CubixDialog as Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogOverlay,
-  DialogPortal,
-  DialogTitle,
-  CubixDialogTrigger as DialogTrigger,
+  CubixSheet as Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetOverlay,
+  SheetPortal,
+  SheetTitle,
+  CubixSheetTrigger as SheetTrigger,
 }

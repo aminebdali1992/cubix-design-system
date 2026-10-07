@@ -444,6 +444,7 @@
   }
 
   body {
+    position: relative;
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-arab), var(--font-sans), ui-sans-serif, sans-serif;
     font-feature-settings:

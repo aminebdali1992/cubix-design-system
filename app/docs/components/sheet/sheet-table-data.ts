@@ -22,23 +22,16 @@ export const sheetPropRows = [
   },
 ]
 
-export const triggerPropRows = [
+export const triggerClosePropRows = [
   {
     prop: "render",
     type: "React.ReactElement",
-    description:
-      "Compose the trigger onto a child element such as Button (Base UI).",
+    description: "Render the trigger or close control as another Cubix element (e.g. a Button).",
   },
   {
-    prop: "asChild",
-    type: "boolean",
-    description:
-      "Compose the trigger onto a child element such as Button (Radix UI).",
-  },
-  {
-    prop: "children",
-    type: "React.ReactNode",
-    description: "The trigger content.",
+    prop: "className",
+    type: "string",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -53,18 +46,24 @@ export const contentPropRows = [
     prop: "showCloseButton",
     type: "boolean",
     default: "true",
-    description: "Whether to show the close button in the top-right corner.",
+    description: "Show the built-in close (X) button in the top end corner.",
+  },
+  {
+    prop: "dir",
+    type: '"ltr" | "rtl"',
+    default: '"rtl"',
+    description: "Text direction of the portaled panel. Defaults to RTL for Persian-first layouts.",
+  },
+  {
+    prop: "lang",
+    type: "string",
+    default: '"fa"',
+    description: 'Language attribute applied when dir is "rtl". Pass dir="ltr" to omit it.',
   },
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
-  },
-  {
-    prop: "children",
-    type: "React.ReactNode",
-    description: "Header, body, and footer content of the sheet.",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -72,13 +71,7 @@ export const headerFooterPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
-  },
-  {
-    prop: "children",
-    type: "React.ReactNode",
-    description: "Content for the header or footer region.",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
 
@@ -86,12 +79,6 @@ export const titleDescriptionPropRows = [
   {
     prop: "className",
     type: "string",
-    description:
-      "Additional Tailwind classes merged with the component styles (last one wins).",
-  },
-  {
-    prop: "children",
-    type: "React.ReactNode",
-    description: "Accessible title or description text.",
+    description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]

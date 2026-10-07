@@ -280,9 +280,9 @@ export const components = [
   },
   {
     name: "Drawer",
-    description: "A drawer component for React.",
+    description: "A panel that slides in from an edge of the screen — typically the bottom — with dim overlay chrome.",
     href: "/docs/components/drawer",
-    ready: false,
+    ready: true,
   },
   {
     name: "Empty",
@@ -375,7 +375,7 @@ export const components = [
     description:
       "Extends the Dialog to display content that complements the main content of the screen.",
     href: "/docs/components/sheet",
-    ready: false,
+    ready: true,
   },
   {
     name: "Sidebar",
