@@ -32,7 +32,7 @@ function NestedLevel({ side, level }: { side: Side; level: number }) {
       <div className="flex-1 p-4">
         <div className="rounded-2xl bg-muted group-data-[swipe-axis=x]/drawer-popup:h-full group-data-[swipe-axis=y]/drawer-popup:aspect-video group-data-[swipe-axis=y]/drawer-popup:w-full" />
       </div>
-      <DrawerFooter>
+      <DrawerFooter className={side === "right" ? "flex-row-reverse" : undefined}>
         {!isLast && (
           <Drawer swipeDirection={side} showSwipeHandle>
             <DrawerTrigger render={<Button variant="outline" />}>

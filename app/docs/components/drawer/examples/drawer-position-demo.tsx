@@ -34,8 +34,8 @@ export function DrawerPositionDemo() {
               کشو از سمت {label} باز می‌شود.
             </div>
             <DrawerFooter>
-              <Button type="submit">تأیید</Button>
               <DrawerClose render={<Button variant="outline" />}>انصراف</DrawerClose>
+              <Button type="submit">تأیید</Button>
             </DrawerFooter>
           </DrawerContent>
         </Drawer>

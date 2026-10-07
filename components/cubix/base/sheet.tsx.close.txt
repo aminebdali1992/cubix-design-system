@@ -1,0 +1,15 @@
+{showCloseButton ? (
+          <SheetPrimitive.Close
+            data-slot="sheet-close"
+            render={
+              <Button
+                variant="ghost"
+                className="shrink-0"
+                size="icon-sm"
+              />
+            }
+          >
+            <XIcon />
+            <span className="sr-only">بستن</span>
+          </SheetPrimitive.Close>
+        ) : null}

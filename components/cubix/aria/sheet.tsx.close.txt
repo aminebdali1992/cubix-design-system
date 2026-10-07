@@ -1,0 +1,13 @@
+{showCloseButton ? (
+            <AriaButton
+              slot="close"
+              data-slot="sheet-close"
+              className={cn(
+                buttonVariants({ variant: "ghost", size: "icon-sm" }),
+                "absolute top-2 end-2"
+              )}
+            >
+              <XIcon />
+              <span className="sr-only">بستن</span>
+            </AriaButton>
+          ) : null}

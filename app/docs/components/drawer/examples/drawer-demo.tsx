@@ -25,8 +25,8 @@ export function DrawerDemo() {
           پس از تأیید، تغییرات اعمال می‌شود.
         </div>
         <DrawerFooter>
-          <Button type="submit">تأیید</Button>
           <DrawerClose render={<Button variant="outline" />}>انصراف</DrawerClose>
+          <Button type="submit">تأیید</Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
