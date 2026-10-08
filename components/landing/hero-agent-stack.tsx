@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { motion, useMotionValue, useTransform } from "framer-motion"
+import { motion, useMotionValue } from "framer-motion"
 
 import { CursorAgentInstall } from "@/components/landing/cursor-agent-install"
 import { usePrefersReducedMotion } from "@/components/landing/use-prefers-reduced-motion"
