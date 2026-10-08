@@ -433,6 +433,29 @@
       ]
     },
     {
+      "name": "sheet",
+      "type": "registry:ui",
+      "title": "Sheet",
+      "description": "Extends the Dialog to display content that complements the main content of the screen.",
+      "dependencies": [
+        "react-aria-components"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "components/cubix/sheet.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
       "name": "skeleton",
       "type": "registry:ui",
       "title": "Skeleton",
@@ -683,6 +706,29 @@
       ]
     },
     {
+      "name": "drawer",
+      "type": "registry:ui",
+      "title": "Drawer",
+      "description": "A panel that slides in from an edge of the screen - typically the bottom - with dim overlay chrome.",
+      "dependencies": [
+        "react-aria-components"
+      ],
+      "registryDependencies": [
+        "button"
+      ],
+      "files": [
+        {
+          "path": "components/cubix/drawer.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
       "name": "dropdown-menu",
       "type": "registry:ui",
       "title": "Dropdown Menu",
@@ -718,6 +764,27 @@
       "files": [
         {
           "path": "components/cubix/empty.tsx",
+          "type": "registry:ui"
+        }
+      ],
+      "bases": [
+        "base",
+        "radix",
+        "aria"
+      ]
+    },
+    {
+      "name": "hover-card",
+      "type": "registry:ui",
+      "title": "Hover Card",
+      "description": "For sighted users to preview content available behind a link.",
+      "dependencies": [
+        "react-aria-components"
+      ],
+      "registryDependencies": [],
+      "files": [
+        {
+          "path": "components/cubix/hover-card.tsx",
           "type": "registry:ui"
         }
       ],

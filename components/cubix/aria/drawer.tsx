@@ -3,7 +3,7 @@
 /*
   Cubix Drawer - React Aria version.
 
-  Persian-first modal drawer (no swipe/snap — solid Dialog/Sheet chrome).
+  Persian-first modal drawer (no swipe/snap - solid Dialog/Sheet chrome).
   Defaults to dir="rtl" lang="fa" and direction="bottom".
   Header/Footer/Title/Description chrome matches shadcn Base Drawer.
 */

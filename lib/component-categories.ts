@@ -59,7 +59,7 @@ const SLUG_TO_CATEGORY: Record<string, ComponentCategory> = {
   resizable: "Web",
   "scroll-area": "Web",
 
-  // Web/Mobile — shared / remaining components
+  // Web/Mobile - shared / remaining components
   button: "Web/Mobile",
   "button-group": "Web/Mobile",
   input: "Web/Mobile",

@@ -280,7 +280,7 @@ export const components = [
   },
   {
     name: "Drawer",
-    description: "A panel that slides in from an edge of the screen — typically the bottom — with dim overlay chrome.",
+    description: "A panel that slides in from an edge of the screen - typically the bottom - with dim overlay chrome.",
     href: "/docs/components/drawer",
     ready: true,
   },

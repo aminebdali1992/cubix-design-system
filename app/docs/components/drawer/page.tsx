@@ -28,7 +28,7 @@ import {
 } from "./drawer-table-data"
 
 const description =
-  "A panel that slides in from an edge of the screen — typically the bottom — with dim overlay chrome."
+  "A panel that slides in from an edge of the screen - typically the bottom - with dim overlay chrome."
 
 export const metadata: Metadata = {
   title: "Drawer",

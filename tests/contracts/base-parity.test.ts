@@ -15,7 +15,6 @@ const IMPORT_ALL_TIMEOUT_MS = 120_000
   appears, so this list only ever shrinks on purpose.
 */
 const KNOWN_DIVERGENCES: Readonly<Record<string, { missing: string[]; extra: string[] }>> = {
-  "radix/drawer": { missing: ["DrawerSwipeHandle"], extra: [] },
   "radix/navigation-menu": {
     missing: ["NavigationMenuPositioner"],
     extra: ["NavigationMenuViewport"],
