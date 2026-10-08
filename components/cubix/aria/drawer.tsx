@@ -7,7 +7,6 @@
   Defaults to dir="rtl" lang="fa" and direction="bottom".
   Header/Footer/Title/Description chrome matches shadcn Base Drawer.
 */
-import * as React from "react"
 import {
   createContext,
   useCallback,
