@@ -17,18 +17,10 @@ import { BasesCycle } from "@/components/landing/bases-cycle"
 import { CliWorkflowDemo } from "@/components/landing/cli-workflow-demo"
 import { CopyInitCommand } from "@/components/landing/copy-init-command"
 import { HeroAgentStack } from "@/components/landing/hero-agent-stack"
+import { HeroLiquidBackground } from "@/components/landing/hero-liquid-background"
 import { McpAgentMarks } from "@/components/landing/mcp-agent-marks"
 import { SiteFrame } from "@/components/site-frame"
 import { siteConfig } from "@/lib/site"
-
-const brandButtonClassName = cn(
-  "bg-foreground text-background focus-visible:ring-foreground/20",
-  "transition-[scale,box-shadow,background-color] duration-300 ease-out",
-  "hover:scale-105 hover:bg-foreground/90 hover:shadow-2xl hover:shadow-neutral-600",
-  "active:not-aria-[haspopup]:translate-y-0 active:scale-100 active:duration-150",
-  "dark:hover:shadow-white/25",
-  "motion-reduce:transition-colors motion-reduce:hover:scale-100"
-)
 
 const capabilities = [
   "42 ready components",
@@ -172,6 +164,7 @@ export default function HomePage() {
   return (
     <main className="flex-1 overflow-x-clip">
       <section className="relative z-10 w-full">
+        <HeroLiquidBackground />
         <div className="border-b border-border">
           <SiteFrame>
             <div className="relative flex flex-col items-center justify-center gap-10 border-x border-border pt-16 md:gap-12 md:pt-24">
@@ -199,8 +192,9 @@ export default function HomePage() {
                   </div>
                   <div className="flex flex-row flex-wrap items-center justify-center gap-3">
                     <Button
+                      variant="foreground"
                       size="lg"
-                      className={cn("h-10 rounded-full px-5", brandButtonClassName)}
+                      className="h-10 rounded-full px-5"
                       nativeButton={false}
                       render={<Link href="/docs" />}
                     >
@@ -355,9 +349,10 @@ export default function HomePage() {
                 </div>
                 <div className="flex flex-wrap gap-3">
                   <Button
+                    variant="foreground"
                     nativeButton={false}
                     render={<Link href="/docs/cli" />}
-                    className={cn("rounded-full", brandButtonClassName)}
+                    className="rounded-full"
                   >
                     CLI docs
                   </Button>
@@ -423,8 +418,9 @@ export default function HomePage() {
               </div>
               <div className="flex flex-row flex-wrap items-center justify-center gap-3">
                 <Button
+                  variant="foreground"
                   size="lg"
-                  className={cn("h-10 rounded-full px-5", brandButtonClassName)}
+                  className="h-10 rounded-full px-5"
                   nativeButton={false}
                   render={<Link href="/docs" />}
                 >

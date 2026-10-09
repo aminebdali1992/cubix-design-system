@@ -28,7 +28,7 @@ const buttonVariants = cva(
         default:
           "bg-primary text-primary-foreground hover:bg-[color-mix(in_oklch,var(--primary),black_10%)] focus-visible:ring-primary/20",
         foreground:
-          "bg-foreground text-background hover:bg-foreground/85 focus-visible:ring-foreground/20",
+          "bg-foreground text-background focus-visible:ring-foreground/20 transition-[color,background-color,box-shadow,scale] duration-300 ease-out hover:scale-105 hover:bg-foreground/90 hover:shadow-2xl hover:shadow-foreground/40 active:not-aria-[haspopup]:translate-y-0 active:scale-100 active:duration-150 dark:hover:shadow-foreground/25 motion-reduce:transition-colors motion-reduce:hover:scale-100",
         secondary:
           "bg-primary/10 text-primary hover:bg-primary/20 aria-expanded:bg-primary/10 aria-expanded:text-primary focus-visible:ring-primary/20 dark:bg-primary/20 dark:hover:bg-primary/30",
         gray:

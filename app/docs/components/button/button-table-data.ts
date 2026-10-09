@@ -53,7 +53,7 @@ export const variantRows = [
     prop: "foreground",
     type: "-",
     description:
-      "Solid foreground fill (black in light mode, inverts in dark mode). A neutral, high-contrast call to action.",
+      "Solid foreground fill (black in light mode, inverts in dark mode). A neutral, high-contrast call to action that lifts with a soft shadow on hover; the scale is skipped when reduced motion is on.",
   },
   {
     prop: "secondary",

@@ -26,7 +26,7 @@ export function HeroLiquidBackground() {
   const dark = resolvedTheme === "dark"
 
   return (
-    <div aria-hidden className="pointer-events-none fixed inset-0 z-0 overflow-hidden opacity-20 dark:opacity-25">
+    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden opacity-30 dark:opacity-35">
       <LiquidEther
         key={resolvedTheme}
         colors={dark ? DARK_COLORS : LIGHT_COLORS}
