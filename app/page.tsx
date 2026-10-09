@@ -1,4 +1,3 @@
-import type { ReactNode } from "react"
 import Link from "next/link"
 import {
   ArrowUpRightIcon,
@@ -16,9 +15,13 @@ import { AgentLoginDesign } from "@/components/landing/agent-login-design"
 import { BasesCycle } from "@/components/landing/bases-cycle"
 import { CliWorkflowDemo } from "@/components/landing/cli-workflow-demo"
 import { CopyInitCommand } from "@/components/landing/copy-init-command"
+import { DragIntoPlace } from "@/components/landing/drag-into-place"
 import { HeroAgentStack } from "@/components/landing/hero-agent-stack"
 import { HeroLiquidBackground } from "@/components/landing/hero-liquid-background"
+import { HighlightCursorText } from "@/components/landing/highlight-cursor-text"
 import { McpAgentMarks } from "@/components/landing/mcp-agent-marks"
+import { SectionDivider, SectionShell } from "@/components/landing/section-shell"
+import { SiteFooter } from "@/components/landing/site-footer"
 import { SiteFrame } from "@/components/site-frame"
 import { siteConfig } from "@/lib/site"
 
@@ -114,52 +117,6 @@ const resources = [
   },
 ]
 
-function SectionShell({
-  eyebrow,
-  title,
-  description,
-  children,
-  className,
-}: {
-  eyebrow: string
-  title: string
-  description: string
-  children?: ReactNode
-  className?: string
-}) {
-  return (
-    <section className="w-full">
-      <div className="border-b border-border">
-        <SiteFrame>
-          <div
-            className={
-              className ??
-              "flex flex-col items-center justify-center gap-10 border-x border-border py-16 md:gap-12 md:py-24"
-            }
-          >
-            <div className="flex w-full flex-col px-5 md:px-12">
-              <div className="mx-auto flex max-w-2xl flex-col items-center gap-5 text-center">
-                <div className="flex flex-col gap-3">
-                  <div className="font-mono text-xs font-medium tracking-wider text-muted-foreground uppercase">
-                    {eyebrow}
-                  </div>
-                  <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-                    {title}
-                  </h2>
-                  <p className="text-base text-pretty text-muted-foreground md:text-lg">
-                    {description}
-                  </p>
-                </div>
-              </div>
-            </div>
-            {children}
-          </div>
-        </SiteFrame>
-      </div>
-    </section>
-  )
-}
-
 export default function HomePage() {
   return (
     <main className="flex-1 overflow-x-clip">
@@ -239,7 +196,18 @@ export default function HomePage() {
       <SectionShell
         eyebrow="Behind the scenes"
         title="How your agent installs Cubix and builds the UI"
-        description="Connect MCP for live registry tools, install the Cubix Skill for composition rules, then search and add owned source - every step is real."
+        description={
+          <HighlightCursorText
+            segments={[
+              { highlight: "Connect MCP" },
+              " for live registry tools, ",
+              { highlight: "install the Cubix Skill" },
+              " for composition rules, then ",
+              { highlight: "search and add owned source" },
+              " - every step is real.",
+            ]}
+          />
+        }
         className="flex flex-col items-center justify-center gap-8 border-x border-border pt-16 md:gap-10 md:pt-24"
       >
         <div className="w-full px-5 md:px-12">
@@ -268,13 +236,7 @@ export default function HomePage() {
         </div>
       </SectionShell>
 
-      <section className="w-full" aria-hidden>
-        <div className="border-b border-border">
-          <SiteFrame>
-            <div className="landing-hatch h-[56px] border-x border-border" />
-          </SiteFrame>
-        </div>
-      </section>
+      <SectionDivider />
 
       <SectionShell
         eyebrow="Three bases"
@@ -322,13 +284,7 @@ export default function HomePage() {
         </div>
       </SectionShell>
 
-      <section className="w-full" aria-hidden>
-        <div className="border-b border-border">
-          <SiteFrame>
-            <div className="landing-hatch h-[56px] border-x border-border" />
-          </SiteFrame>
-        </div>
-      </section>
+      <SectionDivider />
 
       <section className="w-full">
         <div className="border-b border-border">
@@ -340,7 +296,7 @@ export default function HomePage() {
                     Developer workflow
                   </div>
                   <h2 className="text-3xl font-semibold tracking-tight text-balance md:text-4xl">
-                    Own every line. Update when you choose.
+                    Own every line. <DragIntoPlace>Update</DragIntoPlace> when you choose.
                   </h2>
                   <p className="text-base text-pretty text-muted-foreground md:text-lg">
                     Init, add, review the diff, then overwrite on purpose - not a silent dependency
@@ -374,7 +330,11 @@ export default function HomePage() {
 
       <SectionShell
         eyebrow="Start here"
-        title="Everything you need to ship with Cubix"
+        title={
+          <HighlightCursorText
+            segments={["Everything you need to ", { highlight: "ship with Cubix" }]}
+          />
+        }
         description="Docs for decisions, components for product UI, CLI for the developer loop."
         className="flex flex-col items-center justify-center gap-10 border-x border-border pt-16 md:gap-12 md:pt-24"
       >
@@ -441,38 +401,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <footer className="border-b border-border">
-        <SiteFrame>
-          <div className="flex flex-col items-center justify-between gap-4 border-x border-border px-5 py-8 text-sm text-muted-foreground sm:flex-row lg:px-6">
-            <p>
-              © {new Date().getFullYear()} Cubix. Source on{" "}
-              <a
-                href={siteConfig.links.github}
-                target="_blank"
-                rel="noreferrer"
-                className="font-medium text-foreground underline underline-offset-4"
-              >
-                GitHub
-              </a>
-              .
-            </p>
-            <div className="flex items-center gap-4">
-              <a
-                href={siteConfig.links.npm}
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-sm font-medium text-foreground/80 transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-              >
-                npm
-              </a>
-              <span className="text-border" aria-hidden>
-                |
-              </span>
-              <p>MIT License</p>
-            </div>
-          </div>
-        </SiteFrame>
-      </footer>
+      <SiteFooter />
     </main>
   )
 }

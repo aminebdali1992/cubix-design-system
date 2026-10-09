@@ -31,8 +31,10 @@ export function HeroLiquidBackground() {
         key={resolvedTheme}
         colors={dark ? DARK_COLORS : LIGHT_COLORS}
         mouseForce={20}
-        cursorSize={100}
-        resolution={0.5}
+        cursorSize={50}
+        resolution={0.25}
+        iterationsPoisson={16}
+        BFECC={false}
         autoDemo
         autoSpeed={0.4}
         autoIntensity={2}

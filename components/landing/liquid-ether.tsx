@@ -66,6 +66,9 @@ interface LiquidEtherWebGL {
 
 const defaultColors = ['#5227FF', '#FF9FFC', '#B497CF'];
 
+/** The fluid is a soft gradient, so rendering above 1x DPR only multiplies fill cost. */
+const OUTPUT_PIXEL_RATIO = 1;
+
 export default function LiquidEther({
   mouseForce = 20,
   cursorSize = 100,
@@ -146,9 +149,13 @@ export default function LiquidEther({
       clock: THREE.Clock | null = null;
       init(container: HTMLElement) {
         this.container = container;
-        this.pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        this.pixelRatio = OUTPUT_PIXEL_RATIO;
         this.resize();
-        this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        this.renderer = new THREE.WebGLRenderer({
+          antialias: false,
+          alpha: true,
+          powerPreference: 'low-power'
+        });
         // Always transparent
         this.renderer.autoClear = false;
         this.renderer.setClearColor(new THREE.Color(0x000000), 0);
@@ -879,14 +886,9 @@ export default function LiquidEther({
         this.createAllFBO();
         this.createShaderPass();
       }
-      getFloatType() {
-        const isIOS = /(iPad|iPhone|iPod)/i.test(navigator.userAgent);
-        return isIOS ? THREE.HalfFloatType : THREE.FloatType;
-      }
       createAllFBO() {
-        const type = this.getFloatType();
         const opts = {
-          type,
+          type: THREE.HalfFloatType,
           depthBuffer: false,
           stencilBuffer: false,
           minFilter: THREE.LinearFilter,
