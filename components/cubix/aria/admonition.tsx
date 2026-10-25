@@ -155,20 +155,25 @@ function Admonition({
           className={cn(
             "min-w-0 flex-1",
             layout === "vertical" && "flex flex-col",
-            layout === "horizontal" && "flex flex-row items-center justify-between gap-x-6",
+            layout === "horizontal" && "flex flex-row items-center justify-between gap-x-6 lg:gap-x-8",
             layout === "responsive" &&
               "flex flex-col @md:flex-row @md:items-center @md:justify-between @md:gap-x-6"
           )}
         >
-          <div className={cn("flex flex-col gap-0.5", showIcon && "mt-0.5")}>
+          <div className={cn("flex flex-col gap-0.5", showIcon && (title ? "mt-0.75" : "mt-0.5"))}>
             {title && (
               <p data-slot="admonition-title" className="text-label font-normal text-foreground">
                 {title}
               </p>
             )}
-            {(children ?? description) && (
+            {description && (
               <div data-slot="admonition-description" className={bodyClassName}>
-                {children ?? description}
+                {description}
+              </div>
+            )}
+            {children && (
+              <div data-slot="admonition-description" className={bodyClassName}>
+                {children}
               </div>
             )}
           </div>
@@ -176,10 +181,10 @@ function Admonition({
             <div
               data-slot="admonition-actions"
               className={cn(
-                "flex flex-row flex-wrap gap-2",
+                "flex flex-row gap-2",
                 layout === "vertical" && "mt-3 items-start",
-                layout === "horizontal" && "shrink-0 items-center",
-                layout === "responsive" && "mt-3 items-start @md:mt-0 @md:shrink-0 @md:items-center"
+                layout === "horizontal" && "items-center",
+                layout === "responsive" && "mt-3 items-start @md:mt-0 @md:items-center"
               )}
             >
               {actions}

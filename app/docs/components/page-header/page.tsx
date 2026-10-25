@@ -73,7 +73,7 @@ function ExampleSection({
     <div className="space-y-4">
       <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
       <p className="leading-relaxed text-muted-foreground">{description}</p>
-      <ComponentPreview code={code}>
+      <ComponentPreview previewClassName="px-2" code={code}>
         <PreviewShell>{children}</PreviewShell>
       </ComponentPreview>
     </div>
@@ -103,7 +103,7 @@ export default function PageHeaderPage() {
     <article className="space-y-10">
       <ComponentDocsHeader title="Page Header" description={description} slug="page-header" />
 
-      <ComponentPreview code={demoSource}>
+      <ComponentPreview previewClassName="px-2" code={demoSource}>
         <PreviewShell>
           <PageHeaderDemo />
         </PreviewShell>

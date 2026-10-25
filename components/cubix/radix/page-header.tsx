@@ -42,23 +42,30 @@ const pageHeaderContainerVariants = cva("@container mx-auto w-full px-6 xl:px-10
   },
 })
 
-const PageHeaderContext = React.createContext<{ size: PageHeaderSize }>({ size: "default" })
+const PageHeaderContext = React.createContext<{ size: PageHeaderSize; containerClassName?: string }>({ size: "default" })
 
 function usePageHeader() {
   return React.useContext(PageHeaderContext)
 }
 
 function PageHeaderContainer({ className, ...props }: React.ComponentProps<"div">) {
-  const { size } = usePageHeader()
-  return <div className={cn(pageHeaderContainerVariants({ size }), className)} {...props} />
+  const { size, containerClassName } = usePageHeader()
+  return (
+    <div
+      data-slot="page-header-container"
+      className={cn(pageHeaderContainerVariants({ size }), containerClassName, className)}
+      {...props}
+    />
+  )
 }
 
-type PageHeaderProps = React.ComponentProps<"div"> & VariantProps<typeof pageHeaderVariants>
+type PageHeaderProps = React.ComponentProps<"div"> &
+  VariantProps<typeof pageHeaderVariants> & { containerClassName?: string }
 
-function PageHeader({ className, size, ...props }: PageHeaderProps) {
+function PageHeader({ className, size, containerClassName, ...props }: PageHeaderProps) {
   const contextSize: PageHeaderSize = size ?? "default"
   return (
-    <PageHeaderContext.Provider value={{ size: contextSize }}>
+    <PageHeaderContext.Provider value={{ size: contextSize, containerClassName }}>
       <div
         data-slot="page-header"
         data-size={contextSize}

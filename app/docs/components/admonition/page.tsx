@@ -116,7 +116,7 @@ export default function AdmonitionPage() {
           Admonition is prop-driven. Pass <Code>title</Code>, <Code>description</Code> and{" "}
           <Code>actions</Code>; it lays out the icon, text and action for you. Use a single
           <Code>size=&quot;xs&quot;</Code> button and style it by the context of the action, not the
-          admonition type. If both <Code>children</Code> and <Code>description</Code> are passed, <Code>children</Code> wins.
+          admonition type.
         </p>
         <CodeBlock code={compositionSnippet} title="Structure" />
       </section>

@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils"
   is identical across Base UI, Radix and React Aria.
 */
 
-const pageSectionVariants = cva("gap-6", {
+const pageSectionVariants = cva("gap-6 pt-12 last:pb-12", {
   variants: {
     orientation: {
       horizontal: "grid @3xl:grid-cols-[1fr_2fr] @3xl:gap-12",
@@ -25,14 +25,12 @@ type PageSectionProps = React.ComponentProps<"div"> &
 
 function PageSection({ className, orientation = "vertical", ...props }: PageSectionProps) {
   return (
-    <div data-slot="page-section-container" className="@container pt-12 last:pb-12">
-      <div
-        data-slot="page-section"
-        data-orientation={orientation}
-        className={cn(pageSectionVariants({ orientation }), className)}
-        {...props}
-      />
-    </div>
+    <div
+      data-slot="page-section"
+      data-orientation={orientation}
+      className={cn(pageSectionVariants({ orientation }), className)}
+      {...props}
+    />
   )
 }
 
@@ -64,11 +62,13 @@ function PageSectionSummary({ className, ...props }: PageSectionSummaryProps) {
   )
 }
 
-type PageSectionTitleProps = React.ComponentProps<"h2">
+type PageSectionTitleProps = React.ComponentProps<"h2"> & {
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
+}
 
-function PageSectionTitle({ className, ...props }: PageSectionTitleProps) {
+function PageSectionTitle({ as: Comp = "h2", className, ...props }: PageSectionTitleProps) {
   return (
-    <h2
+    <Comp
       data-slot="page-section-title"
       className={cn("text-body font-medium text-foreground", className)}
       {...props}

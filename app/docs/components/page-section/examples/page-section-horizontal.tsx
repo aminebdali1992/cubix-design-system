@@ -13,7 +13,7 @@ import {
 
 export function PageSectionHorizontal() {
   return (
-    <div className="w-full">
+    <div className="@container w-full">
       <PageSection orientation="horizontal">
         <PageSectionMeta>
           <PageSectionSummary>
