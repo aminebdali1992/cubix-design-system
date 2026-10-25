@@ -33,10 +33,14 @@ const PATTERN = new Set([
   "carousel", "calendar", "date-picker", "resizable", "empty",
 ])
 
+/* Prop-driven callouts and other ready-made compositions. */
+const FRAGMENT = new Set(["admonition", "metric-card", "page-header", "page-section"])
+
 /* Everything else: fields, menus, overlays, feedback and other compositions of atoms. */
 export function getSidebarGroup(href: string): SidebarGroup {
   const slug = href.replace(/^\/docs\/components\//, "").split("/").pop() ?? ""
   if (AI.has(slug)) return "AI Components"
+  if (FRAGMENT.has(slug)) return "Fragment Components"
   if (ATOM.has(slug)) return "Atom Components"
   /* For now Fragment and Pattern items are listed under Atom Components. */
   if (PATTERN.has(slug)) return "Atom Components"

@@ -8,7 +8,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/app/docs/components/dropdown-menu/docs-dropdown-menu"
+} from "@/app/docs/components/menu/docs-dropdown-menu"
 import { ButtonGroup } from "../docs-button-group"
 
 export function ButtonGroupSplitDemo() {

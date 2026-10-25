@@ -89,15 +89,33 @@ function DialogOverlay({
   )
 }
 
+type DialogSize = "tiny" | "small" | "medium" | "large" | "xlarge"
+
+/* Widths follow the Supabase Dialog sizes. */
+const dialogSizes: Record<DialogSize, string> = {
+  tiny: "sm:max-w-xs",
+  small: "sm:max-w-sm",
+  medium: "sm:max-w-lg",
+  large: "md:max-w-xl",
+  xlarge: "md:max-w-3xl",
+}
+
+const dialogPadding = {
+  small: "px-5 py-4",
+  medium: "px-7 py-6",
+} as const
+
 function DialogContent({
   className,
   children,
   showCloseButton = true,
+  size = "medium",
   dir = "rtl",
   lang = "fa",
   ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
   showCloseButton?: boolean
+  size?: DialogSize
   dir?: "ltr" | "rtl"
   lang?: string
 }) {
@@ -109,7 +127,8 @@ function DialogContent({
         dir={dir}
         lang={dir === "rtl" ? lang : undefined}
         className={cn(
-          "group/dialog-content fixed top-1/2 left-1/2 z-50 grid w-full max-w-[calc(100%-2rem)] -translate-x-1/2 -translate-y-1/2 gap-4 rounded-xl bg-popover p-4 text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none sm:max-w-sm data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+          "group/dialog-content fixed inset-0 m-auto h-fit z-50 grid w-full max-w-[calc(100%-2rem)] gap-0 overflow-hidden rounded-xl bg-popover p-0 text-popover-foreground ring-1 ring-foreground/10 duration-100 outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95",
+          dialogSizes[size],
           className
         )}
         onOpenAutoFocus={(event) => {
@@ -122,7 +141,7 @@ function DialogContent({
         {children}
         {showCloseButton ? (
           <DialogPrimitive.Close data-slot="dialog-close" asChild>
-            <Button variant="ghost" className="absolute top-2 end-2" size="icon-sm">
+            <Button variant="ghost" className="absolute top-3 end-3" size="icon-sm">
               <XIcon />
               <span className="sr-only">Close</span>
             </Button>
@@ -137,7 +156,7 @@ function DialogHeader({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="dialog-header"
-      className={cn("flex flex-col gap-2 text-start", className)}
+      className={cn("flex flex-col gap-1.5 border-b px-5 py-4 pe-14 text-start", className)}
       {...props}
     />
   )
@@ -178,7 +197,7 @@ function DialogFooter({
       ref={ref}
       data-slot="dialog-footer"
       className={cn(
-        "-mx-4 -mb-4 flex flex-col-reverse gap-2 rounded-b-xl border-t bg-muted/50 px-4 py-3 sm:flex-row sm:justify-end",
+        "flex flex-col-reverse gap-2 border-t px-5 py-4 sm:flex-row sm:justify-end",
         className
       )}
       {...props}
@@ -219,7 +238,35 @@ function DialogDescription({
   )
 }
 
+/* A padded body block; stack several and split them with DialogSectionSeparator. */
+function DialogSection({
+  className,
+  padding = "small",
+  ...props
+}: React.ComponentProps<"div"> & { padding?: keyof typeof dialogPadding }) {
+  return (
+    <div
+      data-slot="dialog-section"
+      className={cn(dialogPadding[padding], "text-label", className)}
+      {...props}
+    />
+  )
+}
+
+function DialogSectionSeparator({ className, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="dialog-section-separator"
+      role="separator"
+      className={cn("h-px w-full bg-border", className)}
+      {...props}
+    />
+  )
+}
+
 export {
+  DialogSection,
+  DialogSectionSeparator,
   Dialog,
   DialogClose,
   DialogContent,
@@ -231,3 +278,5 @@ export {
   DialogTitle,
   DialogTrigger,
 }
+
+export type { DialogSize }

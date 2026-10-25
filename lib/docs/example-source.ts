@@ -31,6 +31,10 @@ export function readDocsExampleSource(
       .replace(/\r\n/g, "\n")
       .replace(/from\s+["'](?:\.\.\/|\.\/)docs-[a-z0-9-]+["']/g, `from "${publicImport}"`)
       .replace(
+        /from\s+["']@\/app\/docs\/components\/menu\/docs-dropdown-menu["']/g,
+        'from "@/components/cubix/dropdown-menu"'
+      )
+      .replace(
         /from\s+["']@\/app\/docs\/components\/([a-z0-9-]+)\/docs-\1["']/g,
         'from "@/components/cubix/$1"'
       )

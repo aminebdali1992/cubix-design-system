@@ -217,7 +217,7 @@ function MenubarTrigger({
     <MenubarPrimitive.Trigger
       data-slot="menubar-trigger"
       className={cn(
-        "flex items-center rounded-sm px-1.5 py-[2px] text-label whitespace-nowrap font-medium tracking-normal outline-hidden select-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-secondary focus-visible:ring-offset-1 focus-visible:ring-offset-background aria-expanded:bg-muted data-[state=open]:bg-muted",
+        "flex items-center rounded-sm px-1.5 py-[2px] text-label whitespace-nowrap font-normal tracking-normal outline-hidden select-none hover:bg-muted focus-visible:ring-3 focus-visible:ring-secondary focus-visible:ring-offset-1 focus-visible:ring-offset-background aria-expanded:bg-muted data-[state=open]:bg-muted",
         className
       )}
       {...props}

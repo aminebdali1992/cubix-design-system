@@ -14,6 +14,8 @@ import {
   readDocsExampleSource,
 } from "@/lib/docs/example-source"
 import { DialogDemo } from "./examples/dialog-demo"
+import { DialogDeleteDemo } from "./examples/dialog-delete-demo"
+import { DialogExportDemo } from "./examples/dialog-export-demo"
 import { DialogFormDemo } from "./examples/dialog-form-demo"
 import { DialogWithoutCloseDemo } from "./examples/dialog-without-close-demo"
 import {
@@ -49,7 +51,9 @@ const compositionSnippet = `Dialog
     ├── DialogHeader
     │   ├── DialogTitle
     │   └── DialogDescription
-    ├── …content
+    ├── DialogSection
+    ├── DialogSectionSeparator
+    ├── DialogSection
     └── DialogFooter
         ├── DialogClose
         └── Button`
@@ -98,6 +102,8 @@ function Code({ children }: { children: ReactNode }) {
 export default function DialogPage() {
   const dialogDemoSource = loadDialogExample("dialog-demo.tsx")
   const dialogFormSource = loadDialogExample("dialog-form-demo.tsx")
+  const dialogExportSource = loadDialogExample("dialog-export-demo.tsx")
+  const dialogDeleteSource = loadDialogExample("dialog-delete-demo.tsx")
   const dialogWithoutCloseSource = loadDialogExample("dialog-without-close-demo.tsx")
   const usageImport = extractDemoImports(dialogDemoSource)
   const usageSnippet = extractDemoJsx(dialogDemoSource)
@@ -142,6 +148,32 @@ export default function DialogPage() {
           code={dialogFormSource}
         >
           <DialogFormDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Export results"
+          description={
+            <>
+              Replicates Supabase's <Code>dialog-disclosure-demo</Code>: a <Code>DialogSection</Code>, a{" "}
+              <Code>DialogSectionSeparator</Code>, and optional details in a <Code>Collapsible</Code> above the footer.
+            </>
+          }
+          code={dialogExportSource}
+        >
+          <DialogExportDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Delete project"
+          description={
+            <>
+              Ask for typed confirmation in a <Code>DialogSection</Code> and keep the destructive{" "}
+              <Code>Button</Code> disabled until the project name matches.
+            </>
+          }
+          code={dialogDeleteSource}
+        >
+          <DialogDeleteDemo />
         </ExampleSection>
 
         <ExampleSection

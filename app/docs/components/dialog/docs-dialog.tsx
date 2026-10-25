@@ -34,6 +34,7 @@ type DialogCloseProps = {
 
 type DialogContentProps = {
   className?: string
+  size?: "tiny" | "small" | "medium" | "large" | "xlarge"
   showCloseButton?: boolean
   dir?: "ltr" | "rtl"
   lang?: string
@@ -166,7 +167,23 @@ function DialogDescription(props: SlotProps) {
   return <BaseDialog.DialogDescription {...props} />
 }
 
+function DialogSection(props: SlotProps & { padding?: "small" | "medium" }) {
+  const base = useDialogBase()
+  if (base === "aria") return <AriaDialog.DialogSection {...props} />
+  if (base === "radix") return <RadixDialog.DialogSection {...props} />
+  return <BaseDialog.DialogSection {...props} />
+}
+
+function DialogSectionSeparator(props: { className?: string }) {
+  const base = useDialogBase()
+  if (base === "aria") return <AriaDialog.DialogSectionSeparator {...props} />
+  if (base === "radix") return <RadixDialog.DialogSectionSeparator {...props} />
+  return <BaseDialog.DialogSectionSeparator {...props} />
+}
+
 export {
+  DialogSection,
+  DialogSectionSeparator,
   Dialog,
   DialogClose,
   DialogContent,

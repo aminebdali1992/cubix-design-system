@@ -39,6 +39,8 @@ type DropdownMenuItemProps = SlotProps & {
   inset?: boolean
   variant?: "default" | "destructive"
   disabled?: boolean
+  /** Runs when the item is chosen (Base UI onClick, Radix onSelect, React Aria onAction). The menu closes afterwards. */
+  onClick?: () => void
 }
 
 type DropdownMenuCheckboxItemProps = SlotProps & {
@@ -140,11 +142,13 @@ function DropdownMenuLabel(props: DropdownMenuLabelProps) {
   return <BaseDropdownMenu.DropdownMenuLabel {...props} />
 }
 
-function DropdownMenuItem(props: DropdownMenuItemProps) {
+function DropdownMenuItem({ onClick, ...props }: DropdownMenuItemProps) {
   const base = useDropdownMenuBase()
-  if (base === "radix") return <RadixDropdownMenu.DropdownMenuItem {...props} />
-  if (base === "aria") return <AriaDropdownMenu.DropdownMenuItem {...props} />
-  return <BaseDropdownMenu.DropdownMenuItem {...props} />
+  if (base === "radix") {
+    return <RadixDropdownMenu.DropdownMenuItem onSelect={onClick ? () => onClick() : undefined} {...props} />
+  }
+  if (base === "aria") return <AriaDropdownMenu.DropdownMenuItem onAction={onClick} {...props} />
+  return <BaseDropdownMenu.DropdownMenuItem onClick={onClick ? () => onClick() : undefined} {...props} />
 }
 
 function DropdownMenuSeparator(props: { className?: string }) {

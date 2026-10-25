@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { Menu as MenuPrimitive } from "@base-ui/react/menu"
+import { Field as FieldPrimitive } from "@base-ui/react/field"
 import { CheckIcon, ChevronRightIcon } from "lucide-react"
 
 import { Checkbox } from "@/components/cubix/base/checkbox"
@@ -351,11 +352,13 @@ function DropdownMenuCheckboxItem({
           aria-hidden
           className="pointer-events-none absolute end-2 flex items-center justify-center"
         >
-          <Checkbox
-            className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5"
-            checked={isChecked}
-            tabIndex={-1}
-          />
+          <FieldPrimitive.Root render={<span />} className="contents">
+            <Checkbox
+              className="size-3.5 rounded-[4px] [&_[data-slot=checkbox-indicator]_svg]:size-2.5"
+              checked={isChecked}
+              tabIndex={-1}
+            />
+          </FieldPrimitive.Root>
         </span>
       )}
       {children}
@@ -405,12 +408,15 @@ function DropdownMenuRadioGroup({
 function DropdownMenuRadioIndicator({ checked }: { checked: boolean }) {
   return (
     <span inert className="pointer-events-none absolute end-2 flex items-center justify-center">
-      <RadioGroup value={checked ? "on" : ""} className="flex">
-        <RadioGroupItem
-          value="on"
-          className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5"
-        />
-      </RadioGroup>
+      {/* Own Field scope so a parent TextField's invalid or disabled state does not style this decorative control. */}
+      <FieldPrimitive.Root render={<span />} className="contents">
+        <RadioGroup value={checked ? "on" : ""} className="flex">
+          <RadioGroupItem
+            value="on"
+            className="size-3.5 [&_[data-slot=radio-group-indicator]]:size-1.5"
+          />
+        </RadioGroup>
+      </FieldPrimitive.Root>
     </span>
   )
 }

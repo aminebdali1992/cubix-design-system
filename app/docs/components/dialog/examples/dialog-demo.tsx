@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/cubix/button"
+import { TextField, TextFieldInput, TextFieldLabel } from "@/components/cubix/text-field"
 import {
   Dialog,
   DialogClose,
@@ -8,6 +9,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogSection,
   DialogTitle,
   DialogTrigger,
 } from "../docs-dialog"
@@ -15,19 +17,21 @@ import {
 export function DialogDemo() {
   return (
     <Dialog>
-      <DialogTrigger render={<Button variant="outline" size="sm" />}>نمایش دیالوگ</DialogTrigger>
-      <DialogContent>
+      <DialogTrigger render={<Button variant="outline" size="sm" />}>ویرایش پروژه</DialogTrigger>
+      <DialogContent size="small">
         <DialogHeader>
-          <DialogTitle>آیا کاملاً مطمئن هستید؟</DialogTitle>
-          <DialogDescription>
-            این کار قابل بازگشت نیست. حساب شما برای همیشه از سرورها حذف می‌شود.
-          </DialogDescription>
+          <DialogTitle>ویرایش پروژه</DialogTitle>
+          <DialogDescription>نام و نشانی پروژه را به‌روزرسانی کنید.</DialogDescription>
         </DialogHeader>
+        <DialogSection className="grid gap-4">
+          <TextField>
+            <TextFieldLabel>نام پروژه</TextFieldLabel>
+            <TextFieldInput defaultValue="کیوبیکس" />
+          </TextField>
+        </DialogSection>
         <DialogFooter>
           <DialogClose render={<Button variant="outline" size="sm" />}>انصراف</DialogClose>
-          <Button variant="destructive" size="sm">
-            حذف
-          </Button>
+          <Button size="sm">ذخیره تغییرات</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

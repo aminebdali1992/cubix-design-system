@@ -106,6 +106,30 @@
       "description": "A vertically stacked set of interactive headings that each reveal a section of content."
     },
     {
+      "name": "admonition",
+      "type": "registry:ui",
+      "title": "Admonition",
+      "description": "A ready-made callout with type, title, description, icon and actions."
+    },
+    {
+      "name": "metric-card",
+      "type": "registry:ui",
+      "title": "Metric Card",
+      "description": "A card to display pull-out metrics at a glance."
+    },
+    {
+      "name": "page-section",
+      "type": "registry:ui",
+      "title": "Page Section",
+      "description": "A compound component for organizing page content into distinct sections."
+    },
+    {
+      "name": "page-header",
+      "type": "registry:ui",
+      "title": "Page Header",
+      "description": "A compound component for page title, description, and actions."
+    },
+    {
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",

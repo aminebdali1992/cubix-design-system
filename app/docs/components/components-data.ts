@@ -84,6 +84,30 @@ export const components = [
     ready: true,
   },
   {
+    name: "Admonition",
+    description: "A ready-made callout with type, title, description, icon and actions.",
+    href: "/docs/components/admonition",
+    ready: true,
+  },
+  {
+    name: "Metric Card",
+    description: "A card to display pull-out metrics at a glance.",
+    href: "/docs/components/metric-card",
+    ready: true,
+  },
+  {
+    name: "Page Section",
+    description: "A compound component for organizing page content into distinct sections.",
+    href: "/docs/components/page-section",
+    ready: true,
+  },
+  {
+    name: "Page Header",
+    description: "A compound component for page title, description, and actions.",
+    href: "/docs/components/page-header",
+    ready: true,
+  },
+  {
     name: "Alert",
     description: "Displays a callout for user attention.",
     href: "/docs/components/alert",
@@ -173,10 +197,17 @@ export const components = [
     ready: true,
   },
   {
-    name: "Dropdown Menu",
+    name: "Dropdown",
+    description:
+      "A select-style trigger that opens a menu of options and shows the selected value.",
+    href: "/docs/components/dropdown",
+    ready: true,
+  },
+  {
+    name: "Menu",
     description:
       "Displays a menu of actions or links to the user, triggered by a button.",
-    href: "/docs/components/dropdown-menu",
+    href: "/docs/components/menu",
     ready: true,
   },
   {

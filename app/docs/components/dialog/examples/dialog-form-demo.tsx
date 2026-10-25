@@ -15,6 +15,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogSection,
   DialogTitle,
   DialogTrigger,
 } from "../docs-dialog"
@@ -23,14 +24,14 @@ export function DialogFormDemo() {
   return (
     <Dialog>
       <DialogTrigger render={<Button variant="outline" size="sm" />}>ویرایش پروفایل</DialogTrigger>
-      <DialogContent>
+      <DialogContent size="small">
         <DialogHeader>
           <DialogTitle>ویرایش پروفایل</DialogTitle>
           <DialogDescription>
-            تغییرات پروفایل را اینجا اعمال کنید. پس از اتمام، ذخیره را بزنید.
+            تغییرات پروفایل را اینجا اعمال کنید.
           </DialogDescription>
         </DialogHeader>
-        <div className="mt-2 grid gap-4">
+        <DialogSection className="grid gap-4">
           <TextField>
             <TextFieldLabel>نام و نام خانوادگی</TextFieldLabel>
             <TextFieldInput placeholder="امین ابدالی" />
@@ -42,7 +43,7 @@ export function DialogFormDemo() {
               برای ورود و بازیابی حساب از این ایمیل استفاده می‌شود.
             </EmailFieldDescription>
           </EmailField>
-        </div>
+        </DialogSection>
         <DialogFooter>
           <DialogClose render={<Button type="submit" size="sm" />}>ذخیره تغییرات</DialogClose>
         </DialogFooter>

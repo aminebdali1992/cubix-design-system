@@ -41,12 +41,12 @@ import { DropdownMenuSubmenuDemo } from "./examples/dropdown-menu-submenu-demo"
 const description = "Displays a menu of actions or options to the user, triggered by a button."
 
 export const metadata: Metadata = {
-  title: "Dropdown Menu",
+  title: "Menu",
   description,
 }
 
 const PUBLIC_IMPORT = "@/components/cubix/dropdown-menu"
-const EXAMPLES_DIR = "app/docs/components/dropdown-menu/examples"
+const EXAMPLES_DIR = "app/docs/components/menu/examples"
 
 function loadDropdownMenuExample(fileName: string) {
   return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
@@ -120,7 +120,7 @@ export default function DropdownMenuPage() {
 
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader title="Dropdown Menu" description={description} slug="dropdown-menu" />
+      <ComponentDocsHeader title="Menu" description={description} slug="menu" />
 
       <ComponentPreview code={demoSource}>
         <PreviewShell>
