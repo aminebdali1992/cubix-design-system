@@ -7,15 +7,24 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
   readDocsExampleSource,
 } from "@/lib/docs/example-source"
-import { propRows, sizeRows, variantRows } from "./button-table-data"
+import {
+  buttonColorRows,
+  buttonTypographyRows,
+  propRows,
+  sizeRows,
+  variantRows,
+} from "./button-table-data"
 import { ButtonCustomDemo } from "./examples/button-custom-demo"
 import { ButtonDemo } from "./examples/button-demo"
 import { ButtonDestructiveDemo } from "./examples/button-destructive-demo"
+import { ButtonSuccessDemo } from "./examples/button-success-demo"
+import { ButtonWarningDemo } from "./examples/button-warning-demo"
 import { ButtonDisabledDemo } from "./examples/button-disabled-demo"
 import { ButtonIconDemo } from "./examples/button-icon-demo"
 import { ButtonIconSizesDemo } from "./examples/button-icon-sizes-demo"
@@ -24,7 +33,10 @@ import { ButtonLoadingDemo } from "./examples/button-loading-demo"
 import { ButtonPrimaryDemo } from "./examples/button-primary-demo"
 import { ButtonSizesDemo } from "./examples/button-sizes-demo"
 import { ButtonSpinnerDemo } from "./examples/button-spinner-demo"
-import { ButtonVariantsDemo } from "./examples/button-variants-demo"
+import { ButtonGrayDemo } from "./examples/button-gray-demo"
+import { ButtonOutlineDemo } from "./examples/button-outline-demo"
+import { ButtonGhostDemo } from "./examples/button-ghost-demo"
+import { ButtonLinkVariantDemo } from "./examples/button-link-variant-demo"
 import { ButtonWithIconDemo } from "./examples/button-with-icon-demo"
 
 const description = "Displays a button or a component that looks like a button."
@@ -86,7 +98,12 @@ export default function ButtonPage() {
   const buttonDemoSource = loadButtonExample("button-demo.tsx")
   const buttonPrimarySource = loadButtonExample("button-primary-demo.tsx")
   const buttonDestructiveSource = loadButtonExample("button-destructive-demo.tsx")
-  const buttonVariantsSource = loadButtonExample("button-variants-demo.tsx")
+  const buttonWarningSource = loadButtonExample("button-warning-demo.tsx")
+  const buttonSuccessSource = loadButtonExample("button-success-demo.tsx")
+  const buttonGraySource = loadButtonExample("button-gray-demo.tsx")
+  const buttonOutlineSource = loadButtonExample("button-outline-demo.tsx")
+  const buttonGhostSource = loadButtonExample("button-ghost-demo.tsx")
+  const buttonLinkVariantSource = loadButtonExample("button-link-variant-demo.tsx")
   const buttonSizesSource = loadButtonExample("button-sizes-demo.tsx")
   const buttonIconSizesSource = loadButtonExample("button-icon-sizes-demo.tsx")
   const buttonWithIconSource = loadButtonExample("button-with-icon-demo.tsx")
@@ -101,7 +118,11 @@ export default function ButtonPage() {
 
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader title="Button" description={description} slug="button" />
+      <ComponentDocsHeader
+        title="Button"
+        description={description}
+        slug="button"
+      />
 
       <ComponentPreview code={buttonDemoSource}>
         <PreviewShell>
@@ -122,7 +143,7 @@ export default function ButtonPage() {
 
         <ExampleSection
           title="Primary"
-          description="Solid brand, soft brand, and neutral foreground styles for the main call to action."
+          description="The main call to action: plain, with a leading or trailing icon, loading, and disabled."
           code={buttonPrimarySource}
         >
           <ButtonPrimaryDemo />
@@ -130,18 +151,58 @@ export default function ButtonPage() {
 
         <ExampleSection
           title="Destructive"
-          description="Solid and soft danger styles, parallel to primary and secondary."
+          description="Solid danger fill for irreversible actions: plain, with a leading or trailing icon, and loading."
           code={buttonDestructiveSource}
         >
           <ButtonDestructiveDemo />
         </ExampleSection>
 
         <ExampleSection
-          title="Variants"
-          description="Lower-emphasis styles for neutral, bordered, quiet, and link-like actions."
-          code={buttonVariantsSource}
+          title="Warning"
+          description="Solid warning fill for actions that need caution: plain, with a leading or trailing icon, and loading."
+          code={buttonWarningSource}
         >
-          <ButtonVariantsDemo />
+          <ButtonWarningDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Success"
+          description="Solid success fill for positive, confirming actions: plain, with a leading or trailing icon, and loading."
+          code={buttonSuccessSource}
+        >
+          <ButtonSuccessDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Gray"
+          description="Neutral filled style for secondary actions."
+          code={buttonGraySource}
+        >
+          <ButtonGrayDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Outline"
+          description="Bordered style that pairs well with gray or ghost buttons."
+          code={buttonOutlineSource}
+        >
+          <ButtonOutlineDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Ghost"
+          description="Quiet style with a background only on hover."
+          code={buttonGhostSource}
+        >
+          <ButtonGhostDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Link"
+          description="Text-only style that looks like a link."
+          code={buttonLinkVariantSource}
+        >
+          <ButtonLinkVariantDemo />
         </ExampleSection>
 
         <ExampleSection
@@ -262,6 +323,12 @@ export default function ButtonPage() {
         <PropsTable data={variantRows} />
         <h3 className="scroll-m-20 font-semibold tracking-tight">Sizes</h3>
         <PropsTable data={sizeRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={buttonTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={buttonColorRows} />
       </section>
     </article>
   )

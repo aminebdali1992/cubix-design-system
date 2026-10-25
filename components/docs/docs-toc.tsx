@@ -1,8 +1,10 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { Button } from "@/components/cubix/button";
 import { cn } from "@/lib/utils";
 
 type TocItem = {
@@ -30,7 +32,7 @@ function tocDisplayText(heading: string, pageTitle: string) {
   const first = heading.split(/\s*\/\s*/)[0]?.trim() ?? heading;
   const prefix = pageTitle.replace(/\s+/g, "");
 
-  if (prefix && first.startsWith(prefix) && first.length > prefix.length) {
+  if (prefix && first.startsWith(prefix) && /^[A-Z]/.test(first.slice(prefix.length))) {
     return splitPascalCase(first.slice(prefix.length));
   }
 
@@ -45,6 +47,7 @@ function tocDisplayText(heading: string, pageTitle: string) {
 function getTocHeadings(article: Element): HTMLElement[] {
   return Array.from(article.querySelectorAll<HTMLElement>("h2, h3")).filter(
     (el) => {
+      if (el.hasAttribute("data-toc-skip")) return false;
       if (el.closest(".not-prose, dialog, [data-slot='dialog-content']")) {
         return false;
       }
@@ -232,13 +235,13 @@ export function DocsToc() {
     <div className="relative h-full overflow-hidden">
       <div
         ref={scrollerRef}
-        className="no-scrollbar h-full overflow-x-hidden overflow-y-auto py-10 pl-2 pr-6"
+        className="no-scrollbar h-full overflow-x-hidden overflow-y-auto py-10 px-6"
       >
-        <p className="mb-3 font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground">
+        <p className="mx-5 mb-3 font-mono text-xs font-medium uppercase tracking-wider text-muted-foreground">
           On This Page
         </p>
         {items.length > 0 ? (
-          <nav className="min-w-0 space-y-0.5 overflow-x-hidden border-dotted-spaced-l">
+          <nav className="mx-5 min-w-0 space-y-0.5 overflow-x-hidden border-dotted-spaced-l">
             {items.map((item) => {
               const active = activeId === item.id;
               return (
@@ -248,10 +251,10 @@ export function DocsToc() {
                   href={`#${item.id}`}
                   onClick={(event) => onItemClick(event, item.id)}
                   className={cn(
-                    "-ml-px block min-w-0 break-all border-l-2 py-1 pl-3 text-xs leading-5 transition-colors duration-150 no-underline",
-                    item.level === 3 && "pl-6",
+                    "-ms-px block min-w-0 border-s-2 py-1 ps-3 text-start text-label leading-5 font-normal break-words line-clamp-2 transition-colors duration-150 no-underline",
+                    item.level === 3 && "ps-6",
                     active
-                      ? "border-foreground font-medium text-foreground"
+                      ? "border-foreground text-foreground"
                       : "border-transparent text-muted-foreground hover:text-foreground"
                   )}
                 >
@@ -261,6 +264,23 @@ export function DocsToc() {
             })}
           </nav>
         ) : null}
+        <div className="mt-8 flex w-full flex-col gap-2 rounded-2xl bg-[oklch(0.98_0_0)] p-6 text-sm text-foreground dark:bg-[oklch(0.2_0_0)] dark:text-[oklch(0.708_0_0)]">
+          <div className="text-base leading-tight font-semibold text-balance">
+            Customize your Cubix design system
+          </div>
+          <div className="text-muted-foreground">
+            Tune colors, fonts, radius and shadows to match your brand.
+          </div>
+          <Button
+            nativeButton={false}
+            render={<Link href="/customize" />}
+            variant="outline"
+            size="sm"
+            className="mt-2 w-fit"
+          >
+            Customize
+          </Button>
+        </div>
       </div>
       <div
         aria-hidden

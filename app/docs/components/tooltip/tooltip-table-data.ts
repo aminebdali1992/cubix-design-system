@@ -94,3 +94,14 @@ export const contentPropRows = [
     description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
 ]
+
+
+export const tooltipTypographyRows = [
+  { element: "Content", token: "text-caption", value: "12px, 400" },
+]
+
+export const tooltipColorRows = [
+  { element: "Content background", token: "bg-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Content text", token: "text-background", value: "--background", swatch: "--background", swatchOutline: true },
+  { element: "Arrow", token: "bg-foreground fill-foreground", value: "--foreground", swatch: "--foreground" },
+]

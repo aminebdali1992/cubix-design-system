@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const checkboxPropRows = [
   {
     prop: "checked",
@@ -98,4 +100,20 @@ export const checkboxStateRows = [
     type: "-",
     description: "Destructive border and ring. Show error copy below the control.",
   },
+]
+
+export const checkboxTypographyRows: TokenTableRow[] = [
+  { element: "Label", token: "text-label leading-none font-normal", value: "13px / 1, 400" },
+  { element: "Description", token: "text-caption leading-normal font-normal", value: "12px / 1.5, 400" },
+  { element: "Error message", token: "text-caption font-normal", value: "12px, 400" },
+]
+
+export const checkboxColorRows: TokenTableRow[] = [
+  { element: "Border (unchecked)", token: "border-input", value: "--input", swatch: "--input" },
+  { element: "Background (checked / indeterminate)", token: "bg-primary border-primary", value: "--primary", swatch: "--primary" },
+  { element: "Check / minus icon", token: "text-primary-foreground", value: "--primary-foreground", swatch: "--primary-foreground", swatchOutline: true },
+  { element: "Pending spinner", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Focus ring", token: "focus-visible:ring-secondary", value: "--secondary", swatch: "--secondary" },
+  { element: "Invalid border", token: "aria-invalid:border-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Invalid ring", token: "aria-invalid:ring-destructive/20", value: "--destructive / 20%", swatch: "--destructive" },
 ]

@@ -1,6 +1,5 @@
 "use client"
 
-import { ButtonDemoIcon } from "@/components/docs/demo-icon"
 import { Button } from "@/app/docs/components/button/docs-button"
 import {
   TextField,
@@ -24,7 +23,6 @@ export function TextFieldFormDemo() {
       <TextField name="fullName">
         <TextFieldLabel>نام و نام خانوادگی</TextFieldLabel>
         <TextFieldControl>
-          <ButtonDemoIcon data-icon="inline-start" />
           <TextFieldInput placeholder="نام کامل" autoComplete="name" required />
           <TextFieldClear aria-label="پاک کردن" />
         </TextFieldControl>

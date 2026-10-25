@@ -7,6 +7,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -17,8 +18,10 @@ import { DialogFormDemo } from "./examples/dialog-form-demo"
 import { DialogWithoutCloseDemo } from "./examples/dialog-without-close-demo"
 import {
   contentPropRows,
+  dialogColorRows,
   dialogPropRows,
   footerPropRows,
+  dialogTypographyRows,
   subcomponentRows,
   triggerClosePropRows,
 } from "./dialog-table-data"
@@ -198,6 +201,12 @@ export default function DialogPage() {
           The title and supporting text of the dialog.
         </p>
         <PropsTable data={subcomponentRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={dialogTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={dialogColorRows} />
       </section>
     </article>
   )

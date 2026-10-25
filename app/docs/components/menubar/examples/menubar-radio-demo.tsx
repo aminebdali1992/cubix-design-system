@@ -14,7 +14,7 @@ import {
 } from "../docs-menubar"
 
 export function MenubarRadioDemo() {
-  const [user, setUser] = React.useState("sara")
+  const [user, setUser] = React.useState("monir")
   const [theme, setTheme] = React.useState("system")
 
   return (
@@ -24,8 +24,8 @@ export function MenubarRadioDemo() {
         <MenubarContent>
           <MenubarRadioGroup value={user} onValueChange={setUser}>
             <MenubarRadioItem value="amin">امین</MenubarRadioItem>
-            <MenubarRadioItem value="sara">سارا</MenubarRadioItem>
-            <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
+            <MenubarRadioItem value="monir">منیر</MenubarRadioItem>
+            <MenubarRadioItem value="fatemeh">فاطمه</MenubarRadioItem>
           </MenubarRadioGroup>
           <MenubarSeparator />
           <MenubarItem>ویرایش</MenubarItem>

@@ -93,7 +93,6 @@ function NotFound06View({ className }: { className?: string }) {
             <Button
               render={<Link href="/" />}
               nativeButton={false}
-              variant="foreground"
             >
               رفتن به خانه
             </Button>
@@ -169,7 +168,7 @@ export default function NotFound() {
             این آدرس به صفحهٔ منتشرشده‌ای وصل نیست. آدرس را بررسی کنید، یا از صفحهٔ اصلی ادامه دهید.
           </p>
           <div className="mt-10 flex flex-wrap items-center gap-3">
-            <Button render={<Link href="/" />} nativeButton={false} variant="foreground">رفتن به خانه</Button>
+            <Button render={<Link href="/" />} nativeButton={false}>رفتن به خانه</Button>
             <Button variant="ghost" render={<Link href="/docs" />} nativeButton={false}>مرور مستندات</Button>
           </div>
           <Separator className="mt-14 max-w-md" />

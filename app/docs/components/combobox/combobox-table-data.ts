@@ -1,3 +1,4 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
 export const comboboxPropRows = [
   {
     prop: "items",
@@ -174,4 +175,28 @@ export const comboboxKeyboardRows = [
     action:
       "Moves the caret in the input, or the highlight to the first or last item when the list is open.",
   },
+]
+
+export const comboboxTypographyRows: TokenTableRow[] = [
+  { element: "Input", token: "text-label leading-none font-normal", value: "13px / 1, 400" },
+  { element: "Placeholder", token: "text-label font-normal", value: "13px, 400" },
+  { element: "Item", token: "text-label font-normal", value: "13px, 400" },
+  { element: "Group label", token: "text-caption font-normal", value: "12px, 400" },
+  { element: "Empty", token: "text-label font-normal", value: "13px, 400" },
+  { element: "Chip", token: "text-caption font-medium", value: "12px, 500" },
+]
+
+export const comboboxColorRows: TokenTableRow[] = [
+  { element: "Border", token: "border-input", value: "--input", swatch: "--input" },
+  { element: "Border (focus)", token: "border-primary", value: "--primary", swatch: "--primary" },
+  { element: "Focus ring", token: "ring-primary/20", value: "--primary / 20%", swatch: "--primary" },
+  { element: "Border (invalid)", token: "border-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Text", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Placeholder / icons", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Popup background", token: "bg-popover", value: "--popover", swatch: "--popover", swatchOutline: true },
+  { element: "Popup text", token: "text-popover-foreground", value: "--popover-foreground", swatch: "--popover-foreground" },
+  { element: "Item (highlighted)", token: "bg-accent text-accent-foreground", value: "--accent", swatch: "--accent", swatchOutline: true },
+  { element: "Group label", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Separator", token: "bg-border/60", value: "--border / 60%", swatch: "--border" },
+  { element: "Chip background", token: "bg-muted", value: "--muted", swatch: "--muted", swatchOutline: true },
 ]

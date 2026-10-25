@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { canonicalComponentHref } from "@/lib/bases";
 import { components } from "@/app/docs/components/components-data";
 import { motion } from "framer-motion";
+import { SIDEBAR_GROUPS, getSidebarGroup } from "@/lib/sidebar-groups";
 
 type DocsNavLink = {
   title: string;
@@ -26,16 +27,25 @@ function isLinkActive(link: DocsNavLink, pathname: string) {
 
 const getStartedLinks: DocsNavLink[] = [
   { title: "Introduction", href: "/docs" },
-  { title: "Components", href: "/docs/components" },
   { title: "Installation", href: "/docs/installation", matchNested: true },
+  { title: "Components", href: "/docs/components" },
+  { title: "Changelog", href: "/docs/changelog", indicator: true },
+];
+
+const foundationLinks: DocsNavLink[] = [
+  { title: "Tokens", href: "/docs/tokens" },
   { title: "Theming", href: "/docs/theming" },
+  { title: "Color Usage", href: "/docs/color-usage" },
+  { title: "Radius", href: "/docs/radius" },
+  { title: "Typography", href: "/docs/typeset" },
+];
+
+const toolLinks: DocsNavLink[] = [
   { title: "CLI", href: "/docs/cli" },
+  { title: "Registry", href: "/docs/registry" },
   { title: "Upgrade", href: "/docs/upgrade" },
-  { title: "Typeset", href: "/docs/typeset" },
   { title: "Skills", href: "/docs/skills" },
   { title: "MCP", href: "/docs/mcp" },
-  { title: "Registry", href: "/docs/registry" },
-  { title: "Changelog", href: "/docs/changelog", indicator: true },
 ];
 
 const componentLinks: DocsNavLink[] = components
@@ -60,10 +70,12 @@ const groups: { title: string; links: DocsNavLink[] }[] = [
     title: "Get started",
     links: getStartedLinks,
   },
-  {
-    title: "Components",
-    links: componentLinks,
-  },
+  { title: "Foundations", links: foundationLinks },
+  { title: "Tools", links: toolLinks },
+  ...SIDEBAR_GROUPS.map((title) => ({
+    title,
+    links: componentLinks.filter((link) => getSidebarGroup(link.href) === title),
+  })).filter((group) => group.links.length > 0),
 ];
 
 function DocsNav({

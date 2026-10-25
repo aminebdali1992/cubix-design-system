@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const creditCardPropRows = [
   {
     prop: "size",
@@ -114,4 +116,22 @@ export const creditCardPartPropRows = [
     type: "HTML attributes",
     description: "Native attributes for the rendered element are forwarded.",
   },
+]
+
+export const creditCardTypographyRows: TokenTableRow[] = [
+  { element: "Label", token: "text-label leading-none font-normal", value: "13px / 1, 400" },
+  { element: "Segment", token: "text-label leading-none font-normal tabular-nums", value: "13px / 1, 400" },
+  { element: "Separator", token: "text-label font-normal", value: "13px, 400" },
+  { element: "Description", token: "text-caption font-normal", value: "12px, 400" },
+  { element: "Error message", token: "text-caption font-normal", value: "12px, 400" },
+]
+
+export const creditCardColorRows: TokenTableRow[] = [
+  { element: "Border", token: "border-input", value: "--input", swatch: "--input" },
+  { element: "Border (focus)", token: "border-primary", value: "--primary", swatch: "--primary" },
+  { element: "Focus ring", token: "ring-primary/20", value: "--primary / 20%", swatch: "--primary" },
+  { element: "Border (invalid)", token: "border-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Text / label", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Placeholder / separator / description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Error message", token: "text-destructive", value: "--destructive", swatch: "--destructive" },
 ]

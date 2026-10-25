@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const birthdayDatePropRows = [
   {
     prop: "size",
@@ -108,4 +110,25 @@ export const birthdayDatePartPropRows = [
     type: "HTML attributes",
     description: "Native attributes for the rendered element are forwarded.",
   },
+]
+
+export const birthdayDateTypographyRows: TokenTableRow[] = [
+  { element: "Segment value (default, lg)", token: "text-label font-normal leading-none tabular-nums", value: "13px / 1, 400" },
+  { element: "Label", token: "text-label font-normal leading-none", value: "13px / 1, 400" },
+  { element: "Separator", token: "text-label font-normal", value: "13px, 400" },
+  { element: "Description", token: "text-caption font-normal", value: "12px, 400" },
+  { element: "Error", token: "text-caption font-normal", value: "12px, 400" },
+]
+
+export const birthdayDateColorRows: TokenTableRow[] = [
+  { element: "Segment background", token: "bg-transparent dark:bg-input/30", value: "--input", swatch: "--input", swatchOutline: true },
+  { element: "Segment border", token: "border-input", value: "--input", swatch: "--input", swatchOutline: true },
+  { element: "Value", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Placeholder", token: "placeholder:text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Label", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Separator / Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Focus border", token: "focus-visible:border-primary", value: "--primary", swatch: "--primary" },
+  { element: "Focus ring", token: "ring-primary/20", value: "--primary 20%, 3px", swatch: "--primary" },
+  { element: "Invalid border / Error", token: "border-destructive text-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Disabled", token: "bg-muted text-muted-foreground", value: "--muted", swatch: "--muted", swatchOutline: true },
 ]

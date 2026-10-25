@@ -81,7 +81,6 @@ function NotFound04View({
               <Button
                 render={<Link href="/" />}
                 nativeButton={false}
-                variant="foreground"
               >
                 بازگشت به خانه
               </Button>
@@ -146,7 +145,7 @@ export default function NotFound() {
           این مسیر به هیچ صفحه‌ای وصل نیست. به خانه برگردید، یا مستندات را باز کنید و از یک نقطهٔ شناخته‌شده ادامه دهید.
         </p>
         <div className="mt-9 flex flex-wrap items-center justify-center gap-3 min-[800px]:justify-start">
-          <Button render={<Link href="/" />} nativeButton={false} variant="foreground">بازگشت به خانه</Button>
+          <Button render={<Link href="/" />} nativeButton={false}>بازگشت به خانه</Button>
           <Button variant="outline" render={<Link href="/docs" />} nativeButton={false}>باز کردن مستندات</Button>
         </div>
         <p className="mt-10 text-caption text-muted-foreground">وضعیت: مسیر تعریف‌نشده</p>

@@ -9,6 +9,7 @@ import {
 
 import { CodeBlock } from "@/components/docs/code-block";
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
+import { RegistryBuildMockup } from "@/components/docs/registry-build-mockup";
 import { siteConfig } from "@/lib/site";
 import {
   DocsNextSteps,
@@ -81,7 +82,7 @@ export default function RegistryPage() {
     <article className="space-y-12">
       <DocsPageHeader
         title="Registry"
-        description="Cubix distributes components as a flat-file registry. JSON items describe source files and dependencies; the CLI copies them into your project. You can consume the Cubix catalog or publish your own."
+        description="The registry is a set of JSON files that list each component and its dependencies. The CLI reads it to copy components into your project, and you can publish your own."
       />
 
       <section className="space-y-4">
@@ -107,6 +108,7 @@ export default function RegistryPage() {
             <InlineCode>build</InlineCode> speak this format.
           </li>
         </ul>
+        <RegistryBuildMockup />
       </section>
 
       <section className="space-y-4">

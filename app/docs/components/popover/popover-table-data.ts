@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const popoverPropRows = [
   {
     prop: "open",
@@ -85,4 +87,18 @@ export const subcomponentRows = [
     type: "string",
     description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
+]
+
+export const popoverTypographyRows: TokenTableRow[] = [
+  { element: "Content", token: "text-label", value: "13px, 400" },
+  { element: "Title", token: "text-label", value: "13px, 500" },
+  { element: "Description", token: "text-label", value: "13px, 400" },
+]
+
+export const popoverColorRows: TokenTableRow[] = [
+  { element: "Background", token: "bg-popover", value: "--popover", swatch: "--popover", swatchOutline: true },
+  { element: "Text", token: "text-popover-foreground", value: "--popover-foreground", swatch: "--popover-foreground" },
+  { element: "Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Border", token: "ring-foreground/10", value: "--foreground / 10%", swatch: "--foreground" },
+  { element: "Shadow", token: "shadow-md", value: "shadow-md" },
 ]

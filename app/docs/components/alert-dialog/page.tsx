@@ -7,6 +7,8 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
+import { alertDialogColorRows, alertDialogTypographyRows } from "./alert-dialog-table-data"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -241,6 +243,12 @@ export default function AlertDialogPage() {
           The dismiss button. Closes the dialog without confirming.
         </p>
         <PropsTable data={cancelPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={alertDialogTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={alertDialogColorRows} />
       </section>
     </article>
   )

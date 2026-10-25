@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils"
 
 export type HighlightSegment = string | { highlight: string }
 
-const LINE_CLASS_NAME = "absolute rounded-[0.14em] bg-primary/30 dark:bg-primary/40"
+const LINE_CLASS_NAME = "absolute rounded-[0.14em] bg-foreground/[0.08] dark:bg-foreground/[0.12]"
 
 type IndexedSegment =
   | { kind: "text"; text: string }

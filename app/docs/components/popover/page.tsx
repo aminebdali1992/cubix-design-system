@@ -7,6 +7,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -19,7 +20,9 @@ import { PopoverFormDemo } from "./examples/popover-form-demo"
 import { PopoverSidesDemo } from "./examples/popover-sides-demo"
 import {
   contentPropRows,
+  popoverColorRows,
   popoverPropRows,
+  popoverTypographyRows,
   subcomponentRows,
   triggerClosePropRows,
 } from "./popover-table-data"
@@ -201,6 +204,12 @@ export default function PopoverPage() {
           Optional layout and text helpers for the popover panel.
         </p>
         <PropsTable data={subcomponentRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={popoverTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={popoverColorRows} />
       </section>
     </article>
   )

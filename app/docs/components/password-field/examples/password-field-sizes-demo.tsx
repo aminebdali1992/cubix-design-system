@@ -1,6 +1,6 @@
 "use client"
 
-import { LockKeyholeIcon } from "lucide-react"
+import { LockIcon } from "@/components/docs/empty-icons"
 
 import {
   PasswordField,
@@ -23,7 +23,7 @@ export function PasswordFieldSizesDemo() {
         <PasswordField key={size} size={size}>
           <PasswordFieldLabel>رمز عبور</PasswordFieldLabel>
           <PasswordFieldControl>
-            <LockKeyholeIcon data-icon="inline-start" />
+            <LockIcon data-icon="inline-start" className="size-6" />
             <PasswordFieldInput placeholder="رمز عبور خود را وارد کنید" />
             <PasswordFieldToggle />
           </PasswordFieldControl>

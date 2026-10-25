@@ -7,12 +7,13 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
   readDocsExampleSource,
 } from "@/lib/docs/example-source"
-import { badgePropRows } from "./badge-table-data"
+import { badgeColorRows, badgePropRows, badgeTypographyRows } from "./badge-table-data"
 import { BadgeCustomDemo } from "./examples/badge-custom-demo"
 import { BadgeDemo } from "./examples/badge-demo"
 import { BadgeDotDemo } from "./examples/badge-dot-demo"
@@ -219,6 +220,12 @@ export default function BadgePage() {
           Displays a badge or a component that looks like a badge.
         </p>
         <PropsTable data={badgePropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={badgeTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={badgeColorRows} />
       </section>
     </article>
   )

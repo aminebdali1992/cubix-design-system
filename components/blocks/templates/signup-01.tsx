@@ -124,7 +124,7 @@ function Signup01Fields() {
         </span>
       </Label>
 
-      <Button type="submit" variant="foreground" className="w-full">
+      <Button type="submit" className="w-full">
         ایجاد حساب
       </Button>
     </>
@@ -137,7 +137,7 @@ function Signup01View({ className }: { className?: string }) {
       lang="fa"
       dir="rtl"
       className={cn(
-        "@container relative flex overflow-hidden bg-background [--primary:var(--foreground)] [--primary-foreground:var(--background)]",
+        "@container relative flex overflow-hidden bg-background",
         className
       )}
     >
@@ -239,7 +239,7 @@ ${brandGlyphsSource}
 
 export default function SignupPage() {
   return (
-    <div lang="fa" dir="rtl" className="grid min-h-svh bg-background [--primary:var(--foreground)] [--primary-foreground:var(--background)] min-[800px]:grid-cols-2">
+    <div lang="fa" dir="rtl" className="grid min-h-svh bg-background min-[800px]:grid-cols-2">
       <div className="flex flex-col items-center justify-center px-6 py-12 sm:px-10">
         <div className="w-full max-w-88">
           <h1 className="font-heading text-lead font-semibold">ایجاد حساب کاربری</h1>
@@ -298,7 +298,7 @@ export default function SignupPage() {
               </span>
             </Label>
 
-            <Button type="submit" variant="foreground" className="w-full">ایجاد حساب</Button>
+            <Button type="submit" className="w-full">ایجاد حساب</Button>
           </form>
 
           <p className="mt-8 flex items-center justify-center gap-1 text-description text-muted-foreground">

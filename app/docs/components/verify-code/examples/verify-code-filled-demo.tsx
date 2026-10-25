@@ -9,7 +9,7 @@ import {
 
 export function VerifyCodeFilledDemo() {
   return (
-    <VerifyCode className="w-full max-w-sm" defaultValue="۱۲۳۴۵۶">
+    <VerifyCode className="w-full max-w-[280px] mx-auto" defaultValue="۱۲۳۴۵۶">
       <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
       <VerifyCodeControl />
       <VerifyCodeResend />

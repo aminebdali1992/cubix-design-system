@@ -56,6 +56,12 @@ export const swatches: ThemeSwatch[] = [
     light: "oklch(0.653 0.191 24.1)",
     dark: "oklch(0.653 0.191 24.1)",
   },
+  { token: "success", variable: "--success", light: "oklch(0.696 0.149 162.48)", dark: "oklch(0.696 0.149 162.48)" },
+  { token: "success-text", variable: "--success-text", light: "oklch(0.534 0.115 162.48)", dark: "oklch(0.696 0.149 162.48)" },
+  { token: "warning", variable: "--warning", light: "oklch(0.769 0.165 70.08)", dark: "oklch(0.769 0.165 70.08)" },
+  { token: "warning-text", variable: "--warning-text", light: "oklch(0.569 0.123 70.08)", dark: "oklch(0.769 0.165 70.08)" },
+  { token: "info", variable: "--info", light: "oklch(0.653 0.19 252.53)", dark: "oklch(0.653 0.19 252.53)" },
+  { token: "info-text", variable: "--info-text", light: "oklch(0.561 0.17 252.53)", dark: "oklch(0.653 0.19 252.53)" },
   {
     token: "border",
     variable: "--border",
@@ -170,6 +176,16 @@ export const tokenDocs: TokenDoc[] = [
     name: "destructive / destructive-foreground",
     controls: "Destructive actions and error emphasis.",
     usedBy: "Destructive buttons, invalid states.",
+  },
+  {
+    name: "success / warning / info",
+    controls: "Status colors, each with a -foreground pair.",
+    usedBy: "Success, warning and info messages, alerts, badges, toasts.",
+  },
+  {
+    name: "success-text / warning-text / info-text",
+    controls: "Status colors for text on the page background, AA contrast (4.5:1).",
+    usedBy: "Inline status messages, helper text, icons.",
   },
   {
     name: "border",
@@ -326,6 +342,18 @@ export const defaultThemeCss = `@custom-variant dark (&:is(.dark *));
   --destructive: oklch(0.653 0.191 24.1);
   --destructive-foreground: oklch(0.985 0 0);
 
+  --success: oklch(0.696 0.149 162.48);
+  --success-foreground: oklch(0.985 0 0);
+  --success-text: oklch(0.534 0.115 162.48);
+
+  --warning: oklch(0.769 0.165 70.08);
+  --warning-foreground: oklch(0.985 0 0);
+  --warning-text: oklch(0.569 0.123 70.08);
+
+  --info: oklch(0.653 0.19 252.53);
+  --info-foreground: oklch(0.985 0 0);
+  --info-text: oklch(0.561 0.17 252.53);
+
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
@@ -373,6 +401,18 @@ export const defaultThemeCss = `@custom-variant dark (&:is(.dark *));
 
   --destructive: oklch(0.653 0.191 24.1);
   --destructive-foreground: oklch(0.985 0 0);
+
+  --success: oklch(0.696 0.149 162.48);
+  --success-foreground: oklch(0.985 0 0);
+  --success-text: oklch(0.696 0.149 162.48);
+
+  --warning: oklch(0.769 0.165 70.08);
+  --warning-foreground: oklch(0.985 0 0);
+  --warning-text: oklch(0.769 0.165 70.08);
+
+  --info: oklch(0.653 0.19 252.53);
+  --info-foreground: oklch(0.985 0 0);
+  --info-text: oklch(0.653 0.19 252.53);
 
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);

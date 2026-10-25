@@ -73,7 +73,7 @@ export function ComponentDocsHeader({
             variant="link"
             nativeButton={false}
             render={<a href={`/r/${slug}.json`} />}
-            className="h-auto px-0"
+            className="h-auto px-0 hover:decoration-foreground"
           >
             <span className="font-mono text-muted-foreground">Registry</span>
           </Button>
@@ -81,7 +81,7 @@ export function ComponentDocsHeader({
             variant="link"
             nativeButton={false}
             render={<a href="#api-reference" />}
-            className="h-auto px-0"
+            className="h-auto px-0 hover:decoration-foreground"
           >
             <span className="font-mono text-muted-foreground">
               API Reference

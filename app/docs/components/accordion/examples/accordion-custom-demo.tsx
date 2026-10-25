@@ -27,7 +27,7 @@ export function AccordionCustomDemo() {
         <AccordionItem
           key={item.value}
           value={item.value}
-          className="rounded-xl border bg-muted/40 px-4 last:border-b"
+          className="rounded-xl border px-4 last:border-b"
         >
           <AccordionTrigger>{item.title}</AccordionTrigger>
           <AccordionContent>{item.description}</AccordionContent>

@@ -8,12 +8,19 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
   readDocsExampleSource,
 } from "@/lib/docs/example-source"
-import { chipPropRows, chipsKeyboardRows, chipsPropRows } from "./chips-table-data"
+import {
+  chipPropRows,
+  chipsColorRows,
+  chipsKeyboardRows,
+  chipsPropRows,
+  chipsTypographyRows,
+} from "./chips-table-data"
 import { ChipsAvatarDemo } from "./examples/chips-avatar-demo"
 import { ChipsControlledDemo } from "./examples/chips-controlled-demo"
 import { ChipsDemo } from "./examples/chips-demo"
@@ -278,6 +285,12 @@ export default function ChipsPage() {
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">Chip</h3>
         <PropsTable data={chipPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={chipsTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={chipsColorRows} />
       </section>
     </article>
   )

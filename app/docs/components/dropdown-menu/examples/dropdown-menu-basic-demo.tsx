@@ -14,7 +14,7 @@ import {
 export function DropdownMenuBasicDemo() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="outline" />}>پرونده</DropdownMenuTrigger>
+      <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>پرونده</DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
           <DropdownMenuLabel>پنجره‌ها</DropdownMenuLabel>

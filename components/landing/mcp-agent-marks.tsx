@@ -12,7 +12,7 @@ type AgentMark = {
 }
 
 /** Monochrome marks - tint via currentColor. Codex mark from @lobehub/icons. */
-const AGENTS: AgentMark[] = [
+export const AGENTS: AgentMark[] = [
   {
     name: "Cursor",
     label: "Cursor",
@@ -34,7 +34,7 @@ const AGENTS: AgentMark[] = [
   },
 ]
 
-function AgentIcon({
+export function AgentIcon({
   path,
   evenodd,
   className,

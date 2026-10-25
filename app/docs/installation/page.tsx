@@ -29,7 +29,7 @@ export default function InstallationPage() {
     <article className="space-y-12">
       <DocsPageHeader
         title="Installation"
-        description="Install Cubix in a new or existing React project. Prefer the CLI template for Next.js and Vite, or follow a framework guide for step-by-step setup."
+        description="Add Cubix to a new or existing React project. Run one command, or follow the step-by-step guide for your framework."
       />
 
       <section className="space-y-4">

@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const labelPropRows = [
   {
     prop: "htmlFor",
@@ -15,4 +17,13 @@ export const labelPropRows = [
     type: "React.ReactNode",
     description: "The label text or content.",
   },
+]
+
+export const labelTypographyRows: TokenTableRow[] = [
+  { element: "Label", token: "text-label", value: "13px, 400" },
+]
+
+export const labelColorRows: TokenTableRow[] = [
+  { element: "Text", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Disabled", token: "opacity-50", value: "50% opacity" },
 ]

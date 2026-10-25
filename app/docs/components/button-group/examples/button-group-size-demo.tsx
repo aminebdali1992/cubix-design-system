@@ -6,25 +6,21 @@ import { ButtonGroup } from "../docs-button-group"
 export function ButtonGroupSizeDemo() {
   return (
     <div className="flex flex-col items-center gap-4">
-      <ButtonGroup aria-label="گروه کوچک">
+      <ButtonGroup aria-label="بازه زمانی کوچک">
         <Button variant="outline" size="sm">
-          کوچک
+          روزانه
         </Button>
         <Button variant="outline" size="sm">
-          دکمه
+          هفتگی
+        </Button>
+        <Button variant="outline" size="sm">
+          ماهانه
         </Button>
       </ButtonGroup>
-      <ButtonGroup aria-label="گروه پیش‌فرض">
-        <Button variant="outline">پیش‌فرض</Button>
-        <Button variant="outline">دکمه</Button>
-      </ButtonGroup>
-      <ButtonGroup aria-label="گروه بزرگ">
-        <Button variant="outline" size="lg">
-          بزرگ
-        </Button>
-        <Button variant="outline" size="lg">
-          دکمه
-        </Button>
+      <ButtonGroup aria-label="بازه زمانی پیش‌فرض">
+        <Button variant="outline">روزانه</Button>
+        <Button variant="outline">هفتگی</Button>
+        <Button variant="outline">ماهانه</Button>
       </ButtonGroup>
     </div>
   )

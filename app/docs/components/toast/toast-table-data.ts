@@ -1,3 +1,4 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
 export const toastManagerPropRows = [
   {
     prop: "toast.add",
@@ -63,6 +64,13 @@ export const toastManagerPropRows = [
 
 export const toasterPropRows = [
   {
+    prop: "position",
+    type: '"top-start" | "top-center" | "top-end" | "bottom-start" | "bottom-center" | "bottom-end"',
+    default: '"bottom-end"',
+    description:
+      "Where the toast stack sits. Uses logical sides, so start is the right edge in RTL. Sets data-position on the viewport, and top positions animate and swipe from the top.",
+  },
+  {
     prop: "dir",
     type: '"ltr" | "rtl"',
     default: '"rtl"',
@@ -93,4 +101,19 @@ export const toastKeyboardRows = [
     key: "Escape",
     action: "Closes the focused toast.",
   },
+]
+
+export const toastTypographyRows: TokenTableRow[] = [
+  { element: "Title", token: "text-label", value: "13px, 400" },
+  { element: "Description", token: "text-label", value: "13px, 400" },
+]
+
+export const toastColorRows: TokenTableRow[] = [
+  { element: "Background", token: "bg-popover", value: "--popover", swatch: "--popover", swatchOutline: true },
+  { element: "Text", token: "text-popover-foreground", value: "--popover-foreground", swatch: "--popover-foreground" },
+  { element: "Border", token: "border-border", value: "--border", swatch: "--border" },
+  { element: "Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Close icon (hover)", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Error icon", token: "text-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Focus ring", token: "ring-ring/50", value: "--ring, 50%", swatch: "--ring" },
 ]

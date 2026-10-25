@@ -1,8 +1,9 @@
 "use client"
 
-import { CopyIcon, EllipsisIcon, PencilIcon, Share2Icon, Trash2Icon } from "lucide-react"
+import { EllipsisIcon } from "lucide-react"
 
 import { Button } from "@/app/docs/components/button/docs-button"
+import { ButtonDemoIcon } from "@/components/docs/demo-icon"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,26 +16,26 @@ export function DropdownMenuDestructiveDemo() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<Button variant="outline" size="icon" aria-label="گزینه‌های پرونده" />}
+        render={<Button variant="outline" size="icon-sm" aria-label="گزینه‌های پرونده" />}
       >
         <EllipsisIcon />
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>
-          <PencilIcon />
+          <ButtonDemoIcon />
           ویرایش
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <CopyIcon />
+          <ButtonDemoIcon />
           تکثیر
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <Share2Icon />
+          <ButtonDemoIcon />
           اشتراک‌گذاری
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem variant="destructive">
-          <Trash2Icon />
+          <ButtonDemoIcon />
           حذف
         </DropdownMenuItem>
       </DropdownMenuContent>

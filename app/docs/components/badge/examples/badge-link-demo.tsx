@@ -7,7 +7,7 @@ import { Badge } from "../docs-badge"
 export function BadgeLinkDemo() {
   return (
     <Badge render={<a href="#" />}>
-      پیوند
+      مشاهده جزئیات
       <ArrowUpLeftIcon data-icon="inline-end" />
     </Badge>
   )

@@ -37,25 +37,18 @@ export const typeScale = [
     usage: "Numeric twin of text-caption",
   },
   {
-    token: "text-13",
-    size: "0.8125rem",
-    px: "13px",
-    lh: "calc(1.125 / 0.8125)",
-    usage: "Numeric twin of text-label",
-  },
-  {
     token: "text-sm",
     size: "0.875rem",
     px: "14px",
     lh: "calc(1.25 / 0.875)",
-    usage: "Numeric twin of text-description",
+    usage: "Numeric twin of text-body",
   },
   {
     token: "text-base",
     size: "0.9375rem",
     px: "15px",
     lh: "calc(1.5 / 0.9375)",
-    usage: "Numeric twin of text-body",
+    usage: "Numeric 15px step",
   },
   {
     token: "text-lg",
@@ -76,7 +69,7 @@ export const typeScale = [
     size: "1.375rem",
     px: "22px",
     lh: "calc(1.875 / 1.375)",
-    usage: "Numeric twin of text-title",
+    usage: "Numeric twin of text-heading",
   },
   {
     token: "text-3xl",
@@ -142,7 +135,7 @@ export const typeRoles = [
     usage: "Page titles",
   },
   {
-    token: "text-title",
+    token: "text-heading",
     size: "1.375rem",
     px: "22px",
     lh: "1.364",
@@ -160,22 +153,22 @@ export const typeRoles = [
     usage: "Intro paragraphs",
   },
   {
-    token: "text-body",
+    token: "text-title",
     size: "0.9375rem",
     px: "15px",
+    lh: "1.467",
+    tracking: "0",
+    weight: "500",
+    usage: "Component titles (card, dialog, sheet)",
+  },
+  {
+    token: "text-body",
+    size: "0.875rem",
+    px: "14px",
     lh: "1.65",
     tracking: "0",
     weight: "400",
     usage: "Readable body copy",
-  },
-  {
-    token: "text-description",
-    size: "0.875rem",
-    px: "14px",
-    lh: "1.429",
-    tracking: "0.005em",
-    weight: "400",
-    usage: "Supporting UI copy, chat typeset",
   },
   {
     token: "text-label",
@@ -185,6 +178,15 @@ export const typeRoles = [
     tracking: "0.01em",
     weight: "400",
     usage: "Field titles and form labels",
+  },
+  {
+    token: "text-description",
+    size: "0.8125rem",
+    px: "13px",
+    lh: "1.692",
+    tracking: "0.005em",
+    weight: "400",
+    usage: "Supporting UI copy, chat typeset",
   },
   {
     token: "text-caption",
@@ -248,7 +250,7 @@ export const rhythmControls = [
     name: "--typeset-size",
     role: "Base text size",
     detail:
-      "Defaults to text-body (15px). Chat uses text-description (14px); docs stay on body.",
+      "Defaults to text-body (14px). Chat uses text-description (13px); docs stay on body.",
   },
   {
     name: "--typeset-leading",

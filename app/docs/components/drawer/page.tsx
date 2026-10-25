@@ -7,6 +7,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -21,7 +22,9 @@ import { DrawerNonModalDemo } from "./examples/drawer-non-modal-demo"
 import { DrawerSnapPointsDemo } from "./examples/drawer-snap-points-demo"
 import {
   contentPropRows,
+  drawerColorRows,
   drawerPropRows,
+  drawerTypographyRows,
   headerFooterPropRows,
   titleDescriptionPropRows,
   triggerClosePropRows,
@@ -276,6 +279,12 @@ export default function DrawerPage() {
           The title and supporting text of the drawer.
         </p>
         <PropsTable data={titleDescriptionPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={drawerTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={drawerColorRows} />
       </section>
     </article>
   )

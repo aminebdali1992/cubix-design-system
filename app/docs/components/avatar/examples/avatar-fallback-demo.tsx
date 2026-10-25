@@ -7,15 +7,15 @@ export function AvatarFallbackDemo() {
     <div className="flex flex-wrap items-center justify-center gap-4">
       <Avatar>
         <AvatarImage src="/docs/avatar/missing.jpg" alt="نیلوفر" />
-        <AvatarFallback>ن</AvatarFallback>
+        <AvatarFallback />
       </Avatar>
       <Avatar size="lg">
         <AvatarImage src="/docs/avatar/missing.jpg" alt="علی" />
-        <AvatarFallback>ع</AvatarFallback>
+        <AvatarFallback />
       </Avatar>
       <Avatar size="xl">
         <AvatarImage src="/docs/avatar/missing.jpg" alt="سارا" />
-        <AvatarFallback>س</AvatarFallback>
+        <AvatarFallback />
       </Avatar>
     </div>
   )

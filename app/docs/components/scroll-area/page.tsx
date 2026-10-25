@@ -1,133 +1,141 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
-  ScrollAreaDemo,
-  ScrollAreaHorizontalDemo,
-} from "@/components/examples/scroll-area-examples"
-
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { ScrollAreaDemo } from "./examples/scroll-area-demo"
+import { ScrollAreaHorizontalDemo } from "./examples/scroll-area-horizontal-demo"
+import { ScrollAreaTextDemo } from "./examples/scroll-area-text-demo"
 import {
+  scrollAreaColorRows,
   scrollAreaPropRows,
+  scrollAreaTypographyRows,
   scrollBarPropRows,
 } from "./scroll-area-table-data"
 
-const description =
-  "Augments native scroll functionality for custom, cross-browser styling."
+const description = "Augments native scroll functionality for custom, cross-browser styling."
 
 export const metadata: Metadata = {
   title: "Scroll Area",
   description,
 }
 
-const usageImport = `import { ScrollArea, ScrollBar } from "@/components/cubix/scroll-area"`
+const PUBLIC_IMPORT = "@/components/cubix/scroll-area"
+const EXAMPLES_DIR = "app/docs/components/scroll-area/examples"
 
-const usageSnippet = `<ScrollArea className="h-[200px] w-[350px] rounded-md border p-4">
-  Your scrollable content here.
-</ScrollArea>`
+function loadExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `ScrollArea
 └── ScrollBar`
 
-const demoSnippet = `<ScrollArea className="h-72 w-48 rounded-md border">
-  <div className="flex flex-col gap-2 p-4">
-    <h4 className="mb-2 text-sm leading-none font-medium">Tags</h4>
-    {Array.from({ length: 50 }).map((_, index) => (
-      <div key={index} className="h-8 w-full rounded-md bg-muted" />
-    ))}
-  </div>
-</ScrollArea>`
+function PreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div dir="rtl" lang="fa" className="flex w-full justify-center">
+      {children}
+    </div>
+  )
+}
 
-const horizontalSnippet = `<ScrollArea className="w-96 rounded-md border whitespace-nowrap">
-  <div className="flex w-max space-x-4 p-4">
-    {works.map((artwork) => (
-      <figure key={artwork.artist} className="shrink-0">
-        <div className="aspect-square w-[150px] rounded-md bg-muted" />
-        <figcaption className="pt-2 text-xs text-muted-foreground">
-          Photo by{" "}
-          <span className="font-semibold text-foreground">
-            {artwork.artist}
-          </span>
-        </figcaption>
-      </figure>
-    ))}
-  </div>
-  <ScrollBar orientation="horizontal" />
-</ScrollArea>`
+function ExampleSection({
+  title,
+  description,
+  code,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName="min-h-80">
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
 
 export default function ScrollAreaDocsPage() {
+  const demoSource = loadExample("scroll-area-demo.tsx")
+  const horizontalSource = loadExample("scroll-area-horizontal-demo.tsx")
+  const textSource = loadExample("scroll-area-text-demo.tsx")
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Scroll Area"
-        description={description}
-        slug="scroll-area"
-      />
+      <ComponentDocsHeader title="Scroll Area" description={description} slug="scroll-area" />
 
-      <ComponentPreview code={demoSnippet} previewClassName="h-96">
-        <ScrollAreaDemo />
+      <ComponentPreview code={demoSource} previewClassName="h-96">
+        <PreviewShell>
+          <ScrollAreaDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="scroll-area" />
 
       <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Usage</h2>
-        <CodeBlock code={usageImport} title="Import" />
-        <CodeBlock code={usageSnippet} title="Example" />
+        <CodeBlock code={extractDemoImports(demoSource)} title="Import" />
+        <CodeBlock code={extractDemoJsx(demoSource)} title="Example" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the following composition to build a{" "}
-          <code className="font-mono text-sm">ScrollArea</code>:
+          The root renders <Code>dir=&quot;rtl&quot;</Code> by default.
         </p>
-        <CodeBlock code={compositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Horizontal
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use{" "}
-          <code className="font-mono text-sm">ScrollBar</code> with{" "}
-          <code className="font-mono text-sm">
-            orientation=&quot;horizontal&quot;
-          </code>{" "}
-          for horizontal scrolling.
-        </p>
-        <ComponentPreview code={horizontalSnippet} previewClassName="min-h-80">
+      <section className="space-y-6">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
+
+        <ExampleSection
+          title="Horizontal"
+          description={<>Add <Code>ScrollBar</Code> with <Code>orientation=&quot;horizontal&quot;</Code> for horizontal scrolling.</>}
+          code={horizontalSource}
+        >
           <ScrollAreaHorizontalDemo />
-        </ComponentPreview>
+        </ExampleSection>
+
+        <ExampleSection title="Long text" description="Scroll long text, such as terms and conditions, inside a fixed box." code={textSource}>
+          <ScrollAreaTextDemo />
+        </ExampleSection>
       </section>
 
-      <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          See also the Base UI Scroll Area documentation for primitive props.
-        </p>
+      <section id="api-reference" className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ScrollArea
-          </h3>
-          <PropsTable data={scrollAreaPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ScrollArea</h3>
+        <PropsTable data={scrollAreaPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ScrollBar
-          </h3>
-          <PropsTable data={scrollBarPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ScrollBar</h3>
+        <PropsTable data={scrollBarPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={scrollAreaTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={scrollAreaColorRows} />
       </section>
     </article>
   )

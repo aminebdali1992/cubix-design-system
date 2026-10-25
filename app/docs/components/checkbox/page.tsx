@@ -7,15 +7,22 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
   readDocsExampleSource,
 } from "@/lib/docs/example-source"
-import { checkboxPropRows, checkboxStateRows } from "./checkbox-table-data"
+import {
+  checkboxColorRows,
+  checkboxPropRows,
+  checkboxStateRows,
+  checkboxTypographyRows,
+} from "./checkbox-table-data"
 import { CheckboxDemo } from "./examples/checkbox-demo"
 import { CheckboxDescriptionDemo } from "./examples/checkbox-description-demo"
 import { CheckboxDisabledDemo } from "./examples/checkbox-disabled-demo"
+import { CheckboxFieldsetDemo } from "./examples/checkbox-fieldset-demo"
 import { CheckboxFormDemo } from "./examples/checkbox-form-demo"
 import { CheckboxGroupDemo } from "./examples/checkbox-group-demo"
 import { CheckboxInvalidDemo } from "./examples/checkbox-invalid-demo"
@@ -86,6 +93,7 @@ export default function CheckboxPage() {
   const demoSource = loadCheckboxExample("checkbox-demo.tsx")
   const descriptionSource = loadCheckboxExample("checkbox-description-demo.tsx")
   const groupSource = loadCheckboxExample("checkbox-group-demo.tsx")
+  const fieldsetSource = loadCheckboxExample("checkbox-fieldset-demo.tsx")
   const invalidSource = loadCheckboxExample("checkbox-invalid-demo.tsx")
   const disabledSource = loadCheckboxExample("checkbox-disabled-demo.tsx")
   const pendingSource = loadCheckboxExample("checkbox-pending-demo.tsx")
@@ -158,6 +166,19 @@ export default function CheckboxPage() {
         </ExampleSection>
 
         <ExampleSection
+          title="Group"
+          description={
+            <>
+              Group related checkboxes in a <Code>FieldSet</Code> with a <Code>FieldLegend</Code>{" "}
+              and <Code>FieldDescription</Code>.
+            </>
+          }
+          code={fieldsetSource}
+        >
+          <CheckboxFieldsetDemo />
+        </ExampleSection>
+
+        <ExampleSection
           title="Invalid"
           description={
             <>
@@ -222,6 +243,12 @@ export default function CheckboxPage() {
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">States</h3>
         <PropsTable data={checkboxStateRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={checkboxTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={checkboxColorRows} />
       </section>
     </article>
   )

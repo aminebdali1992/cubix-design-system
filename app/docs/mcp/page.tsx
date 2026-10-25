@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 
 import { CodeBlock } from "@/components/docs/code-block";
+import { McpMockup } from "@/components/docs/mcp-mockup";
 import { siteConfig } from "@/lib/site";
 import {
   DocsNextSteps,
@@ -80,7 +81,7 @@ export default function McpPage() {
     <article className="space-y-12">
       <DocsPageHeader
         title="MCP"
-        description="A Streamable HTTP Model Context Protocol server over the live Cubix registry - so Cursor, Codex, Claude, and other agents can list, search, and install components without scraping the docs."
+        description="Connect Cursor, Codex, Claude or another AI tool to Cubix, so it can find and install components directly."
       />
 
       <section className="space-y-4">
@@ -112,6 +113,7 @@ export default function McpPage() {
           Cursor Settings → MCP:
         </p>
         <CodeBlock code={cursorConfig} title=".cursor/mcp.json" lang="json" />
+        <McpMockup client="cursor" />
       </section>
 
       <section className="space-y-4">
@@ -125,6 +127,7 @@ export default function McpPage() {
           <InlineCode>mcp_servers</InlineCode>):
         </p>
         <CodeBlock code={codexToml} title="config.toml" lang="toml" />
+        <McpMockup client="codex" />
       </section>
 
       <section className="space-y-4">
@@ -133,6 +136,7 @@ export default function McpPage() {
           Claude Code / Claude Desktop style clients:
         </p>
         <CodeBlock code={claudeCli} title="Terminal" lang="bash" />
+        <McpMockup client="claude" />
       </section>
 
       <section className="space-y-4">

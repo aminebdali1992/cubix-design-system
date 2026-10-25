@@ -6,6 +6,8 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
+import { tooltipTypographyRows, tooltipColorRows } from "./tooltip-table-data"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -245,6 +247,10 @@ export default function TooltipPage() {
           The popup rendered in a portal, positioned relative to the trigger.
         </p>
         <PropsTable data={contentPropRows} />
+<h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+<TokenTable data={tooltipTypographyRows} />
+<h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+<TokenTable data={tooltipColorRows} />
       </section>
     </article>
   )

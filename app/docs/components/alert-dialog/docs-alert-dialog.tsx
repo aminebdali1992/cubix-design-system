@@ -37,7 +37,6 @@ type AlertDialogActionProps = {
   className?: string
   variant?:
     | "default"
-    | "foreground"
     | "secondary"
     | "gray"
     | "destructive"

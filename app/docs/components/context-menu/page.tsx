@@ -8,6 +8,7 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -16,8 +17,10 @@ import {
 import {
   checkboxItemPropRows,
   contentPropRows,
+  contextMenuColorRows,
   contextMenuKeyboardRows,
   contextMenuPropRows,
+  contextMenuTypographyRows,
   itemPropRows,
   radioGroupPropRows,
   radioItemPropRows,
@@ -300,6 +303,12 @@ export default function ContextMenuPage() {
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">ContextMenuRadioItem</h3>
         <PropsTable data={radioItemPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={contextMenuTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={contextMenuColorRows} />
       </section>
     </article>
   )

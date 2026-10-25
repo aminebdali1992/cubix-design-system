@@ -8,6 +8,7 @@ import { BoxesIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { blockViewBasePath, defaultBlocksHref } from "@/app/blocks/blocks-data";
 import { SiteFrame } from "@/components/site-frame";
+import { PrimaryColorToggle } from "@/components/primary-color-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 
 type SiteHeaderProps = {
@@ -47,12 +48,6 @@ function HeaderBar({ className, githubLink }: SiteHeaderProps) {
             Components
           </Link>
           <Link
-            href="/ds-manager"
-            className="transition-colors hover:text-foreground"
-          >
-            DS Manager
-          </Link>
-          <Link
             href={defaultBlocksHref}
             className="transition-colors hover:text-foreground"
           >
@@ -62,6 +57,7 @@ function HeaderBar({ className, githubLink }: SiteHeaderProps) {
       </div>
       <div className="flex items-center gap-2">
         {githubLink}
+        <PrimaryColorToggle />
         <ThemeToggle />
       </div>
     </div>
@@ -72,7 +68,7 @@ export function SiteHeader({ className, githubLink }: SiteHeaderProps) {
   const pathname = usePathname();
   const framed = pathname === "/";
 
-  if (pathname.startsWith(`${blockViewBasePath}/`) || pathname.startsWith("/ds-manager")) {
+  if (pathname.startsWith(`${blockViewBasePath}/`) || pathname.startsWith("/customize")) {
     return null;
   }
 

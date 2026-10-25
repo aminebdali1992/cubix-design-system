@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 
 import { CodeBlock } from "@/components/docs/code-block";
+import { UpgradeMockup } from "@/components/docs/upgrade-mockup";
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
 import { addComponentCommands } from "@/lib/package-manager-commands";
 import {
@@ -56,7 +57,7 @@ export default function UpgradePage() {
     <article className="space-y-12">
       <DocsPageHeader
         title="Upgrade"
-        description="Cubix components live in your repo. Updating means pulling a newer registry item with the CLI, reviewing the diff, and keeping the edits that belong to your product."
+        description="Get newer versions of components you already installed, without losing your own changes."
       />
 
       <section className="space-y-4">
@@ -90,6 +91,7 @@ export default function UpgradePage() {
             <InlineCode>--base</InlineCode> to target another variant.
           </li>
         </ul>
+        <UpgradeMockup />
       </section>
 
       <section className="space-y-4">

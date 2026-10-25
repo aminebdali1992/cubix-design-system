@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const chipsPropRows = [
   {
     prop: "multiple",
@@ -70,9 +72,9 @@ export const chipPropRows = [
   },
   {
     prop: "size",
-    type: '"xs" | "sm" | "default" | "lg"',
+    type: '"xs" | "sm" | "default"',
     default: '"sm"',
-    description: "Chip height, matching the Button size of the same name: 28, 32, 40 or 48px.",
+    description: "Chip height, matching the Button size of the same name: 28, 32 or 40px.",
   },
   {
     prop: "onRemove",
@@ -123,4 +125,23 @@ export const chipsKeyboardRows = [
     action:
       "Remove the focused chip when it has onRemove. Focus moves to the next chip, or the previous one at the end.",
   },
+]
+
+export const chipsTypographyRows: TokenTableRow[] = [
+  { element: "Chip xs", token: "text-caption font-normal", value: "12px, 400" },
+  { element: "Chip sm", token: "text-label font-normal", value: "13px, 400" },
+  { element: "Chip default", token: "text-label font-normal", value: "13px, 400" },
+]
+
+export const chipsColorRows: TokenTableRow[] = [
+  { element: "Chip (unselected)", token: "bg-background text-foreground", value: "--background / --foreground", swatch: "--background", swatchOutline: true },
+  { element: "Border (unselected)", token: "border-border", value: "--border", swatch: "--border" },
+  { element: "Hover (unselected)", token: "hover:bg-muted", value: "--muted", swatch: "--muted" },
+  { element: "Selected default", token: "bg-primary text-primary-foreground", value: "--primary", swatch: "--primary" },
+  { element: "Selected default hover", token: "color-mix(primary, black 10%)", value: "--primary + 10% black", swatch: "--primary" },
+  { element: "Selected secondary", token: "bg-primary/10 text-primary", value: "--primary / 10%", swatch: "--primary" },
+  { element: "Selected gray", token: "bg-secondary text-secondary-foreground", value: "--secondary", swatch: "--secondary" },
+  { element: "Selected outline", token: "border-border bg-muted text-foreground", value: "--muted", swatch: "--muted" },
+  { element: "Remove icon", token: "text-foreground opacity-70", value: "--foreground / 70%", swatch: "--foreground" },
+  { element: "Focus ring", token: "focus-visible:ring-ring/50", value: "--ring / 50%", swatch: "--ring" },
 ]

@@ -7,6 +7,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -14,10 +15,12 @@ import {
 } from "@/lib/docs/example-source"
 import {
   emailFieldClearPropRows,
+  emailFieldColorRows,
   emailFieldControlPropRows,
   emailFieldInputPropRows,
   emailFieldPartPropRows,
   emailFieldPropRows,
+  emailFieldTypographyRows,
 } from "./email-field-table-data"
 import { EmailFieldClearDemo } from "./examples/email-field-clear-demo"
 import { EmailFieldCustomDemo } from "./examples/email-field-custom-demo"
@@ -278,6 +281,12 @@ export default function EmailFieldPage() {
           EmailFieldLabel / Description / Error
         </h3>
         <PropsTable data={emailFieldPartPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={emailFieldTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={emailFieldColorRows} />
       </section>
     </article>
   )

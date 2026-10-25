@@ -42,10 +42,10 @@ export function ContextMenuDemo() {
         <ContextMenuCheckboxItem defaultChecked>نوار ابزار</ContextMenuCheckboxItem>
         <ContextMenuCheckboxItem>نوار وضعیت</ContextMenuCheckboxItem>
         <ContextMenuSeparator />
-        <ContextMenuRadioGroup defaultValue="sara">
+        <ContextMenuRadioGroup defaultValue="monir">
           <ContextMenuRadioItem value="amin">امین</ContextMenuRadioItem>
-          <ContextMenuRadioItem value="sara">سارا</ContextMenuRadioItem>
-          <ContextMenuRadioItem value="reza">رضا</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="monir">منیر</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="fatemeh">فاطمه</ContextMenuRadioItem>
         </ContextMenuRadioGroup>
       </ContextMenuContent>
     </ContextMenu>

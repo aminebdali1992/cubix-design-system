@@ -1,6 +1,6 @@
 "use client"
 
-import { CircleFadingPlusIcon } from "lucide-react"
+import { SparklesIcon } from "lucide-react"
 
 import { Button } from "@/components/cubix/button"
 import {
@@ -25,7 +25,7 @@ export function AlertDialogMediaDemo() {
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogMedia>
-            <CircleFadingPlusIcon />
+            <SparklesIcon />
           </AlertDialogMedia>
           <AlertDialogTitle>قابلیت‌های اضافه فعال شود؟</AlertDialogTitle>
           <AlertDialogDescription>

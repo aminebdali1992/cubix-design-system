@@ -93,7 +93,7 @@ export const components = [
     name: "Card",
     description: "A flexible container with header, content, and footer.",
     href: "/docs/components/card",
-    ready: true,
+    ready: false,
   },
   {
     name: "Checkbox",
@@ -228,7 +228,7 @@ export const components = [
     name: "Calendar",
     description: "A calendar component that allows users to select a date or a range of dates.",
     href: "/docs/components/calendar",
-    ready: true,
+    ready: false,
   },
   {
     name: "Carousel",
@@ -344,7 +344,7 @@ export const components = [
     name: "Pagination",
     description: "Pagination with page navigation, next and previous links.",
     href: "/docs/components/pagination",
-    ready: false,
+    ready: true,
   },
   {
     name: "Progress",
@@ -356,13 +356,13 @@ export const components = [
     name: "Resizable",
     description: "Accessible resizable panel groups and layouts.",
     href: "/docs/components/resizable",
-    ready: false,
+    ready: true,
   },
   {
     name: "Scroll Area",
     description: "Augments native scroll functionality for custom, cross-browser styling.",
     href: "/docs/components/scroll-area",
-    ready: false,
+    ready: true,
   },
   {
     name: "Separator",

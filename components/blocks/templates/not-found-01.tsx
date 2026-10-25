@@ -77,7 +77,6 @@ function NotFound01View({ className }: { className?: string }) {
             <Button
               render={<Link href="/" />}
               nativeButton={false}
-              variant="foreground"
               className="min-w-36"
             >
               بازگشت به خانه
@@ -134,7 +133,7 @@ export default function NotFound() {
           برگردید و از آنجا ادامه دهید.
         </p>
         <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row sm:gap-5">
-          <Button render={<Link href="/" />} nativeButton={false} variant="foreground" className="min-w-36">
+          <Button render={<Link href="/" />} nativeButton={false} className="min-w-36">
             بازگشت به خانه
           </Button>
           <Button variant="ghost" render={<Link href="/" />} nativeButton={false}>

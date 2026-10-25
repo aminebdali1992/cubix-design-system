@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const emailFieldPropRows = [
   {
     prop: "size",
@@ -123,4 +125,25 @@ export const emailFieldPartPropRows = [
     type: "HTML attributes",
     description: "Native attributes for the rendered element are forwarded.",
   },
+]
+
+export const emailFieldTypographyRows: TokenTableRow[] = [
+  { element: "Label", token: "text-label leading-none font-normal", value: "13px / 1, 400" },
+  { element: "Input", token: "text-label leading-none font-normal", value: "13px / 1, 400" },
+  { element: "Placeholder", token: "text-label font-normal", value: "13px, 400" },
+  { element: "Description", token: "text-caption font-normal", value: "12px, 400" },
+  { element: "Error", token: "text-caption font-normal", value: "12px, 400" },
+]
+
+export const emailFieldColorRows: TokenTableRow[] = [
+  { element: "Label / input text", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Placeholder", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Border", token: "border-input", value: "--input", swatch: "--input", swatchOutline: true },
+  { element: "Background (dark)", token: "dark:bg-input/30", value: "--input / 30%", swatch: "--input" },
+  { element: "Focus border", token: "border-primary", value: "--primary", swatch: "--primary" },
+  { element: "Focus ring", token: "ring-primary/20", value: "--primary / 20%", swatch: "--primary" },
+  { element: "Icon / clear button", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Invalid border / error", token: "border-destructive, text-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Disabled background", token: "bg-muted", value: "--muted", swatch: "--muted", swatchOutline: true },
 ]

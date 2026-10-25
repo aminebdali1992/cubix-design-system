@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const buttonGroupPropRows = [
   {
     prop: "orientation",
@@ -48,4 +50,16 @@ export const textPropRows = [
     type: "React.ReactNode",
     description: "Label or helper text shown inside the group.",
   },
+]
+
+export const buttonGroupTypographyRows: TokenTableRow[] = [
+  { element: "Buttons", token: "Button sizes (text-caption / text-label)", value: "12-13px / 1, 400" },
+  { element: "ButtonGroupText", token: "text-description font-normal", value: "13px, 400" },
+]
+
+export const buttonGroupColorRows: TokenTableRow[] = [
+  { element: "ButtonGroupText background", token: "bg-muted", value: "--muted", swatch: "--muted", swatchOutline: true },
+  { element: "ButtonGroupText border", token: "border-border", value: "--border", swatch: "--border", swatchOutline: true },
+  { element: "Separator", token: "bg-input", value: "--input", swatch: "--input", swatchOutline: true },
+  { element: "Buttons", token: "Button variants", value: "See Button colors" },
 ]

@@ -9,10 +9,18 @@ export const metadata: Metadata = {
 
 export default async function BlockViewPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ primary?: string | string[] }>
 }) {
   const { id } = await params
+  const { primary } = await searchParams
 
-  return <BlockFullView id={id} />
+  return (
+    <BlockFullView
+      id={id}
+      primary={Array.isArray(primary) ? primary[0] : primary}
+    />
+  )
 }

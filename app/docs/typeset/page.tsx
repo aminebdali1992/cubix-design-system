@@ -30,7 +30,7 @@ import {
 } from "./typeset-data";
 
 export const metadata: Metadata = {
-  title: "Typeset",
+  title: "Typography",
   description:
     "Cubix typesetting: semantic roles, a Tailwind type scale, fluid display type, reading measure, and rhythm presets you own in CSS.",
 };
@@ -39,8 +39,8 @@ export default function TypesetPage() {
   return (
     <article className="space-y-12">
       <DocsPageHeader
-        title="Typeset"
-        description="A complete typesetting system for product UI, docs, and streaming chat. Semantic roles for meaning, a numeric scale for fine control, fluid display type, a 65ch reading measure, and rhythm presets you own in CSS."
+        title="Typography"
+        description="Text styles for interfaces, docs and chat. Use named roles such as title and label for most text, and the numeric scale when you need exact sizes."
       />
 
       <section className="space-y-4">
@@ -495,7 +495,7 @@ export default function TypesetPage() {
           <p className="text-headline font-semibold tracking-normal [font-family:var(--font-arab),var(--font-heading),ui-sans-serif,sans-serif]">
             عنوان صفحه محصول
           </p>
-          <p className="text-title font-semibold tracking-normal [font-family:var(--font-arab),var(--font-heading),ui-sans-serif,sans-serif]">
+          <p className="text-heading font-semibold tracking-normal [font-family:var(--font-arab),var(--font-heading),ui-sans-serif,sans-serif]">
             عنوان بخش
           </p>
           <p className="text-lead text-muted-foreground">

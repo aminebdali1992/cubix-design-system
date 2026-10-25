@@ -27,16 +27,20 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default:
-          "bg-primary text-primary-foreground hover:bg-[color-mix(in_oklch,var(--primary),black_10%)] focus-visible:ring-primary/20",
+          "bg-primary text-primary-foreground border-black/[0.094] dark:border-white/[0.154] bg-clip-border bg-[linear-gradient(to_bottom,rgb(255_255_255/0.015),rgb(0_0_0/0.01))] shadow-[0_1px_3px_rgb(0_0_0/0.04),inset_0_1px_0_rgb(0_0_0/0.024)] dark:shadow-[0_1px_3px_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.04)] hover:bg-[color-mix(in_oklch,var(--primary),black_10%)] focus-visible:ring-primary/20",
         foreground:
           "bg-foreground text-background focus-visible:ring-foreground/20 transition-[color,background-color,box-shadow,scale] duration-300 ease-out hover:scale-105 hover:bg-foreground/90 hover:shadow-2xl hover:shadow-foreground/40 active:not-aria-[haspopup]:translate-y-0 active:scale-100 active:duration-150 dark:hover:shadow-foreground/25 motion-reduce:transition-colors motion-reduce:hover:scale-100",
         secondary:
           "bg-primary/10 text-primary hover:bg-primary/20 aria-expanded:bg-primary/10 aria-expanded:text-primary focus-visible:ring-primary/20 dark:bg-primary/20 dark:hover:bg-primary/30",
         gray: "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         destructive:
-          "bg-destructive text-destructive-foreground hover:bg-[color-mix(in_oklch,var(--destructive),black_10%)] focus-visible:ring-destructive/20",
+          "bg-destructive text-destructive-foreground border-black/[0.094] dark:border-white/[0.154] bg-clip-border bg-[linear-gradient(to_bottom,rgb(255_255_255/0.015),rgb(0_0_0/0.01))] shadow-[0_1px_3px_rgb(0_0_0/0.04),inset_0_1px_0_rgb(0_0_0/0.024)] dark:shadow-[0_1px_3px_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.04)] hover:bg-[color-mix(in_oklch,var(--destructive),black_10%)] focus-visible:ring-destructive/20",
         "destructive-secondary":
           "bg-destructive/10 text-destructive hover:bg-destructive/20 aria-expanded:bg-destructive/10 aria-expanded:text-destructive focus-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30",
+        warning:
+          "bg-warning text-white border-black/[0.094] dark:border-white/[0.154] bg-clip-border bg-[linear-gradient(to_bottom,rgb(255_255_255/0.015),rgb(0_0_0/0.01))] shadow-[0_1px_3px_rgb(0_0_0/0.04),inset_0_1px_0_rgb(0_0_0/0.024)] dark:shadow-[0_1px_3px_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.04)] hover:bg-[color-mix(in_oklch,var(--warning),black_10%)] focus-visible:ring-warning/20",
+        success:
+          "bg-success text-success-foreground border-black/[0.094] dark:border-white/[0.154] bg-clip-border bg-[linear-gradient(to_bottom,rgb(255_255_255/0.015),rgb(0_0_0/0.01))] shadow-[0_1px_3px_rgb(0_0_0/0.04),inset_0_1px_0_rgb(0_0_0/0.024)] dark:shadow-[0_1px_3px_rgb(0_0_0/0.2),inset_0_1px_0_rgb(255_255_255/0.04)] hover:bg-[color-mix(in_oklch,var(--success),black_10%)] focus-visible:ring-success/20",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         ghost:

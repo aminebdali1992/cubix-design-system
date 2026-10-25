@@ -82,6 +82,7 @@ function BlockPreviewToolbar({
     <div className="flex items-center gap-2">
       {mode === "preview" ? (
         <>
+
           <div
             role="group"
             aria-label="Preview viewport"
@@ -388,6 +389,7 @@ export type BlockListItem = BlockItem & {
 function BlockPreviewCard({ block }: { block: BlockListItem }) {
   const [viewport, setViewport] = React.useState<Viewport>("desktop")
   const [mode, setMode] = React.useState<ViewMode>("preview")
+  const viewHref = blockViewHref(block.id)
 
   return (
     <article className="flex flex-col gap-3">
@@ -400,7 +402,7 @@ function BlockPreviewCard({ block }: { block: BlockListItem }) {
           onModeChange={setMode}
           viewport={viewport}
           onViewportChange={setViewport}
-          viewHref={blockViewHref(block.id)}
+          viewHref={viewHref}
         />
       </div>
 

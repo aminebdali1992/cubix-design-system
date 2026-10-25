@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const drawerPropRows = [
   {
     prop: "open",
@@ -113,4 +115,19 @@ export const titleDescriptionPropRows = [
     description:
       "Additional Tailwind classes merged with the component styles (last one wins).",
   },
+]
+
+export const drawerTypographyRows: TokenTableRow[] = [
+  { element: "Title", token: "text-title font-normal", value: "15px, 400" },
+  { element: "Description", token: "text-description font-normal", value: "13px, 400" },
+  { element: "Content", token: "text-label font-normal", value: "13px, 400" },
+]
+
+export const drawerColorRows: TokenTableRow[] = [
+  { element: "Overlay", token: "bg-overlay-strong", value: "--overlay-strong", swatch: "--overlay-strong" },
+  { element: "Popup background", token: "bg-popover", value: "--popover", swatch: "--popover", swatchOutline: true },
+  { element: "Popup text", token: "text-popover-foreground", value: "--popover-foreground", swatch: "--popover-foreground" },
+  { element: "Title", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Swipe handle", token: "bg-muted", value: "--muted", swatch: "--muted", swatchOutline: true },
 ]

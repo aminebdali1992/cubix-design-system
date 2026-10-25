@@ -104,7 +104,7 @@ function NotFound03View({ className }: { className?: string }) {
                   <TextFieldClear aria-label="پاک کردن جستجو" />
                 </TextFieldControl>
               </TextField>
-              <Button type="submit" variant="foreground">
+              <Button type="submit">
                 جستجو
               </Button>
             </form>
@@ -212,7 +212,7 @@ export default function NotFound() {
                   <TextFieldClear aria-label="پاک کردن جستجو" />
                 </TextFieldControl>
               </TextField>
-              <Button type="submit" variant="foreground">جستجو</Button>
+              <Button type="submit">جستجو</Button>
             </form>
             <div className="mt-4 flex flex-wrap items-center justify-center gap-1 text-description">
               {suggestions.map((item) => (

@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const numberFieldPropRows = [
   {
     prop: "size",
@@ -144,4 +146,25 @@ export const numberFieldPartPropRows = [
     type: "HTML attributes",
     description: "Native attributes for the rendered element are forwarded.",
   },
+]
+
+export const numberFieldTypographyRows: TokenTableRow[] = [
+  { element: "Label", token: "text-label", value: "13px, 400" },
+  { element: "Input value", token: "text-label", value: "13px, 400" },
+  { element: "Placeholder", token: "text-label", value: "13px, 400" },
+  { element: "Description", token: "text-caption", value: "12px, 400" },
+  { element: "Error", token: "text-caption", value: "12px, 400" },
+]
+
+export const numberFieldColorRows: TokenTableRow[] = [
+  { element: "Text", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Placeholder", token: "placeholder:text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Border", token: "border-input", value: "--input", swatch: "--input", swatchOutline: true },
+  { element: "Focus border", token: "focus-visible:border-primary", value: "--primary", swatch: "--primary" },
+  { element: "Focus ring", token: "ring-primary/20", value: "--primary (20%)", swatch: "--primary" },
+  { element: "Stepper icon", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Stepper hover", token: "hover:bg-muted", value: "--muted", swatch: "--muted" },
+  { element: "Disabled background", token: "disabled:bg-muted", value: "--muted", swatch: "--muted" },
+  { element: "Invalid border / error", token: "border-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
 ]

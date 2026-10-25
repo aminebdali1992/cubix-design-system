@@ -15,6 +15,7 @@ const categoriesWithDedicatedPages = new Set([
   "/blocks/landing-page/404-sections",
   "/blocks/landing-page/login",
   "/blocks/landing-page/signup",
+  "/blocks/landing-page/otp",
 ])
 
 export function generateStaticParams() {

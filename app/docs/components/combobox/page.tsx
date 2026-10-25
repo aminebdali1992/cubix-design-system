@@ -8,14 +8,17 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
   readDocsExampleSource,
 } from "@/lib/docs/example-source"
 import {
+  comboboxColorRows,
   comboboxKeyboardRows,
   comboboxPropRows,
+  comboboxTypographyRows,
   contentPropRows,
   inputPropRows,
   itemPropRows,
@@ -413,6 +416,12 @@ export default function ComboboxPage() {
           <Code>ComboboxEmpty</Code> and <Code>ComboboxSeparator</Code> take <Code>className</Code>{" "}
           and <Code>children</Code> (<Code>ComboboxSeparator</Code> has no children).
         </p>
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={comboboxTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={comboboxColorRows} />
       </section>
     </article>
   )

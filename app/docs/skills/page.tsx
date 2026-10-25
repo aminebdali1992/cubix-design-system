@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 
 import { CodeBlock } from "@/components/docs/code-block";
+import { SkillsMockup } from "@/components/docs/skills-mockup";
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
 import { siteConfig } from "@/lib/site";
 import {
@@ -132,7 +133,7 @@ export default function SkillsPage() {
     <article className="space-y-12">
       <DocsPageHeader
         title="Skills"
-        description="Give your AI assistant deep knowledge of Cubix components, patterns, and best practices - so generated UI matches your project on the first try."
+        description="Teach your AI assistant how Cubix works, so the code it writes matches your project."
       />
 
       <section className="space-y-4">
@@ -159,6 +160,7 @@ export default function SkillsPage() {
           <InlineCode>radix</InlineCode>, or <InlineCode>aria</InlineCode>) so
           imports and composition stay correct.
         </p>
+        <SkillsMockup />
       </section>
 
       <section className="space-y-4">

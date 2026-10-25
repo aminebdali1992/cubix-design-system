@@ -10,6 +10,7 @@ import {
 
 import { CodeBlock } from "@/components/docs/code-block";
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
+import { CliInstallMockup } from "@/components/docs/cli-install-mockup";
 import { addComponentCommands } from "@/lib/package-manager-commands";
 import { siteConfig } from "@/lib/site";
 import {
@@ -188,7 +189,7 @@ export default function CliPage() {
     <article className="space-y-12">
       <DocsPageHeader
         title="CLI"
-        description="Use the Cubix CLI to initialize a project, add components from the registry, inspect items before install, and publish registry JSON."
+        description="Set up a project, add components, preview them before installing, and publish your own."
       />
 
       <section className="space-y-4">
@@ -197,6 +198,7 @@ export default function CliPage() {
           <InlineCode>npx cubix-ui@latest</InlineCode> (or the pnpm / yarn / bun
           equivalent) so you always get the newest CLI.
         </p>
+        <CliInstallMockup />
         <ul className="my-6 grid list-none gap-3 ps-0 sm:grid-cols-2">
           {commandOverview.map((command) => (
             <li key={command.name} className="rounded-xl border bg-card p-5">

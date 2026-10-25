@@ -83,7 +83,7 @@ function Login05EmailStep({
             />
           </EmailFieldControl>
         </EmailField>
-        <Button type="submit" variant="foreground" className="w-full">
+        <Button type="submit" className="w-full">
           ادامه
         </Button>
       </form>
@@ -173,7 +173,7 @@ function Login05PasswordStep({
           <Checkbox name="remember" />
           مرا به خاطر بسپار
         </Label>
-        <Button type="submit" variant="foreground" className="w-full">
+        <Button type="submit" className="w-full">
           ورود
         </Button>
       </form>

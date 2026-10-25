@@ -31,6 +31,8 @@ type TooltipContentProps = {
   sideOffset?: number
   align?: "start" | "center" | "end"
   alignOffset?: number
+  /** Visible gap from the arrow tip to the trigger, same in every base */
+  gap?: number
   children?: ReactNode
 }
 
@@ -59,8 +61,10 @@ function TooltipTrigger(props: TooltipTriggerProps) {
   return <BaseTooltip.TooltipTrigger {...props} />
 }
 
-function TooltipContent(props: TooltipContentProps) {
+function TooltipContent({ gap, ...rest }: TooltipContentProps) {
   const base = useTooltipBase()
+  // Radix already adds the arrow height to sideOffset; Base and Aria do not (arrow is ~5px)
+  const props = gap === undefined ? rest : { ...rest, sideOffset: base === "radix" ? gap : gap + 5 }
   if (base === "radix") return <RadixTooltip.TooltipContent {...props} />
   if (base === "aria") return <AriaTooltip.TooltipContent {...props} />
   return <BaseTooltip.TooltipContent {...props} />

@@ -5,10 +5,10 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
-import {
-  DirectionDemo,
-  DirectionHookDemo,
-} from "@/components/examples/direction-examples"
+import { DirectionHookDemo } from "@/components/examples/direction-examples"
+import { readDocsExampleSource } from "@/lib/docs/example-source"
+
+import { DirectionFormDemo } from "./examples/direction-form-demo"
 
 import { providerPropRows, useDirectionRows } from "./direction-table-data"
 
@@ -30,15 +30,10 @@ const usageSnippet = `<html dir="rtl">
   </body>
 </html>`
 
-const demoSnippet = `const [direction, setDirection] = React.useState<"ltr" | "rtl">("rtl")
-
-return (
-  <div dir={direction}>
-    <DirectionProvider direction={direction}>
-      <Slider defaultValue={[40]} max={100} step={1} />
-    </DirectionProvider>
-  </div>
-)`
+const demoSnippet = readDocsExampleSource(
+  "app/docs/components/direction/examples/direction-form-demo.tsx",
+  { publicImport: "@/components/cubix/direction" }
+)
 
 const hookImport = `import { useDirection } from "@/components/cubix/direction"`
 
@@ -69,7 +64,7 @@ export default function DirectionDocsPage() {
       </p>
 
       <ComponentPreview code={demoSnippet} previewClassName="min-h-72">
-        <DirectionDemo />
+        <DirectionFormDemo />
       </ComponentPreview>
 
       <ComponentInstall name="direction" />

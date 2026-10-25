@@ -7,6 +7,8 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
+import { verifyCodeTypographyRows, verifyCodeColorRows } from "./verify-code-table-data"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -336,6 +338,10 @@ export default function VerifyCodePage() {
           VerifyCodeLabel / Description / Error
         </h3>
         <PropsTable data={verifyCodePartPropRows} />
+<h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+<TokenTable data={verifyCodeTypographyRows} />
+<h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+<TokenTable data={verifyCodeColorRows} />
       </section>
     </article>
   )

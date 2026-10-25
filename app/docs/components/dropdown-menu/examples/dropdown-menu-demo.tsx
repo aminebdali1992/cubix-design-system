@@ -9,7 +9,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
@@ -19,24 +18,21 @@ import {
 export function DropdownMenuDemo() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="outline" />}>حساب من</DropdownMenuTrigger>
+      <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>حساب من</DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
           <DropdownMenuLabel>حساب کاربری</DropdownMenuLabel>
           <DropdownMenuItem>
             <ButtonDemoIcon />
             نمایه
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <ButtonDemoIcon />
             صورتحساب
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <ButtonDemoIcon />
             تنظیمات
-            <DropdownMenuShortcut>⌘,</DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
@@ -60,7 +56,6 @@ export function DropdownMenuDemo() {
         <DropdownMenuItem>
           <ButtonDemoIcon />
           خروج
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

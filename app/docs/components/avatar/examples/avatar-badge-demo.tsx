@@ -10,8 +10,8 @@ export function AvatarBadgeDemo() {
       {sizes.map((size) => (
         <Avatar key={size} size={size === "default" ? undefined : size}>
           <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-          <AvatarFallback>م</AvatarFallback>
-          <AvatarBadge aria-label="آنلاین" className="bg-chart-2" />
+          <AvatarFallback />
+          <AvatarBadge aria-label="آنلاین" className="bg-green-600 dark:bg-green-800" />
         </Avatar>
       ))}
     </div>

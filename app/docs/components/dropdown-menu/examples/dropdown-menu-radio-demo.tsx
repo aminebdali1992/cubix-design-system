@@ -24,7 +24,7 @@ export function DropdownMenuRadioDemo() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="outline" />}>
+      <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>
         مرتب‌سازی: {current?.label}
       </DropdownMenuTrigger>
       <DropdownMenuContent>

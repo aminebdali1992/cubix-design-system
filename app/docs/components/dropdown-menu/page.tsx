@@ -8,6 +8,7 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -16,8 +17,10 @@ import {
 import {
   checkboxItemPropRows,
   contentPropRows,
+  dropdownMenuColorRows,
   dropdownMenuKeyboardRows,
   dropdownMenuPropRows,
+  dropdownMenuTypographyRows,
   itemPropRows,
   labelPropRows,
   radioGroupPropRows,
@@ -296,6 +299,12 @@ export default function DropdownMenuPage() {
           <Code>DropdownMenuSub</Code> takes a <Code>DropdownMenuSubTrigger</Code> followed by a{" "}
           <Code>DropdownMenuSubContent</Code>.
         </p>
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={dropdownMenuTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={dropdownMenuColorRows} />
       </section>
     </article>
   )

@@ -8,6 +8,7 @@ import { GitHubLink } from "@/components/github-link";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { SiteHeader } from "@/components/site-header";
 import { siteConfig } from "@/lib/site";
+import { globalPrimaryScript } from "@/components/blocks/preview-primary";
 
 import "./globals.css";
 
@@ -62,6 +63,9 @@ export default function RootLayout({
       suppressHydrationWarning
       className={`${fontSans.variable} ${fontHeading.variable} ${fontMono.variable} ${iranSans.variable} cubix-scrollbar`}
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: globalPrimaryScript }} />
+      </head>
       <body className="min-h-dvh bg-background font-sans antialiased">
         <ThemeProvider
           attribute="class"

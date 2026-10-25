@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const breadcrumbPropRows = [
   {
     prop: "aria-label",
@@ -89,4 +91,17 @@ export const ellipsisPropRows = [
     type: "string",
     description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
+]
+
+export const breadcrumbTypographyRows: TokenTableRow[] = [
+  { element: "List (links, separator)", token: "text-label leading-none", value: "13px / 1, 400" },
+  { element: "Link", token: "text-label leading-none", value: "13px / 1, 400" },
+  { element: "Page (current)", token: "text-label leading-none font-normal", value: "13px / 1, 400" },
+]
+
+export const breadcrumbColorRows: TokenTableRow[] = [
+  { element: "Link / separator", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Link hover / focus", token: "hover:text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Page (current)", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Focus ring", token: "focus-visible:ring-ring/50", value: "--ring / 50%", swatch: "--ring" },
 ]

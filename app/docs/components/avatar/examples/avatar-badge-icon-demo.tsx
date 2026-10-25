@@ -12,7 +12,7 @@ export function AvatarBadgeIconDemo() {
       {sizes.map((size) => (
         <Avatar key={size} size={size === "default" ? undefined : size}>
           <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-          <AvatarFallback>م</AvatarFallback>
+          <AvatarFallback />
           <AvatarBadge aria-label="افزودن هم‌تیمی" render={<button type="button" />}>
             <PlusIcon />
           </AvatarBadge>

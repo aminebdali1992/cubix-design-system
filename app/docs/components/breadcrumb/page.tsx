@@ -7,13 +7,16 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
   readDocsExampleSource,
 } from "@/lib/docs/example-source"
 import {
+  breadcrumbColorRows,
   breadcrumbPropRows,
+  breadcrumbTypographyRows,
   ellipsisPropRows,
   itemPropRows,
   linkPropRows,
@@ -243,6 +246,12 @@ export default function BreadcrumbPage() {
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">BreadcrumbEllipsis</h3>
         <PropsTable data={ellipsisPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={breadcrumbTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={breadcrumbColorRows} />
       </section>
     </article>
   )

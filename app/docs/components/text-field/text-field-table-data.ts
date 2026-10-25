@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const textFieldPropRows = [
   {
     prop: "size",
@@ -102,4 +104,21 @@ export const textFieldPartPropRows = [
     type: "HTML attributes",
     description: "Native attributes for the rendered element are forwarded.",
   },
+]
+
+export const textFieldTypographyRows: TokenTableRow[] = [
+  { element: "Label", token: "text-label", value: "13px, 400" },
+  { element: "Input / placeholder", token: "text-label", value: "13px, 400" },
+  { element: "Description", token: "text-caption", value: "12px, 400" },
+  { element: "Error", token: "text-caption", value: "12px, 400" },
+]
+
+export const textFieldColorRows: TokenTableRow[] = [
+  { element: "Border", token: "border-input", value: "--input", swatch: "--input", swatchOutline: true },
+  { element: "Label / input text", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Placeholder / description / clear", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Focus border", token: "border-primary", value: "--primary", swatch: "--primary" },
+  { element: "Focus ring", token: "ring-primary/20", value: "--primary, 20%", swatch: "--primary" },
+  { element: "Invalid border / error", token: "destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Disabled background", token: "bg-muted", value: "--muted", swatch: "--muted", swatchOutline: true },
 ]

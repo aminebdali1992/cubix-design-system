@@ -6,6 +6,10 @@ import emailFieldRegistryItem from "@/public/r/email-field.json"
 import passwordFieldRegistryItem from "@/public/r/password-field.json"
 import phoneFieldRegistryItem from "@/public/r/phone-field.json"
 import tabsRegistryItem from "@/public/r/tabs.json"
+import alertRegistryItem from "@/public/r/alert.json"
+import spinnerRegistryItem from "@/public/r/spinner.json"
+import verifyCodeRegistryItem from "@/public/r/verify-code.json"
+import { cubixInputOtpFile } from "@/components/blocks/templates/input-otp-source"
 
 type RegistryItem = {
   files: { path: string; content: string }[]
@@ -69,14 +73,12 @@ const ICON_INLINE_PAD_XS =
   "has-data-[icon=inline-end]:pe-[7px] has-data-[icon=inline-start]:ps-[7px]"
 
 const buttonVariants = cva(
-  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-label leading-none font-normal tracking-normal whitespace-nowrap transition-[color,background-color,border-color,opacity,box-shadow,transform] outline-none select-none focus-visible:ring-3 focus-visible:ring-secondary focus-visible:ring-offset-1 focus-visible:ring-offset-background active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-label leading-none font-normal tracking-normal whitespace-nowrap transition-[color,background-color,border-color,opacity,box-shadow,scale] outline-none select-none focus-visible:ring-3 focus-visible:ring-secondary focus-visible:ring-offset-1 focus-visible:ring-offset-background active:not-aria-[haspopup]:scale-99 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
         default:
           "bg-primary text-primary-foreground hover:bg-[color-mix(in_oklch,var(--primary),black_10%)] focus-visible:ring-primary/20",
-        foreground:
-          "bg-foreground text-background focus-visible:ring-foreground/20 transition-[color,background-color,box-shadow,scale] duration-300 ease-out hover:scale-105 hover:bg-foreground/90 hover:shadow-2xl hover:shadow-foreground/40 active:not-aria-[haspopup]:translate-y-0 active:scale-100 active:duration-150 dark:hover:shadow-foreground/25 motion-reduce:transition-colors motion-reduce:hover:scale-100",
         secondary:
           "bg-primary/10 text-primary hover:bg-primary/20 aria-expanded:bg-primary/10 aria-expanded:text-primary focus-visible:ring-primary/20 dark:bg-primary/20 dark:hover:bg-primary/30",
         gray:
@@ -894,6 +896,10 @@ const cubixSourceByName: Record<string, BlockSourceFile> = {
   "password-field": registrySourceFile(passwordFieldRegistryItem),
   "phone-field": registrySourceFile(phoneFieldRegistryItem),
   tabs: registrySourceFile(tabsRegistryItem),
+  "input-otp": cubixInputOtpFile,
+  alert: registrySourceFile(alertRegistryItem),
+  spinner: registrySourceFile(spinnerRegistryItem),
+  "verify-code": registrySourceFile(verifyCodeRegistryItem),
 }
 
 const cubixSourceDeps: Record<string, string[]> = {
@@ -915,6 +921,10 @@ const cubixSourceOrder = [
   "email-field",
   "password-field",
   "phone-field",
+  "input-otp",
+  "verify-code",
+  "alert",
+  "spinner",
   "checkbox",
   "label",
 ] as const

@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 
 export function SelectLabelDemo() {
   return (
-    <div className="grid w-full max-w-xs gap-2">
+    <div className="grid w-56 gap-2">
       <Label htmlFor="province">استان</Label>
       <Select defaultValue="tehran">
         <SelectTrigger id="province" aria-describedby="province-description" className="w-full">

@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const progressPropRows = [
   {
     prop: "value",
@@ -81,4 +83,16 @@ export const indicatorPropRows = [
     description:
       "Additional Tailwind classes merged with the component styles (last one wins).",
   },
+]
+
+export const progressTypographyRows: TokenTableRow[] = [
+  { element: "Label", token: "text-description", value: "13px, 400" },
+  { element: "Value", token: "text-description", value: "13px, 400, tabular-nums" },
+]
+
+export const progressColorRows: TokenTableRow[] = [
+  { element: "Track", token: "bg-muted", value: "--muted", swatch: "--muted", swatchOutline: true },
+  { element: "Indicator", token: "bg-primary", value: "--primary", swatch: "--primary" },
+  { element: "Label", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Value", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
 ]

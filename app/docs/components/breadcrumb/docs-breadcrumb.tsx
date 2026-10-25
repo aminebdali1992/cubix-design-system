@@ -4,6 +4,7 @@ import {
   cloneElement,
   isValidElement,
   type ComponentProps,
+  type MouseEvent,
   type ReactElement,
   type ReactNode,
 } from "react"
@@ -19,11 +20,16 @@ function useBreadcrumbBase() {
   return parseComponentPath(pathname)?.base ?? DEFAULT_BASE
 }
 
+/* Docs previews only: links inside the demos must not leave the page. */
+function stayOnPage(event: MouseEvent<HTMLElement>) {
+  if ((event.target as HTMLElement).closest("a")) event.preventDefault()
+}
+
 function Breadcrumb(props: ComponentProps<"nav">) {
   const base = useBreadcrumbBase()
-  if (base === "radix") return <RadixBreadcrumb.Breadcrumb {...props} />
-  if (base === "aria") return <AriaBreadcrumb.Breadcrumb {...props} />
-  return <BaseBreadcrumb.Breadcrumb {...props} />
+  if (base === "radix") return <RadixBreadcrumb.Breadcrumb onClickCapture={stayOnPage} {...props} />
+  if (base === "aria") return <AriaBreadcrumb.Breadcrumb onClickCapture={stayOnPage} {...props} />
+  return <BaseBreadcrumb.Breadcrumb onClickCapture={stayOnPage} {...props} />
 }
 
 function BreadcrumbList(props: ComponentProps<"ol">) {

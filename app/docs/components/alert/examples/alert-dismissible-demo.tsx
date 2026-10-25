@@ -21,8 +21,8 @@ export function AlertDismissibleDemo() {
     <Alert className="w-full max-w-md">
       <AlertTitle>با موفقیت ذخیره شد</AlertTitle>
       <AlertDescription>تغییرات شما روی سرور ذخیره شد.</AlertDescription>
-      <AlertAction>
-        <Button variant="ghost" size="icon-sm" aria-label="بستن" onClick={() => setOpen(false)}>
+      <AlertAction className="top-[0.1875rem] end-[0.1875rem]">
+        <Button variant="ghost" size="icon-xs" aria-label="بستن" onClick={() => setOpen(false)}>
           <XIcon />
         </Button>
       </AlertAction>

@@ -52,7 +52,6 @@ function NotFound05View({ className }: { className?: string }) {
             <Button
               render={<Link href="/" />}
               nativeButton={false}
-              variant="foreground"
             >
               بازگشت به خانه
             </Button>
@@ -104,7 +103,7 @@ export default function NotFound() {
             </CardDescription>
           </CardHeader>
           <CardContent className="flex flex-wrap items-center justify-center gap-3">
-            <Button render={<Link href="/" />} nativeButton={false} variant="foreground">بازگشت به خانه</Button>
+            <Button render={<Link href="/" />} nativeButton={false}>بازگشت به خانه</Button>
             <Button variant="outline" render={<Link href="/docs" />} nativeButton={false}>مشاهده مستندات</Button>
           </CardContent>
         </Card>

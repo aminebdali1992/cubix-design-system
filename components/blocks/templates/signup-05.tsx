@@ -17,7 +17,7 @@ function Signup05View({ className }: { className?: string }) {
       lang="fa"
       dir="rtl"
       className={cn(
-        "@container relative flex flex-col bg-background px-6 py-8 [--primary:var(--foreground)] [--primary-foreground:var(--background)] @min-[640px]:px-10",
+        "@container relative flex flex-col bg-background px-6 py-8 @min-[640px]:px-10",
         className
       )}
     >
@@ -129,7 +129,7 @@ function EmailStep({ defaultEmail, onContinue }: { defaultEmail: string; onConti
             <EmailFieldInput name="email" autoComplete="username" placeholder="name@example.com" defaultValue={defaultEmail} autoFocus={defaultEmail !== ""} required />
           </EmailFieldControl>
         </EmailField>
-        <Button type="submit" variant="foreground" className="w-full">ادامه</Button>
+        <Button type="submit" className="w-full">ادامه</Button>
       </form>
       <p className="mt-8 flex items-center justify-center gap-1 text-description text-muted-foreground">
         حساب کاربری دارید؟
@@ -177,7 +177,7 @@ function DetailsStep({ email, onChangeEmail }: { email: string; onChangeEmail: (
             را می‌پذیرم
           </span>
         </Label>
-        <Button type="submit" variant="foreground" className="w-full">ایجاد حساب</Button>
+        <Button type="submit" className="w-full">ایجاد حساب</Button>
       </form>
     </div>
   )
@@ -219,7 +219,7 @@ const footerLinks = [
 
 export default function SignupPage() {
   return (
-    <div lang="fa" dir="rtl" className="flex min-h-svh flex-col bg-background px-6 py-8 [--primary:var(--foreground)] [--primary-foreground:var(--background)] sm:px-10">
+    <div lang="fa" dir="rtl" className="flex min-h-svh flex-col bg-background px-6 py-8 sm:px-10">
       <header className="flex justify-center">
         <Button variant="ghost" size="sm" render={<Link href="/" />} nativeButton={false} className="font-heading">
           Cubix

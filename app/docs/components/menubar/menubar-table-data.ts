@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const menubarPropRows = [
   {
     prop: "dir",
@@ -205,4 +207,23 @@ export const menubarKeyboardRows = [
     key: "Escape",
     action: "Closes the menu and returns focus to its trigger.",
   },
+]
+
+export const menubarTypographyRows: TokenTableRow[] = [
+  { element: "Trigger", token: "text-label", value: "13px, 400" },
+  { element: "Item", token: "text-label", value: "13px, 400" },
+  { element: "Checkbox / Radio item", token: "text-label", value: "13px, 400" },
+  { element: "Sub trigger", token: "text-label", value: "13px, 400" },
+  { element: "Group label", token: "text-caption", value: "12px, 400" },
+]
+
+export const menubarColorRows: TokenTableRow[] = [
+  { element: "Trigger hover / open", token: "bg-muted", value: "--muted", swatch: "--muted" },
+  { element: "Content background", token: "bg-popover", value: "--popover", swatch: "--popover", swatchOutline: true },
+  { element: "Content text", token: "text-popover-foreground", value: "--popover-foreground", swatch: "--popover-foreground" },
+  { element: "Item focus", token: "bg-accent", value: "--accent", swatch: "--accent" },
+  { element: "Item focus text", token: "text-accent-foreground", value: "--accent-foreground", swatch: "--accent-foreground" },
+  { element: "Destructive item", token: "text-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Group label", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Separator", token: "bg-border/60", value: "--border (60%)", swatch: "--border" },
 ]

@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const propRows = [
   {
     prop: "checked",
@@ -74,4 +76,21 @@ export const stateRows = [
     type: "-",
     description: "Exposed to assistive technology only. Show the error message in helper text.",
   },
+]
+
+export const switchTypographyRows: TokenTableRow[] = [
+  { element: "Label", token: "text-label", value: "13px, 400" },
+  { element: "Description", token: "text-description", value: "13px, 400" },
+]
+
+export const switchColorRows: TokenTableRow[] = [
+  { element: "Track (off)", token: "bg-input", value: "--input", swatch: "--input", swatchOutline: true },
+  { element: "Track (on)", token: "bg-primary", value: "--primary", swatch: "--primary" },
+  { element: "Thumb", token: "bg-background", value: "--background", swatch: "--background", swatchOutline: true },
+  { element: "Focus ring (off)", token: "ring-secondary", value: "--secondary", swatch: "--secondary", swatchOutline: true },
+  { element: "Focus ring (on)", token: "ring-primary/20", value: "--primary, 20%", swatch: "--primary" },
+  { element: "Invalid border (1px)", token: "outline-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Invalid ring", token: "ring-destructive/20", value: "--destructive, 20%", swatch: "--destructive" },
+  { element: "Label", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
 ]

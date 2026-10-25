@@ -76,10 +76,10 @@ export function MenubarDemo() {
       <MenubarMenu>
         <MenubarTrigger>پروفایل‌ها</MenubarTrigger>
         <MenubarContent>
-          <MenubarRadioGroup defaultValue="sara">
+          <MenubarRadioGroup defaultValue="monir">
             <MenubarRadioItem value="amin">امین</MenubarRadioItem>
-            <MenubarRadioItem value="sara">سارا</MenubarRadioItem>
-            <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
+            <MenubarRadioItem value="monir">منیر</MenubarRadioItem>
+            <MenubarRadioItem value="fatemeh">فاطمه</MenubarRadioItem>
           </MenubarRadioGroup>
           <MenubarSeparator />
           <MenubarItem>ویرایش</MenubarItem>

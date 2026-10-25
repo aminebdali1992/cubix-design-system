@@ -7,6 +7,8 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
+import { amountFieldColorRows, amountFieldTypographyRows } from "./amount-field-table-data"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -294,6 +296,12 @@ export default function AmountFieldPage() {
           AmountFieldLabel / Description / Error
         </h3>
         <PropsTable data={amountFieldPartPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={amountFieldTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={amountFieldColorRows} />
       </section>
     </article>
   )

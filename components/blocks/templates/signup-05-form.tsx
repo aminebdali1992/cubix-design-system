@@ -90,7 +90,7 @@ function Signup05EmailStep({
             />
           </EmailFieldControl>
         </EmailField>
-        <Button type="submit" variant="foreground" className="w-full">
+        <Button type="submit" className="w-full">
           ادامه
         </Button>
       </form>
@@ -204,7 +204,7 @@ function Signup05DetailsStep({
             را می‌پذیرم
           </span>
         </Label>
-        <Button type="submit" variant="foreground" className="w-full">
+        <Button type="submit" className="w-full">
           ایجاد حساب
         </Button>
       </form>

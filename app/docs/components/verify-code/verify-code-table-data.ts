@@ -189,3 +189,24 @@ export const verifyCodePartPropRows = [
     description: "Native attributes for the rendered element are forwarded.",
   },
 ]
+
+
+export const verifyCodeTypographyRows = [
+  { element: "Digit (default, lg)", token: "text-label leading-none font-normal", value: "13px / 1, 400" },
+  { element: "Label", token: "text-label leading-none font-normal", value: "13px / 1, 400" },
+  { element: "Separator", token: "text-label font-normal", value: "13px, 400" },
+  { element: "Description", token: "text-caption font-normal", value: "12px, 400" },
+  { element: "Resend timer", token: "text-caption font-normal", value: "12px, 400" },
+  { element: "Error message", token: "text-caption font-normal", value: "12px, 400" },
+]
+
+export const verifyCodeColorRows = [
+  { element: "Digit border", token: "border-input", value: "--input", swatch: "--input" },
+  { element: "Digit text", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Placeholder", token: "placeholder:text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Focus border", token: "focus-visible:border-primary", value: "--primary", swatch: "--primary" },
+  { element: "Focus ring", token: "focus-visible:ring-primary/20", value: "--primary, 20%", swatch: "--primary" },
+  { element: "Description / separator", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Timer badge", token: "bg-muted", value: "--muted", swatch: "--muted", swatchOutline: true },
+  { element: "Error message", token: "text-destructive", value: "--destructive", swatch: "--destructive" },
+]

@@ -15,7 +15,7 @@ export default function DocsLayout({
             <DocsPager />
           </div>
         </main>
-        <div className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-56 min-w-0 shrink-0 overflow-hidden xl:block">
+        <div className="sticky top-14 hidden h-[calc(100vh-3.5rem)] w-72 min-w-0 shrink-0 overflow-hidden xl:block">
           <DocsToc />
         </div>
       </div>

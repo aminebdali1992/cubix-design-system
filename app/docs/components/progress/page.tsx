@@ -1,37 +1,47 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
-  ProgressControlledDemo,
-  ProgressDemo,
-  ProgressFileUploadDemo,
-  ProgressLabelDemo,
-  ProgressValuesDemo,
-} from "@/components/examples/progress-examples"
-
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { ProgressControlledDemo } from "./examples/progress-controlled-demo"
+import { ProgressDemo } from "./examples/progress-demo"
+import { ProgressFileUploadDemo } from "./examples/progress-file-upload-demo"
+import { ProgressLabelDemo } from "./examples/progress-label-demo"
+import { ProgressValuesDemo } from "./examples/progress-values-demo"
 import {
   indicatorPropRows,
   labelPropRows,
+  progressColorRows,
   progressPropRows,
+  progressTypographyRows,
   trackPropRows,
   valuePropRows,
 } from "./progress-table-data"
 
-const description =
-  "Displays an indicator showing the completion progress of a task."
+const description = "Displays an indicator showing the completion progress of a task."
 
 export const metadata: Metadata = {
   title: "Progress",
   description,
 }
 
-const usageImport = `import { Progress } from "@/components/cubix/progress"`
+const PUBLIC_IMPORT = "@/components/cubix/progress"
+const EXAMPLES_DIR = "app/docs/components/progress/examples"
 
-const usageSnippet = `<Progress value={33} aria-label="Upload" />`
+function loadProgressExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `Progress
 ├── ProgressLabel
@@ -39,86 +49,63 @@ const compositionSnippet = `Progress
 └── ProgressTrack
     └── ProgressIndicator`
 
-const demoSnippet = `"use client"
-
-import * as React from "react"
-import { Progress } from "@/components/cubix/progress"
-
-export function ProgressDemo() {
-  const [progress, setProgress] = React.useState(13)
-
-  React.useEffect(() => {
-    const timer = setTimeout(() => setProgress(66), 500)
-    return () => clearTimeout(timer)
-  }, [])
-
-  return <Progress value={progress} aria-label="Loading" className="w-[60%]" />
-}`
-
-const valuesSnippet = `<div className="flex w-full flex-col gap-4">
-  <Progress value={0} aria-label="0 percent" />
-  <Progress value={25} aria-label="25 percent" />
-  <Progress value={50} aria-label="50 percent" />
-  <Progress value={75} aria-label="75 percent" />
-  <Progress value={100} aria-label="100 percent" />
-</div>`
-
-const labelSnippet = `import {
-  Progress,
-  ProgressLabel,
-  ProgressValue,
-} from "@/components/cubix/progress"
-
-<Progress value={56} className="w-full max-w-sm">
-  <ProgressLabel>Upload progress</ProgressLabel>
-  <ProgressValue />
-</Progress>`
-
-const controlledSnippet = `"use client"
-
-import * as React from "react"
-import { Progress } from "@/components/cubix/progress"
-import { Slider } from "@/components/cubix/slider"
-
-export function ProgressControlledDemo() {
-  const [value, setValue] = React.useState(50)
-
+/*
+  Persian labels need lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
+function PreviewShell({ children }: { children: ReactNode }) {
   return (
-    <div className="flex w-full flex-col gap-4">
-      <Progress value={value} aria-label="Progress" className="w-full" />
-      <Slider
-        value={[value]}
-        onValueChange={(next) => setValue(typeof next === "number" ? next : next[0])}
-        max={100}
-        step={1}
-        aria-label="Progress value"
-      />
+    <div dir="rtl" lang="fa" className="flex w-full justify-center">
+      {children}
     </div>
   )
-}`
+}
 
-const fileUploadSnippet = `<ul className="flex flex-col gap-3">
-  {files.map((file) => (
-    <li key={file.id} className="flex items-center gap-3">
-      <FileIcon className="size-5" />
-      <span className="flex-1 truncate">{file.name}</span>
-      <Progress value={file.progress} aria-label={file.name} className="w-32" />
-      <span className="text-muted-foreground">{file.timeRemaining}</span>
-    </li>
-  ))}
-</ul>`
+function ExampleSection({
+  title,
+  description,
+  code,
+  previewClassName,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  previewClassName?: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName={previewClassName}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
 
 export default function ProgressDocsPage() {
+  const demoSource = loadProgressExample("progress-demo.tsx")
+  const valuesSource = loadProgressExample("progress-values-demo.tsx")
+  const labelSource = loadProgressExample("progress-label-demo.tsx")
+  const controlledSource = loadProgressExample("progress-controlled-demo.tsx")
+  const fileUploadSource = loadProgressExample("progress-file-upload-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Progress"
-        description={description}
-        slug="progress"
-      />
+      <ComponentDocsHeader title="Progress" description={description} slug="progress" />
 
-      <ComponentPreview code={demoSnippet} previewClassName="min-h-32">
-        <ProgressDemo />
+      <ComponentPreview code={demoSource} previewClassName="min-h-32">
+        <PreviewShell>
+          <ProgressDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="progress" />
@@ -130,104 +117,81 @@ export default function ProgressDocsPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use{" "}
-          <code className="font-mono text-sm">ProgressLabel</code> and{" "}
-          <code className="font-mono text-sm">ProgressValue</code> to add a
-          label and value display.
+          Add <Code>ProgressLabel</Code> and <Code>ProgressValue</Code> as children to show a
+          label and the current percentage. The indicator fills from the right in right-to-left
+          layouts.
         </p>
-        <CodeBlock code={labelSnippet} />
-        <CodeBlock code={compositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Progress Bar
-        </h2>
-        <ComponentPreview code={valuesSnippet} previewClassName="min-h-40">
+      <section className="space-y-8">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
+
+        <ExampleSection
+          title="Values"
+          description="Pass a number from 0 to 100 to value."
+          code={valuesSource}
+          previewClassName="min-h-40"
+        >
           <ProgressValuesDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Label</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use{" "}
-          <code className="font-mono text-sm">ProgressLabel</code> and{" "}
-          <code className="font-mono text-sm">ProgressValue</code> to add a
-          label and value display.
-        </p>
-        <ComponentPreview code={labelSnippet} previewClassName="min-h-32">
+        <ExampleSection
+          title="Label"
+          description={
+            <>
+              <Code>ProgressLabel</Code> names the bar for screen readers and{" "}
+              <Code>ProgressValue</Code> shows the percentage at the end of the row.
+            </>
+          }
+          code={labelSource}
+        >
           <ProgressLabelDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Controlled
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          A progress bar controlled by a slider.
-        </p>
-        <ComponentPreview code={controlledSnippet} previewClassName="min-h-32">
+        <ExampleSection
+          title="Controlled"
+          description="Drive the value from state, here with a Cubix Slider."
+          code={controlledSource}
+        >
           <ProgressControlledDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          File Upload List
-        </h2>
-        <ComponentPreview code={fileUploadSnippet} previewClassName="min-h-48">
+        <ExampleSection
+          title="File upload list"
+          description="A compact bar per file next to its name and remaining time."
+          code={fileUploadSource}
+          previewClassName="min-h-48"
+        >
           <ProgressFileUploadDemo />
-        </ComponentPreview>
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          See also the Base UI Progress documentation for primitive props.
-        </p>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Progress
-          </h3>
-          <PropsTable data={progressPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Progress</h3>
+        <PropsTable data={progressPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ProgressLabel
-          </h3>
-          <PropsTable data={labelPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ProgressLabel</h3>
+        <PropsTable data={labelPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ProgressValue
-          </h3>
-          <PropsTable data={valuePropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ProgressValue</h3>
+        <PropsTable data={valuePropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ProgressTrack
-          </h3>
-          <PropsTable data={trackPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ProgressTrack</h3>
+        <PropsTable data={trackPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            ProgressIndicator
-          </h3>
-          <PropsTable data={indicatorPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">ProgressIndicator</h3>
+        <PropsTable data={indicatorPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={progressTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={progressColorRows} />
       </section>
     </article>
   )

@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
+import { LoginMockup } from "@/components/docs/login-mockup";
 import { addComponentCommands } from "@/lib/package-manager-commands";
 import { cn } from "@/lib/utils";
 import {
@@ -73,6 +74,7 @@ export default function ComponentsPage() {
           <InlineCode>--base</InlineCode> when you install.
         </p>
         <CodeBlockCommand commands={addButtonCommands} />
+        <LoginMockup />
       </section>
 
       <section className="space-y-4">

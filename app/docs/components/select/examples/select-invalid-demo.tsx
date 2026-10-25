@@ -5,7 +5,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 
 export function SelectInvalidDemo() {
   return (
-    <div className="grid w-full max-w-xs gap-2">
+    <div className="grid w-56 gap-2">
       <Label htmlFor="city-required">شهر</Label>
       <Select required>
         <SelectTrigger

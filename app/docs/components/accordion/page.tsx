@@ -8,18 +8,23 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
   readDocsExampleSource,
 } from "@/lib/docs/example-source"
 import {
+  accordionColorRows,
   accordionContentPropRows,
   accordionItemPropRows,
   accordionKeyboardRows,
   accordionPropRows,
   accordionTriggerPropRows,
+  accordionTypographyRows,
 } from "./accordion-table-data"
+import { AccordionBordersDemo } from "./examples/accordion-borders-demo"
+import { AccordionCardDemo } from "./examples/accordion-card-demo"
 import { AccordionControlledDemo } from "./examples/accordion-controlled-demo"
 import { AccordionCustomDemo } from "./examples/accordion-custom-demo"
 import { AccordionDemo } from "./examples/accordion-demo"
@@ -96,6 +101,8 @@ export default function AccordionPage() {
   const controlledSource = loadAccordionExample("accordion-controlled-demo.tsx")
   const disabledItemSource = loadAccordionExample("accordion-disabled-item-demo.tsx")
   const disabledSource = loadAccordionExample("accordion-disabled-demo.tsx")
+  const bordersSource = loadAccordionExample("accordion-borders-demo.tsx")
+  const cardSource = loadAccordionExample("accordion-card-demo.tsx")
   const iconSource = loadAccordionExample("accordion-icon-demo.tsx")
   const customSource = loadAccordionExample("accordion-custom-demo.tsx")
   const usageImport = extractDemoImports(demoSource)
@@ -201,6 +208,35 @@ export default function AccordionPage() {
         </ExampleSection>
 
         <ExampleSection
+          title="Borders"
+          description={
+            <>
+              Add <Code>rounded-lg border</Code> to <Code>Accordion</Code> and{" "}
+              <Code>border-b px-4 last:border-b-0</Code> to each <Code>AccordionItem</Code> to frame
+              the items in one bordered box.
+            </>
+          }
+          code={bordersSource}
+          previewClassName="min-h-72"
+        >
+          <AccordionBordersDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Card"
+          description={
+            <>
+              Place the accordion inside <Code>CardContent</Code> to give it a title, a description
+              and a card surface.
+            </>
+          }
+          code={cardSource}
+          previewClassName="min-h-72"
+        >
+          <AccordionCardDemo />
+        </ExampleSection>
+
+        <ExampleSection
           title="With icon"
           description={
             <>
@@ -220,7 +256,7 @@ export default function AccordionPage() {
           description={
             <>
               Every part accepts a <Code>className</Code> merged with <Code>cn</Code>. Here each
-              item is a separate card with a muted surface, and the root adds a gap between them.
+              item is a separate bordered card, and the root adds a gap between them.
             </>
           }
           code={customSource}
@@ -255,6 +291,12 @@ export default function AccordionPage() {
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">AccordionContent</h3>
         <PropsTable data={accordionContentPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={accordionTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={accordionColorRows} />
       </section>
     </article>
   )

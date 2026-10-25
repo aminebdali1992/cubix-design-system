@@ -9,7 +9,7 @@ import {
 
 export function VerifyCodeDisabledDemo() {
   return (
-    <VerifyCode className="w-full max-w-sm" disabled>
+    <VerifyCode className="w-full max-w-[280px] mx-auto" disabled>
       <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
       <VerifyCodeControl />
       <VerifyCodeResend />

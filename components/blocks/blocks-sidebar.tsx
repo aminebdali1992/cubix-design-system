@@ -26,13 +26,18 @@ function BlocksNav({
   const groups = [
     {
       title: "Navigation",
-      links: blockNavigation,
+      links: blockNavigation.map((link) => ({
+        title: link.title,
+        href: link.href,
+        count: undefined as number | undefined,
+      })),
     },
     {
       title: "Categories",
       links: categories.map((category) => ({
         title: category.title,
         href: category.href,
+        count: category.count as number | undefined,
       })),
     },
   ]
@@ -77,11 +82,16 @@ function BlocksNav({
                       onClick={onNavigate}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "block border-l-2 border-transparent py-1 pl-3 text-caption leading-5 text-muted-foreground no-underline transition-colors hover:text-foreground",
+                        "flex items-center justify-between gap-2 border-l-2 border-transparent py-1 pl-3 text-caption leading-5 text-muted-foreground no-underline transition-colors hover:text-foreground",
                         active && "font-medium text-foreground"
                       )}
                     >
-                      {link.title}
+                      <span>{link.title}</span>
+                      {link.count !== undefined ? (
+                        <span className="text-[11px] font-normal tabular-nums text-muted-foreground">
+                          {link.count}
+                        </span>
+                      ) : null}
                     </Link>
                   </li>
                 )

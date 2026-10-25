@@ -10,7 +10,7 @@ export function AvatarRingDemo() {
       {sizes.map((size) => (
         <Avatar key={size} ring size={size === "default" ? undefined : size}>
           <AvatarImage src="/docs/avatar/girl.jpg" alt="مریم" />
-          <AvatarFallback>م</AvatarFallback>
+          <AvatarFallback />
         </Avatar>
       ))}
     </div>

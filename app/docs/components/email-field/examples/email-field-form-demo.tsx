@@ -1,6 +1,6 @@
 "use client"
 
-import { MailIcon } from "lucide-react"
+import { MailIcon } from "@/components/docs/mail-icon"
 
 import { Button } from "@/app/docs/components/button/docs-button"
 import {

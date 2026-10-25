@@ -7,6 +7,8 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
+import { alertColorRows, alertTypographyRows } from "./alert-table-data"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -214,6 +216,12 @@ export default function AlertPage() {
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">AlertAction</h3>
         <PropsTable data={alertActionRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={alertTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={alertColorRows} />
       </section>
     </article>
   )

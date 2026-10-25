@@ -1,19 +1,23 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
-  LabelCheckboxDemo,
-  LabelDemo,
-  LabelDisabledDemo,
-  LabelInputDemo,
-  LabelTextareaDemo,
-} from "@/components/examples/label-examples"
-
-import { labelPropRows } from "./label-table-data"
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { labelColorRows, labelPropRows, labelTypographyRows } from "./label-table-data"
+import { LabelCheckboxDemo } from "./examples/label-checkbox-demo"
+import { LabelDemo } from "./examples/label-demo"
+import { LabelDisabledDemo } from "./examples/label-disabled-demo"
+import { LabelInputDemo } from "./examples/label-input-demo"
+import { LabelTextareaDemo } from "./examples/label-textarea-demo"
 
 const description = "Renders an accessible label associated with controls."
 
@@ -22,46 +26,68 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import { Label } from "@/components/cubix/label"`
+const PUBLIC_IMPORT = "@/components/cubix/label"
+const EXAMPLES_DIR = "app/docs/components/label/examples"
 
-const usageSnippet = `<Label htmlFor="email">Your email address</Label>`
+function loadLabelExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
-const demoSnippet = `<Field orientation="horizontal">
-  <Checkbox id="terms" />
-  <Label htmlFor="terms">Accept terms and conditions</Label>
-</Field>`
+/*
+  Persian content needs dir="rtl" and lang="fa" so the IRANSans Cubix faces apply.
+  Docs chrome only - not part of the paste-ready example source.
+*/
+function PreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div dir="rtl" lang="fa" className="flex w-full items-center justify-center">
+      {children}
+    </div>
+  )
+}
 
-const checkboxSnippet = `<Field orientation="horizontal">
-  <Checkbox id="label-demo-terms" />
-  <Label htmlFor="label-demo-terms">Accept terms and conditions</Label>
-</Field>`
+function ExampleSection({
+  title,
+  description,
+  code,
+  children,
+}: {
+  title: string
+  description?: ReactNode
+  code: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      {description ? (
+        <p className="leading-relaxed text-muted-foreground">{description}</p>
+      ) : null}
+      <ComponentPreview code={code}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
 
-const inputSnippet = `<Field className="w-full max-w-xs">
-  <Label htmlFor="label-demo-username">Username</Label>
-  <Input id="label-demo-username" placeholder="Username" />
-</Field>`
-
-const disabledSnippet = `<Field className="w-full max-w-xs" data-disabled={true}>
-  <Label htmlFor="label-demo-disabled">Disabled</Label>
-  <Input id="label-demo-disabled" placeholder="Disabled" disabled />
-</Field>`
-
-const textareaSnippet = `<Field className="w-full max-w-xs">
-  <Label htmlFor="label-demo-message">Message</Label>
-  <Textarea id="label-demo-message" placeholder="Message" />
-</Field>`
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
 
 export default function LabelDocsPage() {
+  const demoSource = loadLabelExample("label-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Label"
-        description={description}
-        slug="label"
-      />
+      <ComponentDocsHeader title="Label" description={description} slug="label" />
 
-      <ComponentPreview code={demoSnippet}>
-        <LabelDemo />
+      <ComponentPreview code={demoSource}>
+        <PreviewShell>
+          <LabelDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="label" />
@@ -72,54 +98,61 @@ export default function LabelDocsPage() {
         <CodeBlock code={usageSnippet} title="Example" />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          With Checkbox
-        </h2>
-        <ComponentPreview code={checkboxSnippet}>
+      <section className="space-y-8">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
+
+        <ExampleSection
+          title="With Checkbox"
+          description="Place the label after the checkbox in a horizontal Field; in RTL it sits to the left of the box."
+          code={loadLabelExample("label-checkbox-demo.tsx")}
+        >
           <LabelCheckboxDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          With Input
-        </h2>
-        <ComponentPreview code={inputSnippet}>
+        <ExampleSection
+          title="With Input"
+          description={
+            <>
+              Link the label to the field with <Code>htmlFor</Code> and the input&apos;s{" "}
+              <Code>id</Code>.
+            </>
+          }
+          code={loadLabelExample("label-input-demo.tsx")}
+        >
           <LabelInputDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Disabled</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Set <code className="font-mono text-sm">data-disabled</code> on a
-          parent group such as{" "}
-          <code className="font-mono text-sm">Field</code> to dim the label with
-          a disabled control.
-        </p>
-        <ComponentPreview code={disabledSnippet}>
+        <ExampleSection
+          title="Disabled"
+          description={
+            <>
+              Set <Code>data-disabled</Code> on a parent group such as <Code>Field</Code> to
+              dim the label with a disabled control.
+            </>
+          }
+          code={loadLabelExample("label-disabled-demo.tsx")}
+        >
           <LabelDisabledDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          With Textarea
-        </h2>
-        <ComponentPreview code={textareaSnippet}>
+        <ExampleSection
+          title="With Textarea"
+          code={loadLabelExample("label-textarea-demo.tsx")}
+        >
           <LabelTextareaDemo />
-        </ComponentPreview>
+        </ExampleSection>
       </section>
 
-      <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Label</h3>
-          <PropsTable data={labelPropRows} />
-        </div>
+      <section id="api-reference" className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Props</h3>
+        <PropsTable data={labelPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={labelTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={labelColorRows} />
       </section>
     </article>
   )

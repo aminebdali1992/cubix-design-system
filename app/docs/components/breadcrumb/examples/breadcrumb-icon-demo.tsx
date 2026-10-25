@@ -1,6 +1,6 @@
 "use client"
 
-import { HouseIcon } from "lucide-react"
+import { ButtonDemoIcon } from "@/components/docs/demo-icon"
 
 import {
   Breadcrumb,
@@ -17,7 +17,7 @@ export function BreadcrumbIconDemo() {
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink href="/">
-            <HouseIcon />
+            <ButtonDemoIcon />
             خانه
           </BreadcrumbLink>
         </BreadcrumbItem>

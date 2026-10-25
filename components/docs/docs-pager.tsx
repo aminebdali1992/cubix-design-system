@@ -10,7 +10,6 @@ import { cn } from "@/lib/utils";
 
 const getStarted = [
   { title: "Introduction", href: "/docs" },
-  { title: "Components", href: "/docs/components" },
   { title: "Installation", href: "/docs/installation" },
   { title: "Next.js", href: "/docs/installation/next" },
   { title: "Vite", href: "/docs/installation/vite" },
@@ -19,14 +18,18 @@ const getStarted = [
   { title: "React Router", href: "/docs/installation/react-router" },
   { title: "Astro", href: "/docs/installation/astro" },
   { title: "Manual", href: "/docs/installation/manual" },
+  { title: "Components", href: "/docs/components" },
+  { title: "Changelog", href: "/docs/changelog" },
+  { title: "Tokens", href: "/docs/tokens" },
   { title: "Theming", href: "/docs/theming" },
+  { title: "Color Usage", href: "/docs/color-usage" },
+  { title: "Radius", href: "/docs/radius" },
+  { title: "Typography", href: "/docs/typeset" },
   { title: "CLI", href: "/docs/cli" },
+  { title: "Registry", href: "/docs/registry" },
   { title: "Upgrade", href: "/docs/upgrade" },
-  { title: "Typeset", href: "/docs/typeset" },
   { title: "Skills", href: "/docs/skills" },
   { title: "MCP", href: "/docs/mcp" },
-  { title: "Registry", href: "/docs/registry" },
-  { title: "Changelog", href: "/docs/changelog" },
 ];
 
 const readyComponents = components

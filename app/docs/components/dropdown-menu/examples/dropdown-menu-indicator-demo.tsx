@@ -20,7 +20,7 @@ export function DropdownMenuIndicatorDemo() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="outline" />}>چیدمان</DropdownMenuTrigger>
+      <DropdownMenuTrigger render={<Button variant="outline" size="sm" />}>چیدمان</DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuGroup>
           <DropdownMenuLabel>ستون‌ها</DropdownMenuLabel>

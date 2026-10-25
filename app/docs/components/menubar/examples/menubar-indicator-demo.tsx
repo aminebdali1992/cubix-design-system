@@ -13,7 +13,7 @@ import {
 } from "../docs-menubar"
 
 export function MenubarIndicatorDemo() {
-  const [user, setUser] = React.useState("sara")
+  const [user, setUser] = React.useState("monir")
 
   return (
     <Menubar dir="rtl" lang="fa">
@@ -31,8 +31,8 @@ export function MenubarIndicatorDemo() {
         <MenubarContent>
           <MenubarRadioGroup indicator="check" value={user} onValueChange={setUser}>
             <MenubarRadioItem value="amin">امین</MenubarRadioItem>
-            <MenubarRadioItem value="sara">سارا</MenubarRadioItem>
-            <MenubarRadioItem value="reza">رضا</MenubarRadioItem>
+            <MenubarRadioItem value="monir">منیر</MenubarRadioItem>
+            <MenubarRadioItem value="fatemeh">فاطمه</MenubarRadioItem>
           </MenubarRadioGroup>
         </MenubarContent>
       </MenubarMenu>

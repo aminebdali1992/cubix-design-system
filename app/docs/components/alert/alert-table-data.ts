@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const alertPropRows = [
   {
     prop: "variant",
@@ -40,4 +42,18 @@ export const alertActionRows = [
     type: "string",
     description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
+]
+
+export const alertTypographyRows: TokenTableRow[] = [
+  { element: "Title", token: "text-label font-medium", value: "13px / 18px, 500" },
+  { element: "Description", token: "text-description", value: "13px / 22px, 400" },
+]
+
+export const alertColorRows: TokenTableRow[] = [
+  { element: "Background", token: "bg-card", value: "--card", swatch: "--card", swatchOutline: true },
+  { element: "Title and icon", token: "text-card-foreground", value: "--card-foreground", swatch: "--card-foreground" },
+  { element: "Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Border", token: "border-border", value: "--border", swatch: "--border", swatchOutline: true },
+  { element: "Link (hover)", token: "hover:text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Destructive text and icon", token: "text-destructive", value: "--destructive", swatch: "--destructive" },
 ]

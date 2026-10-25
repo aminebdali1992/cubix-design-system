@@ -1,232 +1,162 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
-  SliderControlledDemo,
-  SliderDemo,
-  SliderDisabledDemo,
-  SliderMultipleDemo,
-  SliderRangeDemo,
-  SliderRtlDemo,
-  SliderVerticalDemo,
-} from "@/components/examples/slider-examples"
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { SliderControlledDemo } from "./examples/slider-controlled-demo"
+import { SliderDemo } from "./examples/slider-demo"
+import { SliderDisabledDemo } from "./examples/slider-disabled-demo"
+import { SliderMultipleDemo } from "./examples/slider-multiple-demo"
+import { SliderRangeDemo } from "./examples/slider-range-demo"
+import { SliderVerticalDemo } from "./examples/slider-vertical-demo"
+import { sliderColorRows, sliderPropRows, sliderTypographyRows } from "./slider-table-data"
 
-import { sliderPropRows } from "./slider-table-data"
-
-const description =
-  "An input where the user selects a value from within a given range."
+const description = "An input where the user selects a value from within a given range."
 
 export const metadata: Metadata = {
   title: "Slider",
   description,
 }
 
-const usageImport = `import { Slider } from "@/components/cubix/slider"`
+const PUBLIC_IMPORT = "@/components/cubix/slider"
+const EXAMPLES_DIR = "app/docs/components/slider/examples"
 
-const usageSnippet = `<Slider defaultValue={[33]} max={100} step={1} aria-label="Volume" />`
+function loadSliderExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
-const demoSnippet = `import { Slider } from "@/components/cubix/slider"
-
-export function SliderDemo() {
+function PreviewShell({ children }: { children: ReactNode }) {
   return (
-    <Slider
-      defaultValue={[33]}
-      max={100}
-      step={1}
-      aria-label="Volume"
-      className="mx-auto w-full max-w-xs"
-    />
-  )
-}`
-
-const rangeSnippet = `<Slider
-  defaultValue={[25, 50]}
-  max={100}
-  step={5}
-  aria-label="Price range"
-  className="mx-auto w-full max-w-xs"
-/>`
-
-const multipleSnippet = `<Slider
-  defaultValue={[10, 20, 70]}
-  max={100}
-  step={10}
-  aria-label="Breakpoints"
-  className="mx-auto w-full max-w-xs"
-/>`
-
-const verticalSnippet = `<div className="mx-auto flex w-full max-w-xs items-center justify-center gap-6">
-  <Slider
-    defaultValue={[50]}
-    max={100}
-    step={1}
-    orientation="vertical"
-    aria-label="Bass"
-    className="h-40"
-  />
-  <Slider
-    defaultValue={[25]}
-    max={100}
-    step={1}
-    orientation="vertical"
-    aria-label="Treble"
-    className="h-40"
-  />
-</div>`
-
-const controlledSnippet = `"use client"
-
-import * as React from "react"
-
-import { Label } from "@/components/cubix/label"
-import { Slider } from "@/components/cubix/slider"
-
-export function SliderControlledDemo() {
-  const [value, setValue] = React.useState([0.3, 0.7])
-
-  return (
-    <div className="mx-auto grid w-full max-w-xs gap-3">
-      <div className="flex items-center justify-between gap-2">
-        <Label id="slider-demo-temperature">Temperature</Label>
-        <span className="text-sm text-muted-foreground tabular-nums">
-          {value.join(", ")}
-        </span>
-      </div>
-      <Slider
-        aria-labelledby="slider-demo-temperature"
-        value={value}
-        onValueChange={(next) => setValue(typeof next === "number" ? [next] : [...next])}
-        min={0}
-        max={1}
-        step={0.1}
-      />
+    <div dir="rtl" lang="fa" className="flex w-full justify-center">
+      {children}
     </div>
   )
-}`
+}
 
-const disabledSnippet = `<Slider
-  defaultValue={[50]}
-  max={100}
-  step={1}
-  disabled
-  aria-label="Volume"
-  className="mx-auto w-full max-w-xs"
-/>`
+function ExampleSection({
+  title,
+  description,
+  code,
+  previewClassName = "min-h-32",
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  previewClassName?: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName={previewClassName}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
 
-const rtlSnippet = `<div dir="rtl" className="w-full">
-  <Slider
-    defaultValue={[40]}
-    max={100}
-    step={1}
-    aria-label="میزان صدا"
-    className="mx-auto w-full max-w-xs"
-  />
-</div>`
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
 
 export default function SliderDocsPage() {
+  const demoSource = loadSliderExample("slider-demo.tsx")
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Slider"
-        description={description}
-        slug="slider"
-      />
+      <ComponentDocsHeader title="Slider" description={description} slug="slider" />
 
-      <ComponentPreview code={demoSnippet} previewClassName="min-h-32">
-        <SliderDemo />
+      <ComponentPreview code={demoSource} previewClassName="min-h-32">
+        <PreviewShell>
+          <SliderDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="slider" />
 
       <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Usage</h2>
-        <CodeBlock code={usageImport} title="Import" />
-        <CodeBlock code={usageSnippet} title="Example" />
+        <CodeBlock code={extractDemoImports(demoSource)} title="Import" />
+        <CodeBlock code={extractDemoJsx(demoSource)} title="Example" />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Range</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use an array with two values for a range slider.
-        </p>
-        <ComponentPreview code={rangeSnippet} previewClassName="min-h-32">
+      <section className="space-y-8">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
+
+        <ExampleSection
+          title="Range"
+          description="Use an array with two values for a range slider."
+          code={loadSliderExample("slider-range-demo.tsx")}
+        >
           <SliderRangeDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Multiple Thumbs
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use an array with multiple values for multiple thumbs.
-        </p>
-        <ComponentPreview code={multipleSnippet} previewClassName="min-h-32">
+        <ExampleSection
+          title="Multiple thumbs"
+          description="Use an array with multiple values for multiple thumbs."
+          code={loadSliderExample("slider-multiple-demo.tsx")}
+        >
           <SliderMultipleDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Vertical</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use{" "}
-          <code className="font-mono text-sm">orientation=&quot;vertical&quot;</code>{" "}
-          for a vertical slider.
-        </p>
-        <ComponentPreview code={verticalSnippet} previewClassName="min-h-52">
+        <ExampleSection
+          title="Vertical"
+          description={
+            <>
+              Use <Code>orientation=&quot;vertical&quot;</Code> for a vertical slider.
+            </>
+          }
+          code={loadSliderExample("slider-vertical-demo.tsx")}
+          previewClassName="min-h-52"
+        >
           <SliderVerticalDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Controlled
-        </h2>
-        <ComponentPreview code={controlledSnippet} previewClassName="min-h-32">
+        <ExampleSection
+          title="Controlled"
+          description="Drive the value from state and show it with Persian digits."
+          code={loadSliderExample("slider-controlled-demo.tsx")}
+        >
           <SliderControlledDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Disabled</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use the{" "}
-          <code className="font-mono text-sm">disabled</code> prop to disable
-          the slider.
-        </p>
-        <ComponentPreview code={disabledSnippet} previewClassName="min-h-32">
+        <ExampleSection
+          title="Disabled"
+          description={
+            <>
+              Use the <Code>disabled</Code> prop to disable the slider.
+            </>
+          }
+          code={loadSliderExample("slider-disabled-demo.tsx")}
+        >
           <SliderDisabledDemo />
-        </ComponentPreview>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Wrap the slider in a container with{" "}
-          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code> to
-          mirror direction.
-        </p>
-        <ComponentPreview code={rtlSnippet} previewClassName="min-h-32">
-          <SliderRtlDemo />
-        </ComponentPreview>
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          See also the Base UI Slider documentation for primitive props.
-        </p>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Slider</h3>
-          <PropsTable data={sliderPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Slider</h3>
+        <PropsTable data={sliderPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={sliderTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={sliderColorRows} />
       </section>
     </article>
   )

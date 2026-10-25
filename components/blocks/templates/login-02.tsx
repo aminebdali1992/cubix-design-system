@@ -50,7 +50,7 @@ function PhoneSignInFields() {
           کد تأیید یک‌بار مصرف به این شماره پیامک می‌شود.
         </PhoneFieldDescription>
       </PhoneField>
-      <Button type="submit" variant="foreground" className="w-full">
+      <Button type="submit" className="w-full">
         دریافت کد تأیید
       </Button>
     </>
@@ -88,7 +88,7 @@ function EmailSignInFields() {
           <PasswordFieldToggle />
         </PasswordFieldControl>
       </PasswordField>
-      <Button type="submit" variant="foreground" className="w-full">
+      <Button type="submit" className="w-full">
         ورود
       </Button>
     </>
@@ -101,7 +101,7 @@ function Login02View({ className }: { className?: string }) {
       lang="fa"
       dir="rtl"
       className={cn(
-        "relative flex flex-col overflow-hidden bg-muted/40 [--primary:var(--foreground)] [--primary-foreground:var(--background)]",
+        "relative flex flex-col overflow-hidden bg-muted/40",
         className
       )}
     >
@@ -208,7 +208,7 @@ import {
 
 export default function LoginPage() {
   return (
-    <div lang="fa" dir="rtl" className="flex min-h-svh flex-col items-center justify-center bg-muted/40 px-6 py-12 [--primary:var(--foreground)] [--primary-foreground:var(--background)]">
+    <div lang="fa" dir="rtl" className="flex min-h-svh flex-col items-center justify-center bg-muted/40 px-6 py-12">
       <Card className="w-full max-w-88 py-8 shadow-xs ring-0">
         <CardHeader className="justify-items-center text-center">
           <CardTitle className="text-lead font-semibold">خوش آمدید</CardTitle>
@@ -230,7 +230,7 @@ export default function LoginPage() {
                   </PhoneFieldControl>
                   <PhoneFieldDescription>کد تأیید یک‌بار مصرف به این شماره پیامک می‌شود.</PhoneFieldDescription>
                 </PhoneField>
-                <Button type="submit" variant="foreground" className="w-full">دریافت کد تأیید</Button>
+                <Button type="submit" className="w-full">دریافت کد تأیید</Button>
               </form>
             </TabsContent>
 
@@ -254,7 +254,7 @@ export default function LoginPage() {
                     <PasswordFieldToggle />
                   </PasswordFieldControl>
                 </PasswordField>
-                <Button type="submit" variant="foreground" className="w-full">ورود</Button>
+                <Button type="submit" className="w-full">ورود</Button>
               </form>
             </TabsContent>
           </Tabs>

@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const amountFieldPropRows = [
   {
     prop: "size",
@@ -121,4 +123,29 @@ export const amountFieldPartPropRows = [
     type: "HTML attributes",
     description: "Native attributes for the rendered element are forwarded.",
   },
+]
+
+export const amountFieldTypographyRows: TokenTableRow[] = [
+  { element: "Label", token: "text-label leading-none", value: "13px / 13px, 400" },
+  { element: "Input", token: "text-label leading-none", value: "13px / 13px, 400" },
+  { element: "Currency", token: "text-caption", value: "12px / 16px, 400" },
+  { element: "Description", token: "text-caption", value: "12px / 16px, 400" },
+  { element: "Error", token: "text-caption", value: "12px / 16px, 400" },
+]
+
+export const amountFieldColorRows: TokenTableRow[] = [
+  { element: "Label", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Input text", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Placeholder", token: "placeholder:text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Icon", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Currency", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Border", token: "border-input", value: "--input", swatch: "--input", swatchOutline: true },
+  { element: "Background (dark)", token: "dark:bg-input/30", value: "--input, 30%" },
+  { element: "Focus border", token: "focus-visible:border-primary", value: "--primary", swatch: "--primary" },
+  { element: "Focus ring", token: "ring-primary/20", value: "--primary, 20%" },
+  { element: "Invalid border", token: "aria-invalid:border-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Error", token: "text-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Disabled background", token: "disabled:bg-muted", value: "--muted", swatch: "--muted", swatchOutline: true },
+  { element: "Disabled text", token: "disabled:text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
 ]

@@ -68,7 +68,7 @@ export function ComponentPreview({
         </div>
         <div
           className={cn(
-            "absolute inset-0 z-10 overflow-auto bg-background",
+            "cubix-scrollbar absolute inset-0 z-10 overflow-auto bg-background",
             tab === "code" ? "block" : "hidden"
           )}
           aria-hidden={tab !== "code"}

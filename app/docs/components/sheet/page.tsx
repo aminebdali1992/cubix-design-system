@@ -7,6 +7,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -20,6 +21,8 @@ import {
   contentPropRows,
   headerFooterPropRows,
   sheetPropRows,
+  sheetColorRows,
+  sheetTypographyRows,
   titleDescriptionPropRows,
   triggerClosePropRows,
 } from "./sheet-table-data"
@@ -211,6 +214,12 @@ export default function SheetPage() {
           The title and supporting text of the sheet.
         </p>
         <PropsTable data={titleDescriptionPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={sheetTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={sheetColorRows} />
       </section>
     </article>
   )

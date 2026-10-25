@@ -100,7 +100,7 @@ function Signup04Fields() {
 function Signup04Footer() {
   return (
     <div className="sticky bottom-0 -mx-(--card-spacing) mt-auto flex flex-col gap-4 border-t border-border bg-card px-(--card-spacing) pt-4 pb-[max(--spacing(4),env(safe-area-inset-bottom))] @min-[640px]:static @min-[640px]:mx-0 @min-[640px]:border-0 @min-[640px]:p-0">
-      <Button type="submit" variant="foreground" className="w-full">
+      <Button type="submit" className="w-full">
         ایجاد حساب
       </Button>
       <p className="flex items-center justify-center gap-1 text-description text-muted-foreground">
@@ -125,7 +125,7 @@ function Signup04View({ className }: { className?: string }) {
       lang="fa"
       dir="rtl"
       className={cn(
-        "@container relative flex flex-col overflow-clip bg-card [--primary:var(--foreground)] [--primary-foreground:var(--background)]",
+        "@container relative flex flex-col overflow-clip bg-card",
         className
       )}
     >
@@ -204,7 +204,7 @@ import {
 
 export default function SignupPage() {
   return (
-    <div lang="fa" dir="rtl" className="flex min-h-svh flex-col bg-card [--primary:var(--foreground)] [--primary-foreground:var(--background)] sm:items-center sm:justify-center sm:bg-muted/40 sm:px-10 sm:py-12">
+    <div lang="fa" dir="rtl" className="flex min-h-svh flex-col bg-card sm:items-center sm:justify-center sm:bg-muted/40 sm:px-10 sm:py-12">
       <Card className="w-full flex-1 rounded-none pb-0 shadow-none ring-0 max-sm:overflow-visible sm:max-w-88 sm:flex-none sm:rounded-xl sm:pb-8 sm:shadow-xs">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/blocks/404-placeholder.svg" alt="" className="aspect-video w-full bg-muted object-cover max-sm:rounded-none!" />
@@ -244,7 +244,7 @@ export default function SignupPage() {
               </span>
             </Label>
             <div className="sticky bottom-0 -mx-(--card-spacing) mt-auto flex flex-col gap-4 border-t border-border bg-card px-(--card-spacing) pt-4 pb-[max(--spacing(4),env(safe-area-inset-bottom))] sm:static sm:mx-0 sm:border-0 sm:p-0">
-              <Button type="submit" variant="foreground" className="w-full">ایجاد حساب</Button>
+              <Button type="submit" className="w-full">ایجاد حساب</Button>
               <p className="flex items-center justify-center gap-1 text-description text-muted-foreground">
                 حساب کاربری دارید؟
                 <Button variant="link" size="sm" className="h-auto px-0 text-description" render={<Link href="/login" />} nativeButton={false}>

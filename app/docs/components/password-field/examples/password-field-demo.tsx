@@ -1,6 +1,6 @@
 "use client"
 
-import { LockKeyholeIcon } from "lucide-react"
+import { LockIcon } from "@/components/docs/empty-icons"
 
 import {
   PasswordField,
@@ -16,7 +16,7 @@ export function PasswordFieldDemo() {
     <PasswordField className="w-full max-w-sm">
       <PasswordFieldLabel>رمز عبور</PasswordFieldLabel>
       <PasswordFieldControl>
-        <LockKeyholeIcon data-icon="inline-start" />
+        <LockIcon data-icon="inline-start" className="size-6" />
         <PasswordFieldInput defaultValue="CubixPass123!" placeholder="رمز عبور خود را وارد کنید" />
         <PasswordFieldToggle />
       </PasswordFieldControl>

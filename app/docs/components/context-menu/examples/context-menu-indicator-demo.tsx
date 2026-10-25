@@ -16,7 +16,7 @@ const triggerClassName =
   "flex h-36 w-full max-w-xs items-center justify-center rounded-lg border border-dashed px-4 text-center text-caption text-muted-foreground"
 
 export function ContextMenuIndicatorDemo() {
-  const [user, setUser] = React.useState("sara")
+  const [user, setUser] = React.useState("monir")
 
   return (
     <ContextMenu dir="rtl" lang="fa">
@@ -32,8 +32,8 @@ export function ContextMenuIndicatorDemo() {
         <ContextMenuSeparator />
         <ContextMenuRadioGroup indicator="check" value={user} onValueChange={setUser}>
           <ContextMenuRadioItem value="amin">امین</ContextMenuRadioItem>
-          <ContextMenuRadioItem value="sara">سارا</ContextMenuRadioItem>
-          <ContextMenuRadioItem value="reza">رضا</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="monir">منیر</ContextMenuRadioItem>
+          <ContextMenuRadioItem value="fatemeh">فاطمه</ContextMenuRadioItem>
         </ContextMenuRadioGroup>
       </ContextMenuContent>
     </ContextMenu>

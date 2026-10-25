@@ -92,7 +92,7 @@ function Login01Fields() {
         مرا به خاطر بسپار
       </Label>
 
-      <Button type="submit" variant="foreground" className="w-full">
+      <Button type="submit" className="w-full">
         ورود
       </Button>
     </>
@@ -105,7 +105,7 @@ function Login01View({ className }: { className?: string }) {
       lang="fa"
       dir="rtl"
       className={cn(
-        "@container relative flex overflow-hidden bg-background [--primary:var(--foreground)] [--primary-foreground:var(--background)]",
+        "@container relative flex overflow-hidden bg-background",
         className
       )}
     >
@@ -200,7 +200,7 @@ ${brandGlyphsSource}
 
 export default function LoginPage() {
   return (
-    <div lang="fa" dir="rtl" className="grid min-h-svh bg-background [--primary:var(--foreground)] [--primary-foreground:var(--background)] min-[800px]:grid-cols-2">
+    <div lang="fa" dir="rtl" className="grid min-h-svh bg-background min-[800px]:grid-cols-2">
       <div className="flex flex-col items-center justify-center px-6 py-12 sm:px-10">
         <div className="w-full max-w-88">
           <h1 className="font-heading text-lead font-semibold">ورود به حساب کاربری</h1>
@@ -251,7 +251,7 @@ export default function LoginPage() {
               مرا به خاطر بسپار
             </Label>
 
-            <Button type="submit" variant="foreground" className="w-full">ورود</Button>
+            <Button type="submit" className="w-full">ورود</Button>
           </form>
 
           <p className="mt-8 flex items-center justify-center gap-1 text-description text-muted-foreground">

@@ -5,15 +5,15 @@ import { ButtonGroup } from "../docs-button-group"
 
 export function ButtonGroupDemo() {
   return (
-    <ButtonGroup aria-label="ویرایش">
+    <ButtonGroup aria-label="بازه زمانی">
       <Button variant="outline" size="sm">
-        کپی
+        روزانه
       </Button>
       <Button variant="outline" size="sm">
-        برش
+        هفتگی
       </Button>
       <Button variant="outline" size="sm">
-        چسباندن
+        ماهانه
       </Button>
     </ButtonGroup>
   )

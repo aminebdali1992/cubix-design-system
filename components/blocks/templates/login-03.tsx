@@ -83,7 +83,7 @@ function Login03Fields() {
           لینک ورود یک‌بار مصرف به این ایمیل ارسال می‌شود.
         </EmailFieldDescription>
       </EmailField>
-      <Button type="submit" variant="foreground" className="mt-1 w-full">
+      <Button type="submit" className="mt-1 w-full">
         ادامه با ایمیل
       </Button>
     </>
@@ -96,7 +96,7 @@ function Login03View({ className }: { className?: string }) {
       lang="fa"
       dir="rtl"
       className={cn(
-        "relative flex flex-col overflow-hidden bg-background [--primary:var(--foreground)] [--primary-foreground:var(--background)]",
+        "relative flex flex-col overflow-hidden bg-background",
         className
       )}
     >
@@ -183,7 +183,7 @@ ${brandGlyphsSource}
 
 export default function LoginPage() {
   return (
-    <div lang="fa" dir="rtl" className="flex min-h-svh flex-col bg-background [--primary:var(--foreground)] [--primary-foreground:var(--background)]">
+    <div lang="fa" dir="rtl" className="flex min-h-svh flex-col bg-background">
       <header className="flex h-14 shrink-0 items-center justify-between border-b border-border px-5 sm:px-8">
         <Button variant="ghost" size="sm" render={<Link href="/" />} nativeButton={false} className="font-heading">
           Cubix
@@ -228,7 +228,7 @@ export default function LoginPage() {
               </EmailFieldControl>
               <EmailFieldDescription>لینک ورود یک‌بار مصرف به این ایمیل ارسال می‌شود.</EmailFieldDescription>
             </EmailField>
-            <Button type="submit" variant="foreground" className="mt-1 w-full">ادامه با ایمیل</Button>
+            <Button type="submit" className="mt-1 w-full">ادامه با ایمیل</Button>
           </form>
 
           <p className="mt-8 flex flex-wrap items-center justify-center gap-1 text-caption text-muted-foreground">

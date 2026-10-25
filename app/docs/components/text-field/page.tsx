@@ -7,6 +7,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -26,7 +27,9 @@ import {
   textFieldControlPropRows,
   textFieldInputPropRows,
   textFieldPartPropRows,
+  textFieldColorRows,
   textFieldPropRows,
+  textFieldTypographyRows,
 } from "./text-field-table-data"
 
 const description =
@@ -277,6 +280,12 @@ export default function TextFieldPage() {
           TextFieldLabel / Description / Error
         </h3>
         <PropsTable data={textFieldPartPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={textFieldTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={textFieldColorRows} />
       </section>
     </article>
   )

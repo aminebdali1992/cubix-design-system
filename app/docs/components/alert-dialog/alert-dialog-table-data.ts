@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const alertDialogPropRows = [
   {
     prop: "open",
@@ -64,7 +66,7 @@ export const contentPropRows = [
 export const actionPropRows = [
   {
     prop: "variant",
-    type: '"default" | "foreground" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
+    type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"default"',
     description: "Visual style of the confirm button.",
   },
@@ -84,7 +86,7 @@ export const actionPropRows = [
 export const cancelPropRows = [
   {
     prop: "variant",
-    type: '"default" | "foreground" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
+    type: '"default" | "secondary" | "gray" | "destructive" | "destructive-secondary" | "outline" | "ghost" | "link"',
     default: '"outline"',
     description: "Visual style of the cancel button.",
   },
@@ -107,4 +109,21 @@ export const subcomponentRows = [
     type: "string",
     description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
+]
+
+export const alertDialogTypographyRows: TokenTableRow[] = [
+  { element: "Title", token: "text-title font-medium", value: "15px / 22px, 500" },
+  { element: "Description", token: "text-description", value: "13px / 22px, 400" },
+]
+
+export const alertDialogColorRows: TokenTableRow[] = [
+  { element: "Overlay", token: "bg-overlay-strong", value: "--overlay-strong", swatch: "--overlay-strong" },
+  { element: "Content background", token: "bg-popover", value: "--popover", swatch: "--popover", swatchOutline: true },
+  { element: "Title", token: "text-popover-foreground", value: "--popover-foreground", swatch: "--popover-foreground" },
+  { element: "Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Content ring", token: "ring-foreground/10", value: "--foreground, 10%" },
+  { element: "Media background", token: "bg-muted", value: "--muted", swatch: "--muted", swatchOutline: true },
+  { element: "Footer background", token: "bg-muted/50", value: "--muted, 50%", swatch: "--muted", swatchOutline: true },
+  { element: "Footer divider", token: "border-border", value: "--border", swatch: "--border", swatchOutline: true },
+  { element: "Link (hover)", token: "hover:text-foreground", value: "--foreground", swatch: "--foreground" },
 ]

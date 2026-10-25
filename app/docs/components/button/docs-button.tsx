@@ -11,10 +11,11 @@ import { DEFAULT_BASE, parseComponentPath } from "@/lib/bases"
 type ButtonProps = ComponentProps<"button"> & {
   variant?:
     | "default"
-    | "foreground"
     | "secondary"
     | "gray"
     | "destructive"
+    | "warning"
+    | "success"
     | "destructive-secondary"
     | "outline"
     | "ghost"

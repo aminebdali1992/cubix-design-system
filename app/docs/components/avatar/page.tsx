@@ -173,7 +173,7 @@ export default function AvatarPage() {
           description={
             <>
               Use <Code>AvatarBadge</Code> for a status dot. Override the color with a Cubix token
-              such as <Code>bg-chart-2</Code>, and give the badge an <Code>aria-label</Code>.
+              such as <Code>bg-green-600 dark:bg-green-800</Code>, and give the badge an <Code>aria-label</Code>.
             </>
           }
           code={badgeSource}

@@ -7,12 +7,19 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
   readDocsExampleSource,
 } from "@/lib/docs/example-source"
-import { buttonGroupPropRows, separatorPropRows, textPropRows } from "./button-group-table-data"
+import {
+  buttonGroupColorRows,
+  buttonGroupPropRows,
+  buttonGroupTypographyRows,
+  separatorPropRows,
+  textPropRows,
+} from "./button-group-table-data"
 import { ButtonGroupDemo } from "./examples/button-group-demo"
 import { ButtonGroupInputDemo } from "./examples/button-group-input-demo"
 import { ButtonGroupNestedDemo } from "./examples/button-group-nested-demo"
@@ -160,8 +167,7 @@ export default function ButtonGroupPage() {
           description={
             <>
               Control size with the <Code>size</Code> prop on each button. Keep every control in a
-              group at the same size - <Code>sm</Code> is 32px, default is 40px, and <Code>lg</Code>{" "}
-              is 48px.
+              group at the same size - <Code>sm</Code> is 32px and default is 40px.
             </>
           }
           code={sizeSource}
@@ -275,6 +281,12 @@ export default function ButtonGroupPage() {
           Text shown inside the group, such as a prefix or label.
         </p>
         <PropsTable data={textPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={buttonGroupTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={buttonGroupColorRows} />
       </section>
     </article>
   )

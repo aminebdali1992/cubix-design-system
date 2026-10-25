@@ -24,14 +24,14 @@ export default function ChangelogPage() {
     <article className="space-y-12">
       <DocsPageHeader
         title="Changelog"
-        description="Latest updates and announcements for Cubix - components, registry, CLI, and docs."
+        description="What is new in Cubix: components, tools and docs."
       />
 
       <div className="space-y-16">
         {changelogEntries.map((entry) => (
           <section key={entry.id} className="space-y-6">
             <div className="space-y-2">
-              <h2 className={sectionHeadingClassName}>
+              <h2 className={sectionHeadingClassName} data-toc={entry.title}>
                 {entry.date} - {entry.title}
               </h2>
               <p className="leading-relaxed text-muted-foreground">
@@ -41,7 +41,7 @@ export default function ChangelogPage() {
 
             {entry.sections.map((section) => (
               <div key={section.heading} className="space-y-4">
-                <h3 className={sectionHeadingClassName}>{section.heading}</h3>
+                <h3 className={sectionHeadingClassName} data-toc-skip="">{section.heading}</h3>
                 {section.body.map((paragraph) => (
                   <p
                     key={paragraph.slice(0, 48)}

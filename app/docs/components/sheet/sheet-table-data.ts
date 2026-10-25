@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const sheetPropRows = [
   {
     prop: "open",
@@ -81,4 +83,19 @@ export const titleDescriptionPropRows = [
     type: "string",
     description: "Additional Tailwind classes merged with the component styles (last one wins).",
   },
+]
+
+export const sheetTypographyRows: TokenTableRow[] = [
+  { element: "Title", token: "text-title", value: "15px, 400" },
+  { element: "Description", token: "text-description", value: "13px, 400" },
+  { element: "Body", token: "text-label", value: "13px, 400" },
+]
+
+export const sheetColorRows: TokenTableRow[] = [
+  { element: "Overlay", token: "bg-overlay-strong", value: "--overlay-strong", swatch: "--overlay-strong" },
+  { element: "Panel", token: "bg-popover", value: "--popover", swatch: "--popover", swatchOutline: true },
+  { element: "Title / Body", token: "text-popover-foreground", value: "--popover-foreground", swatch: "--popover-foreground" },
+  { element: "Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Header / Footer border", token: "border-border", value: "--border", swatch: "--border" },
+  { element: "Footer", token: "bg-muted/50", value: "--muted, 50%", swatch: "--muted", swatchOutline: true },
 ]

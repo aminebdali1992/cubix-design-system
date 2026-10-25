@@ -7,8 +7,8 @@ import { Chip, Chips } from "../docs-chips"
 
 const initialPeople = [
   { value: "maryam", label: "مریم کریمی", src: "/docs/avatar/girl.jpg", initial: "م" },
-  { value: "reza", label: "رضا احمدی", initial: "ر" },
-  { value: "ali", label: "علی رضایی", initial: "ع" },
+  { value: "niloofar", label: "نیلوفر احمدی", src: "/docs/avatar/niloofar.jpg", initial: "ن" },
+  { value: "ali", label: "علی رضایی", src: "/docs/avatar/ali.jpg", initial: "ع" },
 ]
 
 export function ChipsAvatarDemo() {

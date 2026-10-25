@@ -8,6 +8,7 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -23,6 +24,8 @@ import { MenubarRadioDemo } from "./examples/menubar-radio-demo"
 import { MenubarSidesDemo } from "./examples/menubar-sides-demo"
 import { MenubarSubmenuDemo } from "./examples/menubar-submenu-demo"
 import {
+  menubarColorRows,
+  menubarTypographyRows,
   checkboxItemPropRows,
   contentPropRows,
   itemPropRows,
@@ -303,6 +306,12 @@ export default function MenubarPage() {
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">MenubarRadioItem</h3>
         <PropsTable data={radioItemPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={menubarTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={menubarColorRows} />
       </section>
     </article>
   )

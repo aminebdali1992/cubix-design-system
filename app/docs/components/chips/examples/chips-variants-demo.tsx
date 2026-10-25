@@ -1,13 +1,12 @@
 "use client"
 
-import { ButtonDemoIcon } from "@/components/docs/demo-icon"
 import { Chip, Chips } from "../docs-chips"
 
 const variants = [
-  { value: "default", label: "پیش‌فرض" },
-  { value: "secondary", label: "ثانویه" },
-  { value: "gray", label: "خاکستری" },
-  { value: "outline", label: "خط‌دار" },
+  { value: "default", label: "طراحی محصول" },
+  { value: "secondary", label: "تجربه کاربری" },
+  { value: "gray", label: "رابط کاربری" },
+  { value: "outline", label: "تحقیق کاربر" },
 ] as const
 
 export function ChipsVariantsDemo() {
@@ -22,7 +21,6 @@ export function ChipsVariantsDemo() {
           key={variant.value}
           value={variant.value}
           variant={variant.value}
-          icon={<ButtonDemoIcon />}
         >
           {variant.label}
         </Chip>

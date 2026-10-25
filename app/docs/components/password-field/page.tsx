@@ -7,6 +7,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -19,10 +20,14 @@ import { PasswordFieldDescriptionDemo } from "./examples/password-field-descript
 import { PasswordFieldDisabledDemo } from "./examples/password-field-disabled-demo"
 import { PasswordFieldFormDemo } from "./examples/password-field-form-demo"
 import { PasswordFieldIconsDemo } from "./examples/password-field-icons-demo"
+import { PasswordFieldStrengthDemo } from "./examples/password-field-strength-demo"
+import { PasswordFieldRememberDemo } from "./examples/password-field-remember-demo"
 import { PasswordFieldInvalidDemo } from "./examples/password-field-invalid-demo"
 import { PasswordFieldSizesDemo } from "./examples/password-field-sizes-demo"
 import { PasswordFieldToggleDemo } from "./examples/password-field-toggle-demo"
 import {
+  passwordFieldColorRows,
+  passwordFieldTypographyRows,
   passwordFieldControlPropRows,
   passwordFieldInputPropRows,
   passwordFieldPartPropRows,
@@ -105,6 +110,8 @@ export default function PasswordFieldPage() {
   const disabledSource = loadPasswordFieldExample("password-field-disabled-demo.tsx")
   const sizesSource = loadPasswordFieldExample("password-field-sizes-demo.tsx")
   const iconsSource = loadPasswordFieldExample("password-field-icons-demo.tsx")
+  const strengthSource = loadPasswordFieldExample("password-field-strength-demo.tsx")
+  const rememberSource = loadPasswordFieldExample("password-field-remember-demo.tsx")
   const formSource = loadPasswordFieldExample("password-field-form-demo.tsx")
   const customSource = loadPasswordFieldExample("password-field-custom-demo.tsx")
   const usageImport = extractDemoImports(demoSource)
@@ -240,6 +247,22 @@ export default function PasswordFieldPage() {
         </ExampleSection>
 
         <ExampleSection
+          title="Strength meter"
+          description="Four bars under the field show password strength as you type: red for weak, orange for medium and green for good or strong. A checklist below shows each rule (8+ characters, mixed Latin case, a digit or symbol, not a common password) with a cross or a green check."
+          code={strengthSource}
+        >
+          <PasswordFieldStrengthDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Remember me"
+          description="Add a Cubix Checkbox for remembering the session and a forgot password link below the field. Use autoComplete=&quot;current-password&quot; on sign-in forms."
+          code={rememberSource}
+        >
+          <PasswordFieldRememberDemo />
+        </ExampleSection>
+
+        <ExampleSection
           title="In a form"
           description={
             <>
@@ -298,6 +321,12 @@ export default function PasswordFieldPage() {
           PasswordFieldLabel / Description / Error
         </h3>
         <PropsTable data={passwordFieldPartPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={passwordFieldTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={passwordFieldColorRows} />
       </section>
     </article>
   )

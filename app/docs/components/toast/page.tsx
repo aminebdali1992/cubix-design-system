@@ -8,6 +8,7 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -17,10 +18,11 @@ import { ToastActionDemo } from "./examples/toast-action-demo"
 import { ToastBasicDemo } from "./examples/toast-basic-demo"
 import { ToastCustomDemo } from "./examples/toast-custom-demo"
 import { ToastDemo } from "./examples/toast-demo"
+import { ToastPositionDemo } from "./examples/toast-position-demo"
 import { ToastPromiseDemo } from "./examples/toast-promise-demo"
 import { ToastTypesDemo } from "./examples/toast-types-demo"
 import { ToastDocsProvider } from "./toast-docs-provider"
-import { toastKeyboardRows, toastManagerPropRows, toasterPropRows } from "./toast-table-data"
+import { toastColorRows, toastKeyboardRows, toastManagerPropRows, toasterPropRows, toastTypographyRows } from "./toast-table-data"
 
 const description = "A succinct message that appears temporarily to provide feedback."
 
@@ -94,6 +96,7 @@ export default function ToastPage() {
   const typesSource = loadToastExample("toast-types-demo.tsx")
   const actionSource = loadToastExample("toast-action-demo.tsx")
   const promiseSource = loadToastExample("toast-promise-demo.tsx")
+  const positionSource = loadToastExample("toast-position-demo.tsx")
   const customSource = loadToastExample("toast-custom-demo.tsx")
   const usageImport = extractDemoImports(basicSource)
   const usageSnippet = extractDemoJsx(basicSource)
@@ -197,6 +200,20 @@ export default function ToastPage() {
           </ExampleSection>
 
           <ExampleSection
+            title="Position"
+            description={
+              <>
+                Set <Code>position</Code> on <Code>Toaster</Code> to place the stack. Positions use
+                logical sides, so <Code>start</Code> is the right edge in RTL and the left edge in
+                LTR. Top positions slide in from the top.
+              </>
+            }
+            code={positionSource}
+          >
+            <ToastPositionDemo />
+          </ExampleSection>
+
+          <ExampleSection
             title="Custom styling"
             description={
               <>
@@ -237,6 +254,10 @@ export default function ToastPage() {
 
           <h3 className="scroll-m-20 font-semibold tracking-tight">Toaster</h3>
           <PropsTable data={toasterPropRows} />
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={toastTypographyRows} />
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={toastColorRows} />
         </section>
       </article>
     </ToastDocsProvider>

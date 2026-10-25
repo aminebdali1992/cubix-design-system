@@ -1,31 +1,36 @@
 import type { Metadata } from "next"
-import Link from "next/link"
+import type { ReactNode } from "react"
+import { CircleAlertIcon } from "lucide-react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
-  BranchControlledDemo,
-  BranchDemo,
-  BranchForcedSelectorDemo,
-  BranchManyDemo,
-  BranchMessageDemo,
-  BranchPageLabelDemo,
-  BranchRtlDemo,
-  BranchSelectorEndDemo,
-  BranchSingleDemo,
-} from "@/components/examples/branch-examples"
-
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
 import {
+  branchColorRows,
   branchContentPropRows,
   branchPagePropRows,
   branchPreviousPropRows,
   branchPropRows,
   branchSelectorPropRows,
+  branchTypographyRows,
   useBranchRows,
 } from "./branch-table-data"
+import { BranchControlledDemo } from "./examples/branch-controlled-demo"
+import { BranchDemo } from "./examples/branch-demo"
+import { BranchEndDemo } from "./examples/branch-end-demo"
+import { BranchForcedDemo } from "./examples/branch-forced-demo"
+import { BranchManyDemo } from "./examples/branch-many-demo"
+import { BranchMessageDemo } from "./examples/branch-message-demo"
+import { BranchPageLabelDemo } from "./examples/branch-page-label-demo"
+import { BranchSingleDemo } from "./examples/branch-single-demo"
 
 const description =
   "Navigate alternate reply branches when regenerating or editing a turn."
@@ -35,26 +40,14 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import {
-  Branch,
-  BranchContent,
-  BranchNext,
-  BranchPage,
-  BranchPrevious,
-  BranchSelector,
-} from "@/components/cubix/branch"`
+const PUBLIC_IMPORT = "@/components/cubix/branch"
+const EXAMPLES_DIR = "app/docs/components/branch/examples"
 
-const usageSnippet = `<Branch defaultBranch={0}>
-  <BranchContent>
-    <Bubble>...</Bubble>
-    <Bubble>...</Bubble>
-  </BranchContent>
-  <BranchSelector>
-    <BranchPrevious />
-    <BranchPage />
-    <BranchNext />
-  </BranchSelector>
-</Branch>`
+function loadBranchExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `Branch
 ├── BranchContent
@@ -64,69 +57,64 @@ const compositionSnippet = `Branch
     ├── BranchPage
     └── BranchNext`
 
-const demoSnippet = usageSnippet
+/*
+  Persian text needs lang="fa" so the IRANSans Cubix faces apply. Docs
+  chrome only - not part of the paste-ready example source.
+*/
+function PreviewShell({ children }: { children: ReactNode }) {
+  return (
+    <div dir="rtl" lang="fa" className="flex w-full items-center justify-center">
+      {children}
+    </div>
+  )
+}
 
-const singleSnippet = `<Branch>
-  <BranchContent>
-    <Bubble>...</Bubble>
-  </BranchContent>
-  <BranchSelector>
-    <BranchPrevious />
-    <BranchPage />
-    <BranchNext />
-  </BranchSelector>
-</Branch>`
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
 
-const controlledSnippet = `<Branch branch={branch} onBranchChange={setBranch}>
-  ...
-</Branch>`
-
-const manySnippet = `<Branch defaultBranch={2}>
-  <BranchContent>{versions.map(...)}</BranchContent>
-  <BranchSelector>...</BranchSelector>
-</Branch>`
-
-const endSnippet = `<div className="flex justify-end">
-  <BranchSelector>...</BranchSelector>
-</div>`
-
-const messageSnippet = `<Message>
-  <MessageContent>
-    <Branch>...</Branch>
-  </MessageContent>
-</Message>`
-
-const rtlSnippet = `<div dir="rtl" lang="fa">
-  <Branch defaultBranch={0}>
-    <BranchContent>
-      <Bubble>...</Bubble>
-      <Bubble>...</Bubble>
-    </BranchContent>
-    <BranchSelector aria-label="نسخه‌ها">
-      <BranchPrevious aria-label="نسخه قبلی" />
-      <BranchPage />
-      <BranchNext aria-label="نسخه بعدی" />
-    </BranchSelector>
-  </Branch>
-</div>`
+function ExampleSection({
+  title,
+  description,
+  code,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName="min-h-44">
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
 
 export default function BranchDocsPage() {
+  const demoSource = loadBranchExample("branch-demo.tsx")
+  const singleSource = loadBranchExample("branch-single-demo.tsx")
+  const forcedSource = loadBranchExample("branch-forced-demo.tsx")
+  const controlledSource = loadBranchExample("branch-controlled-demo.tsx")
+  const manySource = loadBranchExample("branch-many-demo.tsx")
+  const pageLabelSource = loadBranchExample("branch-page-label-demo.tsx")
+  const endSource = loadBranchExample("branch-end-demo.tsx")
+  const messageSource = loadBranchExample("branch-message-demo.tsx")
+  const usageImport = extractDemoImports(demoSource)
+  const usageSnippet = extractDemoJsx(demoSource)
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Branch"
-        description={description}
-        slug="branch"
-      />
+      <ComponentDocsHeader title="Branch" description={description} slug="branch" />
 
-      <p className="leading-relaxed text-muted-foreground">
-        <code className="font-mono text-sm">Branch</code> cycles through
-        alternate reply versions after regenerate or edit. The selector hides
-        itself when only one branch exists.
-      </p>
-
-      <ComponentPreview code={demoSnippet} previewClassName="min-h-44">
-        <BranchDemo />
+      <ComponentPreview code={demoSource} previewClassName="min-h-44">
+        <PreviewShell>
+          <BranchDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="branch" />
@@ -138,125 +126,141 @@ export default function BranchDocsPage() {
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
-        <CodeBlock code={compositionSnippet} />
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          Each child of <Code>BranchContent</Code> is one reply version. The selector hides itself
+          when only one branch exists.
+        </p>
+        <CodeBlock code={compositionSnippet} title="Structure" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Features</h2>
-        <ul className="list-disc space-y-2 ps-5 text-muted-foreground">
-          <li>Compact prev / page / next selector</li>
-          <li>Circular navigation across reply versions</li>
-          <li>Controlled and uncontrolled modes</li>
-          <li>RTL-safe chevrons and numeric order</li>
-        </ul>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Accessibility</h2>
+        <p className="leading-relaxed text-muted-foreground">
+          The selector is a group named <Code>نسخه‌های پاسخ</Code>, the buttons are named{" "}
+          <Code>نسخه قبلی</Code> and <Code>نسخه بعدی</Code>, and the page label is a live status
+          so screen readers announce the change. Override any <Code>aria-label</Code> when needed.
+        </p>
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Single branch
-        </h2>
-        <ComponentPreview code={singleSnippet} previewClassName="min-h-36">
-          <BranchSingleDemo />
-        </ComponentPreview>
-      </section>
+      <section className="space-y-6">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Forced selector
-        </h2>
-        <ComponentPreview
-          code={`<BranchSelector force>...</BranchSelector>`}
-          previewClassName="min-h-40"
+        <ExampleSection
+          title="Single branch"
+          description="With only one child, the selector is not rendered."
+          code={singleSource}
         >
-          <BranchForcedSelectorDemo />
-        </ComponentPreview>
-      </section>
+          <BranchSingleDemo />
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Controlled</h2>
-        <ComponentPreview code={controlledSnippet} previewClassName="min-h-48">
+        <ExampleSection
+          title="Forced selector"
+          description={
+            <>
+              Pass <Code>force</Code> to <Code>BranchSelector</Code> to show it even with one
+              branch.
+            </>
+          }
+          code={forcedSource}
+        >
+          <BranchForcedDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Controlled"
+          description={
+            <>
+              Use <Code>branch</Code> and <Code>onBranchChange</Code> to drive the active version
+              from your own state.
+            </>
+          }
+          code={controlledSource}
+        >
           <BranchControlledDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Many branches
-        </h2>
-        <ComponentPreview code={manySnippet} previewClassName="min-h-44">
+        <ExampleSection
+          title="Many branches"
+          description={
+            <>
+              Navigation wraps around at both ends. <Code>defaultBranch</Code> sets the first
+              visible version.
+            </>
+          }
+          code={manySource}
+        >
           <BranchManyDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Custom page label
-        </h2>
-        <ComponentPreview
-          code={`<BranchPage>v{n}/{total}</BranchPage>`}
-          previewClassName="min-h-44"
+        <ExampleSection
+          title="Custom page label"
+          description={
+            <>
+              Read <Code>useBranch()</Code> and pass your own children to <Code>BranchPage</Code>.
+            </>
+          }
+          code={pageLabelSource}
         >
           <BranchPageLabelDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          End aligned
-        </h2>
-        <ComponentPreview code={endSnippet} previewClassName="min-h-44">
-          <BranchSelectorEndDemo />
-        </ComponentPreview>
-      </section>
+        <ExampleSection
+          title="End aligned"
+          description="Wrap the selector in a flex container to align it to the end."
+          code={endSource}
+        >
+          <BranchEndDemo />
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          In a message
-        </h2>
-        <ComponentPreview code={messageSnippet} previewClassName="min-h-56">
+        <ExampleSection
+          title="In a message"
+          description={
+            <>
+              Place <Code>Branch</Code> inside <Code>MessageContent</Code> for assistant replies.
+            </>
+          }
+          code={messageSource}
+        >
           <BranchMessageDemo />
-        </ComponentPreview>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          To enable RTL support, see the{" "}
-          <Link
-            href="/docs/components/direction"
-            className="font-medium text-foreground underline decoration-dotted decoration-1 underline-offset-[6px] [text-decoration-skip-ink:none] hover:text-foreground/80"
-          >
-            Direction
-          </Link>{" "}
-          guide. Chevrons flip with{" "}
-          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code> and
-          IRANSans XV follows{" "}
-          <code className="font-mono text-sm">lang=&quot;fa&quot;</code>.
-        </p>
-        <ComponentPreview code={rtlSnippet} previewClassName="min-h-44">
-          <BranchRtlDemo />
-        </ComponentPreview>
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
-        <h3 className="font-medium">Branch</h3>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
+        <div className="flex items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 p-4 text-sm">
+          <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-amber-500" />
+          <p className="leading-relaxed text-muted-foreground">
+            <strong className="text-foreground">Note:</strong> Parts render <Code>data-slot</Code>{" "}
+            attributes (<Code>branch</Code>, <Code>branch-content</Code>, <Code>branch-item</Code>,{" "}
+            <Code>branch-selector</Code>, <Code>branch-previous</Code>, <Code>branch-page</Code>,{" "}
+            <Code>branch-next</Code>). Use the same props on Base UI, React Aria, and Radix.
+          </p>
+        </div>
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Branch</h3>
         <PropsTable data={branchPropRows} />
-        <h3 className="font-medium">BranchContent</h3>
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">BranchContent</h3>
         <PropsTable data={branchContentPropRows} />
-        <h3 className="font-medium">BranchSelector</h3>
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">BranchSelector</h3>
         <PropsTable data={branchSelectorPropRows} />
-        <h3 className="font-medium">BranchPrevious / BranchNext</h3>
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">BranchPrevious / BranchNext</h3>
         <PropsTable data={branchPreviousPropRows} />
-        <h3 className="font-medium">BranchPage</h3>
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">BranchPage</h3>
         <PropsTable data={branchPagePropRows} />
-        <h3 className="font-medium">useBranch</h3>
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">useBranch</h3>
         <PropsTable data={useBranchRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={branchTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={branchColorRows} />
       </section>
     </article>
   )

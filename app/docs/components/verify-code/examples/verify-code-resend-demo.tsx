@@ -9,7 +9,7 @@ import {
 
 export function VerifyCodeResendDemo() {
   return (
-    <VerifyCode className="w-full max-w-sm">
+    <VerifyCode className="w-full max-w-[280px] mx-auto">
       <VerifyCodeLabel>کد تایید</VerifyCodeLabel>
       <VerifyCodeControl />
       <VerifyCodeResend duration={120} />

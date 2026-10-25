@@ -7,6 +7,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -26,6 +27,8 @@ import {
   birthdayDatePropRows,
   birthdayDateSegmentPropRows,
   birthdayDateSeparatorPropRows,
+  birthdayDateColorRows,
+  birthdayDateTypographyRows,
 } from "./birthday-date-table-data"
 
 const description =
@@ -267,6 +270,12 @@ export default function BirthdayDatePage() {
           BirthdayDateLabel / Description / Error
         </h3>
         <PropsTable data={birthdayDatePartPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={birthdayDateTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={birthdayDateColorRows} />
       </section>
     </article>
   )

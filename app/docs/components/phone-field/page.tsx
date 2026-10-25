@@ -7,6 +7,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -23,6 +24,8 @@ import { PhoneFieldInvalidDemo } from "./examples/phone-field-invalid-demo"
 import { PhoneFieldSizesDemo } from "./examples/phone-field-sizes-demo"
 import {
   phoneFieldClearPropRows,
+  phoneFieldColorRows,
+  phoneFieldTypographyRows,
   phoneFieldControlPropRows,
   phoneFieldInputPropRows,
   phoneFieldPartPropRows,
@@ -276,6 +279,12 @@ export default function PhoneFieldPage() {
           PhoneFieldLabel / Description / Error
         </h3>
         <PropsTable data={phoneFieldPartPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={phoneFieldTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={phoneFieldColorRows} />
       </section>
     </article>
   )

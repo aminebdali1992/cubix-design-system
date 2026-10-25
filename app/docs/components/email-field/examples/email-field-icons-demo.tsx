@@ -1,6 +1,6 @@
 "use client"
 
-import { AtSignIcon, MailIcon } from "lucide-react"
+import { AtSignIcon, MailIcon } from "@/components/docs/mail-icon"
 
 import {
   EmailField,

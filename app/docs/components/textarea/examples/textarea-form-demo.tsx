@@ -1,6 +1,5 @@
 "use client"
 
-import { ButtonDemoIcon } from "@/components/docs/demo-icon"
 import { Button } from "@/app/docs/components/button/docs-button"
 import { Textarea, TextareaControl } from "../docs-textarea"
 
@@ -22,7 +21,6 @@ export function TextareaFormDemo() {
           پیام
         </label>
         <TextareaControl>
-          <ButtonDemoIcon data-icon="inline-start" />
           <Textarea
             id="textarea-form-message"
             name="message"

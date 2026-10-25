@@ -11,7 +11,7 @@ export function ToastCustomDemo() {
       title: "دعوت به رویداد",
       description: "سارا شما را به «جلسه‌ی طراحی» دعوت کرد.",
       data: {
-        icon: <ButtonDemoIcon className="size-5 text-primary" />,
+        icon: <ButtonDemoIcon className="size-5 text-foreground" />,
         actions: (
           <>
             <Button size="xs" onClick={() => toast.close(id)}>

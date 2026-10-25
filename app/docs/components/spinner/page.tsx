@@ -1,22 +1,21 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
-import {
-  SpinnerBadgeDemo,
-  SpinnerButtonDemo,
-  SpinnerCustomDemo,
-  SpinnerDemo,
-  SpinnerEmptyDemo,
-  SpinnerInputGroupDemo,
-  SpinnerRtlDemo,
-  SpinnerSizeDemo,
-} from "@/components/examples/spinner-examples"
-
-import { spinnerPropRows } from "./spinner-table-data"
+import { TokenTable } from "@/components/docs/token-table"
+import { extractDemoImports, readDocsExampleSource } from "@/lib/docs/example-source"
+import { SpinnerBadgeDemo } from "./examples/spinner-badge-demo"
+import { SpinnerButtonDemo } from "./examples/spinner-button-demo"
+import { SpinnerCustomDemo } from "./examples/spinner-custom-demo"
+import { SpinnerDemo } from "./examples/spinner-demo"
+import { SpinnerEmptyDemo } from "./examples/spinner-empty-demo"
+import { SpinnerInputGroupDemo } from "./examples/spinner-input-group-demo"
+import { SpinnerSizeDemo } from "./examples/spinner-size-demo"
+import { spinnerColorRows, spinnerPropRows, spinnerTypographyRows } from "./spinner-table-data"
 
 const description = "An indicator that can be used to show a loading state."
 
@@ -25,190 +24,135 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import { Spinner } from "@/components/cubix/spinner"`
+const PUBLIC_IMPORT = "@/components/cubix/spinner"
+const EXAMPLES_DIR = "app/docs/components/spinner/examples"
 
-const usageSnippet = `<Spinner />`
+function load(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, { publicImport: PUBLIC_IMPORT })
+}
 
-const demoSnippet = `<div className="flex w-full max-w-xs items-center gap-3 rounded-xl bg-muted p-3">
-  <Spinner />
-  <span className="min-w-0 flex-1 truncate text-sm font-medium">
-    Processing payment...
-  </span>
-  <span className="text-sm tabular-nums text-muted-foreground">$100.00</span>
-</div>`
-
-const customSnippet = `import { cn } from "@/lib/utils"
-import { LoaderIcon } from "lucide-react"
-
-function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
+function PreviewShell({ children }: { children: ReactNode }) {
   return (
-    <LoaderIcon
-      role="status"
-      aria-label="Loading"
-      className={cn("size-4 animate-spin", className)}
-      {...props}
-    />
+    <div dir="rtl" lang="fa" className="flex w-full justify-center">
+      {children}
+    </div>
   )
-}`
+}
 
-const sizeSnippet = `<div className="flex items-center gap-6">
-  <Spinner className="size-3" />
-  <Spinner className="size-4" />
-  <Spinner className="size-6" />
-  <Spinner className="size-8" />
-</div>`
+function ExampleSection({
+  title,
+  description,
+  code,
+  previewClassName = "min-h-32",
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  previewClassName?: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code} previewClassName={previewClassName}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
 
-const buttonSnippet = `<Button disabled size="sm">
-  <Spinner data-icon="inline-start" />
-  Loading...
-</Button>`
-
-const badgeSnippet = `<Badge>
-  <Spinner data-icon="inline-start" />
-  Syncing
-</Badge>`
-
-const inputGroupSnippet = `<InputGroup>
-  <InputGroupInput placeholder="Send a message..." disabled />
-  <InputGroupAddon align="inline-end">
-    <Spinner />
-  </InputGroupAddon>
-</InputGroup>`
-
-const emptySnippet = `<Empty className="w-full">
-  <EmptyHeader>
-    <EmptyMedia variant="icon">
-      <Spinner />
-    </EmptyMedia>
-    <EmptyTitle>Processing your request</EmptyTitle>
-    <EmptyDescription>
-      Please wait while we process your request. Do not refresh the page.
-    </EmptyDescription>
-  </EmptyHeader>
-  <EmptyContent>
-    <Button variant="outline" size="sm">
-      Cancel
-    </Button>
-  </EmptyContent>
-</Empty>`
-
-const rtlSnippet = `<div dir="rtl" className="flex w-full max-w-xs items-center gap-3 rounded-xl bg-muted p-3">
-  <Spinner />
-  <span className="min-w-0 flex-1 truncate text-sm font-medium">
-    Processing payment...
-  </span>
-  <span className="text-sm tabular-nums text-muted-foreground">$100.00</span>
-</div>`
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
 
 export default function SpinnerDocsPage() {
+  const demoSource = load("spinner-demo.tsx")
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Spinner"
-        description={description}
-        slug="spinner"
-      />
+      <ComponentDocsHeader title="Spinner" description={description} slug="spinner" />
 
-      <ComponentPreview code={demoSnippet} previewClassName="min-h-32">
-        <SpinnerDemo />
+      <ComponentPreview code={demoSource} previewClassName="min-h-32">
+        <PreviewShell>
+          <SpinnerDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="spinner" />
 
       <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Usage</h2>
-        <CodeBlock code={usageImport} title="Import" />
-        <CodeBlock code={usageSnippet} title="Example" />
+        <CodeBlock code={extractDemoImports(demoSource)} title="Import" />
+        <CodeBlock code={`<Spinner />`} title="Example" />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Customization
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          You can replace the default spinner icon with any other icon by
-          editing the{" "}
-          <code className="font-mono text-sm">Spinner</code> component.
-        </p>
-        <ComponentPreview code={customSnippet} previewClassName="min-h-32">
+      <section className="space-y-8">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
+
+        <ExampleSection
+          title="Customization"
+          description={<>Replace the default icon with any other icon by editing the <Code>Spinner</Code> component.</>}
+          code={load("spinner-custom-demo.tsx")}
+        >
           <SpinnerCustomDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Size</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use the{" "}
-          <code className="font-mono text-sm">size-*</code> utility class to
-          change the size of the spinner.
-        </p>
-        <ComponentPreview code={sizeSnippet} previewClassName="min-h-32">
+        <ExampleSection
+          title="Size"
+          description={<>Use the <Code>size-*</Code> utility class to change the size.</>}
+          code={load("spinner-size-demo.tsx")}
+        >
           <SpinnerSizeDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Button</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Add a spinner to a button to indicate a loading state. Place the{" "}
-          <code className="font-mono text-sm">{"<Spinner />"}</code> before the
-          label with{" "}
-          <code className="font-mono text-sm">data-icon=&quot;inline-start&quot;</code>{" "}
-          for a start position, or after the label with{" "}
-          <code className="font-mono text-sm">data-icon=&quot;inline-end&quot;</code>{" "}
-          for an end position.
-        </p>
-        <ComponentPreview code={buttonSnippet} previewClassName="min-h-40">
+        <ExampleSection
+          title="Button"
+          description={<>Place the spinner before the label with <Code>data-icon=&quot;inline-start&quot;</Code>.</>}
+          code={load("spinner-button-demo.tsx")}
+        >
           <SpinnerButtonDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Badge</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Add a spinner to a badge to indicate a loading state.
-        </p>
-        <ComponentPreview code={badgeSnippet} previewClassName="min-h-32">
+        <ExampleSection
+          title="Badge"
+          description="Add a spinner to a badge to show a loading state."
+          code={load("spinner-badge-demo.tsx")}
+        >
           <SpinnerBadgeDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Input Group
-        </h2>
-        <ComponentPreview code={inputGroupSnippet} previewClassName="min-h-40">
+        <ExampleSection
+          title="Input group"
+          description="Show progress at the end of an input."
+          code={load("spinner-input-group-demo.tsx")}
+          previewClassName="min-h-40"
+        >
           <SpinnerInputGroupDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Empty</h2>
-        <ComponentPreview code={emptySnippet} previewClassName="min-h-56">
+        <ExampleSection
+          title="Empty"
+          description="Use a spinner as the media of an empty state."
+          code={load("spinner-empty-demo.tsx")}
+          previewClassName="min-h-56"
+        >
           <SpinnerEmptyDemo />
-        </ComponentPreview>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Wrap content in a container with{" "}
-          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code> to
-          mirror direction.
-        </p>
-        <ComponentPreview code={rtlSnippet} previewClassName="min-h-32">
-          <SpinnerRtlDemo />
-        </ComponentPreview>
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Spinner</h3>
-          <PropsTable data={spinnerPropRows} />
-        </div>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Spinner</h3>
+        <PropsTable data={spinnerPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={spinnerTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={spinnerColorRows} />
       </section>
     </article>
   )

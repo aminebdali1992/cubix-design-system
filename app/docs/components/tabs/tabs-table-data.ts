@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const tabsPropRows = [
   {
     prop: "value",
@@ -113,4 +115,17 @@ export const tabsContentPropRows = [
     type: "string",
     description: "Additional Tailwind classes merged with the content styles.",
   },
+]
+
+export const tabsTypographyRows: TokenTableRow[] = [
+  { element: "Trigger", token: "text-label", value: "13px, 400" },
+  { element: "Content", token: "text-description", value: "13px, 400" },
+]
+
+export const tabsColorRows: TokenTableRow[] = [
+  { element: "Trigger (inactive)", token: "text-foreground/60", value: "--foreground, 60%", swatch: "--foreground" },
+  { element: "Trigger (hover)", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Trigger (active)", token: "text-primary", value: "--primary", swatch: "--primary" },
+  { element: "Active indicator", token: "bg-primary", value: "--primary", swatch: "--primary" },
+  { element: "Focus ring", token: "ring-ring/50", value: "--ring, 50%", swatch: "--ring" },
 ]

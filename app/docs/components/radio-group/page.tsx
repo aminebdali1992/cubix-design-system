@@ -8,6 +8,7 @@ import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { KeyboardTable } from "@/components/docs/keyboard-table"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -21,7 +22,9 @@ import { RadioGroupHorizontalDemo } from "./examples/radio-group-horizontal-demo
 import { RadioGroupInvalidDemo } from "./examples/radio-group-invalid-demo"
 import {
   radioGroupKeyboardRows,
+  radioGroupColorRows,
   radioGroupPropRows,
+  radioGroupTypographyRows,
   radioGroupStateRows,
   radioPropRows,
 } from "./radio-group-table-data"
@@ -221,6 +224,12 @@ export default function RadioGroupPage() {
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">States</h3>
         <PropsTable data={radioGroupStateRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={radioGroupTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={radioGroupColorRows} />
       </section>
     </article>
   )

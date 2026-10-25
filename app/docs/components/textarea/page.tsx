@@ -7,6 +7,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -15,12 +16,13 @@ import {
 import { TextareaCustomDemo } from "./examples/textarea-custom-demo"
 import { TextareaDemo } from "./examples/textarea-demo"
 import { TextareaDisabledDemo } from "./examples/textarea-disabled-demo"
+import { TextareaCountDemo } from "./examples/textarea-count-demo"
 import { TextareaFormDemo } from "./examples/textarea-form-demo"
 import { TextareaHeightDemo } from "./examples/textarea-height-demo"
 import { TextareaIconsDemo } from "./examples/textarea-icons-demo"
 import { TextareaInvalidDemo } from "./examples/textarea-invalid-demo"
 import { TextareaLabelDemo } from "./examples/textarea-label-demo"
-import { textareaControlPropRows, textareaPropRows } from "./textarea-table-data"
+import { textareaColorRows, textareaControlPropRows, textareaPropRows, textareaTypographyRows } from "./textarea-table-data"
 
 const description =
   "A multi-line text control with optional leading icons. Resize from the corner; pair with your own label and help text."
@@ -90,6 +92,7 @@ export default function TextareaPage() {
   const heightSource = loadTextareaExample("textarea-height-demo.tsx")
   const invalidSource = loadTextareaExample("textarea-invalid-demo.tsx")
   const disabledSource = loadTextareaExample("textarea-disabled-demo.tsx")
+  const countSource = loadTextareaExample("textarea-count-demo.tsx")
   const formSource = loadTextareaExample("textarea-form-demo.tsx")
   const customSource = loadTextareaExample("textarea-custom-demo.tsx")
   const usageImport = extractDemoImports(demoSource)
@@ -191,6 +194,14 @@ export default function TextareaPage() {
         </ExampleSection>
 
         <ExampleSection
+          title="Character count"
+          description={<>Show the typed length against <Code>maxLength</Code> at the end of the label row.</>}
+          code={countSource}
+        >
+          <TextareaCountDemo />
+        </ExampleSection>
+
+        <ExampleSection
           title="In a form"
           description={
             <>
@@ -234,6 +245,12 @@ export default function TextareaPage() {
 
         <h3 className="scroll-m-20 font-semibold tracking-tight">TextareaControl</h3>
         <PropsTable data={textareaControlPropRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={textareaTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={textareaColorRows} />
       </section>
     </article>
   )

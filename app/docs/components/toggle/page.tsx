@@ -1,20 +1,19 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
-import {
-  ToggleDemo,
-  ToggleDisabledDemo,
-  ToggleOutlineDemo,
-  ToggleRtlDemo,
-  ToggleSizesDemo,
-  ToggleTextDemo,
-} from "@/components/examples/toggle-examples"
-
-import { togglePropRows } from "./toggle-table-data"
+import { TokenTable } from "@/components/docs/token-table"
+import { extractDemoImports, readDocsExampleSource } from "@/lib/docs/example-source"
+import { ToggleDemo } from "./examples/toggle-demo"
+import { ToggleDisabledDemo } from "./examples/toggle-disabled-demo"
+import { ToggleOutlineDemo } from "./examples/toggle-outline-demo"
+import { ToggleSizesDemo } from "./examples/toggle-sizes-demo"
+import { ToggleTextDemo } from "./examples/toggle-text-demo"
+import { toggleColorRows, togglePropRows, toggleTypographyRows } from "./toggle-table-data"
 
 const description = "A two-state button that can be either on or off."
 
@@ -23,150 +22,110 @@ export const metadata: Metadata = {
   description,
 }
 
-const usageImport = `import { Toggle } from "@/components/cubix/toggle"`
+const PUBLIC_IMPORT = "@/components/cubix/toggle"
+const EXAMPLES_DIR = "app/docs/components/toggle/examples"
 
-const usageSnippet = `<Toggle>Toggle</Toggle>`
+function load(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, { publicImport: PUBLIC_IMPORT })
+}
 
-const demoSnippet = `import { BookmarkIcon } from "lucide-react"
-
-import { Toggle } from "@/components/cubix/toggle"
-
-export function ToggleDemo() {
+function PreviewShell({ children }: { children: ReactNode }) {
   return (
-    <Toggle aria-label="Toggle bookmark" size="sm" variant="outline">
-      <BookmarkIcon className="group-aria-pressed/toggle:fill-foreground" />
-      Bookmark
-    </Toggle>
+    <div dir="rtl" lang="fa" className="flex w-full justify-center">
+      {children}
+    </div>
   )
-}`
+}
 
-const outlineSnippet = `<div className="flex flex-wrap items-center gap-2">
-  <Toggle variant="outline" aria-label="Toggle italic">
-    <ItalicIcon />
-    Italic
-  </Toggle>
-  <Toggle variant="outline" aria-label="Toggle bold">
-    <BoldIcon />
-    Bold
-  </Toggle>
-</div>`
+function ExampleSection({
+  title,
+  description,
+  code,
+  previewClassName = "min-h-32",
+  children,
+}: {
+  title: string
+  description?: ReactNode
+  code: string
+  previewClassName?: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      {description ? <p className="leading-relaxed text-muted-foreground">{description}</p> : null}
+      <ComponentPreview code={code} previewClassName={previewClassName}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
 
-const textSnippet = `<Toggle aria-label="Toggle italic">
-  <ItalicIcon />
-  Italic
-</Toggle>`
-
-const sizesSnippet = `<div className="flex flex-wrap items-center gap-2">
-  <Toggle variant="outline" aria-label="Toggle small" size="sm">
-    Small
-  </Toggle>
-  <Toggle variant="outline" aria-label="Toggle default" size="default">
-    Default
-  </Toggle>
-  <Toggle variant="outline" aria-label="Toggle large" size="lg">
-    Large
-  </Toggle>
-</div>`
-
-const disabledSnippet = `<div className="flex flex-wrap items-center gap-2">
-  <Toggle aria-label="Toggle disabled" disabled>
-    Disabled
-  </Toggle>
-  <Toggle variant="outline" aria-label="Toggle disabled outline" disabled>
-    Disabled
-  </Toggle>
-</div>`
-
-const rtlSnippet = `<div dir="rtl">
-  <Toggle aria-label="Toggle bookmark" size="sm" variant="outline">
-    <BookmarkIcon className="group-aria-pressed/toggle:fill-foreground" />
-    Bookmark
-  </Toggle>
-</div>`
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
 
 export default function ToggleDocsPage() {
+  const demoSource = load("toggle-demo.tsx")
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Toggle"
-        description={description}
-        slug="toggle"
-      />
+      <ComponentDocsHeader title="Toggle" description={description} slug="toggle" />
 
-      <ComponentPreview code={demoSnippet} previewClassName="min-h-32">
-        <ToggleDemo />
+      <ComponentPreview code={demoSource} previewClassName="min-h-32">
+        <PreviewShell>
+          <ToggleDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="toggle" />
 
       <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Usage</h2>
-        <CodeBlock code={usageImport} title="Import" />
-        <CodeBlock code={usageSnippet} title="Example" />
+        <CodeBlock code={extractDemoImports(demoSource)} title="Import" />
+        <CodeBlock code={`<Toggle>تغییر وضعیت</Toggle>`} title="Example" />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Outline</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use{" "}
-          <code className="font-mono text-sm">variant=&quot;outline&quot;</code>{" "}
-          for an outline style.
-        </p>
-        <ComponentPreview code={outlineSnippet} previewClassName="min-h-32">
+      <section className="space-y-8">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
+
+        <ExampleSection
+          title="Outline"
+          description={<>Use <Code>variant=&quot;outline&quot;</Code> for an outline style.</>}
+          code={load("toggle-outline-demo.tsx")}
+        >
           <ToggleOutlineDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">With Text</h2>
-        <ComponentPreview code={textSnippet} previewClassName="min-h-32">
+        <ExampleSection title="With Text" code={load("toggle-text-demo.tsx")}>
           <ToggleTextDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Size</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use the{" "}
-          <code className="font-mono text-sm">size</code> prop to change the
-          size of the toggle.
-        </p>
-        <ComponentPreview code={sizesSnippet} previewClassName="min-h-32">
+        <ExampleSection
+          title="Size"
+          description={<>Use the <Code>size</Code> prop to change the size of the toggle.</>}
+          code={load("toggle-sizes-demo.tsx")}
+        >
           <ToggleSizesDemo />
-        </ComponentPreview>
-      </section>
+        </ExampleSection>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Disabled</h2>
-        <ComponentPreview code={disabledSnippet} previewClassName="min-h-32">
+        <ExampleSection title="Disabled" code={load("toggle-disabled-demo.tsx")}>
           <ToggleDisabledDemo />
-        </ComponentPreview>
-      </section>
-
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">RTL</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Wrap the toggle in a container with{" "}
-          <code className="font-mono text-sm">dir=&quot;rtl&quot;</code> to
-          mirror direction.
-        </p>
-        <ComponentPreview code={rtlSnippet} previewClassName="min-h-32">
-          <ToggleRtlDemo />
-        </ComponentPreview>
+        </ExampleSection>
       </section>
 
       <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
         <p className="leading-relaxed text-muted-foreground">
           See also the Base UI Toggle documentation for primitive props.
         </p>
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">Toggle</h3>
-          <PropsTable data={togglePropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Toggle</h3>
+        <PropsTable data={togglePropRows} />
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={toggleTypographyRows} />
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={toggleColorRows} />
       </section>
     </article>
   )

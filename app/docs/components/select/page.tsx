@@ -155,8 +155,8 @@ export default function SelectPage() {
           title="Sizes"
           description={
             <>
-              Set <Code>size</Code> on the trigger: <Code>sm</Code> is 32px for toolbars, default is
-              40px like Cubix fields, and <Code>lg</Code> is 48px.
+              Same heights as other Cubix fields: default is 40px and <Code>lg</Code> is 48px. A compact{" "}
+              <Code>sm</Code> (32px) size is also available for toolbars.
             </>
           }
           code={sizesSource}

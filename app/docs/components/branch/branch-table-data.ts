@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const branchPropRows = [
   {
     prop: "branch",
@@ -48,7 +50,7 @@ export const branchSelectorPropRows = [
   {
     prop: "aria-label",
     type: "string",
-    default: '"Reply branches"',
+    default: '"نسخه‌های پاسخ"',
     description: "Accessible name for the selector group.",
   },
   {
@@ -68,7 +70,7 @@ export const branchPreviousPropRows = [
   {
     prop: "aria-label",
     type: "string",
-    default: '"Previous branch" / "Next branch"',
+    default: '"نسخه قبلی" / "نسخه بعدی"',
     description: "Accessible name for the previous or next control.",
   },
 ]
@@ -77,7 +79,7 @@ export const branchPagePropRows = [
   {
     prop: "children",
     type: "React.ReactNode",
-    description: 'Optional custom label. Defaults to "1 / 3" style paging.',
+    description: 'Optional custom label. Defaults to "۱ از ۳" style paging.',
   },
   {
     prop: "className",
@@ -108,4 +110,15 @@ export const useBranchRows = [
     type: "() => void",
     description: "Cycle to the next branch, wrapping at the end.",
   },
+]
+
+export const branchTypographyRows: TokenTableRow[] = [
+  { element: "Page label", token: "text-caption font-normal tabular-nums", value: "12px, 400" },
+]
+
+export const branchColorRows: TokenTableRow[] = [
+  { element: "Selector background", token: "bg-muted/40", value: "--muted", swatch: "--muted" },
+  { element: "Selector border", token: "border-border", value: "--border", swatch: "--border", swatchOutline: true },
+  { element: "Chevron / page label", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Chevron hover", token: "hover:bg-background hover:text-foreground", value: "--background / --foreground", swatch: "--foreground" },
 ]

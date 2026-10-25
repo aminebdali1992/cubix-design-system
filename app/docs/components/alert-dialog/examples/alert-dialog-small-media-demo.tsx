@@ -1,6 +1,6 @@
 "use client"
 
-import { BluetoothIcon } from "lucide-react"
+import { UsbIcon } from "lucide-react"
 
 import { Button } from "@/components/cubix/button"
 import {
@@ -25,7 +25,7 @@ export function AlertDialogSmallMediaDemo() {
       <AlertDialogContent size="sm">
         <AlertDialogHeader>
           <AlertDialogMedia>
-            <BluetoothIcon />
+            <UsbIcon />
           </AlertDialogMedia>
           <AlertDialogTitle>اتصال دستگاه جانبی اجازه داده شود؟</AlertDialogTitle>
           <AlertDialogDescription>

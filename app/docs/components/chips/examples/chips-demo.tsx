@@ -7,7 +7,6 @@ const categories = [
   { value: "fashion", label: "پوشاک" },
   { value: "home", label: "خانه و آشپزخانه" },
   { value: "beauty", label: "زیبایی و سلامت" },
-  { value: "books", label: "کتاب" },
 ]
 
 export function ChipsDemo() {

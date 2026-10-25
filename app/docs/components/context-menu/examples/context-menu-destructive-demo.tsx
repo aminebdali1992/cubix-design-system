@@ -1,6 +1,6 @@
 "use client"
 
-import { CopyIcon, PencilIcon, Share2Icon, Trash2Icon } from "lucide-react"
+import { ButtonDemoIcon } from "@/components/docs/demo-icon"
 
 import {
   ContextMenu,
@@ -22,20 +22,20 @@ export function ContextMenuDestructiveDemo() {
       </ContextMenuTrigger>
       <ContextMenuContent>
         <ContextMenuItem>
-          <PencilIcon />
+          <ButtonDemoIcon />
           ویرایش
         </ContextMenuItem>
         <ContextMenuItem>
-          <CopyIcon />
+          <ButtonDemoIcon />
           تکثیر
         </ContextMenuItem>
         <ContextMenuItem>
-          <Share2Icon />
+          <ButtonDemoIcon />
           اشتراک‌گذاری
         </ContextMenuItem>
         <ContextMenuSeparator />
         <ContextMenuItem variant="destructive">
-          <Trash2Icon />
+          <ButtonDemoIcon />
           حذف
         </ContextMenuItem>
       </ContextMenuContent>

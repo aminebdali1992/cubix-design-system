@@ -74,7 +74,7 @@ function PhoneSignUpFields() {
           برای تأیید شماره، یک کد یک‌بار مصرف پیامک می‌شود.
         </PhoneFieldDescription>
       </PhoneField>
-      <Button type="submit" variant="foreground" className="w-full">
+      <Button type="submit" className="w-full">
         دریافت کد تأیید
       </Button>
     </>
@@ -105,7 +105,7 @@ function EmailSignUpFields() {
         </PasswordFieldControl>
         <PasswordFieldDescription>حداقل ۸ کاراکتر.</PasswordFieldDescription>
       </PasswordField>
-      <Button type="submit" variant="foreground" className="w-full">
+      <Button type="submit" className="w-full">
         ایجاد حساب
       </Button>
     </>
@@ -118,7 +118,7 @@ function Signup02View({ className }: { className?: string }) {
       lang="fa"
       dir="rtl"
       className={cn(
-        "relative flex flex-col overflow-hidden bg-muted/40 [--primary:var(--foreground)] [--primary-foreground:var(--background)]",
+        "relative flex flex-col overflow-hidden bg-muted/40",
         className
       )}
     >
@@ -245,7 +245,7 @@ function NameField() {
 
 export default function SignupPage() {
   return (
-    <div lang="fa" dir="rtl" className="flex min-h-svh flex-col items-center justify-center bg-muted/40 px-6 py-12 [--primary:var(--foreground)] [--primary-foreground:var(--background)]">
+    <div lang="fa" dir="rtl" className="flex min-h-svh flex-col items-center justify-center bg-muted/40 px-6 py-12">
       <Card className="w-full max-w-88 py-8 shadow-xs ring-0">
         <CardHeader className="justify-items-center text-center">
           <CardTitle className="text-lead font-semibold">ایجاد حساب کاربری</CardTitle>
@@ -268,7 +268,7 @@ export default function SignupPage() {
                   </PhoneFieldControl>
                   <PhoneFieldDescription>برای تأیید شماره، یک کد یک‌بار مصرف پیامک می‌شود.</PhoneFieldDescription>
                 </PhoneField>
-                <Button type="submit" variant="foreground" className="w-full">دریافت کد تأیید</Button>
+                <Button type="submit" className="w-full">دریافت کد تأیید</Button>
               </form>
             </TabsContent>
 
@@ -289,7 +289,7 @@ export default function SignupPage() {
                   </PasswordFieldControl>
                   <PasswordFieldDescription>حداقل ۸ کاراکتر.</PasswordFieldDescription>
                 </PasswordField>
-                <Button type="submit" variant="foreground" className="w-full">ایجاد حساب</Button>
+                <Button type="submit" className="w-full">ایجاد حساب</Button>
               </form>
             </TabsContent>
           </Tabs>

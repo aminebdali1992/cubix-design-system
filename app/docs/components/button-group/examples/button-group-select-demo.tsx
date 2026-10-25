@@ -17,7 +17,7 @@ export function ButtonGroupSelectDemo() {
   return (
     <ButtonGroup aria-label="انتقال وجه">
       <Select defaultValue="toman">
-        <SelectTrigger aria-label="واحد پول">
+        <SelectTrigger className="w-20 shrink-0" aria-label="واحد پول">
           <SelectValue />
         </SelectTrigger>
         <SelectContent>

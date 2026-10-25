@@ -4,10 +4,9 @@ import { ButtonDemoIcon } from "@/components/docs/demo-icon"
 import { Chip, Chips } from "../docs-chips"
 
 const sizes = [
-  { value: "xs", label: "خیلی کوچک" },
-  { value: "sm", label: "کوچک" },
-  { value: "default", label: "پیش‌فرض" },
-  { value: "lg", label: "بزرگ" },
+  { value: "xs", label: "طراحی محصول" },
+  { value: "sm", label: "طراحی محصول" },
+  { value: "default", label: "طراحی محصول" },
 ] as const
 
 export function ChipsSizesDemo() {

@@ -1,67 +1,51 @@
 import type { Metadata } from "next"
+import type { ReactNode } from "react"
 
 import { CodeBlock } from "@/components/docs/code-block"
 import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
-  PaginationDemo,
-  PaginationIconsOnlyDemo,
-  PaginationSimpleDemo,
-} from "@/components/examples/pagination-examples"
-
+  extractDemoImports,
+  extractDemoJsx,
+  readDocsExampleSource,
+} from "@/lib/docs/example-source"
+import { PaginationControlledDemo } from "./examples/pagination-controlled-demo"
+import { PaginationDemo } from "./examples/pagination-demo"
+import { PaginationFirstLastDemo } from "./examples/pagination-first-last-demo"
+import { PaginationOutlineDemo } from "./examples/pagination-outline-demo"
+import { PaginationTableDemo } from "./examples/pagination-table-demo"
+import { PaginationIconsDemo } from "./examples/pagination-icons-demo"
+import { PaginationSimpleDemo } from "./examples/pagination-simple-demo"
+import { PaginationSizesDemo } from "./examples/pagination-sizes-demo"
 import {
   contentPropRows,
   ellipsisPropRows,
   itemPropRows,
   linkPropRows,
+  paginationColorRows,
   paginationPropRows,
+  paginationTypographyRows,
   previousNextPropRows,
 } from "./pagination-table-data"
 
-const description =
-  "Pagination with page navigation, next and previous links."
+const description = "Pagination with page navigation, next and previous links."
 
 export const metadata: Metadata = {
   title: "Pagination",
   description,
 }
 
-const usageImport = `import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/cubix/pagination"`
+const PUBLIC_IMPORT = "@/components/cubix/pagination"
+const EXAMPLES_DIR = "app/docs/components/pagination/examples"
 
-const usageSnippet = `<Pagination>
-  <PaginationContent>
-    <PaginationItem>
-      <PaginationPrevious href="#" />
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationLink href="#">1</PaginationLink>
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationLink href="#" isActive>
-        2
-      </PaginationLink>
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationLink href="#">3</PaginationLink>
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationEllipsis />
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationNext href="#" />
-    </PaginationItem>
-  </PaginationContent>
-</Pagination>`
+function loadExample(fileName: string) {
+  return readDocsExampleSource(`${EXAMPLES_DIR}/${fileName}`, {
+    publicImport: PUBLIC_IMPORT,
+  })
+}
 
 const compositionSnippet = `Pagination
 └── PaginationContent
@@ -74,211 +58,173 @@ const compositionSnippet = `Pagination
     └── PaginationItem
         └── PaginationNext`
 
-const demoSnippet = usageSnippet
-
-const simpleSnippet = `<Pagination>
-  <PaginationContent>
-    <PaginationItem>
-      <PaginationLink href="#">1</PaginationLink>
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationLink href="#" isActive>
-        2
-      </PaginationLink>
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationLink href="#">3</PaginationLink>
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationLink href="#">4</PaginationLink>
-    </PaginationItem>
-    <PaginationItem>
-      <PaginationLink href="#">5</PaginationLink>
-    </PaginationItem>
-  </PaginationContent>
-</Pagination>`
-
-const iconsOnlySnippet = `<div className="flex items-center justify-between gap-4">
-  <Field orientation="horizontal" className="w-fit">
-    <FieldLabel htmlFor="select-rows-per-page">Rows per page</FieldLabel>
-    <Select defaultValue="25">
-      <SelectTrigger className="w-20" id="select-rows-per-page">
-        <SelectValue />
-      </SelectTrigger>
-      <SelectContent align="start">
-        <SelectGroup>
-          <SelectItem value="10">10</SelectItem>
-          <SelectItem value="25">25</SelectItem>
-          <SelectItem value="50">50</SelectItem>
-          <SelectItem value="100">100</SelectItem>
-        </SelectGroup>
-      </SelectContent>
-    </Select>
-  </Field>
-  <Pagination className="mx-0 w-auto">
-    <PaginationContent>
-      <PaginationItem>
-        <PaginationPrevious href="#" />
-      </PaginationItem>
-      <PaginationItem>
-        <PaginationNext href="#" />
-      </PaginationItem>
-    </PaginationContent>
-  </Pagination>
-</div>`
-
-const nextjsSnippet = `import Link from "next/link"
-
-// Base UI: compose PaginationLink onto Next.js Link via Button render
-// Radix UI: use asChild on Button with a Link child
-
-type PaginationLinkProps = {
-  isActive?: boolean
-} & Pick<React.ComponentProps<typeof Button>, "size"> &
-  React.ComponentProps<typeof Link>
-
-function PaginationLink({
-  className,
-  isActive,
-  size = "icon",
-  ...props
-}: PaginationLinkProps) {
+function PreviewShell({ children }: { children: ReactNode }) {
   return (
-    <Button
-      variant={isActive ? "outline" : "ghost"}
-      size={size}
-      className={cn(className)}
-      nativeButton={false}
-      render={
-        <Link
-          aria-current={isActive ? "page" : undefined}
-          data-slot="pagination-link"
-          data-active={isActive}
-          {...props}
-        />
-      }
-    />
+    <div dir="rtl" lang="fa" className="flex w-full justify-center">
+      {children}
+    </div>
   )
-}`
+}
+
+function ExampleSection({
+  title,
+  description,
+  code,
+  children,
+}: {
+  title: string
+  description: ReactNode
+  code: string
+  children: ReactNode
+}) {
+  return (
+    <div className="space-y-4">
+      <h3 className="scroll-m-20 font-semibold tracking-tight">{title}</h3>
+      <p className="leading-relaxed text-muted-foreground">{description}</p>
+      <ComponentPreview code={code}>
+        <PreviewShell>{children}</PreviewShell>
+      </ComponentPreview>
+    </div>
+  )
+}
+
+function Code({ children }: { children: ReactNode }) {
+  return <code className="font-mono text-sm">{children}</code>
+}
 
 export default function PaginationDocsPage() {
+  const demoSource = loadExample("pagination-demo.tsx")
+  const simpleSource = loadExample("pagination-simple-demo.tsx")
+  const sizesSource = loadExample("pagination-sizes-demo.tsx")
+  const controlledSource = loadExample("pagination-controlled-demo.tsx")
+  const iconsSource = loadExample("pagination-icons-demo.tsx")
+  const firstLastSource = loadExample("pagination-first-last-demo.tsx")
+  const outlineSource = loadExample("pagination-outline-demo.tsx")
+  const tableSource = loadExample("pagination-table-demo.tsx")
+
   return (
     <article className="space-y-10">
-      <ComponentDocsHeader
-        title="Pagination"
-        description={description}
-        slug="pagination"
-      />
+      <ComponentDocsHeader title="Pagination" description={description} slug="pagination" />
 
-      <ComponentPreview code={demoSnippet} previewClassName="min-h-24">
-        <PaginationDemo />
+      <ComponentPreview code={demoSource}>
+        <PreviewShell>
+          <PaginationDemo />
+        </PreviewShell>
       </ComponentPreview>
 
       <ComponentInstall name="pagination" />
 
       <section className="space-y-4">
         <h2 className="scroll-m-20 font-semibold tracking-tight">Usage</h2>
-        <CodeBlock code={usageImport} title="Import" />
-        <CodeBlock code={usageSnippet} title="Example" />
+        <CodeBlock code={extractDemoImports(demoSource)} title="Import" />
+        <CodeBlock code={extractDemoJsx(demoSource)} title="Example" />
       </section>
 
       <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Composition
-        </h2>
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Composition</h2>
         <p className="leading-relaxed text-muted-foreground">
-          Use the following composition to build a{" "}
-          <code className="font-mono text-sm">Pagination</code>:
+          The root renders <Code>dir=&quot;rtl&quot;</Code>, so <Code>PaginationPrevious</Code> sits
+          on the right and its chevron points right.
         </p>
-        <CodeBlock code={compositionSnippet} />
+        <CodeBlock code={compositionSnippet} title="Structure" />
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Simple</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          A simple pagination with only page numbers.
-        </p>
-        <ComponentPreview code={simpleSnippet} previewClassName="min-h-24">
+      <section className="space-y-6">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">Examples</h2>
+
+        <ExampleSection title="Simple" description="Page numbers only." code={simpleSource}>
           <PaginationSimpleDemo />
-        </ComponentPreview>
+        </ExampleSection>
+
+        <ExampleSection
+          title="Sizes"
+          description={
+            <>
+              <Code>sm</Code> (32px, default) and <Code>default</Code> (40px), the same heights as
+              Button.
+            </>
+          }
+          code={sizesSource}
+        >
+          <PaginationSizesDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Controlled"
+          description={
+            <>
+              Keep the current page in state, build the page list with ellipses, and disable{" "}
+              <Code>PaginationPrevious</Code> / <Code>PaginationNext</Code> at the ends.
+            </>
+          }
+          code={controlledSource}
+        >
+          <PaginationControlledDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Icons only"
+          description={
+            <>
+              Pass <Code>text=&#123;null&#125;</Code> for compact previous and next buttons, useful
+              under data tables.
+            </>
+          }
+          code={iconsSource}
+        >
+          <PaginationIconsDemo />
+        </ExampleSection>
+        <ExampleSection
+          title="First and last"
+          description="Add double-chevron links to jump straight to the first or last page."
+          code={firstLastSource}
+        >
+          <PaginationFirstLastDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Outline"
+          description="Give every link a border and fill the current page with the foreground color."
+          code={outlineSource}
+        >
+          <PaginationOutlineDemo />
+        </ExampleSection>
+
+        <ExampleSection
+          title="Table footer"
+          description="Show the visible range next to the pages, as in the footer of a data table."
+          code={tableSource}
+        >
+          <PaginationTableDemo />
+        </ExampleSection>
       </section>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          Icons Only
-        </h2>
-        <p className="leading-relaxed text-muted-foreground">
-          Use just the previous and next buttons without page numbers. This is
-          useful for data tables with a rows per page selector.
-        </p>
-        <ComponentPreview code={iconsOnlySnippet} previewClassName="min-h-24">
-          <PaginationIconsOnlyDemo />
-        </ComponentPreview>
-      </section>
+      <section id="api-reference" className="space-y-4">
+        <h2 className="scroll-m-20 font-semibold tracking-tight">API Reference</h2>
 
-      <section className="space-y-4">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">Next.js</h2>
-        <p className="leading-relaxed text-muted-foreground">
-          By default{" "}
-          <code className="font-mono text-sm">PaginationLink</code> renders an{" "}
-          <code className="font-mono text-sm">{"<a>"}</code> tag. To use the
-          Next.js{" "}
-          <code className="font-mono text-sm">Link</code> component, update{" "}
-          <code className="font-mono text-sm">pagination.tsx</code> to compose
-          onto{" "}
-          <code className="font-mono text-sm">Link</code> (Base UI{" "}
-          <code className="font-mono text-sm">render</code>, Radix UI{" "}
-          <code className="font-mono text-sm">asChild</code>).
-        </p>
-        <CodeBlock code={nextjsSnippet} />
-      </section>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Pagination</h3>
+        <PropsTable data={paginationPropRows} />
 
-      <section id="api-reference" className="space-y-6">
-        <h2 className="scroll-m-20 font-semibold tracking-tight">
-          API Reference
-        </h2>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">PaginationContent</h3>
+        <PropsTable data={contentPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            Pagination
-          </h3>
-          <PropsTable data={paginationPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">PaginationItem</h3>
+        <PropsTable data={itemPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            PaginationContent
-          </h3>
-          <PropsTable data={contentPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">PaginationLink</h3>
+        <PropsTable data={linkPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            PaginationItem
-          </h3>
-          <PropsTable data={itemPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">PaginationPrevious / PaginationNext</h3>
+        <PropsTable data={previousNextPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            PaginationLink
-          </h3>
-          <PropsTable data={linkPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">PaginationEllipsis</h3>
+        <PropsTable data={ellipsisPropRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            PaginationPrevious / PaginationNext
-          </h3>
-          <PropsTable data={previousNextPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={paginationTypographyRows} />
 
-        <div className="space-y-3">
-          <h3 className="scroll-m-20 font-semibold tracking-tight">
-            PaginationEllipsis
-          </h3>
-          <PropsTable data={ellipsisPropRows} />
-        </div>
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={paginationColorRows} />
       </section>
     </article>
   )

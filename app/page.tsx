@@ -119,7 +119,7 @@ const resources = [
 
 export default function HomePage() {
   return (
-    <main className="flex-1 overflow-x-clip">
+    <main className="cubix-landing flex-1 overflow-x-clip">
       <section className="relative z-10 w-full">
         <HeroLiquidBackground />
         <div className="border-b border-border">
@@ -149,7 +149,6 @@ export default function HomePage() {
                   </div>
                   <div className="flex flex-row flex-wrap items-center justify-center gap-3">
                     <Button
-                      variant="foreground"
                       size="lg"
                       className="h-10 rounded-full px-5"
                       nativeButton={false}
@@ -305,7 +304,6 @@ export default function HomePage() {
                 </div>
                 <div className="flex flex-wrap gap-3">
                   <Button
-                    variant="foreground"
                     nativeButton={false}
                     render={<Link href="/docs/cli" />}
                     className="rounded-full"
@@ -378,7 +376,6 @@ export default function HomePage() {
               </div>
               <div className="flex flex-row flex-wrap items-center justify-center gap-3">
                 <Button
-                  variant="foreground"
                   size="lg"
                   className="h-10 rounded-full px-5"
                   nativeButton={false}

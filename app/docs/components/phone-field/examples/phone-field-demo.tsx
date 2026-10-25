@@ -1,6 +1,6 @@
 "use client"
 
-import { SmartphoneIcon } from "lucide-react"
+import { MobileIcon } from "@/components/docs/empty-icons"
 
 import {
   PhoneField,
@@ -16,7 +16,7 @@ export function PhoneFieldDemo() {
     <PhoneField className="w-full max-w-sm">
       <PhoneFieldLabel>شماره همراه</PhoneFieldLabel>
       <PhoneFieldControl>
-        <SmartphoneIcon data-icon="inline-start" />
+        <MobileIcon data-icon="inline-start" className="size-6" />
         <PhoneFieldInput defaultValue="۰۹۱۲۳۴۵۶۷۸۹" placeholder="۰۹۱۲۰۰۰۰۰۰۰" />
         <PhoneFieldClear aria-label="پاک کردن" />
       </PhoneFieldControl>

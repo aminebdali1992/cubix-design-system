@@ -1,4 +1,6 @@
-﻿export const textareaPropRows = [
+import type { TokenTableRow } from "@/components/docs/token-table"
+
+export const textareaPropRows = [
   {
     prop: "aria-invalid",
     type: "boolean",
@@ -43,4 +45,20 @@ export const textareaControlPropRows = [
     type: "string",
     description: "Additional Tailwind classes merged with the control styles (last one wins).",
   },
+]
+
+export const textareaTypographyRows: TokenTableRow[] = [
+  { element: "Value", token: "text-label", value: "13px, 400, leading-relaxed" },
+  { element: "Placeholder", token: "text-label", value: "13px, 400" },
+]
+
+export const textareaColorRows: TokenTableRow[] = [
+  { element: "Border", token: "border-input", value: "--input", swatch: "--input", swatchOutline: true },
+  { element: "Text", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Placeholder / icon", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Focus border", token: "border-primary", value: "--primary", swatch: "--primary" },
+  { element: "Focus ring", token: "ring-primary/20", value: "--primary, 20%", swatch: "--primary" },
+  { element: "Invalid border", token: "border-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Disabled background", token: "bg-muted", value: "--muted", swatch: "--muted", swatchOutline: true },
+  { element: "Resize grip", token: "text-border", value: "--border", swatch: "--border" },
 ]

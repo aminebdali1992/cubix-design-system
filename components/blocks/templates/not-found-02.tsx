@@ -142,7 +142,6 @@ function NotFound02View({
               <Button
                 render={<Link href="/" />}
                 nativeButton={false}
-                variant="foreground"
               >
                 بازگشت به خانه
               </Button>
@@ -230,7 +229,7 @@ export default function NotFound() {
             ))}
           </ul>
           <div className="mt-8">
-            <Button render={<Link href="/" />} nativeButton={false} variant="foreground">بازگشت به خانه</Button>
+            <Button render={<Link href="/" />} nativeButton={false}>بازگشت به خانه</Button>
           </div>
         </div>
         <div className="relative hidden overflow-hidden border-s border-border bg-muted/25 lg:block">

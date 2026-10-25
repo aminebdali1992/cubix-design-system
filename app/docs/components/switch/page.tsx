@@ -7,6 +7,7 @@ import { ComponentDocsHeader } from "@/components/docs/component-docs-header"
 import { ComponentInstall } from "@/components/docs/component-install"
 import { ComponentPreview } from "@/components/docs/component-preview"
 import { PropsTable } from "@/components/docs/props-table"
+import { TokenTable } from "@/components/docs/token-table"
 import {
   extractDemoImports,
   extractDemoJsx,
@@ -19,7 +20,7 @@ import { SwitchDescriptionDemo } from "./examples/switch-description-demo"
 import { SwitchInvalidDemo } from "./examples/switch-invalid-demo"
 import { SwitchSizesDemo } from "./examples/switch-sizes-demo"
 import { SwitchStatesDemo } from "./examples/switch-states-demo"
-import { propRows, stateRows } from "./switch-table-data"
+import { propRows, stateRows, switchColorRows, switchTypographyRows } from "./switch-table-data"
 
 const description = "A control that allows the user to toggle between checked and not checked."
 
@@ -209,6 +210,12 @@ export default function SwitchPage() {
         <PropsTable data={propRows} />
         <h3 className="scroll-m-20 font-semibold tracking-tight">States</h3>
         <PropsTable data={stateRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Typography</h3>
+        <TokenTable data={switchTypographyRows} />
+
+        <h3 className="scroll-m-20 font-semibold tracking-tight">Colors</h3>
+        <TokenTable data={switchColorRows} />
       </section>
     </article>
   )

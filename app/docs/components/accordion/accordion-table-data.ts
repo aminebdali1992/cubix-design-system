@@ -119,3 +119,18 @@ export const accordionKeyboardRows = [
     action: "Move focus to the first or last enabled trigger.",
   },
 ]
+
+export const accordionTypographyRows = [
+  { element: "Trigger title", token: "text-label font-medium", value: "13px / 18px, 500" },
+  { element: "Content", token: "text-description", value: "13px / 22px, 400" },
+]
+
+export const accordionColorRows = [
+  { element: "Trigger title", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Chevron icon", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Content", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
+  { element: "Content link (hover)", token: "hover:text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Item divider", token: "border-border", value: "--border", swatch: "--border", swatchOutline: true },
+  { element: "Focus ring", token: "border-ring ring-ring/50", value: "--ring", swatch: "--ring" },
+  { element: "Disabled", token: "opacity-50", value: "50% opacity" },
+]

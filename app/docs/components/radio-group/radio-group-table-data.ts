@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const radioGroupPropRows = [
   {
     prop: "value",
@@ -119,4 +121,21 @@ export const radioGroupKeyboardRows = [
     action:
       "Moves to and selects the next or previous enabled radio in reading direction, so the keys are mirrored in RTL.",
   },
+]
+
+export const radioGroupTypographyRows: TokenTableRow[] = [
+  { element: "Label", token: "text-label", value: "13px, 400" },
+  { element: "Description", token: "text-caption", value: "12px, 400" },
+]
+
+export const radioGroupColorRows: TokenTableRow[] = [
+  { element: "Border", token: "border-input", value: "--input", swatch: "--input", swatchOutline: true },
+  { element: "Checked border & fill", token: "data-checked:bg-primary", value: "--primary", swatch: "--primary" },
+  { element: "Indicator dot", token: "bg-primary-foreground", value: "--primary-foreground", swatch: "--primary-foreground", swatchOutline: true },
+  { element: "Indicator dot (dark)", token: "dark:bg-background", value: "--background", swatch: "--background", swatchOutline: true },
+  { element: "Focus ring", token: "focus-visible:ring-secondary", value: "--secondary", swatch: "--secondary" },
+  { element: "Checked focus ring", token: "ring-primary/20", value: "--primary / 20%", swatch: "--primary" },
+  { element: "Invalid border", token: "aria-invalid:border-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Label", token: "text-foreground", value: "--foreground", swatch: "--foreground" },
+  { element: "Description", token: "text-muted-foreground", value: "--muted-foreground", swatch: "--muted-foreground" },
 ]

@@ -1,3 +1,5 @@
+import type { TokenTableRow } from "@/components/docs/token-table"
+
 export const contextMenuPropRows = [
   {
     prop: "dir",
@@ -214,4 +216,22 @@ export const contextMenuKeyboardRows = [
     key: "Escape",
     action: "Closes the menu and returns focus to the trigger.",
   },
+]
+
+export const contextMenuTypographyRows: TokenTableRow[] = [
+  { element: "Item", token: "text-label font-normal", value: "13px, 400" },
+  { element: "Checkbox / radio item", token: "text-label font-normal", value: "13px, 400" },
+  { element: "Sub trigger", token: "text-label font-normal", value: "13px, 400" },
+  { element: "Label", token: "text-caption", value: "12px, 400" },
+]
+
+export const contextMenuColorRows: TokenTableRow[] = [
+  { element: "Popup background", token: "bg-popover", value: "--popover", swatch: "--popover", swatchOutline: true },
+  { element: "Popup text", token: "text-popover-foreground", value: "--popover-foreground", swatch: "--popover-foreground" },
+  { element: "Popup ring", token: "ring-foreground/[0.06]", value: "--foreground / 6%", swatch: "--foreground" },
+  { element: "Item (focus)", token: "bg-accent text-accent-foreground", value: "--accent", swatch: "--accent", swatchOutline: true },
+  { element: "Sub trigger (open)", token: "bg-accent text-accent-foreground", value: "--accent", swatch: "--accent", swatchOutline: true },
+  { element: "Destructive item", token: "text-destructive", value: "--destructive", swatch: "--destructive" },
+  { element: "Destructive item (focus)", token: "bg-destructive/10", value: "--destructive / 10%", swatch: "--destructive" },
+  { element: "Separator", token: "bg-border/60", value: "--border / 60%", swatch: "--border" },
 ]

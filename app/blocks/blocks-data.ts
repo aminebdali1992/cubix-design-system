@@ -36,6 +36,7 @@ export const landingPageCategories: BlockCategory[] = [
   { title: "404 Sections", href: "/blocks/landing-page/404-sections", count: 6 },
   { title: "Login", href: "/blocks/landing-page/login", count: 5 },
   { title: "Signup", href: "/blocks/landing-page/signup", count: 5 },
+  { title: "OTP", href: "/blocks/landing-page/otp", count: 4 },
 ]
 
 export const eCommerceCategories: BlockCategory[] = []
