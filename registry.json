@@ -130,6 +130,12 @@
       "description": "A compound component for page title, description, and actions."
     },
     {
+      "name": "form-item-layout",
+      "type": "registry:ui",
+      "title": "Form Item Layout",
+      "description": "A helper component that provides a layout for form items."
+    },
+    {
       "name": "alert",
       "type": "registry:ui",
       "title": "Alert",

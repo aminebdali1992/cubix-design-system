@@ -115,6 +115,7 @@ const SLUG_TO_CATEGORY: Record<string, ComponentCategory> = {
   "metric-card": "Web/Mobile",
   "page-section": "Web/Mobile",
   "page-header": "Web/Mobile",
+  "form-item-layout": "Web/Mobile",
   alert: "Web/Mobile",
   toast: "Web/Mobile",
   sonner: "Web/Mobile",

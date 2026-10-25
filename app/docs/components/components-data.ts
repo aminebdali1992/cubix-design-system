@@ -108,6 +108,12 @@ export const components = [
     ready: true,
   },
   {
+    name: "Form Item Layout",
+    description: "A helper component that provides a layout for form items.",
+    href: "/docs/components/form-item-layout",
+    ready: true,
+  },
+  {
     name: "Alert",
     description: "Displays a callout for user attention.",
     href: "/docs/components/alert",
