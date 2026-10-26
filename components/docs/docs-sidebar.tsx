@@ -37,6 +37,7 @@ const foundationLinks: DocsNavLink[] = [
   { title: "Theming", href: "/docs/theming" },
   { title: "Color Usage", href: "/docs/color-usage" },
   { title: "Radius", href: "/docs/radius" },
+  { title: "Shadows", href: "/docs/shadow" },
   { title: "Typography", href: "/docs/typeset" },
 ];
 

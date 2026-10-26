@@ -21,14 +21,14 @@ export function PageHeaderDemo() {
       <PageHeader size="default">
         <PageHeaderMeta>
           <PageHeaderIcon>
-            <Card className="flex size-14 shrink-0 items-center justify-center rounded-lg border border-border py-0 ring-0">
+            <Card className="flex size-14 shrink-0 items-center justify-center rounded-lg border border-border py-0 shadow-[0_1px_3px_0_rgb(0_0_0/0.04)] dark:shadow-[0_1px_3px_0_rgb(0_0_0/0.2)] ring-0">
               <DatabaseIcon className="size-5" />
             </Card>
           </PageHeaderIcon>
           <PageHeaderSummary>
-            <PageHeaderTitle>تابع نمونه</PageHeaderTitle>
+            <PageHeaderTitle>پایگاه داده</PageHeaderTitle>
             <PageHeaderDescription>
-              توابع بدون سرور که در لبهٔ شبکه با تأخیر کم و مقیاس‌پذیری خودکار اجرا می‌شوند.
+              جدول‌ها، نقش‌ها و دسترسی‌های پایگاه داده‌ی پروژه را مدیریت کنید.
             </PageHeaderDescription>
           </PageHeaderSummary>
           <PageHeaderAside>

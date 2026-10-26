@@ -108,6 +108,18 @@ export const components = [
     ready: true,
   },
   {
+    name: "Collapsible Card Section",
+    description: "A collapsible section for optional or advanced settings inside a card or panel.",
+    href: "/docs/components/collapsible-card-section",
+    ready: true,
+  },
+  {
+    name: "Filter Bar",
+    description: "An advanced filtering component with support for multiple conditions and operators.",
+    href: "/docs/components/filter-bar",
+    ready: true,
+  },
+  {
     name: "Form Item Layout",
     description: "A helper component that provides a layout for form items.",
     href: "/docs/components/form-item-layout",

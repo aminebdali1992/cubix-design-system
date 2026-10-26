@@ -77,15 +77,15 @@ const ContainerVariants = cva("relative grid gap-10 font-normal", {
   defaultVariants: { responsive: false },
 })
 
-const LabelContainerVariants = cva("transition-all duration-500 ease-in-out", {
+const LabelContainerVariants = cva("flex flex-col gap-2 transition-all duration-500 ease-in-out", {
   variants: {
     flex: { true: "", false: "" },
     align: { left: "", right: "" },
     layout: {
       horizontal: "col-span-4 flex flex-col gap-2",
       vertical: "flex flex-row justify-between gap-2",
-      flex: "flex min-w-0 flex-col gap-0",
-      "flex-row-reverse": "flex min-w-0 grow flex-col",
+      flex: "flex min-w-0 flex-col gap-1",
+      "flex-row-reverse": "flex min-w-0 grow flex-col gap-1",
     },
     labelLayout: { horizontal: "", vertical: "", "": "" },
   },
@@ -102,7 +102,7 @@ const LabelContainerVariants = cva("transition-all duration-500 ease-in-out", {
   ],
 })
 
-const DataContainerVariants = cva("transition-all duration-500 ease-in-out", {
+const DataContainerVariants = cva("flex flex-col gap-2 transition-all duration-500 ease-in-out", {
   variants: {
     flex: { true: "", false: "" },
     align: { left: "order-1", right: "order-2" },

@@ -23,7 +23,7 @@ export function FormItemLayoutHorizontal() {
   }
 
   return (
-    <form className="flex w-full max-w-[520px] flex-col gap-6" onSubmit={onSubmit}>
+    <form className="flex w-full max-w-96 flex-col gap-6" onSubmit={onSubmit}>
       <FormItemLayout
         layout="horizontal"
         label="نام کاربری"
