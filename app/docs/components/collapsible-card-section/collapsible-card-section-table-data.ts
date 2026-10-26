@@ -9,8 +9,8 @@ export const collapsibleCardSectionRows = [
 ]
 
 export const collapsibleCardSectionTypographyRows: TokenTableRow[] = [
-  { element: "Trigger title", token: "text-description font-medium", value: "description scale, 500" },
-  { element: "Description", token: "text-description font-normal", value: "description scale, 400" },
+  { element: "Trigger title", token: "text-description font-medium", value: "13px / 22px, 500" },
+  { element: "Description", token: "text-description font-normal", value: "13px / 22px, 400" },
 ]
 
 export const collapsibleCardSectionColorRows: TokenTableRow[] = [

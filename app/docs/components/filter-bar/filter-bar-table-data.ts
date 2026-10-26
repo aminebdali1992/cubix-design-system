@@ -19,18 +19,12 @@ export const filterBarRows = [
 ]
 
 export const filterBarTypographyRows: TokenTableRow[] = [
-  { element: "Bar, size md (default and pill)", token: "h-10", value: "40px fixed, no wrap" },
-  { element: "Bar, size sm (default and pill)", token: "h-8", value: "32px fixed, no wrap" },
-  { element: "Condition and free-form input", token: "h-full", value: "fills inner height (38px md, 30px sm)" },
-  { element: "Search icon, size md", token: "size-4 px-2", value: "16px, vertically centered" },
-  { element: "Search icon, size sm", token: "size-3.5 px-1.5", value: "14px, vertically centered" },
-  { element: "Free-form input padding", token: "px-2 / px-1.5", value: "md / sm" },
-  { element: "Free-form input", token: "text-xs font-normal", value: "xs scale, 400" },
-  { element: "Condition property, operator and value", token: "text-xs font-normal", value: "xs scale, 400" },
-  { element: "Operator symbol", token: "font-mono text-xs", value: "mono, xs scale" },
-  { element: "Logical operator", token: "text-xs font-medium", value: "xs scale, 500" },
-  { element: "Menu item (Command)", token: "text-xs font-normal", value: "xs scale, 400" },
-  { element: "New group button", token: "text-xs font-medium", value: "xs scale, 500" },
+  { element: "Free-form input", token: "text-xs font-normal", value: "12px / 16px, 400" },
+  { element: "Condition property, operator and value", token: "text-xs font-normal", value: "12px / 16px, 400" },
+  { element: "Operator symbol", token: "font-mono text-xs font-normal", value: "12px / 16px, 400" },
+  { element: "Logical operator", token: "text-xs font-medium", value: "12px / 16px, 500" },
+  { element: "Menu item (Command)", token: "text-xs font-normal", value: "12px / 16px, 400" },
+  { element: "New group button", token: "text-xs font-medium", value: "12px / 16px, 500" },
 ]
 
 export const filterBarColorRows: TokenTableRow[] = [

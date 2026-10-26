@@ -46,9 +46,9 @@ export const pageHeaderBreadcrumbRows = [
 export const pageHeaderDivRows = [classNameRow, divProps]
 
 export const pageHeaderTypographyRows: TokenTableRow[] = [
-  { element: "Title", token: "text-title font-medium", value: "title scale, 500" },
-  { element: "Description", token: "text-body font-normal", value: "body scale, 400" },
-  { element: "Breadcrumb items", token: "text-label", value: "13px / 18px, 400" },
+  { element: "Title", token: "text-title font-medium", value: "15px / 22px, 500" },
+  { element: "Description", token: "text-body font-normal", value: "14px / 23px, 400" },
+  { element: "Breadcrumb items", token: "text-label font-normal", value: "13px / 18px, 400" },
 ]
 
 export const pageHeaderColorRows: TokenTableRow[] = [

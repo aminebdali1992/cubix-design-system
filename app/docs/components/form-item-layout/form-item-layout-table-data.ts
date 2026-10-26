@@ -37,9 +37,9 @@ export const formControlRows = [
 
 export const formItemLayoutTypographyRows: TokenTableRow[] = [
   { element: "Label", token: "text-label font-normal", value: "13px / 18px, 400" },
-  { element: "Description, optional, before/after", token: "text-description font-normal", value: "description scale, 400" },
-  { element: "Error message", token: "text-description font-normal", value: "description scale, 400" },
-  { element: "size tiny / large", token: "text-caption / text-body", value: "caption / body scale" },
+  { element: "Description, optional, before/after", token: "text-description font-normal", value: "13px / 22px, 400" },
+  { element: "Error message", token: "text-description font-normal", value: "13px / 22px, 400" },
+  { element: "size tiny / large", token: "text-caption / text-body", value: "12px / 16px, 14px / 23px" },
 ]
 
 export const formItemLayoutColorRows: TokenTableRow[] = [

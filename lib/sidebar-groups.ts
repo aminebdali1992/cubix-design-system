@@ -34,7 +34,7 @@ const PATTERN = new Set([
 ])
 
 /* Prop-driven callouts and other ready-made compositions. */
-const FRAGMENT = new Set(["admonition", "collapsible-card-section", "filter-bar", "form-item-layout", "metric-card", "page-header", "page-section"])
+const FRAGMENT = new Set(["admonition", "collapsible-card-section", "error-display", "filter-bar", "form-item-layout", "metric-card", "page-breadcrumbs", "page-header", "page-section", "single-value-field-array", "skip-to-content"])
 
 /* Everything else: fields, menus, overlays, feedback and other compositions of atoms. */
 export function getSidebarGroup(href: string): SidebarGroup {

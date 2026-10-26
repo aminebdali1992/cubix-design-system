@@ -120,6 +120,30 @@ export const components = [
     ready: true,
   },
   {
+    name: "Single Value Field Array",
+    description: "A shared form fragment for repeated single text inputs.",
+    href: "/docs/components/single-value-field-array",
+    ready: true,
+  },
+  {
+    name: "Error Display",
+    description: "A card component for surfacing API errors with optional troubleshooting steps and a support link.",
+    href: "/docs/components/error-display",
+    ready: true,
+  },
+  {
+    name: "Page Breadcrumbs",
+    description: "Full-width breadcrumb row for page chrome, placed above PageHeader and page content.",
+    href: "/docs/components/page-breadcrumbs",
+    ready: true,
+  },
+  {
+    name: "Skip to Content",
+    description: "Keyboard-accessible skip link that jumps past chrome to the main landmark.",
+    href: "/docs/components/skip-to-content",
+    ready: true,
+  },
+  {
     name: "Form Item Layout",
     description: "A helper component that provides a layout for form items.",
     href: "/docs/components/form-item-layout",
